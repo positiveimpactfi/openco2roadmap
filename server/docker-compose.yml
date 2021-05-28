@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.8"
 
 services:
   db:
@@ -10,3 +10,10 @@ services:
       POSTGRES_DB: ${PG_DB}
       POSTGRES_USER: ${PG_USERNAME}
       POSTGRES_PASSWORD: ${PG_PW}
+  redis:
+    image: bitnami/redis
+    restart: "unless-stopped"
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: ${REDIS_PW}
