@@ -6,16 +6,20 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Field()
+  @Column({ unique: true })
+  email!: string;
+
   @Column()
+  password!: string;
+
+  @Field()
+  @Column({ nullable: true })
   firstName: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
-
-  @Column()
-  age: number;
 }
