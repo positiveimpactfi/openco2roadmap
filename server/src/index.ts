@@ -1,21 +1,60 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import { createConnection } from "typeorm";
+import express from "express";
+import Redis from "ioredis";
+import session from "express-session";
+import connectRedis from "connect-redis";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { UserResolver } from "./resolvers/user";
 
-createConnection().then(async connection => {
+const main = async () => {
+  await createConnection();
+  const app = express();
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+  const RedisStore = connectRedis(session);
+  const redis = new Redis(process.env.REDIS_URL, {
+    password: process.env.REDIS_PW,
+  });
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+  app.use(
+    session({
+      name: process.env.COOKIE_NAME,
+      store: new RedisStore({
+        client: redis,
+        disableTouch: true,
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 2,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
+      saveUninitialized: false,
+      secret: process.env.SESSION_SECRET as string,
+      resave: false,
+    })
+  );
 
-    console.log("Here you can setup and run express/koa/any other framework.");
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [UserResolver],
+      validate: false,
+    }),
+    context: ({ req, res }) => ({
+      req,
+      res,
+      redis,
+    }),
+  });
 
-}).catch(error => console.log(error));
+  apolloServer.applyMiddleware({ app, cors: false });
+
+  app.listen(process.env.PORT, () => {
+    console.log(`server started on port ${process.env.PORT}`);
+  });
+};
+
+main().catch((err) => {
+  console.error(err);
+});
