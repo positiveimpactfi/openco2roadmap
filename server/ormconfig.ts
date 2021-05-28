@@ -6,7 +6,7 @@ export default {
   password: process.env.PG_PW,
   database: process.env.PG_DB,
   synchronize: true,
-  logging: false,
+  logging: process.env.NODE_ENV !== "production",
   entities: ["src/entity/**/*.ts"],
   migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],
