@@ -1,5 +1,6 @@
 import {
   Arg,
+  Ctx,
   Field,
   Mutation,
   ObjectType,
@@ -8,6 +9,7 @@ import {
 } from "type-graphql";
 import { User } from "../entity/User";
 import argon2 from "argon2";
+import { IContext } from "src/types";
 
 @ObjectType()
 class FieldError {
@@ -20,7 +22,7 @@ class FieldError {
 
 @ObjectType()
 class UserResolverResponse {
-  @Field(() => FieldError, { nullable: true })
+  @Field(() => [FieldError], { nullable: true })
   errors?: FieldError[];
 
   @Field(() => User, { nullable: true })
@@ -57,5 +59,37 @@ export class UserResolver {
         ],
       };
     }
+  }
+
+  @Mutation(() => UserResolverResponse)
+  async login(
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Ctx() { req }: IContext
+  ): Promise<UserResolverResponse> {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return {
+        errors: [
+          {
+            field: "email",
+            message: "user does not exist",
+          },
+        ],
+      };
+    }
+    const validPassword = await argon2.verify(user.password, password);
+    if (!validPassword) {
+      return {
+        errors: [
+          {
+            field: "password",
+            message: "incorrect password",
+          },
+        ],
+      };
+    }
+    req.session.userId = user.id;
+    return { user };
   }
 }
