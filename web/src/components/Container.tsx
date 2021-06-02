@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Navbar from "components/Navbar";
+import Footer from "components/Footer";
 
 interface ContainerProps {}
 
@@ -14,17 +15,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         {children}
       </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://positiveimpact.fi"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Positive Impact Finland
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 };
