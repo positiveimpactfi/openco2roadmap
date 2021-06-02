@@ -101,4 +101,20 @@ export class UserResolver {
     req.session.userId = user.id;
     return { user };
   }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: IContext) {
+    return new Promise((resolve) =>
+      req.session.destroy((err) => {
+        res.clearCookie(process.env.COOKIE_NAME as string);
+        if (err) {
+          console.log(err);
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+      })
+    );
+  }
 }
