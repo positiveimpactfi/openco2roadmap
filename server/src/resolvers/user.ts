@@ -36,6 +36,15 @@ export class UserResolver {
     return User.find({});
   }
 
+  @Query(() => User, { nullable: true })
+  me(@Ctx() { req }: IContext) {
+    if (!req.session.userId) {
+      return null;
+    }
+
+    return User.findOne(req.session.userId);
+  }
+
   @Mutation(() => UserResolverResponse)
   async register(
     @Arg("email") email: string,
