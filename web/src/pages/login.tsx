@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import * as Yup from "yup";
 import { useLoginMutation } from "../generated/graphql";
 import { errorArrayToObject } from "utils/errorArrayToObject";
+import { useApolloClient } from "@apollo/client";
 
 interface LoginFormProps {
   email: string;
@@ -18,6 +19,7 @@ const LoginSchema = Yup.object().shape({
 const LoginPage = () => {
   const [loginMutation] = useLoginMutation();
   const router = useRouter();
+  const apolloClient = useApolloClient();
   return (
     <div>
       Login
@@ -30,6 +32,7 @@ const LoginPage = () => {
           if (response.data?.login.errors) {
             setErrors(errorArrayToObject(response.data.login.errors));
           } else {
+            apolloClient.resetStore();
             router.push("/");
           }
           setSubmitting(false);
