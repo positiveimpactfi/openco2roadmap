@@ -23,6 +23,7 @@ const requestLogger = (
 
 const main = async () => {
   await createConnection();
+  // await conn.runMigrations();
   const app = express();
   app.use(express.json());
 

@@ -1,7 +1,9 @@
-export default {
+import { ConnectionOptions } from "typeorm";
+
+const connection: ConnectionOptions = {
   type: "postgres",
   host: process.env.PG_HOST,
-  port: process.env.PG_PORT,
+  port: Number(process.env.PG_PORT),
   username: process.env.PG_USERNAME,
   password: process.env.PG_PW,
   database: process.env.PG_DB,
@@ -16,3 +18,5 @@ export default {
     subscribersDir: "src/subscriber",
   },
 };
+
+export = connection;
