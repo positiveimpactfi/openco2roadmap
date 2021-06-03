@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
@@ -8,19 +8,8 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolvers/user";
 import cors from "cors";
-import { authChecker } from "./authChecker";
-
-const requestLogger = (
-  request: Request,
-  _response: Response,
-  next: NextFunction
-) => {
-  console.log("Method", request.method);
-  console.log("Path: ", request.path);
-  console.log("Body: ", request.body);
-  console.log("----");
-  next();
-};
+import { authChecker } from "./utils/authChecker";
+import { requestLogger } from "./utils/requestLogger";
 
 const main = async () => {
   await createConnection();
@@ -34,7 +23,6 @@ const main = async () => {
   });
 
   app.set("trust proxy", 1);
-  console.log("cors origin", process.env.CORS_ORIGIN);
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,

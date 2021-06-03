@@ -1,6 +1,6 @@
 import { AuthChecker } from "type-graphql";
-import { User } from "./entity/User";
-import { IContext } from "./types";
+import { User } from "../entity/User";
+import { IContext } from "../types";
 
 export const authChecker: AuthChecker<IContext> = async (
   { context: { req } },
