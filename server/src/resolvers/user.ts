@@ -1,5 +1,6 @@
 import {
   Arg,
+  Authorized,
   Ctx,
   Field,
   Mutation,
@@ -7,7 +8,7 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { User } from "../entity/User";
+import { Role, User } from "../entity/User";
 import argon2 from "argon2";
 import { IContext } from "src/types";
 
@@ -31,6 +32,7 @@ class UserResolverResponse {
 
 @Resolver(User)
 export class UserResolver {
+  @Authorized("ADMIN")
   @Query(() => [User])
   users(): Promise<User[]> {
     return User.find({});
@@ -52,9 +54,11 @@ export class UserResolver {
   ): Promise<UserResolverResponse> {
     try {
       const hashedPassword = await argon2.hash(password);
+      const role = await Role.create({}).save();
       const user = await User.create({
         email: email,
         password: hashedPassword,
+        roles: [role],
       }).save();
       return { user };
     } catch (err) {

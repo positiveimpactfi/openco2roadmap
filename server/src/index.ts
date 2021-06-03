@@ -8,6 +8,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolvers/user";
 import cors from "cors";
+import { authChecker } from "./authChecker";
 
 const requestLogger = (
   request: Request,
@@ -66,6 +67,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [UserResolver],
       validate: false,
+      authChecker: authChecker,
     }),
     context: ({ req, res }) => ({
       req,
