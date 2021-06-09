@@ -1,15 +1,17 @@
 import { useApolloClient } from "@apollo/client";
+import { UserContext } from "context/UserContext";
 import { useLogoutMutation, useMeQuery } from "generated/graphql";
 import Link from "next/link";
+import { useContext } from "react";
 
 interface NavbarProps {}
 
 export const Navbar: React.FC<NavbarProps> = ({}) => {
-  const { data } = useMeQuery();
+  const { user } = useContext(UserContext);
   const [logout] = useLogoutMutation();
   const apolloClient = useApolloClient();
 
-  const isLoggedIn = data?.me?.email !== undefined;
+  const isLoggedIn = user?.email !== undefined;
 
   const handleLogout = async () => {
     await logout();
@@ -19,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   return (
     <>
       <div className="flex flex-row justify-between w-full p-4">
-        <div>{data?.me?.email ?? "Not logged in"}</div>
+        <div>{user?.email ?? "Not logged in"}</div>
         <div className="flex flex-row gap-2 ml-auto">
           {isLoggedIn ? (
             <button onClick={handleLogout}>Logout</button>

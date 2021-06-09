@@ -22,9 +22,22 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addOrganization: Organization;
+  addUserToOrganization: User;
   register: UserResolverResponse;
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
+};
+
+
+export type MutationAddOrganizationArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationAddUserToOrganizationArgs = {
+  organizationName: Scalars['String'];
+  userId: Scalars['Int'];
 };
 
 
@@ -39,18 +52,32 @@ export type MutationLoginArgs = {
   email: Scalars['String'];
 };
 
+export type Organization = {
+  __typename?: 'Organization';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  organizations: Array<Organization>;
   users: Array<User>;
   me?: Maybe<User>;
+};
+
+export type Role = {
+  __typename?: 'Role';
+  id: Scalars['Float'];
+  name: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
   email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
+  roles: Array<Role>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
 };
 
 export type UserResolverResponse = {
@@ -58,6 +85,19 @@ export type UserResolverResponse = {
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
 };
+
+export type AddOrganizationMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type AddOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { addOrganization: (
+    { __typename?: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
+  ) }
+);
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -115,10 +155,59 @@ export type MeQuery = (
   & { me?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email'>
+    & { roles: Array<(
+      { __typename?: 'Role' }
+      & Pick<Role, 'name'>
+    )> }
+  )> }
+);
+
+export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OrganizationsQuery = (
+  { __typename?: 'Query' }
+  & { organizations: Array<(
+    { __typename?: 'Organization' }
+    & Pick<Organization, 'id' | 'name'>
   )> }
 );
 
 
+export const AddOrganizationDocument = gql`
+    mutation AddOrganization($name: String!) {
+  addOrganization(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type AddOrganizationMutationFn = Apollo.MutationFunction<AddOrganizationMutation, AddOrganizationMutationVariables>;
+
+/**
+ * __useAddOrganizationMutation__
+ *
+ * To run a mutation, you first call `useAddOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addOrganizationMutation, { data, loading, error }] = useAddOrganizationMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useAddOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<AddOrganizationMutation, AddOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddOrganizationMutation, AddOrganizationMutationVariables>(AddOrganizationDocument, options);
+      }
+export type AddOrganizationMutationHookResult = ReturnType<typeof useAddOrganizationMutation>;
+export type AddOrganizationMutationResult = Apollo.MutationResult<AddOrganizationMutation>;
+export type AddOrganizationMutationOptions = Apollo.BaseMutationOptions<AddOrganizationMutation, AddOrganizationMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -236,6 +325,9 @@ export const MeDocument = gql`
   me {
     id
     email
+    roles {
+      name
+    }
   }
 }
     `;
@@ -266,3 +358,38 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const OrganizationsDocument = gql`
+    query Organizations {
+  organizations {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useOrganizationsQuery__
+ *
+ * To run a query within a React component, call `useOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
+      }
+export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
+        }
+export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
+export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
+export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
