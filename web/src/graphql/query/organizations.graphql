@@ -1,0 +1,6 @@
+query Organizations {
+  organizations {
+    id
+    name
+  }
+}
