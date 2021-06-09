@@ -23,6 +23,7 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
+  @Field(() => [Role])
   @ManyToMany(() => Role, { eager: true })
   @JoinTable()
   roles!: Role[];
@@ -40,9 +41,14 @@ export class User extends BaseEntity {
   lastName: string;
 }
 
+@ObjectType()
 @Entity()
 export class Role extends BaseEntity {
-  @PrimaryGeneratedColumn() id: number;
+  @Field()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column({ default: "system_user" }) name: string;
+  @Field()
+  @Column({ default: "system_user" })
+  name: string;
 }

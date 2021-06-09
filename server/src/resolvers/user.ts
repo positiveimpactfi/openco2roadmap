@@ -44,7 +44,7 @@ export class UserResolver {
       return null;
     }
 
-    return User.findOne(req.session.userId);
+    return User.findOne(req.session.userId, { relations: ["roles"] });
   }
 
   @Mutation(() => UserResolverResponse)
