@@ -7,6 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
+import { Organization } from "./Organization";
 
 @ObjectType()
 @Entity()
@@ -25,6 +26,10 @@ export class User extends BaseEntity {
   @ManyToMany(() => Role, { eager: true })
   @JoinTable()
   roles!: Role[];
+
+  @ManyToMany(() => Organization, (organization) => organization.users)
+  @JoinTable()
+  organizations!: Organization[];
 
   @Field({ nullable: true })
   @Column({ nullable: true })

@@ -1,15 +1,16 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import express from "express";
-import Redis from "ioredis";
-import session from "express-session";
-import connectRedis from "connect-redis";
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolvers/user";
+import connectRedis from "connect-redis";
 import cors from "cors";
+import express from "express";
+import session from "express-session";
+import Redis from "ioredis";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
+// import { requestLogger } from "./utils/requestLogger";
+import { OrganizationResolver } from "./resolvers/organization";
+import { UserResolver } from "./resolvers/user";
 import { authChecker } from "./utils/authChecker";
-import { requestLogger } from "./utils/requestLogger";
 
 const main = async () => {
   await createConnection();
@@ -30,7 +31,7 @@ const main = async () => {
     })
   );
 
-  app.use(requestLogger);
+  // app.use(requestLogger);
 
   app.use(
     session({
@@ -53,7 +54,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, OrganizationResolver],
       validate: false,
       authChecker: authChecker,
     }),
