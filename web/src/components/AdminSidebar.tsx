@@ -1,5 +1,5 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { HomeIcon, MenuAlt1Icon, XIcon } from "@heroicons/react/outline";
+import { HomeIcon, XIcon } from "@heroicons/react/outline";
 import {
   GlobeAltIcon,
   SearchIcon,
@@ -9,12 +9,18 @@ import {
 import { UserContext } from "context/UserContext";
 import { User } from "generated/graphql";
 import NextImage from "next/image";
+import Link from "next/link";
 import { Dispatch, Fragment, SetStateAction, useContext } from "react";
 
 const navigation = [
-  { name: "Home", href: "#", icon: HomeIcon, current: true },
-  { name: "Organizations", href: "#", icon: GlobeAltIcon, current: false },
-  { name: "Users", href: "#", icon: UsersIcon, current: false },
+  { name: "Home", href: "/admin", icon: HomeIcon, current: true },
+  {
+    name: "Organizations",
+    href: "/admin/organizations",
+    icon: GlobeAltIcon,
+    current: false,
+  },
+  { name: "Users", href: "/users", icon: UsersIcon, current: false },
 ];
 
 const teams = [
@@ -117,28 +123,30 @@ const MobileSideBar: React.FC<AdminSidebarProps> = ({
               <nav className="px-2">
                 <div className="space-y-1">
                   {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
-                        "group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      <item.icon
+                    <Link href={item.href} passHref key={item.name}>
+                      <a
+                        key={item.name}
+                        href={item.href}
                         className={classNames(
                           item.current
-                            ? "text-gray-500"
-                            : "text-gray-400 group-hover:text-gray-500",
-                          "mr-3 flex-shrink-0 h-6 w-6"
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
+                          "group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md"
                         )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        <item.icon
+                          className={classNames(
+                            item.current
+                              ? "text-gray-500"
+                              : "text-gray-400 group-hover:text-gray-500",
+                            "mr-3 flex-shrink-0 h-6 w-6"
+                          )}
+                          aria-hidden="true"
+                        />
+                        {item.name}
+                      </a>
+                    </Link>
                   ))}
                 </div>
                 <div className="mt-8">
