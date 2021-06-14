@@ -1,8 +1,9 @@
-import { Field, ObjectType } from "type-graphql";
+import { Authorized, Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -19,6 +20,9 @@ export class Organization extends BaseEntity {
   @Column({ unique: true })
   name!: string;
 
+  @Authorized("ADMIN")
+  @Field(() => [User])
   @ManyToMany(() => User, (user) => user.organizations)
+  @JoinTable()
   users: User[];
 }

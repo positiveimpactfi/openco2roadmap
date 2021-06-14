@@ -29,7 +29,6 @@ export class User extends BaseEntity {
   roles!: Role[];
 
   @ManyToMany(() => Organization, (organization) => organization.users)
-  @JoinTable()
   organizations!: Organization[];
 
   @Field({ nullable: true })
