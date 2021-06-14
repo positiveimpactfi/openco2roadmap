@@ -9,11 +9,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const AdminOverview: React.FC<AdminOverviewProps> = ({ setSidebarOpen }) => {
+const AdminOverview: React.FC<AdminOverviewProps> = ({
+  setSidebarOpen,
+  children,
+}) => {
   return (
     <div className="flex flex-col w-0 flex-1 overflow-hidden">
       <MobileTopBar setSidebarOpen={setSidebarOpen} />
-      <MainContent />
+      <MainContent>{children}</MainContent>
     </div>
   );
 };
@@ -170,7 +173,7 @@ const UserProfileDropdown = () => {
   );
 };
 
-const MainContent = () => {
+const MainContent: React.FC = ({ children }) => {
   return (
     <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
       <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
@@ -194,6 +197,7 @@ const MainContent = () => {
           </button>
         </div>
       </div>
+      <div className="px-4 mt-2">{children}</div>
     </main>
   );
 };
