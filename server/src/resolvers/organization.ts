@@ -11,6 +11,21 @@ export class OrganizationResolver {
   }
 
   @Authorized("ADMIN")
+  @Query(() => [User])
+  async getUsersInOrganization(
+    @Arg("organizationId", () => Int) organizationId: number
+  ): Promise<User[]> {
+    const org = await Organization.findOne(organizationId, {
+      relations: ["users"],
+    });
+    if (!org) {
+      throw Error("organization not found");
+    }
+    const users = org.users;
+    return users;
+  }
+
+  @Authorized("ADMIN")
   @Mutation(() => Organization)
   addOrganization(@Arg("name") name: string): Promise<Organization> {
     return Organization.create({
