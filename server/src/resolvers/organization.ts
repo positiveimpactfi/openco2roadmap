@@ -22,10 +22,9 @@ export class OrganizationResolver {
   @Mutation(() => User)
   async addUserToOrganization(
     @Arg("userId", () => Int) userId: number,
-    @Arg("organizationName") organization: string
+    @Arg("organizationId", () => Int) organizationId: number
   ) {
-    const org = await Organization.findOne({
-      where: { name: organization },
+    const org = await Organization.findOne(organizationId, {
       relations: ["users"],
     });
     const user = await User.findOne(userId, { relations: ["organizations"] });
