@@ -1,0 +1,6 @@
+query GetUsersInOrnization($organizationId: Int!) {
+  getUsersInOrganization(organizationId: $organizationId) {
+    id
+    email
+  }
+}

@@ -36,7 +36,7 @@ export type MutationAddOrganizationArgs = {
 
 
 export type MutationAddUserToOrganizationArgs = {
-  organizationName: Scalars['String'];
+  organizationId: Scalars['Int'];
   userId: Scalars['Int'];
 };
 
@@ -56,13 +56,20 @@ export type Organization = {
   __typename?: 'Organization';
   id: Scalars['Float'];
   name: Scalars['String'];
+  users: Array<User>;
 };
 
 export type Query = {
   __typename?: 'Query';
   organizations: Array<Organization>;
+  getUsersInOrganization: Array<User>;
   users: Array<User>;
   me?: Maybe<User>;
+};
+
+
+export type QueryGetUsersInOrganizationArgs = {
+  organizationId: Scalars['Int'];
 };
 
 export type Role = {
@@ -147,6 +154,19 @@ export type RegisterMutation = (
   ) }
 );
 
+export type GetUsersInOrnizationQueryVariables = Exact<{
+  organizationId: Scalars['Int'];
+}>;
+
+
+export type GetUsersInOrnizationQuery = (
+  { __typename?: 'Query' }
+  & { getUsersInOrganization: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email'>
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -170,6 +190,17 @@ export type OrganizationsQuery = (
   & { organizations: Array<(
     { __typename?: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
+  )> }
+);
+
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email'>
   )> }
 );
 
@@ -320,6 +351,42 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetUsersInOrnizationDocument = gql`
+    query GetUsersInOrnization($organizationId: Int!) {
+  getUsersInOrganization(organizationId: $organizationId) {
+    id
+    email
+  }
+}
+    `;
+
+/**
+ * __useGetUsersInOrnizationQuery__
+ *
+ * To run a query within a React component, call `useGetUsersInOrnizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersInOrnizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersInOrnizationQuery({
+ *   variables: {
+ *      organizationId: // value for 'organizationId'
+ *   },
+ * });
+ */
+export function useGetUsersInOrnizationQuery(baseOptions: Apollo.QueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
+      }
+export function useGetUsersInOrnizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
+        }
+export type GetUsersInOrnizationQueryHookResult = ReturnType<typeof useGetUsersInOrnizationQuery>;
+export type GetUsersInOrnizationLazyQueryHookResult = ReturnType<typeof useGetUsersInOrnizationLazyQuery>;
+export type GetUsersInOrnizationQueryResult = Apollo.QueryResult<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -396,3 +463,38 @@ export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
 export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
 export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
+export const UsersDocument = gql`
+    query Users {
+  users {
+    id
+    email
+  }
+}
+    `;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+      }
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
