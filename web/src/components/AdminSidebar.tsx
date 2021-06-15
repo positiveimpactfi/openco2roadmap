@@ -226,10 +226,10 @@ const DesktopSidebar: React.FC<{ user: User }> = ({ user }) => {
                           />
                           <span className="flex-1 flex flex-col min-w-0">
                             <span className="text-gray-900 text-sm font-medium truncate">
-                              {user!.lastName} {user!.firstName}
+                              {user?.lastName} {user?.firstName}
                             </span>
                             <span className="text-gray-500 text-sm truncate">
-                              {user!.email}
+                              {user?.email}
                             </span>
                           </span>
                         </span>
