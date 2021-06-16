@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useLoginMutation } from "../generated/graphql";
 import { errorArrayToObject } from "utils/errorArrayToObject";
 import { useApolloClient } from "@apollo/client";
+import { isAdmin } from "utils/isAdmin";
 
 interface LoginFormProps {
   email: string;
@@ -33,7 +34,9 @@ const LoginPage = () => {
             setErrors(errorArrayToObject(response.data.login.errors));
           } else {
             apolloClient.resetStore();
-            router.push("/");
+            const user = response.data.login.user;
+            const userIsAdmin = isAdmin(user);
+            userIsAdmin ? router.push("/admin") : router.push("/");
           }
           setSubmitting(false);
         }}

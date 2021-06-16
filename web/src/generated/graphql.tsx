@@ -122,6 +122,10 @@ export type LoginMutation = (
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
+      & { roles: Array<(
+        { __typename?: 'Role' }
+        & Pick<Role, 'id' | 'name'>
+      )> }
     )> }
   ) }
 );
@@ -249,6 +253,10 @@ export const LoginDocument = gql`
     user {
       id
       email
+      roles {
+        id
+        name
+      }
     }
   }
 }
