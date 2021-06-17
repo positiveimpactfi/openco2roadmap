@@ -7,26 +7,28 @@ import Redis from "ioredis";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
+import config from "./config";
+import { typeormConfig } from "./ormconfig";
 // import { requestLogger } from "./utils/requestLogger";
 import { OrganizationResolver } from "./resolvers/organization";
 import { UserResolver } from "./resolvers/user";
 import { authChecker } from "./utils/authChecker";
 
 const main = async () => {
-  await createConnection();
+  await createConnection(typeormConfig);
   // await conn.runMigrations();
   const app = express();
   app.use(express.json());
 
   const RedisStore = connectRedis(session);
-  const redis = new Redis(process.env.REDIS_URL, {
-    password: process.env.REDIS_PW,
+  const redis = new Redis(config.REDIS_URL, {
+    password: config.REDIS_PW,
   });
 
   app.set("trust proxy", 1);
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: config.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -35,7 +37,7 @@ const main = async () => {
 
   app.use(
     session({
-      name: process.env.COOKIE_NAME,
+      name: config.COOKIE_NAME,
       store: new RedisStore({
         client: redis,
         disableTouch: true,
@@ -44,10 +46,10 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 2,
         httpOnly: true,
         sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        secure: config.ENV === "production",
       },
       saveUninitialized: false,
-      secret: process.env.SESSION_SECRET as string,
+      secret: config.SESSION_SECRET,
       resave: false,
     })
   );
@@ -67,8 +69,8 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(process.env.PORT, () => {
-    console.log(`server started on port ${process.env.PORT}`);
+  app.listen(config.PORT, () => {
+    console.log(`server started on port ${config.PORT}`);
   });
 };
 
