@@ -8,7 +8,7 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import config from "./config";
-import { typeormConfig } from "./ormconfig";
+import typeormConfig from "./ormconfig";
 // import { requestLogger } from "./utils/requestLogger";
 import { OrganizationResolver } from "./resolvers/organization";
 import { UserResolver } from "./resolvers/user";

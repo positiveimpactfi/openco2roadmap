@@ -1,7 +1,7 @@
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import config from "./config";
 
-export const typeormConfig: PostgresConnectionOptions = {
+export default {
   type: "postgres",
   host: config.PG_HOST,
   port: config.PG_PORT,
@@ -10,12 +10,18 @@ export const typeormConfig: PostgresConnectionOptions = {
   database: config.PG_DB,
   synchronize: true,
   logging: config.ENV !== "production",
-  entities: [`${__dirname}/entity/*.{ts,js}`],
-  migrations: [`${__dirname}/migration/*.js`],
-  subscribers: [`${__dirname}/subscriber/**/*.{ts,js}`],
+  entities: [getFolder("entity")],
+  migrations: [getFolder("migration")],
+  subscribers: [getFolder("subsciber")],
   cli: {
-    entitiesDir: `${__dirname}/entity`,
-    migrationsDir: `${__dirname}/migration`,
-    subscribersDir: `${__dirname}/subscriber`,
+    entitiesDir: `src/entity`,
+    migrationsDir: `src/migration`,
+    subscribersDir: `src/subscriber`,
   },
-};
+} as PostgresConnectionOptions;
+
+function getFolder(item: string) {
+  const directory =
+    process.env.NODE_ENV === "migration" ? "src" : `${__dirname}`;
+  return `${directory}/${item}/**/*{.ts,.js}`;
+}
