@@ -1,0 +1,16 @@
+FROM node:alpine
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json yarn.lock ./
+
+RUN apk add --no-cache python3 make g++
+RUN yarn install
+
+COPY ./ ./src
+
+
+EXPOSE 4000
+
+CMD [ "yarn", "dev" ]
