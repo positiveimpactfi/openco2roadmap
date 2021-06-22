@@ -1,11 +1,43 @@
 version: "3.8"
 
 services:
+  api:
+    container_name: openco2roadmap-backend
+    build:
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    ports:
+      - "4000:4000"
+    networks:
+      - default
+    links:
+      - "redis:redis"
+    depends_on:
+      - db
+      - redis
+    environment:
+      PORT: ${PORT}
+      PG_HOST: ${PG_HOST}
+      PG_PORT: ${PG_PORT}
+      PG_USERNAME: ${PG_USERNAME}
+      PG_DB: ${PG_DB}
+      PG_PW: ${PG_PW}
+      REDIS_PW: ${REDIS_PW}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      SESSION_SECRET: ${SESSION_SECRET}
+      COOKIE_NAME: ${COOKIE_NAME}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+
   db:
     image: postgres
     restart: "always"
     ports:
       - "5432:5432"
+    networks:
+      - default
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${PG_DB}
       POSTGRES_USER: ${PG_USERNAME}
@@ -15,5 +47,17 @@ services:
     restart: "unless-stopped"
     ports:
       - 6379:6379
+    volumes:
+      - ./redis:/data
+    networks:
+      - default
     environment:
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
       REDIS_PASSWORD: ${REDIS_PW}
+
+networks:
+  default:
+
+volumes:
+  redis:
