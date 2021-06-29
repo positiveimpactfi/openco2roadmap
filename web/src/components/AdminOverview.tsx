@@ -16,7 +16,7 @@ const AdminOverview: React.FC<AdminOverviewProps> = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col w-0 flex-1 overflow-hidden">
+    <div className="flex flex-col w-full flex-1 overflow-hidden">
       <MobileTopBar setSidebarOpen={setSidebarOpen} />
       <MainContent>{children}</MainContent>
     </div>

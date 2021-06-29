@@ -10,18 +10,18 @@ import { UserContext } from "context/UserContext";
 import { User } from "generated/graphql";
 import NextImage from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Dispatch, Fragment, SetStateAction, useContext } from "react";
 import logoImg from "../../public/logo.svg";
 
 const navigation = [
-  { name: "Home", href: "/admin", icon: HomeIcon, current: true },
+  { name: "Home", href: "/admin", icon: HomeIcon },
   {
     name: "Organizations",
     href: "/admin/organizations",
     icon: GlobeAltIcon,
-    current: false,
   },
-  { name: "Users", href: "/users", icon: UsersIcon, current: false },
+  { name: "Users", href: "/admin/users", icon: UsersIcon },
 ];
 
 const teams = [
@@ -44,21 +44,25 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   setSidebarOpen,
 }) => {
   const { user } = useContext(UserContext);
+  const { pathname } = useRouter();
 
   return (
     <div className="h-screen flex overflow-hidden bg-white">
       <MobileSideBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        currentPath={pathname}
       />
-      <DesktopSidebar user={user} />
+      <DesktopSidebar user={user} currentPath={pathname} />
     </div>
   );
 };
+type MobileSidebarProps = AdminSidebarProps & { currentPath: string };
 
-const MobileSideBar: React.FC<AdminSidebarProps> = ({
+const MobileSideBar: React.FC<MobileSidebarProps> = ({
   sidebarOpen,
   setSidebarOpen,
+  currentPath,
 }) => {
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -129,16 +133,18 @@ const MobileSideBar: React.FC<AdminSidebarProps> = ({
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.href === currentPath
                             ? "bg-gray-100 text-gray-900"
                             : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
                           "group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md"
                         )}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={
+                          item.href === currentPath ? "page" : undefined
+                        }
                       >
                         <item.icon
                           className={classNames(
-                            item.current
+                            item.href === currentPath
                               ? "text-gray-500"
                               : "text-gray-400 group-hover:text-gray-500",
                             "mr-3 flex-shrink-0 h-6 w-6"
@@ -192,7 +198,10 @@ const MobileSideBar: React.FC<AdminSidebarProps> = ({
   );
 };
 
-const DesktopSidebar: React.FC<{ user: User }> = ({ user }) => {
+const DesktopSidebar: React.FC<{ user: User; currentPath: string }> = ({
+  user,
+  currentPath,
+}) => {
   return (
     <>
       <div className="hidden lg:flex lg:flex-shrink-0">
@@ -374,16 +383,18 @@ const DesktopSidebar: React.FC<{ user: User }> = ({ user }) => {
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current
+                      item.href === currentPath
                         ? "bg-gray-200 text-gray-900"
                         : "text-gray-700 hover:text-gray-900 hover:bg-gray-50",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
-                    aria-current={item.current ? "page" : undefined}
+                    aria-current={
+                      item.href === currentPath ? "page" : undefined
+                    }
                   >
                     <item.icon
                       className={classNames(
-                        item.current
+                        item.href === currentPath
                           ? "text-gray-500"
                           : "text-gray-400 group-hover:text-gray-500",
                         "mr-3 flex-shrink-0 h-6 w-6"
