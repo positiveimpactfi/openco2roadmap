@@ -1,11 +1,10 @@
 import FormField from "components/FormField";
 import { Form, Formik, FormikProps } from "formik";
 import { useRouter } from "next/router";
-import * as Yup from "yup";
-import { useLoginMutation } from "../generated/graphql";
 import { errorArrayToObject } from "utils/errorArrayToObject";
-import { useApolloClient } from "@apollo/client";
 import { isAdmin } from "utils/isAdmin";
+import * as Yup from "yup";
+import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
 
 interface LoginFormProps {
   email: string;
@@ -18,9 +17,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
-  const [loginMutation] = useLoginMutation();
+  const [login] = useLoginMutation();
   const router = useRouter();
-  const apolloClient = useApolloClient();
   return (
     <div>
       Login
@@ -29,14 +27,23 @@ const LoginPage = () => {
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          const response = await loginMutation({ variables: values });
+          const response = await login({
+            variables: values,
+            update: (caches, { data }) => {
+              caches.writeQuery<MeQuery>({
+                query: MeDocument,
+                data: {
+                  __typename: "Query",
+                  me: data?.login.user,
+                },
+              });
+            },
+          });
           if (response.data?.login.errors) {
             setErrors(errorArrayToObject(response.data.login.errors));
           } else {
-            apolloClient.resetStore();
             const user = response.data.login.user;
-            const userIsAdmin = isAdmin(user);
-            userIsAdmin ? router.push("/admin") : router.push("/");
+            isAdmin(user) ? router.push("/admin") : router.push("/");
           }
           setSubmitting(false);
         }}
