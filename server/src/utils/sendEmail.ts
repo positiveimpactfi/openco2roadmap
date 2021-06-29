@@ -12,7 +12,7 @@ interface EmailProps {
 export const sendTestEmail = async (recepient: string, email: EmailProps) => {
   const message: MailDataRequired = {
     to: recepient,
-    from: "noreply@co2roadmap.com",
+    from: config.SENDGRID_EMAIL,
     subject: email.subject,
     text: email.textBody,
     html: email.htmlBody,

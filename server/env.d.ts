@@ -12,5 +12,6 @@ declare namespace NodeJS {
     COOKIE_NAME: string;
     CORS_ORIGIN: string;
     SENDGRID_API_KEY: string;
+    SENDGRID_EMAIL: string;
   }
 }
