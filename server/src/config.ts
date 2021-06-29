@@ -14,4 +14,5 @@ export default {
   SESSION_SECRET: process.env.SESSION_SECRET as string,
   COOKIE_NAME: process.env.COOKIE_NAME as string,
   CORS_ORIGIN: process.env.CORS_ORIGIN as string,
+  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY as string,
 };
