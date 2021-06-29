@@ -4,8 +4,7 @@ The frontend is a NextJS application written in Typescript. TailwindCSS is used 
 
 ## Getting started
 
-Install the dependencies `yarn`.
-
-Start the dev server `yarn dev`
-
-Create an optimized version of the app for production `yarn build`
+1. Install the dependencies `yarn`
+1. Create .env.local file and set the GraphQL backend URI (.env.example can be used as a template)
+1. Start the dev server `yarn dev`
+1. Create an optimized version of the app for production `yarn build`
