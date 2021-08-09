@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { HomeIcon, XIcon } from "@heroicons/react/outline";
 import {
@@ -7,7 +8,8 @@ import {
   UsersIcon,
 } from "@heroicons/react/solid";
 import { UserContext } from "context/UserContext";
-import { User } from "generated/graphql";
+import { useLogoutMutation, User } from "generated/graphql";
+import useLogout from "hooks/useLogout";
 import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -198,10 +200,11 @@ const MobileSideBar: React.FC<MobileSidebarProps> = ({
   );
 };
 
-const DesktopSidebar: React.FC<{ user: User; currentPath: string }> = ({
-  user,
-  currentPath,
-}) => {
+const DesktopSidebar: React.FC<{
+  user: User;
+  currentPath: string;
+}> = ({ user, currentPath }) => {
+  const [logout] = useLogout();
   return (
     <>
       <div className="hidden lg:flex lg:flex-shrink-0">
@@ -332,17 +335,17 @@ const DesktopSidebar: React.FC<{ user: User; currentPath: string }> = ({
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <button
+                              onClick={async () => await logout()}
                               className={classNames(
                                 active
                                   ? "bg-gray-100 text-gray-900"
                                   : "text-gray-700",
-                                "block px-4 py-2 text-sm"
+                                "block px-4 py-2 text-sm w-full text-left"
                               )}
                             >
                               Logout
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </div>

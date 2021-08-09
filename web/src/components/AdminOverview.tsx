@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { AdminSidebarProps } from "./AdminSidebar";
 import Image from "next/image";
 import logoImg from "../../public/logo.svg";
+import useLogout from "hooks/useLogout";
 
 type AdminOverviewProps = Pick<AdminSidebarProps, "setSidebarOpen">;
 
@@ -60,6 +61,7 @@ const MobileTopBar: React.FC<AdminOverviewProps> = ({ setSidebarOpen }) => {
 };
 
 const UserProfileDropdown = () => {
+  const [logout] = useLogout();
   return (
     <div className="flex items-center">
       <Menu as="div" className="ml-3 relative">
@@ -154,17 +156,17 @@ const UserProfileDropdown = () => {
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <button
+                        onClick={async () => await logout()}
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
                             : "text-gray-700",
-                          "block px-4 py-2 text-sm"
+                          "block px-4 py-2 text-sm w-full text-left"
                         )}
                       >
                         Logout
-                      </a>
+                      </button>
                     )}
                   </Menu.Item>
                 </div>
