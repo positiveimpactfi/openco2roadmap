@@ -1,18 +1,18 @@
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { HomeIcon, XIcon } from "@heroicons/react/outline";
+import { Dialog, Transition } from "@headlessui/react";
 import {
-  GlobeAltIcon,
-  SearchIcon,
-  SelectorIcon,
-  UsersIcon,
-} from "@heroicons/react/solid";
-import { UserContext } from "context/UserContext";
-import { User } from "generated/graphql";
-import useLogout from "hooks/useLogout";
+  CloudUploadIcon,
+  CogIcon,
+  CollectionIcon,
+  HomeIcon,
+  UserGroupIcon,
+  ViewGridIcon,
+  XIcon,
+} from "@heroicons/react/outline";
+import { GlobeAltIcon, UsersIcon } from "@heroicons/react/solid";
 import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Dispatch, Fragment, SetStateAction, useContext } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { classNames } from "utils/classNames";
 import logoImg from "../../public/logo.svg";
 
@@ -24,6 +24,15 @@ const navigation = [
     icon: GlobeAltIcon,
   },
   { name: "Users", href: "/admin/users", icon: UsersIcon },
+];
+
+const sidebarNavigation = [
+  { name: "Etusivu", href: "/", icon: HomeIcon },
+  { name: "Dashboard", href: "#", icon: ViewGridIcon },
+  { name: "CO2-laskuri", href: "#", icon: CloudUploadIcon },
+  { name: "Käyttäjät", href: "#", icon: UserGroupIcon },
+  { name: "Data center", href: "#", icon: CollectionIcon },
+  { name: "Asetukset", href: "#", icon: CogIcon },
 ];
 
 const teams = [
@@ -41,7 +50,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   sidebarOpen,
   setSidebarOpen,
 }) => {
-  const { user } = useContext(UserContext);
   const { pathname } = useRouter();
 
   return (
@@ -51,7 +59,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         setSidebarOpen={setSidebarOpen}
         currentPath={pathname}
       />
-      <DesktopSidebar user={user} currentPath={pathname} />
+      <DesktopSidebar currentPath={pathname} />
     </div>
   );
 };
@@ -197,249 +205,46 @@ const MobileSideBar: React.FC<MobileSidebarProps> = ({
 };
 
 const DesktopSidebar: React.FC<{
-  user: User;
   currentPath: string;
-}> = ({ user, currentPath }) => {
-  const [logout] = useLogout();
+}> = ({ currentPath }) => {
   return (
-    <>
-      <div className="hidden lg:flex lg:flex-shrink-0">
-        <div className="flex flex-col w-64 border-r border-gray-200 pt-5 pb-4 bg-gray-100">
-          <div className="flex items-center flex-shrink-0 px-6 space-x-3">
-            <div className="h-8 w-8 relative">
-              <NextImage
-                src="/logo.svg"
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
+    <div className="h-screen bg-gray-50 flex overflow-hidden w-full">
+      <div className="hidden w-28 bg-gray-700 overflow-y-auto md:block">
+        <div className="w-full py-6 flex flex-col items-center">
+          <div className="flex-shrink-0 flex items-center ">
+            <div className="h-12 w-12 filter invert hover:animate-pulse">
+              <NextImage src={logoImg} priority alt="Positive Impact Logo" />
             </div>
-            <div>Open CO2 roadmap</div>
           </div>
-          <div className="h-0 flex-1 flex flex-col overflow-y-auto">
-            {/* User account dropdown */}
-            <Menu
-              as="div"
-              className="px-3 mt-6 relative inline-block text-left"
-            >
-              {({ open }) => (
-                <>
-                  <div>
-                    <Menu.Button className="group w-full bg-gray-100 rounded-md px-3.5 py-2 text-sm text-left font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-purple-500">
-                      <span className="flex w-full justify-between items-center">
-                        <span className="flex min-w-0 items-center justify-between space-x-3">
-                          <div className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
-                            <NextImage
-                              src={logoImg}
-                              alt="Positive Impact logo"
-                            />
-                          </div>
-                          <span className="flex-1 flex flex-col min-w-0">
-                            <span className="text-gray-900 text-sm font-medium truncate">
-                              {user?.lastName} {user?.firstName}
-                            </span>
-                            <span className="text-gray-500 text-sm truncate">
-                              {user?.email}
-                            </span>
-                          </span>
-                        </span>
-                        <SelectorIcon
-                          className="flex-shrink-0 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    show={open}
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items
-                      static
-                      className="z-10 mx-3 origin-top absolute right-0 left-0 mt-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none"
-                    >
-                      <div className="py-1">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm"
-                              )}
-                            >
-                              View profile
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm"
-                              )}
-                            >
-                              Notifications
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </div>
-                      <div className="py-1">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm"
-                              )}
-                            >
-                              Support
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </div>
-                      <div className="py-1">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              onClick={async () => await logout()}
-                              className={classNames(
-                                active
-                                  ? "bg-gray-100 text-gray-900"
-                                  : "text-gray-700",
-                                "block px-4 py-2 text-sm w-full text-left"
-                              )}
-                            >
-                              Logout
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </>
-              )}
-            </Menu>
-            {/* Sidebar Search */}
-            <div className="px-3 mt-5">
-              <label htmlFor="search" className="sr-only">
-                Search
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div
-                  className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          <div className="flex-1 mt-6 w-full px-2 space-y-1">
+            {sidebarNavigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className={classNames(
+                  item.href === currentPath
+                    ? "bg-gray-800 text-green-400"
+                    : "text-indigo-100 hover:bg-gray-800 hover:text-white",
+                  "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
+                )}
+                aria-current={item.href === currentPath ? "page" : undefined}
+              >
+                <item.icon
+                  className={classNames(
+                    item.href === currentPath
+                      ? "text-green-400"
+                      : "text-white group-hover:text-white",
+                    "h-6 w-6"
+                  )}
                   aria-hidden="true"
-                >
-                  <SearchIcon
-                    className="mr-3 h-4 w-4 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <input
-                  type="text"
-                  name="search"
-                  id="search"
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-9 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="Search"
                 />
-              </div>
-            </div>
-            {/* Navigation */}
-            <nav className="px-3 mt-6">
-              <div className="space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.href === currentPath
-                        ? "bg-gray-200 text-gray-900"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                    )}
-                    aria-current={
-                      item.href === currentPath ? "page" : undefined
-                    }
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.href === currentPath
-                          ? "text-gray-500"
-                          : "text-gray-400 group-hover:text-gray-500",
-                        "mr-3 flex-shrink-0 h-6 w-6"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-              <div className="mt-8">
-                {/* Secondary navigation */}
-                <h3
-                  className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                  id="teams-headline"
-                >
-                  Tags
-                </h3>
-                <div
-                  className="mt-1 space-y-1"
-                  role="group"
-                  aria-labelledby="teams-headline"
-                >
-                  {teams.map((team) => (
-                    <a
-                      key={team.name}
-                      href={team.href}
-                      className="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                    >
-                      <span
-                        className={classNames(
-                          team.bgColorClass,
-                          "w-2.5 h-2.5 mr-4 rounded-full"
-                        )}
-                        aria-hidden="true"
-                      />
-                      <span className="truncate">{team.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </nav>
+                <span className="mt-2">{item.name}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
