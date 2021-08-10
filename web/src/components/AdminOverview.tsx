@@ -5,12 +5,9 @@ import { AdminSidebarProps } from "./AdminSidebar";
 import Image from "next/image";
 import logoImg from "../../public/logo.svg";
 import useLogout from "hooks/useLogout";
+import { classNames } from "../utils/classNames";
 
 type AdminOverviewProps = Pick<AdminSidebarProps, "setSidebarOpen">;
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const AdminOverview: React.FC<AdminOverviewProps> = ({
   setSidebarOpen,

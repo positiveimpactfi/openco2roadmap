@@ -1,4 +1,3 @@
-import { useApolloClient } from "@apollo/client";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { HomeIcon, XIcon } from "@heroicons/react/outline";
 import {
@@ -8,12 +7,13 @@ import {
   UsersIcon,
 } from "@heroicons/react/solid";
 import { UserContext } from "context/UserContext";
-import { useLogoutMutation, User } from "generated/graphql";
+import { User } from "generated/graphql";
 import useLogout from "hooks/useLogout";
 import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, Fragment, SetStateAction, useContext } from "react";
+import { classNames } from "utils/classNames";
 import logoImg from "../../public/logo.svg";
 
 const navigation = [
@@ -31,10 +31,6 @@ const teams = [
   { name: "Footprint", href: "#", bgColorClass: "bg-green-500" },
   { name: "Handprint", href: "#", bgColorClass: "bg-yellow-500" },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export interface AdminSidebarProps {
   sidebarOpen: boolean;
