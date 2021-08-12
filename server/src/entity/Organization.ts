@@ -5,8 +5,10 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { BusinessField } from "./BusinessField";
 import { User } from "./User";
 
 @ObjectType()
@@ -25,4 +27,16 @@ export class Organization extends BaseEntity {
   @ManyToMany(() => User, (user) => user.organizations)
   @JoinTable()
   users: User[];
+
+  @Field()
+  @Column({ nullable: true })
+  businessID: string;
+
+  @Field()
+  @ManyToOne(
+    () => BusinessField,
+    (businessField) => businessField.organizations
+  )
+  @JoinTable()
+  businessField: BusinessField;
 }
