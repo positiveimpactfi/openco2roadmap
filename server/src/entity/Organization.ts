@@ -32,7 +32,7 @@ export class Organization extends BaseEntity {
   @Column({ nullable: true })
   businessID: string;
 
-  @Field()
+  @Field(() => BusinessField)
   @ManyToOne(
     () => BusinessField,
     (businessField) => businessField.organizations
