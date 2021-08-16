@@ -1,8 +1,8 @@
 import { UserContext } from "context/UserContext";
 import { useContext, useState } from "react";
 import { isAdmin } from "utils/isAdmin";
-import AdminSidebar from "components/AdminSidebar";
-import AdminOverview from "components/AdminOverview";
+import AdminSidebar from "components/Admin/Sidebar";
+import AdminOverview from "components/Admin/Overview";
 
 const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
