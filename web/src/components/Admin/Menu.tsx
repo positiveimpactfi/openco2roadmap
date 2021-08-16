@@ -6,12 +6,12 @@ import { AdminLink } from "data/adminLinks";
 const Menu = () => {
   const router = useRouter();
   const linksWithCurrent = adminLinks.map((link) => {
-    return { ...link, current: router.pathname.includes(link.href) };
+    return { ...link, current: router.pathname.startsWith(link.href) };
   });
   const currentTab: Partial<AdminLink & { current: boolean }> = {
     name: "Hallintapaneeli",
-    href: "/",
-    current: router.pathname.includes("/"),
+    href: "/admin",
+    current: router.pathname === "/admin",
   };
   const tabs = [currentTab, ...linksWithCurrent];
 
