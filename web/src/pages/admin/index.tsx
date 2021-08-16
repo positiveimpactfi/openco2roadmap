@@ -3,7 +3,10 @@ import LinksGrid from "components/LinksGrid";
 
 const AdminHome = () => {
   return (
-    <AdminsOnly>
+    <AdminsOnly
+      title="Hallintapaneeli MVP"
+      description="Näillä sivuilla voit muokata CO2-laskurin asetuksia. "
+    >
       <div className="flex flex-col">
         <LinksGrid />
       </div>
