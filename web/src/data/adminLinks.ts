@@ -2,7 +2,7 @@ import { GlobeAltIcon } from "@heroicons/react/outline";
 
 type HeroIcon = (props: React.ComponentProps<"svg">) => JSX.Element;
 
-interface AdminLink {
+export interface AdminLink {
   name: string;
   description: string;
   icon: HeroIcon;
