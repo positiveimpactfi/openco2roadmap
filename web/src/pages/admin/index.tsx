@@ -1,22 +1,14 @@
-import { UserContext } from "context/UserContext";
-import { useContext, useState } from "react";
-import { isAdmin } from "utils/isAdmin";
-import AdminSidebar from "components/Admin/Sidebar";
-import AdminOverview from "components/Admin/Overview";
+import AdminsOnly from "components/Admin/AdminsOnly";
+import LinksGrid from "components/LinksGrid";
 
-const AdminPanel = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user } = useContext(UserContext);
-
-  if (!isAdmin(user)) {
-    return <div>Unathorized</div>;
-  }
+const AdminHome = () => {
   return (
-    <div className="h-screen flex overflow-hidden bg-white">
-      <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <AdminOverview setSidebarOpen={setSidebarOpen} />
-    </div>
+    <AdminsOnly>
+      <div className="flex flex-col">
+        <LinksGrid />
+      </div>
+    </AdminsOnly>
   );
 };
 
-export default AdminPanel;
+export default AdminHome;
