@@ -1,4 +1,5 @@
 import { adminLinks } from "data/adminLinks";
+import { classNames } from "utils/classNames";
 
 function LinksGrid() {
   return (
@@ -15,10 +16,20 @@ function LinksGrid() {
                   />
                 </span>
                 <div className="flex flex-col ml-4">
-                  <h3 className="text-lg font-medium text-black leading-none">
+                  <h3
+                    className={classNames(
+                      link.disabled ? "text-gray-300" : "text-black",
+                      "text-lg font-medium leading-none"
+                    )}
+                  >
                     {link.name}
                   </h3>
-                  <p className="mt-2 text-base text-gray-500">
+                  <p
+                    className={classNames(
+                      link.disabled ? "text-gray-200" : "text-gray-500",
+                      "mt-2 text-base"
+                    )}
+                  >
                     {link.description}
                   </p>
                 </div>
