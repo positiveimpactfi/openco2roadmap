@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, Fragment, SetStateAction } from "react";
 import { classNames } from "utils/classNames";
-import logoImg from "../../public/logo.svg";
+import logoImg from "../../../public/logo.svg";
 
 const navigation = [
   { name: "Home", href: "/admin", icon: HomeIcon },

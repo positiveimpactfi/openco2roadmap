@@ -1,63 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
-import { MenuAlt1Icon, SearchIcon } from "@heroicons/react/outline";
 import { Fragment } from "react";
-import { AdminSidebarProps } from "./AdminSidebar";
 import Image from "next/image";
-import logoImg from "../../public/logo.svg";
+import logoImg from "../../../public/logo.svg";
 import useLogout from "hooks/useLogout";
-import { classNames } from "../utils/classNames";
+import { classNames } from "../../utils/classNames";
 
-type AdminOverviewProps = Pick<AdminSidebarProps, "setSidebarOpen">;
-
-const AdminOverview: React.FC<AdminOverviewProps> = ({
-  setSidebarOpen,
-  children,
-}) => {
-  return (
-    <div className="flex flex-col w-full flex-1 overflow-hidden">
-      <MobileTopBar setSidebarOpen={setSidebarOpen} />
-      <MainContent>{children}</MainContent>
-    </div>
-  );
-};
-
-const MobileTopBar: React.FC<AdminOverviewProps> = ({ setSidebarOpen }) => {
-  return (
-    <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:hidden">
-      <button
-        className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
-        onClick={() => setSidebarOpen(true)}
-      >
-        <span className="sr-only">Open sidebar</span>
-        <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
-      </button>
-      <div className="flex-1 flex justify-between px-4 sm:px-6 lg:px-8">
-        <div className="flex-1 flex">
-          <form className="w-full flex md:ml-0" action="#" method="GET">
-            <label htmlFor="search_field" className="sr-only">
-              Search
-            </label>
-            <div className="relative w-full text-gray-400 focus-within:text-gray-600">
-              <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <input
-                id="search_field"
-                name="search_field"
-                className="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:text-sm"
-                placeholder="Search"
-                type="search"
-              />
-            </div>
-          </form>
-        </div>
-        <UserProfileDropdown />
-      </div>
-    </div>
-  );
-};
-
-const UserProfileDropdown = () => {
+export const UserProfileDropdown = () => {
   const [logout] = useLogout();
   return (
     <div className="flex items-center">
@@ -66,7 +14,7 @@ const UserProfileDropdown = () => {
           <>
             <div>
               <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                <span className="sr-only">Open user menu</span>
+                <span className="sr-only">Avaa menu</span>
                 <div className="h-8 w-8 rounded-full">
                   <Image src={logoImg} alt="Positive Impact Logo" />
                 </div>
@@ -98,7 +46,7 @@ const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        View profile
+                        Katso profiili
                       </a>
                     )}
                   </Menu.Item>
@@ -113,7 +61,7 @@ const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        Settings
+                        Asetukset
                       </a>
                     )}
                   </Menu.Item>
@@ -128,7 +76,7 @@ const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        Notifications
+                        Ilmoitukset
                       </a>
                     )}
                   </Menu.Item>
@@ -145,7 +93,7 @@ const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        Support
+                        Tuki
                       </a>
                     )}
                   </Menu.Item>
@@ -162,7 +110,7 @@ const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm w-full text-left"
                         )}
                       >
-                        Logout
+                        Kirjaudu ulos
                       </button>
                     )}
                   </Menu.Item>
@@ -175,34 +123,3 @@ const UserProfileDropdown = () => {
     </div>
   );
 };
-
-const MainContent: React.FC = ({ children }) => {
-  return (
-    <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-      <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <div className="flex-1 min-w-0">
-          <h1 className="text-lg font-medium leading-6 text-gray-900 sm:truncate">
-            Admin panel
-          </h1>
-        </div>
-        <div className="mt-4 flex sm:mt-0 sm:ml-4">
-          <button
-            type="button"
-            className="order-1 ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-0 sm:ml-0"
-          >
-            Share
-          </button>
-          <button
-            type="button"
-            className="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
-          >
-            Create
-          </button>
-        </div>
-      </div>
-      <div className="px-4 mt-2">{children}</div>
-    </main>
-  );
-};
-
-export default AdminOverview;

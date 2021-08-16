@@ -1,5 +1,5 @@
-import AdminOverview from "components/AdminOverview";
-import AdminSidebar from "components/AdminSidebar";
+import AdminOverview from "components/Admin/Overview";
+import AdminSidebar from "components/Admin/Sidebar";
 import { useState } from "react";
 
 const AdminPanel = ({ children }) => {
