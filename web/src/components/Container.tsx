@@ -28,7 +28,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
             </main>{" "}
           </>
         )}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </UserContext.Provider>
   );
