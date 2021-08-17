@@ -2,7 +2,8 @@ import React, { InputHTMLAttributes } from "react";
 import { useField } from "formik";
 
 type FormFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
+  showLabel?: boolean;
+  label?: string;
   name: string;
   placeholder: string;
   roundedTop?: boolean;
@@ -11,6 +12,7 @@ type FormFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const FormField: React.FC<FormFieldProps> = ({
+  showLabel,
   label,
   required = false,
   placeholder,
@@ -22,25 +24,34 @@ const FormField: React.FC<FormFieldProps> = ({
   const [field, meta] = useField(props);
   const id = `${field.name}-id`;
   return (
-    <div>
-      <label htmlFor={id} className="sr-only">
-        {label}
-      </label>
-      <input
-        {...field}
-        {...props}
-        placeholder={placeholder}
-        id={id}
-        required={required}
-        className={
-          "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm " +
-          (roundedTop ? "rounded-t-md " : "") +
-          (roundedBottom ? "rounded-b-md " : "")
-        }
-      />
-      {meta.touched && meta.error ? (
-        <div className="flex flex-row ml-auto text-red-400">{meta.error}</div>
-      ) : null}
+    <div className={showLabel && "space-y-6"}>
+      <div>
+        <label
+          htmlFor={id}
+          className={
+            showLabel
+              ? "block text-sm font-medium text-gray-700 mb-2"
+              : "sr-only"
+          }
+        >
+          {label}
+        </label>
+        <input
+          {...field}
+          {...props}
+          placeholder={placeholder}
+          id={id}
+          required={required}
+          className={
+            "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm " +
+            (roundedTop ? "rounded-t-md " : "") +
+            (roundedBottom ? "rounded-b-md " : "")
+          }
+        />
+        {meta.touched && meta.error ? (
+          <div className="flex flex-row ml-auto text-red-400">{meta.error}</div>
+        ) : null}
+      </div>
     </div>
   );
 };
