@@ -1,21 +1,53 @@
-import AdminsOnly from "components/Admin/AdminsOnly";
-import { useOrganizationsQuery } from "generated/graphql";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
-import { number } from "yup";
+import AdminsOnly from "components/Admin/AdminsOnly";
+import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
+import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
+import SlideOver from "components/SlideOver";
+import { useOrganizationsQuery } from "generated/graphql";
+import { Dispatch, SetStateAction, useState } from "react";
 
 const Organizations = () => {
-  const { data, loading } = useOrganizationsQuery();
+  const { loading } = useOrganizationsQuery();
+  const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
+  const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
   return (
     <AdminsOnly
       title="Yritykset"
       description="Tällä sivulla voit tarkastella ja muokata kaikkia laskurista löytyviä yrityksiä."
     >
-      {loading ? <div> Ladataan...</div> : <OrganizationsTable />}
+      {loading ? (
+        <div> Ladataan...</div>
+      ) : (
+        <>
+          <SlideOver
+            title="Lisää yritys"
+            open={newOrgFormOpen}
+            setOpen={setNewOrgFormOpen}
+          >
+            <NewOrganizationForm setSlideoverOpen={setNewOrgFormOpen} />
+          </SlideOver>
+          <SlideOver
+            title="Muokkaa yritystä"
+            open={editOrgFormOpen}
+            setOpen={setEditOrgFormOpen}
+          >
+            <EditOrganizationForm />
+          </SlideOver>
+          <button
+            type="button"
+            className="px-2 py-2 mb-4 bg-teal-600 inline-flex items-center justify-center text-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+            onClick={() => setNewOrgFormOpen(true)}
+          >
+            Uusi yritys
+          </button>
+          <OrganizationsTable openSlideover={setEditOrgFormOpen} />
+        </>
+      )}
     </AdminsOnly>
   );
 };
 
-interface Organization {
+export interface Organization {
   id: number;
   name: string;
   businessId: string;
@@ -25,7 +57,9 @@ interface Organization {
   lastLoggedIn: string;
 }
 
-const OrganizationsTable = () => {
+const OrganizationsTable: React.FC<{
+  openSlideover: Dispatch<SetStateAction<boolean>>;
+}> = ({ openSlideover }) => {
   const org: Organization = {
     id: 1,
     name: "Matkailuyritys Oy",
@@ -118,6 +152,7 @@ const OrganizationsTable = () => {
                       <button
                         type="button"
                         className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => openSlideover(true)}
                       >
                         <span className="sr-only">Open options</span>
                         <DotsVerticalIcon
