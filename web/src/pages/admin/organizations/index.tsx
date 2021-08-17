@@ -51,8 +51,8 @@ export interface Organization {
   id: number;
   name: string;
   businessId: string;
-  city: string;
-  destination: string;
+  businessField: string;
+  municipality: string;
   created: string;
   lastLoggedIn: string;
 }
@@ -64,8 +64,8 @@ const OrganizationsTable: React.FC<{
     id: 1,
     name: "Matkailuyritys Oy",
     businessId: "XXXXXX-X",
-    city: "Helsinki",
-    destination: "Uusimaa",
+    municipality: "Helsinki",
+    businessField: "Ohjelmapalvelut",
     created: "10.10.2020",
     lastLoggedIn: "17.08.2021",
   };
@@ -105,7 +105,7 @@ const OrganizationsTable: React.FC<{
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Destinaatio
+                    Toimiala
                   </th>
                   <th
                     scope="col"
@@ -137,10 +137,10 @@ const OrganizationsTable: React.FC<{
                       {org.businessId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.city}
+                      {org.municipality}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.destination}
+                      {org.businessField}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {org.created}
