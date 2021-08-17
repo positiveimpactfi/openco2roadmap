@@ -1,13 +1,23 @@
 import { Formik, Form, FormikProps } from "formik";
 import FormField from "components/FormField";
+import Dropdown from "components/Dropdown";
+import { businessFields } from "data/businessFields";
+import { Dispatch, SetStateAction } from "react";
 
-const NewOrganizationForm = () => {
+const NewOrganizationForm: React.FC<{
+  setSlideoverOpen: Dispatch<SetStateAction<boolean>>;
+}> = ({ setSlideoverOpen }) => {
   return (
     <Formik
-      initialValues={{ name: "", businessField: "", city: "" }}
+      initialValues={{
+        name: "",
+        businessId: "",
+        municipality: "",
+        businessField: "",
+      }}
       onSubmit={() => console.log("submitting new org")}
     >
-      {({ isSubmitting }: FormikProps<{}>) => (
+      {({ isSubmitting, handleReset }: FormikProps<{}>) => (
         <Form>
           <div className="rounded-md space-y-4">
             <FormField
@@ -23,7 +33,7 @@ const NewOrganizationForm = () => {
             <FormField
               showLabel
               label="Y-tunnus"
-              name="businessField"
+              name="businessId"
               placeholder="Y-tunnus"
               roundedTop
               roundedBottom
@@ -32,15 +42,20 @@ const NewOrganizationForm = () => {
             <FormField
               showLabel
               label="Kotikunta"
-              name="city"
+              name="municipality"
               placeholder="Kotikunta"
               roundedTop
               roundedBottom
             />
+            <Dropdown options={businessFields} showLabel label="Toimiala" />
             <div className="pt-5">
               <div className="flex justify-end">
                 <button
                   type="button"
+                  onClick={() => {
+                    handleReset();
+                    setSlideoverOpen(false);
+                  }}
                   className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                 >
                   Peruuta
