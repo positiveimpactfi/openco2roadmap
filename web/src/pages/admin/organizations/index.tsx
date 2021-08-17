@@ -4,12 +4,18 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import SlideOver from "components/SlideOver";
 import { useOrganizationsQuery } from "generated/graphql";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 const Organizations = () => {
   const { loading } = useOrganizationsQuery();
   const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
+  const [orgUnderEdit, setOrgUnderEdit] = useState(null);
+
+  const handleEditOrg = (org: Organization) => {
+    setOrgUnderEdit(org);
+    setEditOrgFormOpen(true);
+  };
   return (
     <AdminsOnly
       title="Yritykset"
@@ -31,7 +37,7 @@ const Organizations = () => {
             open={editOrgFormOpen}
             setOpen={setEditOrgFormOpen}
           >
-            <EditOrganizationForm />
+            <EditOrganizationForm org={orgUnderEdit} />
           </SlideOver>
           <button
             type="button"
@@ -40,7 +46,7 @@ const Organizations = () => {
           >
             Uusi yritys
           </button>
-          <OrganizationsTable openSlideover={setEditOrgFormOpen} />
+          <OrganizationsTable handleFormOpen={handleEditOrg} />
         </>
       )}
     </AdminsOnly>
@@ -58,8 +64,8 @@ export interface Organization {
 }
 
 const OrganizationsTable: React.FC<{
-  openSlideover: Dispatch<SetStateAction<boolean>>;
-}> = ({ openSlideover }) => {
+  handleFormOpen: (org: Organization) => void;
+}> = ({ handleFormOpen }) => {
   const org: Organization = {
     id: 1,
     name: "Matkailuyritys Oy",
@@ -151,8 +157,8 @@ const OrganizationsTable: React.FC<{
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         type="button"
-                        className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        onClick={() => openSlideover(true)}
+                        className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                        onClick={() => handleFormOpen(org)}
                       >
                         <span className="sr-only">Open options</span>
                         <DotsVerticalIcon

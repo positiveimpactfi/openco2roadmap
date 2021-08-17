@@ -1,10 +1,19 @@
-import { Formik, Form, FormikProps } from "formik";
 import FormField from "components/FormField";
+import { Form, Formik, FormikProps } from "formik";
+import { Organization } from "pages/admin/organizations";
 
-const EditOrganizationForm = () => {
+interface EditOrganizationProps {
+  org: Organization;
+}
+
+const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
   return (
     <Formik
-      initialValues={{ name: "", businessField: "", city: "" }}
+      initialValues={{
+        name: org.name,
+        businessField: org.businessField,
+        municipality: org.municipality,
+      }}
       onSubmit={() => console.log("submitting new org")}
     >
       {({ isSubmitting }: FormikProps<{}>) => (
@@ -24,7 +33,7 @@ const EditOrganizationForm = () => {
               showLabel
               label="Y-tunnus"
               name="businessField"
-              placeholder="Y-tunnus"
+              placeholder="Toimiala"
               roundedTop
               roundedBottom
               required
@@ -32,7 +41,7 @@ const EditOrganizationForm = () => {
             <FormField
               showLabel
               label="Kotikunta"
-              name="city"
+              name="municipality"
               placeholder="Kotikunta"
               roundedTop
               roundedBottom
