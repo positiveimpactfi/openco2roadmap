@@ -1,0 +1,6 @@
+mutation AddOrganization($name: String!) {
+  addOrganization(name: $name) {
+    id
+    name
+  }
+}
