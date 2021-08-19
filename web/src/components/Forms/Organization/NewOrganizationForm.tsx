@@ -3,13 +3,14 @@ import Select from "components/Forms/Common/Select";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
+import { useAddOrganizationMutation } from "generated/graphql";
 import { Dispatch, SetStateAction } from "react";
 
 interface FormValues {
   name: string;
-  businessId: string;
-  municipality: string;
-  businessField: string;
+  businessID: string;
+  municipality?: string;
+  businessField?: string;
 }
 
 const NewOrganizationForm: React.FC<{
@@ -17,14 +18,23 @@ const NewOrganizationForm: React.FC<{
 }> = ({ setSlideoverOpen }) => {
   const initialValues: FormValues = {
     name: "",
-    businessId: "",
+    businessID: "",
     municipality: "",
     businessField: "",
   };
+  const [addOrganization] = useAddOrganizationMutation();
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={() => console.log("submitting new org")}
+      onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
+        const response = await addOrganization({ variables: values });
+        if (response.data.addOrganization.id) {
+          setSubmitting(false);
+          resetForm();
+        } else {
+          console.error("Failed to add organization");
+        }
+      }}
     >
       {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (
         <Form>
@@ -42,7 +52,7 @@ const NewOrganizationForm: React.FC<{
             <FormField
               showLabel
               label="Y-tunnus"
-              name="businessId"
+              name="businessID"
               placeholder="Y-tunnus"
               roundedTop
               roundedBottom

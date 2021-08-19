@@ -14,6 +14,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type BusinessField = {
+  __typename?: 'BusinessField';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  organizations: Array<Organization>;
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -31,6 +38,7 @@ export type Mutation = {
 
 
 export type MutationAddOrganizationArgs = {
+  businessID: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -57,6 +65,8 @@ export type Organization = {
   id: Scalars['Float'];
   name: Scalars['String'];
   users: Array<User>;
+  businessID: Scalars['String'];
+  businessField: BusinessField;
 };
 
 export type Query = {
@@ -95,6 +105,7 @@ export type UserResolverResponse = {
 
 export type AddOrganizationMutationVariables = Exact<{
   name: Scalars['String'];
+  businessID: Scalars['String'];
 }>;
 
 
@@ -210,8 +221,8 @@ export type UsersQuery = (
 
 
 export const AddOrganizationDocument = gql`
-    mutation AddOrganization($name: String!) {
-  addOrganization(name: $name) {
+    mutation AddOrganization($name: String!, $businessID: String!) {
+  addOrganization(name: $name, businessID: $businessID) {
     id
     name
   }
@@ -233,6 +244,7 @@ export type AddOrganizationMutationFn = Apollo.MutationFunction<AddOrganizationM
  * const [addOrganizationMutation, { data, loading, error }] = useAddOrganizationMutation({
  *   variables: {
  *      name: // value for 'name'
+ *      businessID: // value for 'businessID'
  *   },
  * });
  */

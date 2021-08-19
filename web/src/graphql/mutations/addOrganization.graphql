@@ -1,5 +1,5 @@
-mutation AddOrganization($name: String!) {
-  addOrganization(name: $name) {
+mutation AddOrganization($name: String!, $businessID: String!) {
+  addOrganization(name: $name, businessID: $businessID) {
     id
     name
   }
