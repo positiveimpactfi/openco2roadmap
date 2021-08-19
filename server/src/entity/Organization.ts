@@ -29,8 +29,8 @@ export class Organization extends BaseEntity {
   users: User[];
 
   @Field()
-  @Column({ nullable: true })
-  businessID: string;
+  @Column({ nullable: false })
+  businessID!: string;
 
   @Field(() => BusinessField)
   @ManyToOne(

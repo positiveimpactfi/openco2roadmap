@@ -27,9 +27,13 @@ export class OrganizationResolver {
 
   @Authorized("ADMIN")
   @Mutation(() => Organization)
-  addOrganization(@Arg("name") name: string): Promise<Organization> {
+  addOrganization(
+    @Arg("name") name: string,
+    @Arg("businessID") businessID: string
+  ): Promise<Organization> {
     return Organization.create({
       name,
+      businessID,
     }).save();
   }
 
