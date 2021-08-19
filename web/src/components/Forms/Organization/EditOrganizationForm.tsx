@@ -1,6 +1,9 @@
 import FormField from "components/FormField";
 import { Form, Formik, FormikProps } from "formik";
 import { Organization } from "pages/admin/organizations";
+import Select from "components/Select";
+import { municipalities } from "data/municipalities";
+import { businessFields } from "data/businessFields";
 
 interface EditOrganizationProps {
   org: Organization;
@@ -11,12 +14,13 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
     <Formik
       initialValues={{
         name: org.name,
-        businessField: org.businessField,
+        businessId: org.businessId,
         municipality: org.municipality,
+        businessField: org.businessField,
       }}
       onSubmit={() => console.log("submitting new org")}
     >
-      {({ isSubmitting }: FormikProps<{}>) => (
+      {({ isSubmitting, setFieldValue }: FormikProps<{}>) => (
         <Form>
           <div className="rounded-md space-y-4">
             <FormField
@@ -32,19 +36,25 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
             <FormField
               showLabel
               label="Y-tunnus"
-              name="businessField"
-              placeholder="Toimiala"
+              name="businessId"
+              placeholder="Y-tunnus"
               roundedTop
               roundedBottom
               required
             />
-            <FormField
+            <Select
+              name="Kotikunta"
               showLabel
               label="Kotikunta"
-              name="municipality"
-              placeholder="Kotikunta"
-              roundedTop
-              roundedBottom
+              setFieldValue={setFieldValue}
+              options={municipalities}
+            />
+            <Select
+              name="Toimiala"
+              showLabel
+              label="Toimiala"
+              setFieldValue={setFieldValue}
+              options={businessFields}
             />
             <div className="pt-5">
               <div className="flex justify-end">
