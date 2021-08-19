@@ -1,19 +1,19 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import Image from "next/image";
-import logoImg from "../../../public/logo.svg";
 import useLogout from "hooks/useLogout";
+import Image from "next/image";
+import { Fragment } from "react";
+import logoImg from "../../../public/logo.svg";
 import { classNames } from "../../utils/classNames";
 
 export const UserProfileDropdown = () => {
   const [logout] = useLogout();
   return (
     <div className="flex items-center">
-      <Menu as="div" className="ml-3 relative">
+      <Menu as="div" className="ml-3 relative z-10">
         {({ open }) => (
           <>
             <div>
-              <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+              <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 <span className="sr-only">Avaa menu</span>
                 <div className="h-8 w-8 rounded-full">
                   <Image src={logoImg} alt="Positive Impact Logo" />
