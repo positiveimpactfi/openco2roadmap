@@ -9,7 +9,7 @@ export const UserProfileDropdown = () => {
   const [logout] = useLogout();
   return (
     <div className="flex items-center">
-      <Menu as="div" className="ml-3 relative z-10">
+      <Menu as="div" className="ml-3 relative">
         {({ open }) => (
           <>
             <div>
@@ -32,7 +32,7 @@ export const UserProfileDropdown = () => {
             >
               <Menu.Items
                 static
-                className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none"
+                className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none z-10"
               >
                 <div className="py-1">
                   <Menu.Item>
