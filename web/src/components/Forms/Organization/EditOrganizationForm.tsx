@@ -1,7 +1,7 @@
-import FormField from "components/FormField";
+import FormField from "components/Forms/Common/FormField";
 import { Form, Formik, FormikProps } from "formik";
 import { Organization } from "pages/admin/organizations";
-import Select from "components/Select";
+import Select from "components/Forms/Common/Select";
 import { municipalities } from "data/municipalities";
 import { businessFields } from "data/businessFields";
 

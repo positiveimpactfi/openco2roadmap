@@ -22,10 +22,8 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const [selected, setSelected] = useState(null);
   const handleChange = (val) => {
-    console.log("value", val);
     setSelected(val);
     setFieldValue(name, val.name);
-    console.log("set field value");
   };
 
   return (
