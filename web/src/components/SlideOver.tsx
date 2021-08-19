@@ -47,7 +47,7 @@ const SlideOver: React.FC<{
                       </Dialog.Title>
                       <div className="ml-3 h-7 flex items-center">
                         <button
-                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                           onClick={() => setOpen(false)}
                         >
                           <span className="sr-only">Sulje</span>
