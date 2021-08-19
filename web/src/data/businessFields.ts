@@ -4,6 +4,12 @@ export interface BusinessField {
   description?: string;
 }
 
+const compareString = (a: string, b: string) => {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+};
+
 export const businessFields: BusinessField[] = [
   {
     id: 1,
@@ -61,4 +67,4 @@ export const businessFields: BusinessField[] = [
     id: 14,
     name: "Vähittäiskauppa",
   },
-];
+].sort((a, b) => compareString(a.name, b.name));
