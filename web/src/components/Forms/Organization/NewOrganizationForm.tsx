@@ -1,23 +1,32 @@
-import { Formik, Form, FormikProps } from "formik";
 import FormField from "components/FormField";
-import Dropdown from "components/Dropdown";
+import Select from "components/Select";
 import { businessFields } from "data/businessFields";
+import { municipalities } from "data/municipalities";
+import { Form, Formik, FormikProps } from "formik";
 import { Dispatch, SetStateAction } from "react";
+
+interface FormValues {
+  name: string;
+  businessId: string;
+  municipality: string;
+  businessField: string;
+}
 
 const NewOrganizationForm: React.FC<{
   setSlideoverOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({ setSlideoverOpen }) => {
+  const initialValues: FormValues = {
+    name: "",
+    businessId: "",
+    municipality: "",
+    businessField: "",
+  };
   return (
     <Formik
-      initialValues={{
-        name: "",
-        businessId: "",
-        municipality: "",
-        businessField: "",
-      }}
+      initialValues={initialValues}
       onSubmit={() => console.log("submitting new org")}
     >
-      {({ isSubmitting, handleReset }: FormikProps<{}>) => (
+      {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (
         <Form>
           <div className="rounded-md space-y-4">
             <FormField
@@ -39,15 +48,20 @@ const NewOrganizationForm: React.FC<{
               roundedBottom
               required
             />
-            <FormField
+            <Select
+              options={municipalities}
               showLabel
               label="Kotikunta"
               name="municipality"
-              placeholder="Kotikunta"
-              roundedTop
-              roundedBottom
+              setFieldValue={setFieldValue}
             />
-            <Dropdown options={businessFields} showLabel label="Toimiala" />
+            <Select
+              options={businessFields}
+              showLabel
+              label="Toimiala"
+              name="businessField"
+              setFieldValue={setFieldValue}
+            />
             <div className="pt-5">
               <div className="flex justify-end">
                 <button

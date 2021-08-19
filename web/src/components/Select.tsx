@@ -1,19 +1,35 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useState } from "react";
+import { Fragment, SelectHTMLAttributes, useState } from "react";
 import { classNames } from "utils/classNames";
 
-interface DropdownProps {
+interface Props {
   options: any;
   showLabel?: boolean;
   label?: string;
+  name: string;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ options, showLabel, label }) => {
+export type SelectProps = Props & SelectHTMLAttributes<HTMLSelectElement>;
+
+const Select: React.FC<SelectProps> = ({
+  options,
+  showLabel,
+  label,
+  name,
+  setFieldValue,
+}) => {
   const [selected, setSelected] = useState(null);
+  const handleChange = (val) => {
+    console.log("value", val);
+    setSelected(val);
+    setFieldValue(name, val.name);
+    console.log("set field value");
+  };
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={handleChange}>
       {({ open }) => (
         <>
           {showLabel && (
@@ -87,4 +103,4 @@ const Dropdown: React.FC<DropdownProps> = ({ options, showLabel, label }) => {
   );
 };
 
-export default Dropdown;
+export default Select;
