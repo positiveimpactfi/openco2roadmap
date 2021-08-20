@@ -9,6 +9,7 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import config from "./config";
 import typeormConfig from "./ormconfig";
+import { BusinessFieldResolver } from "./resolvers/businessField";
 // import { requestLogger } from "./utils/requestLogger";
 import { OrganizationResolver } from "./resolvers/organization";
 import { UserResolver } from "./resolvers/user";
@@ -58,7 +59,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, OrganizationResolver],
+      resolvers: [UserResolver, OrganizationResolver, BusinessFieldResolver],
       validate: false,
       authChecker: authChecker,
     }),
