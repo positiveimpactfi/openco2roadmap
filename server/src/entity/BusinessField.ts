@@ -19,8 +19,8 @@ export class BusinessField extends BaseEntity {
   @Column({ unique: true })
   name!: string;
 
-  @Authorized(["superadmin", "admin"])
-  @Field(() => [Organization])
+  @Authorized(["SUPERADMIN", "ADMIN"])
+  @Field(() => [Organization], { nullable: true })
   @OneToMany(() => Organization, (organization) => organization.businessField)
-  organizations: Organization[];
+  organizations?: Organization[];
 }
