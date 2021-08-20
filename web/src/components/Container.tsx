@@ -1,8 +1,6 @@
-import Head from "next/head";
-import Navbar from "components/Navbar";
-import Footer from "components/Footer";
-import { useMeQuery } from "generated/graphql";
 import { UserContext } from "context/UserContext";
+import { useMeQuery } from "generated/graphql";
+import Head from "next/head";
 import { isAdmin } from "utils/isAdmin";
 
 interface ContainerProps {}
@@ -22,7 +20,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
           children
         ) : (
           <>
-            <Navbar />
+            {/* <Navbar /> */}
             <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
               {children}
             </main>{" "}
