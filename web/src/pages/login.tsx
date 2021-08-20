@@ -5,6 +5,7 @@ import { isAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
 import { LoginForm } from "../components/Forms/Auth/LoginForm";
+import Link from "next/link";
 
 interface LoginFormProps {
   email: string;
@@ -54,12 +55,11 @@ const LoginPage = () => {
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Tai{" "}
-                <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Luo uusi käyttäjätunnus
-                </a>
+                <Link href="/register" passHref>
+                  <a className="font-medium text-teal-600 hover:text-teal-500">
+                    Luo uusi käyttäjätunnus
+                  </a>
+                </Link>
               </p>
             </div>
             <LoginForm isSubmitting={isSubmitting} />
