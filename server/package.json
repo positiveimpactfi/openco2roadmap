@@ -6,7 +6,8 @@
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",
     "@types/cors": "^2.8.10",
-    "@types/express": "^4.17.12",
+    "@types/express": "^4.17.11",
+    "@types/express-serve-static-core": "^4.17.24",
     "@types/express-session": "^1.17.3",
     "@types/ioredis": "^4.26.4",
     "@types/node": "^15.6.0",
