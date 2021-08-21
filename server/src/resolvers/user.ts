@@ -8,7 +8,8 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { Role, User } from "../entity/User";
+import { User } from "../entity/User";
+import { UserRole } from "../entity/UserRole";
 import argon2 from "argon2";
 import { IContext } from "src/types";
 
@@ -54,7 +55,7 @@ export class UserResolver {
   ): Promise<UserResolverResponse> {
     try {
       const hashedPassword = await argon2.hash(password);
-      const role = await Role.create({}).save();
+      const role = await UserRole.create({}).save();
       const user = await User.create({
         email: email,
         password: hashedPassword,

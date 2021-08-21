@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,13 +8,14 @@ import {
   JoinTable,
 } from "typeorm";
 import { Organization } from "./Organization";
+import { UserRole } from "./UserRole";
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @Field()
   @Column({ unique: true })
@@ -23,10 +24,10 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Field(() => [Role])
-  @ManyToMany(() => Role, { eager: true })
+  @Field(() => [UserRole])
+  @ManyToMany(() => UserRole, { eager: true })
   @JoinTable()
-  roles!: Role[];
+  roles!: UserRole[];
 
   @ManyToMany(() => Organization, (organization) => organization.users)
   organizations!: Organization[];
@@ -38,16 +39,4 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   lastName: string;
-}
-
-@ObjectType()
-@Entity()
-export class Role extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Field()
-  @Column({ default: "system_user" })
-  name: string;
 }
