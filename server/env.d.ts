@@ -13,5 +13,7 @@ declare namespace NodeJS {
     CORS_ORIGIN: string;
     SENDGRID_API_KEY: string;
     SENDGRID_EMAIL: string;
+    SUPERADMIN_EMAIL: string;
+    SUPERADMIN_PW: string;
   }
 }

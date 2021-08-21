@@ -16,4 +16,6 @@ export default {
   CORS_ORIGIN: process.env.CORS_ORIGIN as string,
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY as string,
   SENDGRID_EMAIL: process.env.SENDGRID_EMAIL as string,
+  SUPERADMIN_EMAIL: process.env.SUPERADMIN_EMAIL as string,
+  SUPERADMIN_PW: process.env.SUPERADMIN_PW as string,
 };
