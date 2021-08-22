@@ -13,7 +13,7 @@ export class SeedAdmin1622707251599 implements MigrationInterface {
     });
     const role = await queryRunner.manager.save(UserRole, {
       name: "SUPERADMIN",
-      organizationId: adminOrg.id,
+      organizationID: adminOrg.id,
     });
     const adminUser = await queryRunner.manager.save(User, {
       email: config.SUPERADMIN_EMAIL,

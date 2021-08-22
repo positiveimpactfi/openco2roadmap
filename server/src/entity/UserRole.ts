@@ -14,5 +14,5 @@ export class UserRole extends BaseEntity {
 
   @Field()
   @Column()
-  organizationId: string;
+  organizationID: string;
 }
