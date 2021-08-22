@@ -14,7 +14,7 @@ interface LoginFormProps {
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email!").min(5).required("Required!"),
-  password: Yup.string().min(5).max(20).required("Required!"),
+  password: Yup.string().min(5).max(30).required("Required!"),
 });
 
 const LoginPage = () => {
