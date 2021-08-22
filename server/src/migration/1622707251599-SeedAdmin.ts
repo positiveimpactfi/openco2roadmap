@@ -21,19 +21,23 @@ export class SeedAdmin1622707251599 implements MigrationInterface {
       roles: [role],
       firstName: "Super",
       lastName: "Admin",
+      organizations: [adminOrg],
     });
     adminOrg.users = [adminUser];
     const savedAdminOrg = await queryRunner.manager.save(
       Organization,
       adminOrg
     );
-
     console.log("new admin organization created", savedAdminOrg);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.manager.delete(User, {
       email: config.SUPERADMIN_EMAIL,
+    });
+    await queryRunner.manager.delete(Organization, {
+      name: "Admin org",
+      businessID: "XXXXXX-X",
     });
   }
 }
