@@ -4,16 +4,16 @@ import { User } from "../entity/User";
 
 @Resolver(Organization)
 export class OrganizationResolver {
-  @Authorized("ADMIN")
+  @Authorized("SUPERADMIN")
   @Query(() => [Organization])
   organizations(): Promise<Organization[]> {
     return Organization.find({});
   }
 
-  @Authorized("ADMIN")
+  @Authorized("SUPERADMIN")
   @Query(() => [User])
   async getUsersInOrganization(
-    @Arg("organizationId", () => Int) organizationId: number
+    @Arg("organizationId") organizationId: string
   ): Promise<User[]> {
     const org = await Organization.findOne(organizationId, {
       relations: ["users"],
@@ -25,7 +25,7 @@ export class OrganizationResolver {
     return users;
   }
 
-  @Authorized("ADMIN")
+  @Authorized("SUPERADMIN")
   @Mutation(() => Organization)
   addOrganization(
     @Arg("name") name: string,
@@ -37,7 +37,7 @@ export class OrganizationResolver {
     }).save();
   }
 
-  @Authorized("ADMIN", "MAINTAINER")
+  @Authorized(["SUPERADMIN", "ADMIN"])
   @Mutation(() => User)
   async addUserToOrganization(
     @Arg("userId", () => Int) userId: number,
