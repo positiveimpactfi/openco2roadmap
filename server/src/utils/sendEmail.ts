@@ -3,13 +3,13 @@ import config from "../config";
 
 sendgrid.setApiKey(config.SENDGRID_API_KEY);
 
-interface EmailProps {
+export interface EmailProps {
   subject: string;
   textBody: string;
   htmlBody: string;
 }
 
-export const sendTestEmail = async (recepient: string, email: EmailProps) => {
+export const sendEmail = async (recepient: string, email: EmailProps) => {
   const message: MailDataRequired = {
     to: recepient,
     from: config.SENDGRID_EMAIL,
