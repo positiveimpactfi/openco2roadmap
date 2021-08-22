@@ -1,4 +1,5 @@
 import argon2 from "argon2";
+import { Organization } from "../entity/Organization";
 import {
   Arg,
   Authorized,
@@ -59,7 +60,7 @@ export class UserResolver {
     @Arg("role") role: string
   ) {
     const token = v4();
-    redis.set("INVITE_" + token, organizationID + "_" + role);
+    await redis.set("INVITE_" + token, organizationID + "_" + role);
     const emailText = `<p>You have been invited to join OpenCO2Roadmap. Follow <span><a href=${config.CORS_ORIGIN}/register/${token} >this<a/></span> link to join! </p>`;
     const emailObject: EmailProps = {
       htmlBody: emailText,
@@ -72,17 +73,51 @@ export class UserResolver {
 
   @Mutation(() => UserResolverResponse)
   async register(
+    @Ctx() { redis }: IContext,
+    @Arg("token") token: string,
     @Arg("email") email: string,
     @Arg("password") password: string
   ): Promise<UserResolverResponse> {
     try {
+      const orgAndRole = await redis.get("INVITE_" + token);
+      if (!orgAndRole) {
+        return {
+          errors: [
+            {
+              field: "token",
+              message: "invalid token",
+            },
+          ],
+        };
+      }
+      const orgId = orgAndRole.split("_")[0];
+      const roleString = orgAndRole.split("_")[1];
       const hashedPassword = await argon2.hash(password);
-      const role = await UserRole.create({}).save();
+      const role = await UserRole.create({
+        organizationID: orgId,
+        name: roleString,
+      }).save();
+      const organization = await Organization.findOne(orgId, {
+        relations: ["users"],
+      });
+      if (!organization) {
+        return {
+          errors: [
+            {
+              field: "organization",
+              message: "invalid organization",
+            },
+          ],
+        };
+      }
       const user = await User.create({
         email: email,
         password: hashedPassword,
         roles: [role],
       }).save();
+      organization.users.push(user);
+      await Organization.save(organization);
+      await redis.del("INVITE_" + token);
       return { user };
     } catch (err) {
       console.log("error: ", err);
