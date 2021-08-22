@@ -1,4 +1,4 @@
-import { Authorized, Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -22,8 +22,6 @@ export class Organization extends BaseEntity {
   @Column({ unique: true })
   name!: string;
 
-  @Authorized("ADMIN")
-  @Field(() => [User])
   @ManyToMany(() => User, (user) => user.organizations)
   @JoinTable()
   users: User[];
