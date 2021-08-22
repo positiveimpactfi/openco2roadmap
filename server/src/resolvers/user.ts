@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import {
   Arg,
   Authorized,
@@ -8,10 +9,12 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
+import { v4 } from "uuid";
+import config from "../config";
 import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
-import argon2 from "argon2";
-import { IContext } from "src/types";
+import { IContext } from "../types";
+import { EmailProps, sendEmail } from "../utils/sendEmail";
 
 @ObjectType()
 class FieldError {
@@ -33,7 +36,7 @@ class UserResolverResponse {
 
 @Resolver(User)
 export class UserResolver {
-  @Authorized("ADMIN")
+  @Authorized(["SUPERADMIN", "ADMIN"])
   @Query(() => [User])
   users(): Promise<User[]> {
     return User.find({});
@@ -46,6 +49,25 @@ export class UserResolver {
     }
 
     return User.findOne(req.session.userId, { relations: ["roles"] });
+  }
+
+  @Mutation(() => Boolean)
+  async inviteUser(
+    @Ctx() { redis }: IContext,
+    @Arg("email") email: string,
+    @Arg("organizationID") organizationID: string,
+    @Arg("role") role: string
+  ) {
+    const token = v4();
+    redis.set("INVITE_" + token, organizationID + "_" + role);
+    const emailText = `<p>You have been invited to join OpenCO2Roadmap. Follow <span><a href=${config.CORS_ORIGIN}/register/${token} >this<a/></span> link to join! </p>`;
+    const emailObject: EmailProps = {
+      htmlBody: emailText,
+      subject: "OpenCO2Roadmap invite",
+      textBody: emailText,
+    };
+    await sendEmail(email, emailObject);
+    return true;
   }
 
   @Mutation(() => UserResolverResponse)
