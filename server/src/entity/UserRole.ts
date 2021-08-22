@@ -11,4 +11,8 @@ export class UserRole extends BaseEntity {
   @Field()
   @Column({ default: "COMPANY_USER" })
   name: string;
+
+  @Field()
+  @Column()
+  organizationId: string;
 }
