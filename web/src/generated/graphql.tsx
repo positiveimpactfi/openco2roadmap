@@ -18,7 +18,7 @@ export type BusinessField = {
   __typename?: 'BusinessField';
   id: Scalars['Float'];
   name: Scalars['String'];
-  organizations: Array<Organization>;
+  organizations?: Maybe<Array<Organization>>;
 };
 
 export type FieldError = {
@@ -29,15 +29,16 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addOrganization: Organization;
+  createOrganization: Organization;
   addUserToOrganization: User;
+  inviteUser: Scalars['Boolean'];
   register: UserResolverResponse;
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
 };
 
 
-export type MutationAddOrganizationArgs = {
+export type MutationCreateOrganizationArgs = {
   businessID: Scalars['String'];
   name: Scalars['String'];
 };
@@ -49,9 +50,17 @@ export type MutationAddUserToOrganizationArgs = {
 };
 
 
+export type MutationInviteUserArgs = {
+  role: Scalars['String'];
+  organizationID: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
 export type MutationRegisterArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
+  token: Scalars['String'];
 };
 
 
@@ -62,15 +71,15 @@ export type MutationLoginArgs = {
 
 export type Organization = {
   __typename?: 'Organization';
-  id: Scalars['Float'];
+  id: Scalars['ID'];
   name: Scalars['String'];
-  users: Array<User>;
   businessID: Scalars['String'];
   businessField: BusinessField;
 };
 
 export type Query = {
   __typename?: 'Query';
+  businessFields: Array<BusinessField>;
   organizations: Array<Organization>;
   getUsersInOrganization: Array<User>;
   users: Array<User>;
@@ -79,20 +88,15 @@ export type Query = {
 
 
 export type QueryGetUsersInOrganizationArgs = {
-  organizationId: Scalars['Int'];
-};
-
-export type Role = {
-  __typename?: 'Role';
-  id: Scalars['Float'];
-  name: Scalars['String'];
+  organizationID: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Float'];
+  id: Scalars['ID'];
   email: Scalars['String'];
-  roles: Array<Role>;
+  roles: Array<UserRole>;
+  organizations?: Maybe<Array<Organization>>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
 };
@@ -103,6 +107,13 @@ export type UserResolverResponse = {
   user?: Maybe<User>;
 };
 
+export type UserRole = {
+  __typename?: 'UserRole';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  organizationID: Scalars['String'];
+};
+
 export type AddOrganizationMutationVariables = Exact<{
   name: Scalars['String'];
   businessID: Scalars['String'];
@@ -111,7 +122,7 @@ export type AddOrganizationMutationVariables = Exact<{
 
 export type AddOrganizationMutation = (
   { __typename?: 'Mutation' }
-  & { addOrganization: (
+  & { createOrganization: (
     { __typename?: 'Organization' }
     & Pick<Organization, 'id' | 'name'>
   ) }
@@ -134,8 +145,8 @@ export type LoginMutation = (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
       & { roles: Array<(
-        { __typename?: 'Role' }
-        & Pick<Role, 'id' | 'name'>
+        { __typename?: 'UserRole' }
+        & Pick<UserRole, 'id' | 'name' | 'organizationID'>
       )> }
     )> }
   ) }
@@ -152,6 +163,7 @@ export type LogoutMutation = (
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
+  token: Scalars['String'];
 }>;
 
 
@@ -170,7 +182,7 @@ export type RegisterMutation = (
 );
 
 export type GetUsersInOrnizationQueryVariables = Exact<{
-  organizationId: Scalars['Int'];
+  organizationID: Scalars['String'];
 }>;
 
 
@@ -191,8 +203,8 @@ export type MeQuery = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>
     & { roles: Array<(
-      { __typename?: 'Role' }
-      & Pick<Role, 'name' | 'id'>
+      { __typename?: 'UserRole' }
+      & Pick<UserRole, 'name' | 'id' | 'organizationID'>
     )> }
   )> }
 );
@@ -222,7 +234,7 @@ export type UsersQuery = (
 
 export const AddOrganizationDocument = gql`
     mutation AddOrganization($name: String!, $businessID: String!) {
-  addOrganization(name: $name, businessID: $businessID) {
+  createOrganization(name: $name, businessID: $businessID) {
     id
     name
   }
@@ -268,6 +280,7 @@ export const LoginDocument = gql`
       roles {
         id
         name
+        organizationID
       }
     }
   }
@@ -331,8 +344,8 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(email: $email, password: $password) {
+    mutation Register($email: String!, $password: String!, $token: String!) {
+  register(email: $email, password: $password, token: $token) {
     errors {
       field
       message
@@ -361,6 +374,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   variables: {
  *      email: // value for 'email'
  *      password: // value for 'password'
+ *      token: // value for 'token'
  *   },
  * });
  */
@@ -372,8 +386,8 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const GetUsersInOrnizationDocument = gql`
-    query GetUsersInOrnization($organizationId: Int!) {
-  getUsersInOrganization(organizationId: $organizationId) {
+    query GetUsersInOrnization($organizationID: String!) {
+  getUsersInOrganization(organizationID: $organizationID) {
     id
     email
   }
@@ -392,7 +406,7 @@ export const GetUsersInOrnizationDocument = gql`
  * @example
  * const { data, loading, error } = useGetUsersInOrnizationQuery({
  *   variables: {
- *      organizationId: // value for 'organizationId'
+ *      organizationID: // value for 'organizationID'
  *   },
  * });
  */
@@ -417,6 +431,7 @@ export const MeDocument = gql`
     roles {
       name
       id
+      organizationID
     }
   }
 }
