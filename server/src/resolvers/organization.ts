@@ -27,7 +27,7 @@ export class OrganizationResolver {
 
   @Authorized("SUPERADMIN")
   @Mutation(() => Organization)
-  addOrganization(
+  createOrganization(
     @Arg("name") name: string,
     @Arg("businessID") businessID: string
   ): Promise<Organization> {
