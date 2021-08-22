@@ -13,9 +13,9 @@ export class OrganizationResolver {
   @Authorized("SUPERADMIN")
   @Query(() => [User])
   async getUsersInOrganization(
-    @Arg("organizationId") organizationId: string
+    @Arg("organizationID") organizationID: string
   ): Promise<User[]> {
-    const org = await Organization.findOne(organizationId, {
+    const org = await Organization.findOne(organizationID, {
       relations: ["users"],
     });
     if (!org) {
