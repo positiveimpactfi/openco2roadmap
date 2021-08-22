@@ -3,7 +3,7 @@ import Select from "components/Forms/Common/Select";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
-import { useAddOrganizationMutation } from "generated/graphql";
+import { useCreateOrganizationMutation } from "generated/graphql";
 import { Dispatch, SetStateAction } from "react";
 
 interface FormValues {
@@ -22,13 +22,13 @@ const NewOrganizationForm: React.FC<{
     municipality: "",
     businessField: "",
   };
-  const [addOrganization] = useAddOrganizationMutation();
+  const [addOrganization] = useCreateOrganizationMutation();
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const response = await addOrganization({ variables: values });
-        if (response.data.addOrganization.id) {
+        if (response.data.createOrganization.id) {
           setSubmitting(false);
           resetForm();
         } else {

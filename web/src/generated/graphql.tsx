@@ -114,13 +114,13 @@ export type UserRole = {
   organizationID: Scalars['String'];
 };
 
-export type AddOrganizationMutationVariables = Exact<{
+export type CreateOrganizationMutationVariables = Exact<{
   name: Scalars['String'];
   businessID: Scalars['String'];
 }>;
 
 
-export type AddOrganizationMutation = (
+export type CreateOrganizationMutation = (
   { __typename?: 'Mutation' }
   & { createOrganization: (
     { __typename?: 'Organization' }
@@ -232,41 +232,41 @@ export type UsersQuery = (
 );
 
 
-export const AddOrganizationDocument = gql`
-    mutation AddOrganization($name: String!, $businessID: String!) {
+export const CreateOrganizationDocument = gql`
+    mutation CreateOrganization($name: String!, $businessID: String!) {
   createOrganization(name: $name, businessID: $businessID) {
     id
     name
   }
 }
     `;
-export type AddOrganizationMutationFn = Apollo.MutationFunction<AddOrganizationMutation, AddOrganizationMutationVariables>;
+export type CreateOrganizationMutationFn = Apollo.MutationFunction<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 
 /**
- * __useAddOrganizationMutation__
+ * __useCreateOrganizationMutation__
  *
- * To run a mutation, you first call `useAddOrganizationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddOrganizationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrganizationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addOrganizationMutation, { data, loading, error }] = useAddOrganizationMutation({
+ * const [createOrganizationMutation, { data, loading, error }] = useCreateOrganizationMutation({
  *   variables: {
  *      name: // value for 'name'
  *      businessID: // value for 'businessID'
  *   },
  * });
  */
-export function useAddOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<AddOrganizationMutation, AddOrganizationMutationVariables>) {
+export function useCreateOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddOrganizationMutation, AddOrganizationMutationVariables>(AddOrganizationDocument, options);
+        return Apollo.useMutation<CreateOrganizationMutation, CreateOrganizationMutationVariables>(CreateOrganizationDocument, options);
       }
-export type AddOrganizationMutationHookResult = ReturnType<typeof useAddOrganizationMutation>;
-export type AddOrganizationMutationResult = Apollo.MutationResult<AddOrganizationMutation>;
-export type AddOrganizationMutationOptions = Apollo.BaseMutationOptions<AddOrganizationMutation, AddOrganizationMutationVariables>;
+export type CreateOrganizationMutationHookResult = ReturnType<typeof useCreateOrganizationMutation>;
+export type CreateOrganizationMutationResult = Apollo.MutationResult<CreateOrganizationMutation>;
+export type CreateOrganizationMutationOptions = Apollo.BaseMutationOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
