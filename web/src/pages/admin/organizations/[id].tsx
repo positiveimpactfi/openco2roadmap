@@ -4,10 +4,9 @@ import AdminPanel from "views/AdminPanel";
 
 const Organization: React.FC = () => {
   const router = useRouter();
-  const orgId =
-    typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
+  const orgId = router.query.id as string;
   const { data, error, loading } = useGetUsersInOrnizationQuery({
-    variables: { organizationId: orgId },
+    variables: { organizationID: orgId },
   });
 
   if (error) {
