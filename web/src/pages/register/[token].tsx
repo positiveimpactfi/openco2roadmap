@@ -1,31 +1,45 @@
-import { Formik, FormikProps } from "formik";
+import { FormikProps, Formik } from "formik";
+import { useRegisterMutation } from "generated/graphql";
 import { useRouter } from "next/router";
 import { errorArrayToObject } from "utils/errorArrayToObject";
-import * as Yup from "yup";
-import { useRegisterMutation } from "../generated/graphql";
-import { RegisterForm } from "../components/Forms/Auth/RegisterForm";
+import * as yup from "yup";
+import { RegisterForm } from "components/Forms/Auth/RegisterForm";
+import { useState } from "react";
 
 interface RegisterFormProps {
   email: string;
   password: string;
 }
 
-const RegisterSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email!").min(5).required("Required!"),
-  password: Yup.string().min(5).max(20).required("Required!"),
+const RegisterSchema = yup.object().shape({
+  email: yup.string().email("Invalid email!").min(5).required("Required!"),
+  password: yup.string().min(5).max(20).required("Required!"),
 });
 
 const RegisterPage = () => {
   const [registerMutation] = useRegisterMutation();
+  const [tokenError, setTokenError] = useState("");
   const router = useRouter();
+  const { token } = router.query;
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={RegisterSchema}
       onSubmit={async (values, { setSubmitting, setErrors }) => {
-        const response = await registerMutation({ variables: values });
+        const response = await registerMutation({
+          variables: {
+            email: values.email,
+            password: values.password,
+            token: token as string,
+          },
+        });
         if (response.data?.register.errors) {
-          setErrors(errorArrayToObject(response.data.register.errors));
+          const errors = errorArrayToObject(response.data.register.errors);
+          if ("token" in errors) {
+            console.log("bad token", errors.token);
+            setTokenError(errors.token);
+          }
+          setErrors(errors);
         } else {
           router.push("/");
         }
@@ -38,6 +52,7 @@ const RegisterPage = () => {
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Luo uusi käyttäjä
             </h2>
+            {tokenError && <p className="text-red-400">{tokenError}</p>}
             <RegisterForm isSubmitting={isSubmitting} />
           </div>
         </div>
