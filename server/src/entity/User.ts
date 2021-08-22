@@ -29,7 +29,10 @@ export class User extends BaseEntity {
   @JoinTable()
   roles!: UserRole[];
 
-  @ManyToMany(() => Organization, (organization) => organization.users)
+  @Field(() => [Organization], { nullable: true })
+  @ManyToMany(() => Organization, (organization) => organization.users, {
+    eager: true,
+  })
   organizations!: Organization[];
 
   @Field({ nullable: true })
