@@ -3,14 +3,14 @@ import {
   BaseEntity,
   Column,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Component } from "./Components";
+import { Category } from "./Category";
 
 @ObjectType()
 @Entity()
-export class Category extends BaseEntity {
+export class Component extends BaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -19,7 +19,7 @@ export class Category extends BaseEntity {
   @Column()
   name: string;
 
-  @Field(() => [Component])
-  @OneToMany(() => Component, (component) => component.category)
-  components: Component[];
+  @Field(() => Category)
+  @ManyToOne(() => Category, (category) => category.components)
+  category: Category;
 }
