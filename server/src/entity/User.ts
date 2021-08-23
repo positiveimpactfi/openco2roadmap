@@ -6,7 +6,9 @@ import {
   BaseEntity,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from "typeorm";
+import { DataEntry } from "./DataEntry";
 import { Organization } from "./Organization";
 import { UserRole } from "./UserRole";
 
@@ -24,6 +26,14 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  firstName: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  lastName: string;
+
   @Field(() => [UserRole])
   @ManyToMany(() => UserRole, { eager: true })
   @JoinTable()
@@ -35,11 +45,7 @@ export class User extends BaseEntity {
   })
   organizations!: Organization[];
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  firstName: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  lastName: string;
+  @Field(() => [DataEntry])
+  @OneToMany(() => DataEntry, (dataEntry) => dataEntry.createdBy)
+  dataEntries: DataEntry[];
 }
