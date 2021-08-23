@@ -12,6 +12,8 @@ import typeormConfig from "./ormconfig";
 import { BusinessFieldResolver } from "./resolvers/businessField";
 // import { requestLogger } from "./utils/requestLogger";
 import { OrganizationResolver } from "./resolvers/organization";
+import { CategoryResolver } from "./resolvers/category";
+import { ComponentResolver } from "./resolvers/component";
 import { UserResolver } from "./resolvers/user";
 import { authChecker } from "./utils/authChecker";
 
@@ -59,7 +61,13 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, OrganizationResolver, BusinessFieldResolver],
+      resolvers: [
+        UserResolver,
+        OrganizationResolver,
+        BusinessFieldResolver,
+        CategoryResolver,
+        ComponentResolver,
+      ],
       validate: false,
       authChecker: authChecker,
     }),
