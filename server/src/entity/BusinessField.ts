@@ -1,4 +1,4 @@
-import { Authorized, Field, ObjectType } from "type-graphql";
+import { Authorized, Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -11,9 +11,9 @@ import { Organization } from "./Organization";
 @ObjectType()
 @Entity()
 export class BusinessField extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @Field(() => ID)
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
   @Field()
   @Column({ unique: true })
