@@ -4,8 +4,10 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { CalculationResult } from "./CalculationResult";
 import { User } from "./User";
 
 @ObjectType()
@@ -34,4 +36,11 @@ export class DataEntry extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.dataEntries)
   createdBy: User;
+
+  @Field(() => [CalculationResult])
+  @OneToMany(
+    () => CalculationResult,
+    (calculationResult) => calculationResult.dataEntry
+  )
+  calculationResults: CalculationResult[];
 }
