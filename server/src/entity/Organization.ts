@@ -6,9 +6,11 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { BusinessField } from "./BusinessField";
+import { SiteType } from "./SiteType";
 import { User } from "./User";
 
 @ObjectType()
@@ -37,4 +39,10 @@ export class Organization extends BaseEntity {
   )
   @JoinTable()
   businessField: BusinessField;
+
+  @Field(() => [SiteType])
+  @OneToMany(() => SiteType, (siteType) => siteType.organization, {
+    nullable: true,
+  })
+  siteTypes: SiteType[];
 }
