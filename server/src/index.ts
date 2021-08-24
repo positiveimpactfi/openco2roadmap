@@ -9,12 +9,8 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import config from "./config";
 import typeormConfig from "./ormconfig";
-import { BusinessFieldResolver } from "./resolvers/businessField";
+import { resolvers } from "./resolvers";
 // import { requestLogger } from "./utils/requestLogger";
-import { OrganizationResolver } from "./resolvers/organization";
-import { CategoryResolver } from "./resolvers/category";
-import { ComponentResolver } from "./resolvers/component";
-import { UserResolver } from "./resolvers/user";
 import { authChecker } from "./utils/authChecker";
 
 const main = async () => {
@@ -61,13 +57,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [
-        UserResolver,
-        OrganizationResolver,
-        BusinessFieldResolver,
-        CategoryResolver,
-        ComponentResolver,
-      ],
+      resolvers: resolvers,
       validate: false,
       authChecker: authChecker,
     }),
