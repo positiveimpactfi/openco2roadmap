@@ -39,6 +39,7 @@
     "build": "tsc",
     "typeorm": "NODE_ENV=migration ts-node --transpile-only ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
     "migration:run": "yarn typeorm migration:run",
-    "migration:revert": "yarn typeorm migration:revert"
+    "migration:revert": "yarn typeorm migration:revert",
+    "db:seed": "ts-node src/seed/seedAll.ts"
   }
 }
