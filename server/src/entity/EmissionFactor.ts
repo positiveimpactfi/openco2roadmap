@@ -1,3 +1,4 @@
+import { DataSourceType } from "../enums/DataSourceType";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
@@ -41,4 +42,8 @@ export class EmissionFactor extends BaseEntity {
     nullable: true,
   })
   values: Promise<EmissionFactorValue[]>;
+
+  @Field(() => DataSourceType)
+  @Column({ default: DataSourceType.Secondary })
+  dataSourceType: DataSourceType;
 }
