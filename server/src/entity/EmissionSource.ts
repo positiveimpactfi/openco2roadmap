@@ -1,3 +1,4 @@
+import { GHGScope } from "../enums/GHGScope";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
@@ -33,4 +34,8 @@ export class EmissionSource extends BaseEntity {
   @Field(() => Component)
   @ManyToOne(() => Component, (component) => component.emissionSources)
   component: Promise<Component>;
+
+  @Field(() => GHGScope)
+  @Column({ default: GHGScope.Scope3 })
+  scope: GHGScope;
 }
