@@ -3,10 +3,10 @@ import {
   BaseEntity,
   Column,
   Entity,
-  // ManyToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-// import { EmissionSource } from "./EmissionSource";
+import { EmissionSource } from "./EmissionSource";
 
 @ObjectType()
 @Entity()
@@ -27,10 +27,10 @@ export class EmissionFactor extends BaseEntity {
   @Column()
   geographicalArea: string;
 
-  // @Field(() => [EmissionSource])
-  // @ManyToMany(
-  //   () => EmissionSource,
-  //   (emissionSource) => emissionSource.emissionFactors
-  // )
-  // emissionSources: Promise<EmissionSource[]>;
+  @Field(() => [EmissionSource])
+  @ManyToMany(
+    () => EmissionSource,
+    (emissionSource) => emissionSource.emissionFactors
+  )
+  emissionSources: Promise<EmissionSource[]>;
 }
