@@ -41,7 +41,7 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 1. Make sure you're in the `server` directory
 1. Duplicate the `.env.example` file and fill in the missing values
 1. Start the server `docker compose -f docker-compose.dev.yml up --build`
-1. Databases are not populated on first launch, so run the migrations to create an admin user `docker exec -it openco2roadmap-backend yarn migration:run`
+1. Databases are not populated on first launch, so run `yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
 
 ### Deployment
 
