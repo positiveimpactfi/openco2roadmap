@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -11,7 +11,7 @@ import { EmissionFactor } from "./EmissionFactor";
 @ObjectType()
 @Entity()
 export class EmissionFactorValue extends BaseEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
