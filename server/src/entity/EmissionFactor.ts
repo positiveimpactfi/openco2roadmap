@@ -4,8 +4,10 @@ import {
   Column,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { EmissionFactorValue } from "./EmissionFactorValue";
 import { EmissionSource } from "./EmissionSource";
 
 @ObjectType()
@@ -33,4 +35,10 @@ export class EmissionFactor extends BaseEntity {
     (emissionSource) => emissionSource.emissionFactors
   )
   emissionSources: Promise<EmissionSource[]>;
+
+  @Field(() => [EmissionFactorValue], { nullable: true })
+  @OneToMany(() => EmissionFactorValue, (value) => value.emissionFactor, {
+    nullable: true,
+  })
+  values: Promise<EmissionFactorValue[]>;
 }
