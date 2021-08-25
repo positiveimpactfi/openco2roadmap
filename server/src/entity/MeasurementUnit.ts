@@ -32,6 +32,6 @@ export class MeasurementUnit extends BaseEntity {
 
   // conversion factor to the base SI unit
   @Field(() => Float)
-  @Column()
+  @Column({ type: "double precision" })
   conversionFactor: number;
 }
