@@ -1,12 +1,13 @@
-import { Connection, createConnection } from "typeorm";
-import { seedComponents } from "./seedComponents";
+import { createConnection } from "typeorm";
+import typeormConfig from "../ormconfig";
 import { seedAdminOrgAndUser } from "./seedAdmin";
 import { seedBusinessFields } from "./seedBusinessFields";
 import { seedCategories } from "./seedCategories";
-import typeormConfig from "../ormconfig";
+import { seedComponents } from "./seedComponents";
+import { seedUnits } from "./seedUnits";
 
 const seedAll = async () => {
-  const conn: Connection = await createConnection({
+  const conn = await createConnection({
     ...typeormConfig,
     host: "localhost",
   });
@@ -14,6 +15,7 @@ const seedAll = async () => {
   await seedBusinessFields(conn);
   await seedCategories(conn);
   await seedComponents(conn);
+  await seedUnits(conn);
 };
 
 seedAll();

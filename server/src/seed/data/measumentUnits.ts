@@ -1,12 +1,14 @@
-export const quantities = [
-  "Area",
-  "Currency",
-  "Energy",
-  "Length",
-  "Mass",
-  "Time",
-  "Transport",
-  "Volume",
+import { PhysicalQuantity } from "../../entity/PhysicalQuantity";
+
+export const quantities: Partial<PhysicalQuantity>[] = [
+  { name: "Area" },
+  { name: "Currency" },
+  { name: "Energy" },
+  { name: "Length" },
+  { name: "Mass" },
+  { name: "Time" },
+  { name: "Transport" },
+  { name: "Volume" },
 ];
 
 interface Unit {
