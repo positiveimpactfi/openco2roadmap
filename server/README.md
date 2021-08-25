@@ -27,6 +27,8 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 | CORS_ORIGIN      | CORS origin                                     |
 | SENDGRID_API_KEY | SendGrid API key                                |
 | SENDGRID_EMAIL   | SendGrid sender email                           |
+| SUPERADMIN_EMAIL | Email for the initial SuperAdmin user           |
+| SUPERADMIN_PW    | Password for the initial SuperAdmin user        |
 
 ## Getting started
 
