@@ -3,11 +3,12 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
-  // ManyToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-// import { Component } from "./Component";
+import { Component } from "./Component";
 import { EmissionFactor } from "./EmissionFactor";
 
 @ObjectType()
@@ -22,13 +23,14 @@ export class EmissionSource extends BaseEntity {
   name: string;
 
   @Field(() => [EmissionFactor])
+  @JoinTable()
   @ManyToMany(
     () => EmissionFactor,
     (emissionFactor) => emissionFactor.emissionSources
   )
   emissionFactors: Promise<EmissionFactor[]>;
 
-  // @Field(() => Component)
-  // @ManyToOne(() => Component, (component) => component.emissionSources)
-  // component: Promise<Component>;
+  @Field(() => Component)
+  @ManyToOne(() => Component, (component) => component.emissionSources)
+  component: Promise<Component>;
 }

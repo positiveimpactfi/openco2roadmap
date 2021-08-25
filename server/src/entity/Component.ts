@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Category } from "./Category";
+import { EmissionSource } from "./EmissionSource";
 
 @ObjectType()
 @Entity()
@@ -22,4 +24,12 @@ export class Component extends BaseEntity {
   @Field(() => Category)
   @ManyToOne(() => Category, (category) => category.components)
   category: Category;
+
+  @Field(() => [EmissionSource], { nullable: true })
+  @OneToMany(
+    () => EmissionSource,
+    (emissionSource) => emissionSource.component,
+    { nullable: true }
+  )
+  emissionSources: Promise<EmissionSource[]>;
 }
