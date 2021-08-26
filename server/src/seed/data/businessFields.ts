@@ -41,4 +41,7 @@ export const businessFields = [
   {
     name: "Vähittäiskauppa",
   },
+  {
+    name: "Muu",
+  },
 ].sort();
