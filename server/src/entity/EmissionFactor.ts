@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { DataSourceType } from "../enums/DataSourceType";
+import { DataSourceType } from "../types/DataSourceType";
 import { EmissionFactorValue } from "./EmissionFactorValue";
 import { EmissionSource } from "./EmissionSource";
 

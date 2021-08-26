@@ -14,7 +14,7 @@ import { v4 } from "uuid";
 import config from "../config";
 import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
-import { IContext } from "../types";
+import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
 
 @ObjectType()
@@ -44,7 +44,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  me(@Ctx() { req }: IContext) {
+  me(@Ctx() { req }: MyContext) {
     if (!req.session.userId) {
       return null;
     }
@@ -54,7 +54,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async inviteUser(
-    @Ctx() { redis }: IContext,
+    @Ctx() { redis }: MyContext,
     @Arg("email") email: string,
     @Arg("organizationID") organizationID: string,
     @Arg("role") role: string
@@ -73,7 +73,7 @@ export class UserResolver {
 
   @Mutation(() => UserResolverResponse)
   async register(
-    @Ctx() { redis }: IContext,
+    @Ctx() { redis }: MyContext,
     @Arg("token") token: string,
     @Arg("email") email: string,
     @Arg("password") password: string
@@ -136,7 +136,7 @@ export class UserResolver {
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
-    @Ctx() { req }: IContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResolverResponse> {
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -165,7 +165,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  logout(@Ctx() { req, res }: IContext) {
+  logout(@Ctx() { req, res }: MyContext) {
     return new Promise((resolve) =>
       req.session.destroy((err) => {
         res.clearCookie(process.env.COOKIE_NAME as string);

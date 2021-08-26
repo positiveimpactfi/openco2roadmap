@@ -7,7 +7,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { GHGScope } from "../enums/GHGScope";
+import { GHGScope } from "../types/GHGScope";
 import { Component } from "./Component";
 import { EmissionFactor } from "./EmissionFactor";
 

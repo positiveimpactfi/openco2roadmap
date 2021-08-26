@@ -1,3 +1,5 @@
+import { CategoryType } from "../../types/CategoryType";
+
 interface EmissionComponent {
   name: string;
   categoryID: number;
@@ -5,55 +7,52 @@ interface EmissionComponent {
 
 export const emissionComponents: EmissionComponent[] = [
   {
+    name: "Jäähdytys",
+    categoryID: CategoryType.Toimitilat,
+  },
+
+  {
     name: "Lämmitys",
-    categoryID: 1,
+    categoryID: CategoryType.Toimitilat,
   },
   {
     name: "Sähkönkulutus",
-    categoryID: 1,
+    categoryID: CategoryType.Toimitilat,
   },
   {
     name: "Vedenkulutus",
-    categoryID: 1,
+    categoryID: CategoryType.Toimitilat,
   },
   {
-    name: "Kiinteistönhuollon polttoaineet",
-    categoryID: 1,
+    name: "Jäte",
+    categoryID: CategoryType.Toimitilat,
   },
   {
-    name: "Jätteet",
-    categoryID: 1,
+    name: "Kuljetukset",
+    categoryID: CategoryType.Logistiikka,
   },
   {
-    name: "Tavarakuljetukset",
-    categoryID: 2,
-  },
-  {
-    name: "Asiakkaiden kuljetukset",
-    categoryID: 2,
-  },
-  {
-    name: "Työmatkat",
-    categoryID: 2,
+    name: "Henkilömatkat",
+    categoryID: CategoryType.Logistiikka,
   },
   {
     name: "Elintarvikehankinnat",
-    categoryID: 3,
+    categoryID: CategoryType.Hankinnat,
   },
   {
     name: "Palveluhankinnat",
-    categoryID: 3,
+    categoryID: CategoryType.Hankinnat,
   },
   {
     name: "Muut hankinnat",
-    categoryID: 3,
+    categoryID: CategoryType.Hankinnat,
   },
   {
     name: "Yleiset hankinnat",
-    categoryID: 4,
+    categoryID: CategoryType.Hallinto,
   },
   {
     name: "Muut hankinnat",
-    categoryID: 4,
+    categoryID: CategoryType.Hallinto,
   },
 ];
