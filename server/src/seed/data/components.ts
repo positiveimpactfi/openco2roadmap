@@ -20,19 +20,23 @@ export const emissionComponents: EmissionComponent[] = [
     categoryID: CategoryType.Toimitilat,
   },
   {
-    name: "Vedenkulutus",
-    categoryID: CategoryType.Toimitilat,
-  },
-  {
     name: "Jäte",
     categoryID: CategoryType.Toimitilat,
   },
   {
-    name: "Kuljetukset",
+    name: "Kiinteistöhuollon polttoaineet",
+    categoryID: CategoryType.Toimitilat,
+  },
+  {
+    name: "Tavarakuljetukset",
     categoryID: CategoryType.Logistiikka,
   },
   {
-    name: "Henkilömatkat",
+    name: "Asiakkaiden kuljetukset",
+    categoryID: CategoryType.Logistiikka,
+  },
+  {
+    name: "Työmatkat",
     categoryID: CategoryType.Logistiikka,
   },
   {
@@ -52,7 +56,7 @@ export const emissionComponents: EmissionComponent[] = [
     categoryID: CategoryType.Hallinto,
   },
   {
-    name: "Muut hankinnat",
+    name: "Työssäkäyntimatkat",
     categoryID: CategoryType.Hallinto,
   },
 ];
