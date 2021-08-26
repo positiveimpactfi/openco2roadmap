@@ -1,4 +1,3 @@
-import { DataSourceType } from "../enums/DataSourceType";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
@@ -8,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { DataSourceType } from "../enums/DataSourceType";
 import { EmissionFactorValue } from "./EmissionFactorValue";
 import { EmissionSource } from "./EmissionSource";
 

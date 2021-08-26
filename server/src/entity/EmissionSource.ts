@@ -1,4 +1,3 @@
-import { GHGScope } from "../enums/GHGScope";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   BaseEntity,
@@ -6,9 +5,9 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { GHGScope } from "../enums/GHGScope";
 import { Component } from "./Component";
 import { EmissionFactor } from "./EmissionFactor";
 
