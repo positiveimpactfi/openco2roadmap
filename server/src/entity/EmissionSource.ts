@@ -32,8 +32,8 @@ export class EmissionSource extends BaseEntity {
   emissionFactors: Promise<EmissionFactor[]>;
 
   @Field(() => Component)
-  @ManyToOne(() => Component, (component) => component.emissionSources)
-  component: Promise<Component>;
+  @ManyToMany(() => Component, (component) => component.emissionSources)
+  components: Promise<Component>;
 
   @Field(() => GHGScope)
   @Column({ default: GHGScope.Scope3 })

@@ -3,8 +3,9 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Category } from "./Category";
@@ -26,9 +27,10 @@ export class Component extends BaseEntity {
   category: Category;
 
   @Field(() => [EmissionSource], { nullable: true })
-  @OneToMany(
+  @JoinTable()
+  @ManyToMany(
     () => EmissionSource,
-    (emissionSource) => emissionSource.component,
+    (emissionSource) => emissionSource.components,
     { nullable: true }
   )
   emissionSources: Promise<EmissionSource[]>;
