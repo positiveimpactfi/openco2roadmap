@@ -43,6 +43,19 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 1. Start the server `docker compose -f docker-compose.dev.yml up --build`
 1. Databases are not populated on first launch, so run `yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
 
+## Available scripts
+
+| Script           | Description                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| start            | starts the server                                                 |
+| dev              | starts the development server that constantly watches for changes |
+| build            | builds javascript from the typescript source                      |
+| migration:run    | runs all typeorm migrations                                       |
+| migration:revert | reverts the latest applied migration                              |
+| db:seed          | seeds the database with initial data                              |
+| db:drop          | drops the entire database                                         |
+| db:reset         | resets the database = drop then seed                              |
+
 ### Deployment
 
 Instructions for deploying on a server running Ubuntu:
