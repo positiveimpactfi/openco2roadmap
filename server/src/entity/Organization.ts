@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { BusinessField } from "./BusinessField";
+import { KPI } from "./KPI";
 import { SiteType } from "./SiteType";
 import { User } from "./User";
 
@@ -45,4 +46,8 @@ export class Organization extends BaseEntity {
     nullable: true,
   })
   siteTypes: SiteType[];
+
+  @Field(() => [KPI])
+  @OneToMany(() => KPI, (kpi) => kpi.organization)
+  kpis: Promise<KPI[]>;
 }
