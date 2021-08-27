@@ -4,8 +4,10 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { KPIValue } from "./KPIValue";
 import { Organization } from "./Organization";
 
 @ObjectType()
@@ -22,4 +24,8 @@ export class KPI extends BaseEntity {
   @Field(() => Organization)
   @ManyToOne(() => Organization, (organization) => organization.kpis)
   organization: Promise<Organization>;
+
+  @Field(() => [KPIValue])
+  @OneToMany(() => KPIValue, (value) => value.parentKPI)
+  values: Promise<KPIValue[]>;
 }
