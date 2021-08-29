@@ -1,15 +1,11 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import Container from "components/Container";
+import { useApollo } from "lib/apollo";
 import type { AppProps } from "next/app";
 import "tailwindcss/tailwind.css";
 
-const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_URI as string,
-  credentials: "include",
-  cache: new InMemoryCache(),
-});
-
 function MyApp({ Component, pageProps }: AppProps) {
+  const client = useApollo(pageProps);
   return (
     <ApolloProvider client={client}>
       <Container>
