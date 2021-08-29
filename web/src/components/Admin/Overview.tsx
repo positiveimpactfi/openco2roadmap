@@ -1,6 +1,6 @@
 import Menu from "./Menu";
-import { AdminSidebarProps } from "./Sidebar";
-import TopBar from "./TopBar";
+import { AdminSidebarProps } from "../Common/Sidebar";
+import TopBar from "../Common/TopBar";
 
 export type Headings = {
   title?: string;

@@ -1,6 +1,6 @@
 import { MenuAlt1Icon, SearchIcon } from "@heroicons/react/outline";
 import { UserProfileDropdown } from "./UserProfileDropdown";
-import { OverviewProps } from "./Overview";
+import { OverviewProps } from "../Admin/Overview";
 
 export const MobileTopBar: React.FC<OverviewProps> = ({ setSidebarOpen }) => {
   return (

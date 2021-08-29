@@ -1,3 +1,4 @@
+import Container from "components/Common/Container";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery } from "generated/graphql";
 import { isAdmin } from "utils/isAdmin";
@@ -9,7 +10,11 @@ const AdminsOnly: React.FC<Headings> = ({ title, description, children }) => {
 
   const user = data?.me;
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <Container>
+        <LoadingSpinner />
+      </Container>
+    );
   }
 
   if (isAdmin(user)) {

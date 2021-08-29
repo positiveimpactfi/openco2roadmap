@@ -53,7 +53,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
   const { pathname } = useRouter();
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white">
+    <div className="h-screen flex overflow-hidden bg-white text-center">
       <MobileSideBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}

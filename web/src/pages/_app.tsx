@@ -1,5 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
-import Container from "components/Container";
+import Container from "components/Common/Container";
 import { useApollo } from "lib/apollo";
 import type { AppProps } from "next/app";
 import "tailwindcss/tailwind.css";

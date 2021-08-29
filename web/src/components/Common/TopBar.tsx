@@ -1,6 +1,6 @@
 import { DesktopTopBar } from "./DesktopTopBar";
 import { MobileTopBar } from "./MobileTopBar";
-import { OverviewProps } from "./Overview";
+import { OverviewProps } from "../Admin/Overview";
 
 const TopBar: React.FC<OverviewProps> = ({ setSidebarOpen }) => {
   return (

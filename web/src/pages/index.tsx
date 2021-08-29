@@ -1,4 +1,4 @@
-import Container from "components/Container";
+import Container from "components/Common/Container";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery, User } from "generated/graphql";
 import Link from "next/link";
@@ -7,7 +7,11 @@ const Home = () => {
   const { data, loading } = useMeQuery();
   const user = data?.me;
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <Container>
+        <LoadingSpinner />;
+      </Container>
+    );
   }
 
   return (
