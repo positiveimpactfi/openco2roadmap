@@ -15,8 +15,8 @@ import logoImg from "../../../public/logo.svg";
 
 const sidebarNavigation = [
   { name: "Etusivu", href: "/", icon: HomeIcon },
-  { name: "Laskuri", href: "#", icon: CalculatorIcon },
-  { name: "Asetukset", href: "#", icon: CogIcon },
+  { name: "Laskuri", href: "/calculator", icon: CalculatorIcon },
+  { name: "Asetukset", href: "/settings", icon: CogIcon },
   { name: "Hallintapaneeli", href: "/admin", icon: ServerIcon },
 ];
 
