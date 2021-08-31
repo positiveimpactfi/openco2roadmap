@@ -1,6 +1,6 @@
 import { useGetUsersInOrnizationQuery } from "generated/graphql";
 import { useRouter } from "next/router";
-import AdminPanel from "views/AdminPanel";
+import AdminPanel from "components/Admin/AdminPanel";
 
 const Organization: React.FC = () => {
   const router = useRouter();

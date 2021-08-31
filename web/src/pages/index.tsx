@@ -1,4 +1,3 @@
-import Container from "components/Common/Container";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery, User } from "generated/graphql";
 import Link from "next/link";
@@ -8,22 +7,22 @@ const Home = () => {
   const user = data?.me;
   if (loading) {
     return (
-      <Container>
-        <LoadingSpinner />;
-      </Container>
+      <div className="flex h-full justify-center items-center">
+        <LoadingSpinner />
+      </div>
     );
   }
 
   return (
-    <Container>
+    <div className="h-full w-full">
       {user ? <UserLoggedIn user={user} /> : <UserNotLoggedIn />}
-    </Container>
+    </div>
   );
 };
 
 const UserLoggedIn: React.FC<{ user: Partial<User> }> = ({ user }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+    <div className="flex flex-col h-full items-center justify-center w-full flex-1 px-20 text-center">
       <div>{`Moi, ${user.email}`}</div>
       <Link href="/admin" passHref>
         <a className="font-medium text-teal-600 hover:text-teal-500">
@@ -36,7 +35,7 @@ const UserLoggedIn: React.FC<{ user: Partial<User> }> = ({ user }) => {
 
 const UserNotLoggedIn = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full items-center justify-center">
       <div>Et ole kirjautunut!</div>
       <div>
         <Link href="/login" passHref>
