@@ -14,41 +14,27 @@ import { classNames } from "utils/classNames";
 import logoImg from "../../../public/logo.svg";
 
 const sidebarNavigation = [
-  { name: "Etusivu", href: "/", icon: HomeIcon },
-  { name: "Laskuri", href: "/calculator", icon: CalculatorIcon },
-  { name: "Asetukset", href: "/settings", icon: CogIcon },
-  { name: "Hallintapaneeli", href: "/admin", icon: ServerIcon },
+  { name: "Etusivu", href: "/", icon: HomeIcon, current: false },
+  {
+    name: "Laskuri",
+    href: "/calculator",
+    icon: CalculatorIcon,
+    current: false,
+  },
+  { name: "Asetukset", href: "/settings", icon: CogIcon, current: false },
+  { name: "Hallintapaneeli", href: "/admin", icon: ServerIcon, current: true },
 ];
 
-export interface AdminSidebarProps {
-  sidebarOpen: boolean;
-  setSidebarOpen: Dispatch<SetStateAction<boolean>>;
+export interface SidebarProps {
+  sidebarOpen?: boolean;
+  setSidebarOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({
+export const MobileSideBar: React.FC<SidebarProps> = ({
   sidebarOpen,
   setSidebarOpen,
 }) => {
-  const { pathname } = useRouter();
-
-  return (
-    <div className="h-screen flex overflow-hidden bg-white text-center">
-      <MobileSideBar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        currentPath={pathname}
-      />
-      <DesktopSidebar currentPath={pathname} />
-    </div>
-  );
-};
-type MobileSidebarProps = AdminSidebarProps & { currentPath: string };
-
-const MobileSideBar: React.FC<MobileSidebarProps> = ({
-  sidebarOpen,
-  setSidebarOpen,
-  currentPath,
-}) => {
+  const { pathname: currentPath } = useRouter();
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
@@ -93,7 +79,7 @@ const MobileSideBar: React.FC<MobileSidebarProps> = ({
                   className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <span className="sr-only">Close sidebar</span>
+                  <span className="sr-only">Sulje sivupalkki</span>
                   <XIcon className="h-6 w-6 text-white" aria-hidden="true" />
                 </button>
               </div>
@@ -153,48 +139,47 @@ const MobileSideBar: React.FC<MobileSidebarProps> = ({
   );
 };
 
-const DesktopSidebar: React.FC<{
-  currentPath: string;
-}> = ({ currentPath }) => {
+export const DesktopSidebar: React.FC<{}> = () => {
+  const { pathname: currentPath } = useRouter();
   return (
-    <div className="h-screen bg-gray-50 flex overflow-hidden w-full">
-      <div className="hidden w-28 bg-gray-700 overflow-y-auto md:block">
-        <div className="w-full py-6 flex flex-col items-center">
-          <div className="flex-shrink-0 flex items-center ">
-            <div className="h-12 w-12 filter invert hover:animate-pulse">
-              <NextImage src={logoImg} priority alt="Positive Impact Logo" />
+    <div className="hidden md:flex md:flex-shrink-0">
+      <div className="flex flex-col w-28">
+        <div className="min-h-screen hidden w-28 bg-gray-700 overflow-y-auto md:block">
+          <div className="w-full py-6 flex flex-col items-center">
+            <div className="flex-shrink-0 flex items-center ">
+              <div className="h-12 w-12 filter invert hover:animate-pulse">
+                <NextImage src={logoImg} priority alt="Positive Impact Logo" />
+              </div>
             </div>
-          </div>
-          <div className="flex-1 mt-6 w-full px-2 space-y-1">
-            {sidebarNavigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={classNames(
-                  item.href === currentPath
-                    ? "bg-gray-800 text-green-400"
-                    : "text-indigo-100 hover:bg-gray-800 hover:text-white",
-                  "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
-                )}
-                aria-current={item.href === currentPath ? "page" : undefined}
-              >
-                <item.icon
+            <div className="flex-1 mt-6 w-full px-2 space-y-1">
+              {sidebarNavigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
                   className={classNames(
                     item.href === currentPath
-                      ? "text-green-400"
-                      : "text-white group-hover:text-white",
-                    "h-6 w-6"
+                      ? "bg-gray-800 text-green-400"
+                      : "text-indigo-100 hover:bg-gray-800 hover:text-white",
+                    "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
-                  aria-hidden="true"
-                />
-                <span className="mt-2">{item.name}</span>
-              </a>
-            ))}
+                  aria-current={item.href === currentPath ? "page" : undefined}
+                >
+                  <item.icon
+                    className={classNames(
+                      item.href === currentPath
+                        ? "text-green-400"
+                        : "text-white group-hover:text-white",
+                      "h-6 w-6"
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span className="mt-2">{item.name}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default AdminSidebar;
