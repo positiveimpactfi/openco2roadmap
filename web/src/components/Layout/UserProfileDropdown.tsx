@@ -5,6 +5,26 @@ import { Fragment } from "react";
 import logoImg from "../../../public/logo.svg";
 import { classNames } from "../../utils/classNames";
 
+interface MenuItem {
+  href: string;
+  description: string;
+}
+
+const menuItems: MenuItem[] = [
+  {
+    href: "/profile",
+    description: "Katso profiili",
+  },
+  {
+    href: "/settings",
+    description: "Asetukset",
+  },
+  {
+    href: "/notifications",
+    description: "Ilmoitukset",
+  },
+];
+
 export const UserProfileDropdown = () => {
   const [logout] = useLogout();
   return (
@@ -35,68 +55,16 @@ export const UserProfileDropdown = () => {
                 className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none z-10"
               >
                 <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        Katso profiili
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        Asetukset
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        Ilmoitukset
-                      </a>
-                    )}
-                  </Menu.Item>
+                  {menuItems.map((menuItem, i) => (
+                    <MenuItem
+                      key={`menuItem-${i}`}
+                      href={menuItem.href}
+                      description={menuItem.description}
+                    />
+                  ))}
                 </div>
                 <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        Tuki
-                      </a>
-                    )}
-                  </Menu.Item>
+                  <MenuItem href="/help" description="Tuki" />
                 </div>
                 <div className="py-1">
                   <Menu.Item>
@@ -121,5 +89,23 @@ export const UserProfileDropdown = () => {
         )}
       </Menu>
     </div>
+  );
+};
+
+const MenuItem: React.FC<MenuItem> = ({ href, description }) => {
+  return (
+    <Menu.Item>
+      {({ active }) => (
+        <a
+          href={href}
+          className={classNames(
+            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+            "block px-4 py-2 text-sm"
+          )}
+        >
+          {description}
+        </a>
+      )}
+    </Menu.Item>
   );
 };
