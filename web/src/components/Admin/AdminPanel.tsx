@@ -1,23 +1,13 @@
 import Menu from "./Menu";
-import { AdminSidebarProps } from "../Common/Sidebar";
-import TopBar from "../Common/TopBar";
 
 export type Headings = {
   title?: string;
   description?: string;
 };
 
-export type OverviewProps = Pick<AdminSidebarProps, "setSidebarOpen">;
-
-const Overview: React.FC<OverviewProps & Headings> = ({
-  setSidebarOpen,
-  title,
-  description,
-  children,
-}) => {
+const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
   return (
-    <div className="flex flex-col w-full flex-1 overflow-hidden">
-      <TopBar setSidebarOpen={setSidebarOpen} />
+    <div className="flex flex-col w-full h-full flex-1 overflow-hidden">
       <MainContent title={title} description={description}>
         {children}
       </MainContent>
@@ -27,7 +17,7 @@ const Overview: React.FC<OverviewProps & Headings> = ({
 
 const MainContent: React.FC<Headings> = ({ title, description, children }) => {
   return (
-    <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
+    <main className="flex-1 h-full relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
       <div className="px-4 sm:px-6 lg:px-8 py-4 ">
         <Menu />
       </div>
@@ -40,4 +30,4 @@ const MainContent: React.FC<Headings> = ({ title, description, children }) => {
   );
 };
 
-export default Overview;
+export default AdminPanel;

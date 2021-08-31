@@ -1,20 +1,14 @@
-import Container from "components/Common/Container";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery } from "generated/graphql";
 import { isAdmin } from "utils/isAdmin";
-import AdminPanel from "views/AdminPanel";
-import { Headings } from "./Overview";
+import AdminPanel, { Headings } from "./AdminPanel";
 
 const AdminsOnly: React.FC<Headings> = ({ title, description, children }) => {
   const { data, loading } = useMeQuery();
 
   const user = data?.me;
   if (loading) {
-    return (
-      <Container>
-        <LoadingSpinner />
-      </Container>
-    );
+    return <LoadingSpinner />;
   }
 
   if (isAdmin(user)) {
