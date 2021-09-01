@@ -3,7 +3,7 @@ import AdminsOnly from "components/Admin/AdminsOnly";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import SlideOver from "components/SlideOver";
-import { useOrganizationsQuery } from "generated/graphql";
+import { Organization, useOrganizationsQuery } from "generated/graphql";
 import { useState } from "react";
 
 const Organizations = () => {
@@ -12,7 +12,7 @@ const Organizations = () => {
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
   const [orgUnderEdit, setOrgUnderEdit] = useState(null);
 
-  const handleEditOrg = (org: Organization) => {
+  const handleEditOrg = (org: MyOrganization) => {
     setOrgUnderEdit(org);
     setEditOrgFormOpen(true);
   };
@@ -53,29 +53,21 @@ const Organizations = () => {
   );
 };
 
-export interface Organization {
-  id: number;
-  name: string;
-  businessId: string;
-  businessField: string;
-  municipality: string;
-  created: string;
-  lastLoggedIn: string;
-}
-
+export type MyOrganization = Partial<Organization>;
 const OrganizationsTable: React.FC<{
-  handleFormOpen: (org: Organization) => void;
+  handleFormOpen: (org: MyOrganization) => void;
 }> = ({ handleFormOpen }) => {
-  const org: Organization = {
-    id: 1,
+  const org: MyOrganization = {
+    id: "1",
     name: "Matkailuyritys Oy",
-    businessId: "XXXXXX-X",
+    businessID: "XXXXXX-X",
     municipality: "Helsinki",
-    businessField: "Ohjelmapalvelut",
-    created: "10.10.2020",
-    lastLoggedIn: "17.08.2021",
+    businessField: {
+      name: "Ohjelmapalvelut",
+      id: 1,
+    },
   };
-  const organizations: Organization[] = Array(20)
+  const organizations: MyOrganization[] = Array(20)
     .fill(org)
     .map((org, i) => {
       return { ...org, id: org.id + i };
@@ -140,19 +132,19 @@ const OrganizationsTable: React.FC<{
                       {org.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.businessId}
+                      {org.businessID}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {org.municipality}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.businessField}
+                      {org.businessField.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.created}
+                      10.10.2020
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {org.lastLoggedIn}
+                      {Date().toString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button

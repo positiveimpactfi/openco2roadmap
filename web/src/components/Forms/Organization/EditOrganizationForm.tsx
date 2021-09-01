@@ -1,12 +1,12 @@
 import FormField from "components/Forms/Common/FormField";
 import { Form, Formik, FormikProps } from "formik";
-import { Organization } from "pages/admin/organizations";
+import { MyOrganization } from "pages/admin/organizations";
 import Select from "components/Forms/Common/Select";
 import { municipalities } from "data/municipalities";
 import { businessFields } from "data/businessFields";
 
 interface EditOrganizationProps {
-  org: Organization;
+  org: MyOrganization;
 }
 
 const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
@@ -14,7 +14,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
     <Formik
       initialValues={{
         name: org.name,
-        businessId: org.businessId,
+        businessID: org.businessID,
         municipality: org.municipality,
         businessField: org.businessField,
       }}
@@ -36,7 +36,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
             <FormField
               showLabel
               label="Y-tunnus"
-              name="businessId"
+              name="businessID"
               placeholder="Y-tunnus"
               roundedTop
               roundedBottom
