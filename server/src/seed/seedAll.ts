@@ -11,8 +11,8 @@ const seedAll = async () => {
     ...typeormConfig,
     host: "localhost",
   });
-  await seedAdminOrgAndUser(conn);
   await seedBusinessFields(conn);
+  await seedAdminOrgAndUser(conn);
   await seedCategories(conn);
   await seedComponents(conn);
   await seedUnits(conn);
