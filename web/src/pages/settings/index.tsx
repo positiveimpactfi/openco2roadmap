@@ -1,49 +1,32 @@
+import ClientOnly from "components/ClientsOnly";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
-import LoadingSpinner from "components/LoadingSpinner";
-import TabMenu from "components/TabMenu";
-import { settingsLinks } from "data/settingsLinks";
-import { Organization, User } from "generated/graphql";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import SettingsPanel from "components/SettingsPanel";
 
 const MySettingsPage: NextPage = () => {
   return (
-    <main className="flex-1 h-full relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
-      <div className="px-4 sm:px-6 lg:px-8 py-4 ">
-        <SettingsMenu />
-      </div>
-      <div className="px-4 mt-2 sm:px-6 lg:px-8">
-        <h1 className="text-2xl mb-4">Yritysasetukset </h1>
-        <p className="text-md mb-4">
-          Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.
-        </p>
+    <SettingsPanel
+      title="Yritysasetukset"
+      description="Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla. "
+    >
+      <ClientOnly>
         <CompanyInfo />
+      </ClientOnly>
+      <ClientOnly>
         <CompanyKPIs />
-        <CompanyEFs />
-      </div>
-    </main>
+      </ClientOnly>
+      <CompanyEFs />
+    </SettingsPanel>
   );
-};
-
-const SettingsMenu: React.FC = () => {
-  const router = useRouter();
-  const currentTab = {
-    name: "Etusivu",
-    href: "/settings",
-    current: router.pathname === "/settings",
-  };
-  const links = [currentTab, ...settingsLinks];
-
-  return <TabMenu links={links} />;
 };
 
 const CompanyInfo = () => {
   const { user, loading } = useUser();
 
-  if (loading) return <LoadingSpinner />;
-  if (!user) return <div>No user!!</div>;
+  // if (loading) return <div>Ladataan...</div>;
+  if (!user) return null;
   const org = user?.organizations[0];
 
   return (
@@ -62,8 +45,8 @@ const CompanyInfo = () => {
 const CompanyKPIs = () => {
   const { user, loading } = useUser();
 
-  if (loading) return <LoadingSpinner />;
-  if (!user) return <div>No user!</div>;
+  // if (loading) return <div>Ladataan...</div>;
+  if (!user) return null;
   const org = user?.organizations[0];
 
   return (
@@ -80,6 +63,8 @@ const CompanyKPIs = () => {
 };
 
 const CompanyEFs = () => {
+  const { user, loading } = useUser();
+  if (!user) return null;
   return (
     <div className="mt-4">
       <h2 className="text-xl">Omat päästökertoimet</h2>
