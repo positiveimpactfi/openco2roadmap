@@ -33,7 +33,7 @@ export const ContentArea = ({ setMobileMenuOpen, children }) => {
     <div className="flex-1 flex flex-col overflow-hidden">
       <Header setMobileMenuOpen={setMobileMenuOpen} />
       <div className="flex-1 flex items-stretch overflow-hidden">
-        <main className="flex-1 overflow-y-auto">
+        <main className="px-4 pt-4 flex-1 overflow-y-auto">
           {/* Primary column */}
           <section
             aria-labelledby="primary-heading"
