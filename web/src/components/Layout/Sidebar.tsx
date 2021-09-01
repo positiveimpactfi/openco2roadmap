@@ -144,7 +144,7 @@ export const DesktopSidebar: React.FC<{}> = () => {
   const { pathname } = useRouter();
   const currentPath = "/" + pathname.split("/")[1];
   return (
-    <div className="hidden md:flex md:flex-shrink-0">
+    <div className="hidden md:flex md:sticky md:h-screen md:top-0">
       <div className="flex flex-col w-28">
         <div className="min-h-screen hidden w-28 bg-gray-700 overflow-y-auto md:block">
           <div className="w-full py-6 flex flex-col items-center">

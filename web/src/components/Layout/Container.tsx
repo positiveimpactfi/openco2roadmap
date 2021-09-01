@@ -14,7 +14,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
         <title>Open CO2 Roadmap</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen overflow-hidden bg-gray-100">
+      <div className="flex min-h-screen bg-gray-100">
         <DesktopSidebar />
         <MobileSideBar
           sidebarOpen={mobileMenuOpen}
