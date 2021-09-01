@@ -33,21 +33,26 @@ export class Organization extends BaseEntity {
   @Column({ nullable: false })
   businessID!: string;
 
-  @Field(() => BusinessField)
+  @Field()
+  @Column({ nullable: true })
+  municipality: string;
+
+  @Field(() => BusinessField, { nullable: true })
   @ManyToOne(
     () => BusinessField,
-    (businessField) => businessField.organizations
+    (businessField) => businessField.organizations,
+    { eager: true }
   )
   @JoinTable()
   businessField: BusinessField;
 
-  @Field(() => [SiteType])
+  @Field(() => [SiteType], { nullable: true })
   @OneToMany(() => SiteType, (siteType) => siteType.organization, {
     nullable: true,
   })
-  siteTypes: SiteType[];
+  siteTypes?: SiteType[];
 
-  @Field(() => [KPI])
+  @Field(() => [KPI], { nullable: true })
   @OneToMany(() => KPI, (kpi) => kpi.organization)
-  kpis: Promise<KPI[]>;
+  kpis?: Promise<KPI[]>;
 }
