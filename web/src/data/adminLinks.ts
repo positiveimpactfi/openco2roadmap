@@ -2,7 +2,7 @@ import { GlobeAltIcon } from "@heroicons/react/outline";
 
 type HeroIcon = (props: React.ComponentProps<"svg">) => JSX.Element;
 
-export interface AdminLink {
+export interface PageLink {
   name: string;
   description: string;
   icon: HeroIcon;
@@ -10,7 +10,7 @@ export interface AdminLink {
   disabled?: boolean;
 }
 
-export const adminLinks: AdminLink[] = [
+export const adminLinks: PageLink[] = [
   {
     name: "Yritykset",
     description:

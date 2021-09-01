@@ -1,14 +1,14 @@
 import { classNames } from "utils/classNames";
 import { adminLinks } from "data/adminLinks";
 import { useRouter } from "next/router";
-import { AdminLink } from "data/adminLinks";
+import { PageLink } from "data/adminLinks";
 
 const Menu = () => {
   const router = useRouter();
   const linksWithCurrent = adminLinks.map((link) => {
     return { ...link, current: router.pathname.startsWith(link.href) };
   });
-  const currentTab: Partial<AdminLink & { current: boolean }> = {
+  const currentTab: Partial<PageLink & { current: boolean }> = {
     name: "Hallintapaneeli",
     href: "/admin",
     current: router.pathname === "/admin",
