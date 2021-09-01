@@ -34,7 +34,8 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
   sidebarOpen,
   setSidebarOpen,
 }) => {
-  const { pathname: currentPath } = useRouter();
+  const { pathname } = useRouter();
+  const currentPath = "/" + pathname.split("/")[1];
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
@@ -140,7 +141,8 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
 };
 
 export const DesktopSidebar: React.FC<{}> = () => {
-  const { pathname: currentPath } = useRouter();
+  const { pathname } = useRouter();
+  const currentPath = "/" + pathname.split("/")[1];
   return (
     <div className="hidden md:flex md:flex-shrink-0">
       <div className="flex flex-col w-28">
