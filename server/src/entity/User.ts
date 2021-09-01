@@ -45,7 +45,7 @@ export class User extends BaseEntity {
   })
   organizations!: Organization[];
 
-  @Field(() => [DataEntry])
+  @Field(() => [DataEntry], { nullable: true })
   @OneToMany(() => DataEntry, (dataEntry) => dataEntry.createdBy)
-  dataEntries: DataEntry[];
+  dataEntries?: DataEntry[];
 }
