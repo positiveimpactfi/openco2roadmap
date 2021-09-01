@@ -12,6 +12,12 @@ query Me {
     organizations {
       name
       id
+      businessField {
+        name
+        id
+      }
+      businessID
+      municipality
     }
   }
 }

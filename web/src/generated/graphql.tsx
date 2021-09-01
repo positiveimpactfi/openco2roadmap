@@ -180,9 +180,10 @@ export type Organization = {
   id: Scalars['ID'];
   name: Scalars['String'];
   businessID: Scalars['String'];
-  businessField: BusinessField;
-  siteTypes: Array<SiteType>;
-  kpis: Array<Kpi>;
+  municipality: Scalars['String'];
+  businessField?: Maybe<BusinessField>;
+  siteTypes?: Maybe<Array<SiteType>>;
+  kpis?: Maybe<Array<Kpi>>;
 };
 
 export type PhysicalQuantity = {
@@ -244,7 +245,7 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   roles: Array<UserRole>;
   organizations?: Maybe<Array<Organization>>;
-  dataEntries: Array<DataEntry>;
+  dataEntries?: Maybe<Array<DataEntry>>;
 };
 
 export type UserResolverResponse = {
@@ -353,7 +354,11 @@ export type MeQuery = (
       & Pick<UserRole, 'name' | 'id' | 'organizationID'>
     )>, organizations?: Maybe<Array<(
       { __typename?: 'Organization' }
-      & Pick<Organization, 'name' | 'id'>
+      & Pick<Organization, 'name' | 'id' | 'businessID' | 'municipality'>
+      & { businessField?: Maybe<(
+        { __typename?: 'BusinessField' }
+        & Pick<BusinessField, 'name' | 'id'>
+      )> }
     )>> }
   )> }
 );
@@ -585,6 +590,12 @@ export const MeDocument = gql`
     organizations {
       name
       id
+      businessField {
+        name
+        id
+      }
+      businessID
+      municipality
     }
   }
 }
