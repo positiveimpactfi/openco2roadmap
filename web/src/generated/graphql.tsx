@@ -12,13 +12,87 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type BusinessField = {
   __typename?: 'BusinessField';
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   organizations?: Maybe<Array<Organization>>;
+};
+
+export type CalculationResult = {
+  __typename?: 'CalculationResult';
+  id: Scalars['ID'];
+  dateCreated: Scalars['DateTime'];
+  value: Scalars['Float'];
+  dataEntry: DataEntry;
+};
+
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  components: Array<Component>;
+};
+
+export type Component = {
+  __typename?: 'Component';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  category: Category;
+  emissionSources?: Maybe<Array<EmissionSource>>;
+};
+
+export type DataEntry = {
+  __typename?: 'DataEntry';
+  id: Scalars['ID'];
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+  consumptionValue: Scalars['Float'];
+  comments: Scalars['String'];
+  createdBy: User;
+  calculationResults: Array<CalculationResult>;
+};
+
+/** Origin of the data */
+export enum DataSourceType {
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+  Tertiary = 'Tertiary'
+}
+
+
+export type EmissionFactor = {
+  __typename?: 'EmissionFactor';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  source?: Maybe<Scalars['String']>;
+  geographicalArea: Scalars['String'];
+  emissionSources: Array<EmissionSource>;
+  values?: Maybe<Array<EmissionFactorValue>>;
+  dataSourceType: DataSourceType;
+};
+
+export type EmissionFactorValue = {
+  __typename?: 'EmissionFactorValue';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  value: Scalars['Float'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  emissionFactor: EmissionFactor;
+};
+
+export type EmissionSource = {
+  __typename?: 'EmissionSource';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  emissionFactors: Array<EmissionFactor>;
+  components: Component;
+  scope: GhgScope;
 };
 
 export type FieldError = {
@@ -27,26 +101,46 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+/** Greenhouse gas protocol emission scopes */
+export enum GhgScope {
+  Scope1 = 'Scope1',
+  Scope2 = 'Scope2',
+  Scope3 = 'Scope3'
+}
+
+export type Kpi = {
+  __typename?: 'KPI';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  organization: Organization;
+  values: Array<KpiValue>;
+};
+
+export type KpiValue = {
+  __typename?: 'KPIValue';
+  id: Scalars['ID'];
+  year: Scalars['Int'];
+  value: Scalars['Float'];
+  parentKPI: Kpi;
+};
+
+export type MeasurementUnit = {
+  __typename?: 'MeasurementUnit';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  shorthand: Scalars['String'];
+  physicalQuantity: PhysicalQuantity;
+  conversionFactor: Scalars['Float'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createOrganization: Organization;
-  addUserToOrganization: User;
   inviteUser: Scalars['Boolean'];
   register: UserResolverResponse;
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
-};
-
-
-export type MutationCreateOrganizationArgs = {
-  businessID: Scalars['String'];
-  name: Scalars['String'];
-};
-
-
-export type MutationAddUserToOrganizationArgs = {
-  organizationId: Scalars['Int'];
-  userId: Scalars['Int'];
+  createOrganization: Organization;
+  addUserToOrganization: User;
 };
 
 
@@ -69,21 +163,47 @@ export type MutationLoginArgs = {
   email: Scalars['String'];
 };
 
+
+export type MutationCreateOrganizationArgs = {
+  businessID: Scalars['String'];
+  name: Scalars['String'];
+};
+
+
+export type MutationAddUserToOrganizationArgs = {
+  organizationId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
 export type Organization = {
   __typename?: 'Organization';
   id: Scalars['ID'];
   name: Scalars['String'];
   businessID: Scalars['String'];
   businessField: BusinessField;
+  siteTypes: Array<SiteType>;
+  kpis: Array<Kpi>;
+};
+
+export type PhysicalQuantity = {
+  __typename?: 'PhysicalQuantity';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  baseUnit: MeasurementUnit;
+  units: Array<MeasurementUnit>;
 };
 
 export type Query = {
   __typename?: 'Query';
   businessFields: Array<BusinessField>;
-  organizations: Array<Organization>;
-  getUsersInOrganization: Array<User>;
   users: Array<User>;
   me?: Maybe<User>;
+  organizations: Array<Organization>;
+  getUsersInOrganization: Array<User>;
+  categories: Array<Category>;
+  components: Array<Component>;
+  units: Array<MeasurementUnit>;
+  physicalQuantities: Array<PhysicalQuantity>;
 };
 
 
@@ -91,14 +211,40 @@ export type QueryGetUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
 };
 
+export type Site = {
+  __typename?: 'Site';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  siteType: SiteType;
+  city: Scalars['String'];
+  region: Scalars['String'];
+  siteUnits: Array<SiteUnit>;
+};
+
+export type SiteType = {
+  __typename?: 'SiteType';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  organization: Organization;
+  sites: Array<Site>;
+};
+
+export type SiteUnit = {
+  __typename?: 'SiteUnit';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  site: Site;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
   email: Scalars['String'];
-  roles: Array<UserRole>;
-  organizations?: Maybe<Array<Organization>>;
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
+  roles: Array<UserRole>;
+  organizations?: Maybe<Array<Organization>>;
+  dataEntries: Array<DataEntry>;
 };
 
 export type UserResolverResponse = {
@@ -205,7 +351,10 @@ export type MeQuery = (
     & { roles: Array<(
       { __typename?: 'UserRole' }
       & Pick<UserRole, 'name' | 'id' | 'organizationID'>
-    )> }
+    )>, organizations?: Maybe<Array<(
+      { __typename?: 'Organization' }
+      & Pick<Organization, 'name' | 'id'>
+    )>> }
   )> }
 );
 
@@ -432,6 +581,10 @@ export const MeDocument = gql`
       name
       id
       organizationID
+    }
+    organizations {
+      name
+      id
     }
   }
 }
