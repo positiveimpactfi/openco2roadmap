@@ -13,7 +13,7 @@ const SettingsPanel: React.FC<Headings> = ({
       <div className="px-4 sm:px-6 lg:px-8 py-4 ">
         <SettingsMenu />
       </div>
-      <div className="px-4 mt-2 sm:px-6 lg:px-8">
+      <div className="px-4 mt-2 sm:px-6 lg:px-8 pb-10">
         <h1 className="text-2xl mb-4">{title}</h1>
         <p className="text-md mb-4">{description}</p>
         {children}
