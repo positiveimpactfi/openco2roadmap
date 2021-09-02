@@ -24,9 +24,8 @@ const MySettingsPage: NextPage = () => {
 };
 
 const CompanyInfo = () => {
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
-  // if (loading) return <div>Ladataan...</div>;
   if (!user) return null;
   const org = user?.organizations[0];
 
@@ -44,11 +43,9 @@ const CompanyInfo = () => {
 };
 
 const CompanyKPIs = () => {
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
-  // if (loading) return <div>Ladataan...</div>;
   if (!user) return null;
-  const org = user?.organizations[0];
 
   return (
     <div className="mt-4">
@@ -57,7 +54,6 @@ const CompanyKPIs = () => {
         Täytä yrityksen tiedot viimeisimmän tilikauden mukaan.
       </p>
       <div className="max-w-2xl">
-        {/* <EditOrganizationForm org={org} /> */}
         <SectionUnderConstruction />
       </div>
     </div>
@@ -65,7 +61,7 @@ const CompanyKPIs = () => {
 };
 
 const CompanyEFs = () => {
-  const { user, loading } = useUser();
+  const { user } = useUser();
   if (!user) return null;
   return (
     <div className="mt-4">
