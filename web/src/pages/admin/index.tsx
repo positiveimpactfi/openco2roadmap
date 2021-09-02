@@ -1,5 +1,6 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
 import LinksGrid from "components/LinksGrid";
+import { adminLinks } from "data/adminLinks";
 
 const AdminHome = () => {
   return (
@@ -8,7 +9,7 @@ const AdminHome = () => {
       description="Näillä sivuilla voit muokata CO2-laskurin asetuksia. "
     >
       <div className="flex flex-col">
-        <LinksGrid />
+        <LinksGrid links={adminLinks} />
       </div>
     </AdminsOnly>
   );
