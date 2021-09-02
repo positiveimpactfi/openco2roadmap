@@ -4,6 +4,7 @@ import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
 import Link from "next/link";
 import SettingsPanel from "components/SettingsPanel";
+import { SectionUnderConstruction } from "components/UnderConstruction";
 
 const MySettingsPage: NextPage = () => {
   return (
@@ -57,6 +58,7 @@ const CompanyKPIs = () => {
       </p>
       <div className="max-w-2xl">
         {/* <EditOrganizationForm org={org} /> */}
+        <SectionUnderConstruction />
       </div>
     </div>
   );
