@@ -1,0 +1,51 @@
+const CubeIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
+      />
+    </svg>
+  );
+};
+
+export const PageUnderConstruction = () => {
+  return (
+    <div className="flex justify-center items-center space-x-4">
+      <div className="w-28 text-gray-600 font-extralight">
+        <CubeIcon />
+      </div>
+      <div className="flex flex-col space-y-4 max-w-[35ch]">
+        <h3 className="text-lg font-semibold">Sivu rakenteilla</h3>
+        <p>
+          Laskuria kehitetään aktiivisesti ja tälle sivulle tulevat ominaisuudet
+          julkaistaan myöhemmin.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export const SectionUnderConstruction = () => {
+  return (
+    <div className="flex justify-center items-center space-x-4 bg-gray-200">
+      <div className="w-28 text-gray-600 font-extralight">
+        <CubeIcon />
+      </div>
+      <div className="flex flex-col space-y-4 max-w-[35ch]">
+        <h3 className="text-lg font-semibold">Osio rakenteilla</h3>
+        <p>
+          Laskuria kehitetään aktiivisesti ja tämä osio julkaistaan käyttöön
+          myöhemmin.
+        </p>
+      </div>
+    </div>
+  );
+};
