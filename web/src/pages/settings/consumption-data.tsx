@@ -1,8 +1,5 @@
 import SettingsPanel from "components/SettingsPanel";
-import {
-  PageUnderConstruction,
-  SectionUnderConstruction,
-} from "components/UnderConstruction";
+import { PageUnderConstruction } from "components/UnderConstruction";
 
 const ConsumptionSettingsPage = () => {
   return (
