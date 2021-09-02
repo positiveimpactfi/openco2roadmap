@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import { Dispatch, Fragment, SetStateAction } from "react";
 import { classNames } from "utils/classNames";
 import logoImg from "../../../public/logo.svg";
+import EUlogo from "../../../public/EU_flag.svg";
+import VipuVoimaaImg from "../../../public/vipuvoimaaEU.svg";
 
 const sidebarNavigation = [
   { name: "Etusivu", href: "/", icon: HomeIcon, current: false },
@@ -147,37 +149,57 @@ export const DesktopSidebar: React.FC<{}> = () => {
     <div className="hidden md:flex md:sticky md:h-screen md:top-0">
       <div className="flex flex-col w-28">
         <div className="min-h-screen hidden w-28 bg-gray-700 overflow-y-auto md:block">
-          <div className="w-full py-6 flex flex-col items-center">
+          <div className="w-full h-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center ">
               <div className="h-12 w-12 filter invert hover:animate-pulse">
                 <NextImage src={logoImg} priority alt="Positive Impact Logo" />
               </div>
             </div>
-            <div className="flex-1 mt-6 w-full px-2 space-y-1">
-              {sidebarNavigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={classNames(
-                    item.href === currentPath
-                      ? "bg-gray-800 text-green-400"
-                      : "text-indigo-100 hover:bg-gray-800 hover:text-white",
-                    "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
-                  )}
-                  aria-current={item.href === currentPath ? "page" : undefined}
-                >
-                  <item.icon
+            <div className="flex flex-col justify-between h-full">
+              <div className="flex-1 mt-6 w-full px-2 space-y-1">
+                {sidebarNavigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
                     className={classNames(
                       item.href === currentPath
-                        ? "text-green-400"
-                        : "text-white group-hover:text-white",
-                      "h-6 w-6"
+                        ? "bg-gray-800 text-green-400"
+                        : "text-indigo-100 hover:bg-gray-800 hover:text-white",
+                      "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                     )}
-                    aria-hidden="true"
-                  />
-                  <span className="mt-2">{item.name}</span>
-                </a>
-              ))}
+                    aria-current={
+                      item.href === currentPath ? "page" : undefined
+                    }
+                  >
+                    <item.icon
+                      className={classNames(
+                        item.href === currentPath
+                          ? "text-green-400"
+                          : "text-white group-hover:text-white",
+                        "h-6 w-6"
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span className="mt-2">{item.name}</span>
+                  </a>
+                ))}
+              </div>
+              <div className="flex flex-col w-28 ml-auto">
+                <div className="flex flex-col w-24 items-center text-justify">
+                  <div className="flex items-center align-middle">
+                    <NextImage src={EUlogo} alt="EU lippu" priority />
+                  </div>
+                  <div className="text-white text-justify text-xs">
+                    <p className="text-xs">Euroopan unioni</p>
+                    <p className="text-[0.4rem] leading-[0.5rem]">
+                      Euroopan aluekehitysrahasto
+                    </p>
+                  </div>
+                </div>
+                <div className="invert w-24 mt-4">
+                  <NextImage src={VipuVoimaaImg} alt="Vipuvoimaa EU" priority />
+                </div>
+              </div>
             </div>
           </div>
         </div>
