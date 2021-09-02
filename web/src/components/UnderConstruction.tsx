@@ -18,13 +18,13 @@ const CubeIcon = () => {
 
 export const PageUnderConstruction = () => {
   return (
-    <div className="flex justify-center items-center space-x-4">
-      <div className="w-28 text-gray-600 font-extralight">
+    <div className="flex justify-center items-center space-x-4 py-6 pb-8 px-6">
+      <div className="w-24 text-gray-600 font-extralight">
         <CubeIcon />
       </div>
       <div className="flex flex-col space-y-4 max-w-[35ch]">
-        <h3 className="text-lg font-semibold">Sivu rakenteilla</h3>
-        <p>
+        <h3 className="text-lg  text-gray-600">Sivu rakenteilla</h3>
+        <p className="text-gray-600">
           Laskuria kehitetään aktiivisesti ja tälle sivulle tulevat ominaisuudet
           julkaistaan myöhemmin.
         </p>
@@ -35,13 +35,13 @@ export const PageUnderConstruction = () => {
 
 export const SectionUnderConstruction = () => {
   return (
-    <div className="flex justify-center items-center space-x-4 bg-gray-200">
-      <div className="w-28 text-gray-600 font-extralight">
+    <div className="flex justify-start items-center space-x-4 bg-gray-200 py-6 pb-8 px-6">
+      <div className="w-24 text-gray-600 font-extralight">
         <CubeIcon />
       </div>
-      <div className="flex flex-col space-y-4 max-w-[35ch]">
-        <h3 className="text-lg font-semibold">Osio rakenteilla</h3>
-        <p>
+      <div className="flex flex-col items-start justify-start space-y-4 max-w-[35ch]">
+        <h3 className="text-lg text-gray-600">Osio rakenteilla</h3>
+        <p className="text-gray-600">
           Laskuria kehitetään aktiivisesti ja tämä osio julkaistaan käyttöön
           myöhemmin.
         </p>
