@@ -9,7 +9,7 @@ const AdminHome = () => {
       title="Hallintapaneeli MVP"
       description="Näillä sivuilla voit muokata CO2-laskurin asetuksia. "
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col items-start">
         <LinksGrid links={activeLinks} />
       </div>
     </AdminsOnly>
