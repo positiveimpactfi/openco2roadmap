@@ -155,7 +155,7 @@ export const DesktopSidebar: React.FC<{}> = () => {
                 <NextImage src={logoImg} priority alt="Positive Impact Logo" />
               </div>
             </div>
-            <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full w-full">
               <div className="flex-1 mt-6 w-full px-2 space-y-1">
                 {sidebarNavigation.map((item) => (
                   <a
@@ -185,19 +185,25 @@ export const DesktopSidebar: React.FC<{}> = () => {
                 ))}
               </div>
               <div className="flex flex-col w-28 ml-auto">
-                <div className="flex flex-col w-24 items-center text-justify">
-                  <div className="flex items-center align-middle">
+                <div className="flex flex-col w-28 items-center text-justify">
+                  <div className="w-20 ">
                     <NextImage src={EUlogo} alt="EU lippu" priority />
                   </div>
-                  <div className="text-white text-justify text-xs">
+                  <div className="text-white text-center">
                     <p className="text-xs">Euroopan unioni</p>
                     <p className="text-[0.4rem] leading-[0.5rem]">
                       Euroopan aluekehitysrahasto
                     </p>
                   </div>
                 </div>
-                <div className="invert w-24 mt-4">
-                  <NextImage src={VipuVoimaaImg} alt="Vipuvoimaa EU" priority />
+                <div className="ml-auto invert w-24 mt-4">
+                  <div className="w-20">
+                    <NextImage
+                      src={VipuVoimaaImg}
+                      alt="Vipuvoimaa EU"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
             </div>
