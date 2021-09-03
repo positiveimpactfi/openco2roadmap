@@ -91,8 +91,8 @@ const OrganizationsTable: React.FC<OrgTableProps> = ({
                 <tr key={org.id}>
                   <TableCell value={org.name} />
                   <TableCell value={org.businessID} />
-                  <TableCell value={org.municipality.name} />
-                  <TableCell value={org.businessField.name} />
+                  <TableCell value={org.municipality?.name} />
+                  <TableCell value={org.businessField?.name} />
                   <TableCell value="10.10.2020" />
                   <TableCell value={Date()} />
                   <TableCellOpenOptions fn={() => handleFormOpen(org)} />
