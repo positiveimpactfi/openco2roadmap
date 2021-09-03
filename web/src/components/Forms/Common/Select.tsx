@@ -3,12 +3,18 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { Fragment, SelectHTMLAttributes, useState } from "react";
 import { classNames } from "utils/classNames";
 
+interface SelectOption {
+  id: number | string;
+  name: string;
+}
+
 interface Props {
-  options: any;
+  options: SelectOption[];
   showLabel?: boolean;
   label?: string;
   name: string;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  selectedValue?: SelectOption;
 }
 
 export type SelectProps = Props & SelectHTMLAttributes<HTMLSelectElement>;
@@ -19,8 +25,13 @@ const Select: React.FC<SelectProps> = ({
   label,
   name,
   setFieldValue,
+  selectedValue,
 }) => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(() =>
+    !selectedValue
+      ? null
+      : options.filter((option) => option.name === selectedValue.name)[0]
+  );
   const handleChange = (val) => {
     setSelected(val);
     setFieldValue(name, val.name);
