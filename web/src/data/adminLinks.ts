@@ -17,6 +17,7 @@ export const adminLinks: PageLink[] = [
       "Luettelo kaikista laskuria käyttävistä yrityksistä. Voit lisätä uusia yrityksiä, ja muokata yritysten tietoja. Yritysten poistaminen laskurista ei ole tätä kautta mahdollista. ",
     icon: GlobeAltIcon,
     href: "/admin/organizations",
+    disabled: true,
   },
   {
     name: "Päästökertoimet",

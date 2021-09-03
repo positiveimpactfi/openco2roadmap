@@ -9,7 +9,8 @@ const Menu = () => {
     href: "/admin",
     current: router.pathname === "/admin",
   };
-  const tabs = [currentTab, ...adminLinks];
+  const activeLinks = adminLinks.filter((link) => !link.disabled);
+  const tabs = [currentTab, ...activeLinks];
 
   return <TabMenu links={tabs} />;
 };
