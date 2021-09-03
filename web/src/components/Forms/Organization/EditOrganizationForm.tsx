@@ -1,9 +1,9 @@
 import FormField from "components/Forms/Common/FormField";
+import Select from "components/Forms/Common/Select";
+import { businessFields } from "data/businessFields";
+import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { MyOrganization } from "pages/admin/organizations";
-import Select from "components/Forms/Common/Select";
-import { municipalities } from "data/municipalities";
-import { businessFields } from "data/businessFields";
 
 interface EditOrganizationProps {
   org: MyOrganization;
@@ -43,11 +43,12 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
               required
             />
             <Select
-              name="Kotikunta"
+              name="municipality"
               showLabel
               label="Kotikunta"
               setFieldValue={setFieldValue}
               options={municipalities}
+              selectedValue={org.municipality}
             />
             <Select
               name="Toimiala"
@@ -55,6 +56,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
               label="Toimiala"
               setFieldValue={setFieldValue}
               options={businessFields}
+              selectedValue={org.businessField}
             />
             <div className="pt-5">
               <div className="flex justify-end">
