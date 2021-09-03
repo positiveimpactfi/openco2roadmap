@@ -5,6 +5,7 @@ import { seedBusinessFields } from "./seedBusinessFields";
 import { seedCategories } from "./seedCategories";
 import { seedComponents } from "./seedComponents";
 import { seedUnits } from "./seedUnits";
+import { seedMunicipalities } from "./seedMunicipalities";
 
 const seedAll = async () => {
   const conn = await createConnection({
@@ -12,6 +13,7 @@ const seedAll = async () => {
     host: "localhost",
   });
   await seedBusinessFields(conn);
+  await seedMunicipalities(conn);
   await seedAdminOrgAndUser(conn);
   await seedCategories(conn);
   await seedComponents(conn);
