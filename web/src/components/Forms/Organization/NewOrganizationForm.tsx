@@ -3,7 +3,10 @@ import Select from "components/Forms/Common/Select";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
-import { useCreateOrganizationMutation } from "generated/graphql";
+import {
+  AllOrganizationsDocument,
+  useCreateOrganizationMutation,
+} from "generated/graphql";
 import { Dispatch, SetStateAction } from "react";
 
 interface FormValues {
@@ -27,10 +30,14 @@ const NewOrganizationForm: React.FC<{
     <Formik
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
-        const response = await addOrganization({ variables: values });
+        const response = await addOrganization({
+          variables: values,
+          refetchQueries: [AllOrganizationsDocument],
+        });
         if (response.data.createOrganization.id) {
           setSubmitting(false);
           resetForm();
+          setSlideoverOpen(false);
         } else {
           console.error("Failed to add organization");
         }
