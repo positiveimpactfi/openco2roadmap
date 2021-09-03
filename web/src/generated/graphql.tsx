@@ -133,6 +133,14 @@ export type MeasurementUnit = {
   conversionFactor: Scalars['Float'];
 };
 
+export type Municipality = {
+  __typename?: 'Municipality';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  stateCode: Scalars['Float'];
+  state: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   inviteUser: Scalars['Boolean'];
@@ -180,7 +188,7 @@ export type Organization = {
   id: Scalars['ID'];
   name: Scalars['String'];
   businessID: Scalars['String'];
-  municipality: Scalars['String'];
+  municipality?: Maybe<Municipality>;
   businessField?: Maybe<BusinessField>;
   siteTypes?: Maybe<Array<SiteType>>;
   kpis?: Maybe<Array<Kpi>>;
@@ -199,12 +207,13 @@ export type Query = {
   businessFields: Array<BusinessField>;
   users: Array<User>;
   me?: Maybe<User>;
-  organizations: Array<Organization>;
+  allOrganizations: Array<Organization>;
   getUsersInOrganization: Array<User>;
   categories: Array<Category>;
   components: Array<Component>;
   units: Array<MeasurementUnit>;
   physicalQuantities: Array<PhysicalQuantity>;
+  allMunicipalities: Array<Municipality>;
 };
 
 
@@ -328,6 +337,35 @@ export type RegisterMutation = (
   ) }
 );
 
+export type AllMunicipalitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllMunicipalitiesQuery = (
+  { __typename?: 'Query' }
+  & { allMunicipalities: Array<(
+    { __typename?: 'Municipality' }
+    & Pick<Municipality, 'id' | 'name' | 'state' | 'stateCode'>
+  )> }
+);
+
+export type AllOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllOrganizationsQuery = (
+  { __typename?: 'Query' }
+  & { allOrganizations: Array<(
+    { __typename?: 'Organization' }
+    & Pick<Organization, 'name' | 'id' | 'businessID'>
+    & { businessField?: Maybe<(
+      { __typename?: 'BusinessField' }
+      & Pick<BusinessField, 'name' | 'id'>
+    )>, municipality?: Maybe<(
+      { __typename?: 'Municipality' }
+      & Pick<Municipality, 'name' | 'state' | 'id' | 'stateCode'>
+    )> }
+  )> }
+);
+
 export type GetUsersInOrnizationQueryVariables = Exact<{
   organizationID: Scalars['String'];
 }>;
@@ -354,23 +392,15 @@ export type MeQuery = (
       & Pick<UserRole, 'name' | 'id' | 'organizationID'>
     )>, organizations?: Maybe<Array<(
       { __typename?: 'Organization' }
-      & Pick<Organization, 'name' | 'id' | 'businessID' | 'municipality'>
+      & Pick<Organization, 'name' | 'id' | 'businessID'>
       & { businessField?: Maybe<(
         { __typename?: 'BusinessField' }
         & Pick<BusinessField, 'name' | 'id'>
+      )>, municipality?: Maybe<(
+        { __typename?: 'Municipality' }
+        & Pick<Municipality, 'name' | 'state' | 'id' | 'stateCode'>
       )> }
     )>> }
-  )> }
-);
-
-export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OrganizationsQuery = (
-  { __typename?: 'Query' }
-  & { organizations: Array<(
-    { __typename?: 'Organization' }
-    & Pick<Organization, 'id' | 'name'>
   )> }
 );
 
@@ -539,6 +569,89 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const AllMunicipalitiesDocument = gql`
+    query AllMunicipalities {
+  allMunicipalities {
+    id
+    name
+    state
+    stateCode
+  }
+}
+    `;
+
+/**
+ * __useAllMunicipalitiesQuery__
+ *
+ * To run a query within a React component, call `useAllMunicipalitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllMunicipalitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllMunicipalitiesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllMunicipalitiesQuery(baseOptions?: Apollo.QueryHookOptions<AllMunicipalitiesQuery, AllMunicipalitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllMunicipalitiesQuery, AllMunicipalitiesQueryVariables>(AllMunicipalitiesDocument, options);
+      }
+export function useAllMunicipalitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllMunicipalitiesQuery, AllMunicipalitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllMunicipalitiesQuery, AllMunicipalitiesQueryVariables>(AllMunicipalitiesDocument, options);
+        }
+export type AllMunicipalitiesQueryHookResult = ReturnType<typeof useAllMunicipalitiesQuery>;
+export type AllMunicipalitiesLazyQueryHookResult = ReturnType<typeof useAllMunicipalitiesLazyQuery>;
+export type AllMunicipalitiesQueryResult = Apollo.QueryResult<AllMunicipalitiesQuery, AllMunicipalitiesQueryVariables>;
+export const AllOrganizationsDocument = gql`
+    query AllOrganizations {
+  allOrganizations {
+    businessField {
+      name
+      id
+    }
+    name
+    id
+    municipality {
+      name
+      state
+      id
+      stateCode
+    }
+    businessID
+  }
+}
+    `;
+
+/**
+ * __useAllOrganizationsQuery__
+ *
+ * To run a query within a React component, call `useAllOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllOrganizationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<AllOrganizationsQuery, AllOrganizationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllOrganizationsQuery, AllOrganizationsQueryVariables>(AllOrganizationsDocument, options);
+      }
+export function useAllOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllOrganizationsQuery, AllOrganizationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllOrganizationsQuery, AllOrganizationsQueryVariables>(AllOrganizationsDocument, options);
+        }
+export type AllOrganizationsQueryHookResult = ReturnType<typeof useAllOrganizationsQuery>;
+export type AllOrganizationsLazyQueryHookResult = ReturnType<typeof useAllOrganizationsLazyQuery>;
+export type AllOrganizationsQueryResult = Apollo.QueryResult<AllOrganizationsQuery, AllOrganizationsQueryVariables>;
 export const GetUsersInOrnizationDocument = gql`
     query GetUsersInOrnization($organizationID: String!) {
   getUsersInOrganization(organizationID: $organizationID) {
@@ -595,7 +708,12 @@ export const MeDocument = gql`
         id
       }
       businessID
-      municipality
+      municipality {
+        name
+        state
+        id
+        stateCode
+      }
     }
   }
 }
@@ -627,41 +745,6 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const OrganizationsDocument = gql`
-    query Organizations {
-  organizations {
-    id
-    name
-  }
-}
-    `;
-
-/**
- * __useOrganizationsQuery__
- *
- * To run a query within a React component, call `useOrganizationsQuery` and pass it any options that fit your needs.
- * When your component renders, `useOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useOrganizationsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
-      }
-export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
-        }
-export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
-export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
-export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {

@@ -1,0 +1,17 @@
+query AllOrganizations {
+  allOrganizations {
+    businessField {
+      name
+      id
+    }
+    name
+    id
+    municipality {
+      name
+      state
+      id
+      stateCode
+    }
+    businessID
+  }
+}

@@ -1,0 +1,8 @@
+query AllMunicipalities {
+  allMunicipalities {
+    id
+    name
+    state
+    stateCode
+  }
+}
