@@ -67,4 +67,8 @@ export const businessFields: BusinessField[] = [
     id: 14,
     name: "Vähittäiskauppa",
   },
+  {
+    id: 15,
+    name: "Muu",
+  },
 ].sort((a, b) => compareString(a.name, b.name));
