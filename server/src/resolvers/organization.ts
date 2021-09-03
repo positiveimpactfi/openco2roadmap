@@ -4,9 +4,9 @@ import { User } from "../entity/User";
 
 @Resolver(Organization)
 export class OrganizationResolver {
-  @Authorized("SUPERADMIN")
+  @Authorized(["SUPERADMIN", "ADMIN"])
   @Query(() => [Organization])
-  organizations(): Promise<Organization[]> {
+  allOrganizations(): Promise<Organization[]> {
     return Organization.find({});
   }
 
