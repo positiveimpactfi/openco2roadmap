@@ -3,11 +3,11 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { Organization, useOrganizationsQuery } from "generated/graphql";
+import { Organization, useAllOrganizationsQuery } from "generated/graphql";
 import { useState } from "react";
 
 const Organizations = () => {
-  const { loading } = useOrganizationsQuery();
+  const { data, loading } = useAllOrganizationsQuery();
   const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
   const [orgUnderEdit, setOrgUnderEdit] = useState(null);
@@ -16,6 +16,10 @@ const Organizations = () => {
     setOrgUnderEdit(org);
     setEditOrgFormOpen(true);
   };
+
+  if (loading) return <div>ladataan...</div>;
+  if (!data.allOrganizations) return <div>jotain meni pieleen</div>;
+
   return (
     <AdminsOnly
       title="Yritykset"
@@ -46,7 +50,10 @@ const Organizations = () => {
           >
             Uusi yritys
           </button>
-          <OrganizationsTable handleFormOpen={handleEditOrg} />
+          <OrganizationsTable
+            handleFormOpen={handleEditOrg}
+            organizations={data.allOrganizations}
+          />
         </>
       )}
     </AdminsOnly>
@@ -55,25 +62,15 @@ const Organizations = () => {
 
 export type MyOrganization = Partial<Organization>;
 
-const OrganizationsTable: React.FC<{
+interface OrgTableProps {
   handleFormOpen: (org: MyOrganization) => void;
-}> = ({ handleFormOpen }) => {
-  const org: MyOrganization = {
-    id: "1",
-    name: "Matkailuyritys Oy",
-    businessID: "XXXXXX-X",
-    municipality: "Helsinki",
-    businessField: {
-      name: "Ohjelmapalvelut",
-      id: 1,
-    },
-  };
-  const organizations: MyOrganization[] = Array(20)
-    .fill(org)
-    .map((org, i) => {
-      return { ...org, id: org.id + i };
-    });
+  organizations: Organization[];
+}
 
+const OrganizationsTable: React.FC<OrgTableProps> = ({
+  handleFormOpen,
+  organizations,
+}) => {
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -94,7 +91,7 @@ const OrganizationsTable: React.FC<{
                 <tr key={org.id}>
                   <TableCell value={org.name} />
                   <TableCell value={org.businessID} />
-                  <TableCell value={org.municipality} />
+                  <TableCell value={org.municipality.name} />
                   <TableCell value={org.businessField.name} />
                   <TableCell value="10.10.2020" />
                   <TableCell value={Date()} />
