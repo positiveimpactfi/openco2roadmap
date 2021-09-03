@@ -1,5 +1,6 @@
-import { adminLinks, PageLink } from "data/adminLinks";
+import { PageLink } from "data/adminLinks";
 import { classNames } from "utils/classNames";
+import Link from "next/link";
 
 const LinksGrid: React.FC<{ links: PageLink[] }> = ({ links }) => {
   return (
@@ -8,21 +9,25 @@ const LinksGrid: React.FC<{ links: PageLink[] }> = ({ links }) => {
         <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-2 ">
           {links.map((link) => (
             <div key={link.name}>
-              <div className="flex flex-row">
-                <span className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-md bg-indigo-500">
-                  <link.icon
-                    className="h-6 w-6 text-white"
-                    aria-hidden="true"
-                  />
-                </span>
+              <div className="flex flex-row group">
+                <Link href={link.href} passHref>
+                  <span className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-md bg-teal-500 group-hover:bg-teal-600">
+                    <link.icon
+                      className="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
                 <div className="flex flex-col ml-4">
                   <h3
                     className={classNames(
                       link.disabled ? "text-gray-300" : "text-black",
-                      "text-lg font-medium leading-none"
+                      "text-lg font-medium leading-none group-hover:text-gray-600"
                     )}
                   >
-                    {link.name}
+                    <Link href={link.href} passHref>
+                      {link.name}
+                    </Link>
                   </h3>
                   <p
                     className={classNames(
