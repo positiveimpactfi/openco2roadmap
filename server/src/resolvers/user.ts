@@ -39,7 +39,7 @@ class UserResolverResponse {
 export class UserResolver {
   @Authorized(["SUPERADMIN", "ADMIN"])
   @Query(() => [User])
-  users(): Promise<User[]> {
+  allUsers(): Promise<User[]> {
     return User.find({});
   }
 
