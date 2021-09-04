@@ -6,6 +6,7 @@ import { ComponentResolver } from "./resolvers/component";
 import { MeasurementUnitResolver } from "./resolvers/measurementUnit";
 import { PhysicalQuantityResolver } from "./resolvers/physicalQuantity";
 import { MunicipalityResolver } from "./resolvers/municipality";
+import { SiteTypeResolver } from "./resolvers/siteType";
 
 export const resolvers = [
   UserResolver,
@@ -16,4 +17,5 @@ export const resolvers = [
   MeasurementUnitResolver,
   PhysicalQuantityResolver,
   MunicipalityResolver,
+  SiteTypeResolver,
 ] as const;
