@@ -12,7 +12,7 @@ export class OrganizationResolver {
 
   @Authorized("SUPERADMIN")
   @Query(() => [User])
-  async getUsersInOrganization(
+  async usersInOrganization(
     @Arg("organizationID") organizationID: string
   ): Promise<User[]> {
     const org = await Organization.findOne(organizationID, {
