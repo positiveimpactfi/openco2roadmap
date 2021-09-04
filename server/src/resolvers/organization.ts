@@ -1,6 +1,17 @@
-import { Arg, Authorized, Int, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { Organization } from "../entity/Organization";
 import { User } from "../entity/User";
+import { UserRoleType as Role } from "../types/UserRoles";
+import { SiteType } from "../entity/SiteType";
+import { MyContext } from "../types/MyContext";
 
 @Resolver(Organization)
 export class OrganizationResolver {
@@ -56,5 +67,24 @@ export class OrganizationResolver {
     await org.save();
 
     return user;
+  }
+
+  @Authorized([
+    Role.SUPERADMIN,
+    Role.ADMIN,
+    Role.COMPANY_ADMIN,
+    Role.COMPANY_USER,
+  ])
+  @Query(() => [SiteType])
+  async siteTypes(@Ctx() { req }: MyContext): Promise<SiteType[] | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      throw Error("invalid session cookie!");
+    }
+    const org = await Organization.findOne(user.organizations[0], {
+      relations: ["siteTypes"],
+    });
+    const siteTypes = org?.siteTypes;
+    return siteTypes;
   }
 }
