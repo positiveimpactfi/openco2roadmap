@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { BusinessField } from "./BusinessField";
 import { KPI } from "./KPI";
+import { Municipality } from "./Municipality";
 import { SiteType } from "./SiteType";
 import { User } from "./User";
 
@@ -33,9 +34,9 @@ export class Organization extends BaseEntity {
   @Column({ nullable: false })
   businessID!: string;
 
-  @Field()
-  @Column({ nullable: true })
-  municipality: string;
+  @Field(() => Municipality, { nullable: true })
+  @ManyToOne(() => Municipality, { eager: true })
+  municipality?: Municipality;
 
   @Field(() => BusinessField, { nullable: true })
   @ManyToOne(
