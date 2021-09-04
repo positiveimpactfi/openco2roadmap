@@ -16,6 +16,7 @@ import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
+import { UserRoleType } from "../types/UserRoles";
 
 @ObjectType()
 class FieldError {
@@ -69,6 +70,51 @@ export class UserResolver {
     };
     await sendEmail(email, emailObject);
     return true;
+  }
+
+  @Authorized([UserRoleType.SUPERADMIN, UserRoleType.ADMIN])
+  @Mutation(() => UserResolverResponse)
+  async createUser(
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("organizationID") organizationID: string,
+    @Arg("role") role: UserRoleType
+  ): Promise<UserResolverResponse> {
+    const possibleUser = await User.findOne({ where: { email } });
+    if (possibleUser) {
+      return {
+        errors: [
+          {
+            field: "email",
+            message: "user already exists",
+          },
+        ],
+      };
+    }
+    const org = await Organization.findOne(organizationID);
+    if (!org) {
+      return {
+        errors: [
+          {
+            field: "organization",
+            message: "organization does not exist",
+          },
+        ],
+      };
+    }
+    const userRole = await UserRole.create({
+      organizationID,
+      name: role,
+    }).save();
+    const hashedPassword = await argon2.hash(password);
+    const user = await User.create({
+      email,
+      password: hashedPassword,
+      organizations: [org],
+      roles: [userRole],
+    }).save();
+
+    return { user };
   }
 
   @Mutation(() => UserResolverResponse)
