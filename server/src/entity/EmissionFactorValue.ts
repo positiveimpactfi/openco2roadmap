@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -16,22 +16,18 @@ export class EmissionFactorValue extends BaseEntity {
   id!: string;
 
   @Field()
-  @Column()
-  name!: string;
-
-  @Field()
   @Column({ type: "double precision" })
   value: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  startDate: Date;
+  startDate: number;
 
-  @Field()
+  @Field(() => Int)
   @Column()
-  endDate: Date;
+  endDate: number;
 
   @Field(() => EmissionFactor)
   @ManyToOne(() => EmissionFactor, (emissionFactor) => emissionFactor.values)
-  emissionFactor: Promise<EmissionFactor>;
+  emissionFactor: EmissionFactor;
 }
