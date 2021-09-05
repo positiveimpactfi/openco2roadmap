@@ -44,6 +44,15 @@ export const seedUnits = async (conn: Connection) => {
       })
     );
   const savedAreaUnits = await conn.manager.save(MeasurementUnit, unitsToSave);
+  savedQuantities[0].baseUnit = savedAreaUnits[0];
+  savedQuantities[1].baseUnit = savedAreaUnits[4];
+  savedQuantities[2].baseUnit = savedAreaUnits[5];
+  savedQuantities[3].baseUnit = savedAreaUnits[14];
+  savedQuantities[4].baseUnit = savedAreaUnits[20];
+  savedQuantities[5].baseUnit = savedAreaUnits[23];
+  savedQuantities[6].baseUnit = savedAreaUnits[29];
+  savedQuantities[7].baseUnit = savedAreaUnits[30];
+  await conn.manager.save(PhysicalQuantity, savedQuantities);
 
   console.log("saved area units", savedAreaUnits);
   console.log("======= FINISHED SEEDING QUANTITIES AND UNITS =====");
