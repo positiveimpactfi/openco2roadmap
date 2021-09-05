@@ -25,7 +25,7 @@ export class SiteType extends BaseEntity {
   @ManyToOne(() => Organization, (organization) => organization.siteTypes)
   organization: Organization;
 
-  @Field(() => [Site])
-  @OneToMany(() => Site, (site) => site.siteType)
-  sites: Site[];
+  @Field(() => [Site], { nullable: true })
+  @OneToMany(() => Site, (site) => site.siteType, { nullable: true })
+  sites?: Promise<Site[]>;
 }
