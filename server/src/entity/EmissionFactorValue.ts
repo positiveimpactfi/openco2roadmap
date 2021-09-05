@@ -4,8 +4,10 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { DataEntry } from "./DataEntry";
 import { EmissionFactor } from "./EmissionFactor";
 
 @ObjectType()
@@ -30,4 +32,8 @@ export class EmissionFactorValue extends BaseEntity {
   @Field(() => EmissionFactor)
   @ManyToOne(() => EmissionFactor, (emissionFactor) => emissionFactor.values)
   emissionFactor: EmissionFactor;
+
+  @Field(() => [DataEntry])
+  @OneToMany(() => DataEntry, (dataEntry) => dataEntry.emissionFactorValue, {})
+  dataEntries: Promise<DataEntry[]>;
 }

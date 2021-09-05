@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { CalculationResult } from "./CalculationResult";
+import { EmissionFactorValue } from "./EmissionFactorValue";
 import { SiteUnit } from "./SiteUnit";
 import { User } from "./User";
 
@@ -20,18 +21,18 @@ export class DataEntry extends BaseEntity {
 
   @Field()
   @Column()
-  startDate: string;
+  startDate: Date;
 
   @Field()
   @Column()
-  endDate: string;
+  endDate: Date;
 
   @Field()
   @Column()
   consumptionValue: number;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   comments: string;
 
   @Field(() => User)
@@ -48,4 +49,8 @@ export class DataEntry extends BaseEntity {
   @Field(() => SiteUnit)
   @ManyToOne(() => SiteUnit, (siteUnit) => siteUnit.dataEntries)
   siteUnit: SiteUnit;
+
+  @Field()
+  @ManyToOne(() => EmissionFactorValue, (EFValue) => EFValue.dataEntries)
+  emissionFactorValue: EmissionFactorValue;
 }
