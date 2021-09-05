@@ -3,9 +3,11 @@ import {
   BaseEntity,
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Municipality } from "./Municipality";
 import { SiteType } from "./SiteType";
 import { SiteUnit } from "./SiteUnit";
 
@@ -21,18 +23,17 @@ export class Site extends BaseEntity {
   name!: string;
 
   @Field(() => SiteType)
-  @OneToMany(() => SiteType, (siteType) => siteType.sites)
+  @ManyToOne(() => SiteType, (siteType) => siteType.sites)
   siteType: SiteType;
 
-  @Field()
-  @Column()
-  city: string;
+  @Field(() => Municipality, { nullable: true })
+  @ManyToOne(() => Municipality, { eager: true })
+  municipality?: Municipality;
 
-  @Field()
-  @Column()
-  region: string;
-
-  @Field(() => [SiteUnit])
-  @OneToMany(() => SiteUnit, (siteUnit) => siteUnit.site)
+  @Field(() => [SiteUnit], { nullable: true })
+  @OneToMany(() => SiteUnit, (siteUnit) => siteUnit.site, {
+    nullable: true,
+    eager: true,
+  })
   siteUnits: SiteUnit[];
 }
