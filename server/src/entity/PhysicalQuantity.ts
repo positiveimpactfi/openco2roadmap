@@ -8,6 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { EmissionFactor } from "./EmissionFactor";
 import { MeasurementUnit } from "./MeasurementUnit";
 
 @ObjectType()
@@ -29,4 +30,11 @@ export class PhysicalQuantity extends BaseEntity {
   @Field(() => [MeasurementUnit])
   @OneToMany(() => MeasurementUnit, (unit) => unit.physicalQuantity)
   units: Promise<MeasurementUnit[]>;
+
+  @Field(() => [EmissionFactor], { defaultValue: [] })
+  @OneToMany(
+    () => EmissionFactor,
+    (emissionFactor) => emissionFactor.physicalQuantity
+  )
+  emissionFactors: Promise<EmissionFactor[]>;
 }

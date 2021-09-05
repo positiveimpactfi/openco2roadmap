@@ -4,12 +4,14 @@ import {
   Column,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { DataSourceType } from "../types/DataSourceType";
 import { EmissionFactorValue } from "./EmissionFactorValue";
 import { EmissionSource } from "./EmissionSource";
+import { PhysicalQuantity } from "./PhysicalQuantity";
 
 @ObjectType()
 @Entity()
@@ -26,8 +28,8 @@ export class EmissionFactor extends BaseEntity {
   @Column({ nullable: true })
   source?: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   geographicalArea: string;
 
   @Field(() => [EmissionSource])
@@ -37,7 +39,7 @@ export class EmissionFactor extends BaseEntity {
   )
   emissionSources: Promise<EmissionSource[]>;
 
-  @Field(() => [EmissionFactorValue], { nullable: true })
+  @Field(() => [EmissionFactorValue], { defaultValue: [] })
   @OneToMany(() => EmissionFactorValue, (value) => value.emissionFactor, {
     nullable: true,
   })
@@ -46,4 +48,11 @@ export class EmissionFactor extends BaseEntity {
   @Field(() => DataSourceType)
   @Column({ default: DataSourceType.Secondary })
   dataSourceType: DataSourceType;
+
+  @Field(() => PhysicalQuantity)
+  @ManyToOne(
+    () => PhysicalQuantity,
+    (physicalQuantity) => physicalQuantity.emissionFactors
+  )
+  physicalQuantity: PhysicalQuantity;
 }
