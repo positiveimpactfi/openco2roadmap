@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { CalculationResult } from "./CalculationResult";
+import { SiteUnit } from "./SiteUnit";
 import { User } from "./User";
 
 @ObjectType()
@@ -43,4 +44,8 @@ export class DataEntry extends BaseEntity {
     (calculationResult) => calculationResult.dataEntry
   )
   calculationResults: CalculationResult[];
+
+  @Field(() => SiteUnit)
+  @ManyToOne(() => SiteUnit, (siteUnit) => siteUnit.dataEntries)
+  siteUnit: SiteUnit;
 }

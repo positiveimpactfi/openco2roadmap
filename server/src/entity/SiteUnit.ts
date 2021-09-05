@@ -4,8 +4,10 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { DataEntry } from "./DataEntry";
 import { Site } from "./Site";
 
 @ObjectType()
@@ -22,4 +24,10 @@ export class SiteUnit extends BaseEntity {
   @Field(() => Site)
   @ManyToOne(() => Site, (site) => site.siteUnits)
   site: Site;
+
+  @Field(() => [DataEntry], { defaultValue: [] })
+  @OneToMany(() => DataEntry, (dataEntry) => dataEntry.siteUnit, {
+    nullable: true,
+  })
+  dataEntries: Promise<DataEntry[]>;
 }
