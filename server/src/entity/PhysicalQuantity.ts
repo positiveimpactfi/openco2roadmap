@@ -23,7 +23,7 @@ export class PhysicalQuantity extends BaseEntity {
   name!: string;
 
   @Field(() => MeasurementUnit)
-  @OneToOne(() => MeasurementUnit)
+  @OneToOne(() => MeasurementUnit, { eager: true })
   @JoinColumn()
   baseUnit: MeasurementUnit;
 
