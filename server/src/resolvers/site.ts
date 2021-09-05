@@ -34,7 +34,7 @@ export class SiteResolver {
     }).save();
     const defaultSiteUnit = await SiteUnit.create({
       site: newSite,
-      name: "default",
+      name: "default_" + name,
     }).save();
     newSite.siteUnits.push(defaultSiteUnit);
     await newSite.save();
