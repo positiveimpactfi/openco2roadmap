@@ -3,6 +3,17 @@
   "version": "0.0.1",
   "description": "Open CO2 roadmap backend",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon -L src/index.ts",
+    "build": "tsc",
+    "typeorm": "NODE_ENV=migration ts-node --transpile-only ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
+    "migration:run": "yarn typeorm migration:run",
+    "migration:revert": "yarn typeorm migration:revert",
+    "db:seed": "ts-node src/seed/seedAll.ts",
+    "db:drop": "ts-node src/dropDb.ts",
+    "db:reset": "yarn db:drop && yarn db:seed"
+  },
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",
     "@types/cors": "^2.8.10",
@@ -32,16 +43,5 @@
     "type-graphql": "^1.1.1",
     "typeorm": "0.2.32",
     "uuid": "^8.3.2"
-  },
-  "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon -L src/index.ts",
-    "build": "tsc",
-    "typeorm": "NODE_ENV=migration ts-node --transpile-only ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
-    "migration:run": "yarn typeorm migration:run",
-    "migration:revert": "yarn typeorm migration:revert",
-    "db:seed": "ts-node src/seed/seedAll.ts",
-    "db:drop": "ts-node src/dropDb.ts",
-    "db:reset": "yarn db:drop && yarn db:seed"
   }
 }
