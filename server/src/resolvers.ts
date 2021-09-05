@@ -10,6 +10,7 @@ import { SiteTypeResolver } from "./resolvers/siteType";
 import { SiteResolver } from "./resolvers/site";
 import { SiteUnitResolver } from "./resolvers/siteUnit";
 import { EmissionSourceResolver } from "./resolvers/emissionSource";
+import { EmissionFactorResolver } from "./resolvers/emissionFactor";
 
 export const resolvers = [
   UserResolver,
@@ -24,4 +25,5 @@ export const resolvers = [
   SiteResolver,
   SiteUnitResolver,
   EmissionSourceResolver,
+  EmissionFactorResolver,
 ] as const;
