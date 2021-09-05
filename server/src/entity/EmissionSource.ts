@@ -22,7 +22,7 @@ export class EmissionSource extends BaseEntity {
   @Column()
   name: string;
 
-  @Field(() => [EmissionFactor])
+  @Field(() => [EmissionFactor], { defaultValue: [] })
   @JoinTable()
   @ManyToMany(
     () => EmissionFactor,
@@ -34,7 +34,7 @@ export class EmissionSource extends BaseEntity {
   @ManyToMany(() => Component, (component) => component.emissionSources)
   components: Promise<Component>;
 
-  @Field(() => GHGScope)
+  @Field(() => GHGScope, { defaultValue: GHGScope.Scope3 })
   @Column({ default: GHGScope.Scope3 })
   scope: GHGScope;
 }

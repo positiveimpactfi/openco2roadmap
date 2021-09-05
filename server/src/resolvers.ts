@@ -9,6 +9,7 @@ import { MunicipalityResolver } from "./resolvers/municipality";
 import { SiteTypeResolver } from "./resolvers/siteType";
 import { SiteResolver } from "./resolvers/site";
 import { SiteUnitResolver } from "./resolvers/siteUnit";
+import { EmissionSourceResolver } from "./resolvers/emissionSource";
 
 export const resolvers = [
   UserResolver,
@@ -22,4 +23,5 @@ export const resolvers = [
   SiteTypeResolver,
   SiteResolver,
   SiteUnitResolver,
+  EmissionSourceResolver,
 ] as const;
