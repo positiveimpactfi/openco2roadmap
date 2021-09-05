@@ -8,6 +8,7 @@ import { PhysicalQuantityResolver } from "./resolvers/physicalQuantity";
 import { MunicipalityResolver } from "./resolvers/municipality";
 import { SiteTypeResolver } from "./resolvers/siteType";
 import { SiteResolver } from "./resolvers/site";
+import { SiteUnitResolver } from "./resolvers/siteUnit";
 
 export const resolvers = [
   UserResolver,
@@ -20,4 +21,5 @@ export const resolvers = [
   MunicipalityResolver,
   SiteTypeResolver,
   SiteResolver,
+  SiteUnitResolver,
 ] as const;
