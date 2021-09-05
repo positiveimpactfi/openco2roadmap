@@ -51,7 +51,7 @@ export class Organization extends BaseEntity {
   @OneToMany(() => SiteType, (siteType) => siteType.organization, {
     nullable: true,
   })
-  siteTypes?: SiteType[];
+  siteTypes?: Promise<SiteType[]>;
 
   @Field(() => [KPI], { nullable: true })
   @OneToMany(() => KPI, (kpi) => kpi.organization)
