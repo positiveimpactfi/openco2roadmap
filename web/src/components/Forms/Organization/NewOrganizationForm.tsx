@@ -5,6 +5,8 @@ import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import {
   AllOrganizationsDocument,
+  BusinessField,
+  Municipality,
   useCreateOrganizationMutation,
 } from "generated/graphql";
 import { Dispatch, SetStateAction } from "react";
@@ -12,8 +14,8 @@ import { Dispatch, SetStateAction } from "react";
 interface FormValues {
   name: string;
   businessID: string;
-  municipality?: string;
-  businessField?: string;
+  municipality?: Municipality;
+  businessField?: BusinessField;
 }
 
 const NewOrganizationForm: React.FC<{
@@ -22,8 +24,8 @@ const NewOrganizationForm: React.FC<{
   const initialValues: FormValues = {
     name: "",
     businessID: "",
-    municipality: "",
-    businessField: "",
+    municipality: null,
+    businessField: null,
   };
   const [addOrganization] = useCreateOrganizationMutation();
   return (
@@ -31,7 +33,12 @@ const NewOrganizationForm: React.FC<{
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const response = await addOrganization({
-          variables: values,
+          variables: {
+            name: values.name,
+            businessID: values.businessID,
+            municipalityID: values.municipality?.id,
+            businessFieldID: values.businessField?.id,
+          },
           refetchQueries: [AllOrganizationsDocument],
         });
         if (response.data.createOrganization.id) {
