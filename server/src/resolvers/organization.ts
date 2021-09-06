@@ -2,6 +2,8 @@ import {
   Arg,
   Authorized,
   Ctx,
+  Field,
+  InputType,
   Int,
   Mutation,
   Query,
@@ -15,6 +17,21 @@ import { MyContext } from "../types/MyContext";
 import { BusinessField } from "../entity/BusinessField";
 import { Municipality } from "../entity/Municipality";
 import { inverseNullish } from "../utils/inverseNullish";
+
+@InputType()
+class OrganizationInput {
+  @Field()
+  name: string;
+
+  @Field()
+  businessID: string;
+
+  @Field(() => Int, { nullable: true })
+  businessFieldID: number;
+
+  @Field(() => Int, { nullable: true })
+  municipalityID: number;
+}
 
 @Resolver(Organization)
 export class OrganizationResolver {
@@ -42,11 +59,8 @@ export class OrganizationResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Mutation(() => Organization)
   async createOrganization(
-    @Arg("name") name: string,
-    @Arg("businessID") businessID: string,
-    @Arg("businessFieldID", () => Int, { nullable: true })
-    businessFieldID: number,
-    @Arg("municipalityID", () => Int, { nullable: true }) municipalityID: number
+    @Arg("data")
+    { name, municipalityID, businessFieldID, businessID }: OrganizationInput
   ): Promise<Organization | undefined> {
     const businessField = inverseNullish(
       businessFieldID,
