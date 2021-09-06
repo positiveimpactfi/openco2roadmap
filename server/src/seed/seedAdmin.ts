@@ -6,6 +6,7 @@ import config from "../config";
 import argon2 from "argon2";
 import { BusinessField } from "../entity/BusinessField";
 import { Municipality } from "../entity/Municipality";
+import { Role } from "../types/Role";
 
 export const seedAdminOrgAndUser = async (conn: Connection) => {
   const businessField = await BusinessField.findOne(15);
@@ -20,7 +21,7 @@ export const seedAdminOrgAndUser = async (conn: Connection) => {
     municipality: municipality,
   });
   const role = await conn.manager.save(UserRole, {
-    name: "SUPERADMIN",
+    name: Role.SUPERADMIN,
     organizationID: adminOrg.id,
   });
   const adminUser = await conn.manager.save(User, {
