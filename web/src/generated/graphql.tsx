@@ -192,10 +192,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationCreateOrganizationArgs = {
-  municipalityID?: Maybe<Scalars['Int']>;
-  businessFieldID?: Maybe<Scalars['Int']>;
-  businessID: Scalars['String'];
-  name: Scalars['String'];
+  data: OrganizationInput;
 };
 
 
@@ -263,6 +260,13 @@ export type Organization = {
   businessField?: Maybe<BusinessField>;
   siteTypes?: Maybe<Array<SiteType>>;
   kpis?: Maybe<Array<Kpi>>;
+};
+
+export type OrganizationInput = {
+  name: Scalars['String'];
+  businessID: Scalars['String'];
+  businessFieldID?: Maybe<Scalars['Int']>;
+  municipalityID?: Maybe<Scalars['Int']>;
 };
 
 export type PhysicalQuantity = {
@@ -351,10 +355,7 @@ export type UserRole = {
 };
 
 export type CreateOrganizationMutationVariables = Exact<{
-  name: Scalars['String'];
-  businessID: Scalars['String'];
-  municipalityID?: Maybe<Scalars['Int']>;
-  businessFieldID?: Maybe<Scalars['Int']>;
+  data: OrganizationInput;
 }>;
 
 
@@ -506,13 +507,8 @@ export type GetUsersInOrnizationQuery = (
 
 
 export const CreateOrganizationDocument = gql`
-    mutation CreateOrganization($name: String!, $businessID: String!, $municipalityID: Int, $businessFieldID: Int) {
-  createOrganization(
-    name: $name
-    businessID: $businessID
-    municipalityID: $municipalityID
-    businessFieldID: $businessFieldID
-  ) {
+    mutation CreateOrganization($data: OrganizationInput!) {
+  createOrganization(data: $data) {
     id
     name
     businessID
@@ -542,10 +538,7 @@ export type CreateOrganizationMutationFn = Apollo.MutationFunction<CreateOrganiz
  * @example
  * const [createOrganizationMutation, { data, loading, error }] = useCreateOrganizationMutation({
  *   variables: {
- *      name: // value for 'name'
- *      businessID: // value for 'businessID'
- *      municipalityID: // value for 'municipalityID'
- *      businessFieldID: // value for 'businessFieldID'
+ *      data: // value for 'data'
  *   },
  * });
  */

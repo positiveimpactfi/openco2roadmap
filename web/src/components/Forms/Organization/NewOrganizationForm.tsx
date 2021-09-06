@@ -34,10 +34,12 @@ const NewOrganizationForm: React.FC<{
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const response = await addOrganization({
           variables: {
-            name: values.name,
-            businessID: values.businessID,
-            municipalityID: values.municipality?.id,
-            businessFieldID: values.businessField?.id,
+            data: {
+              name: values.name,
+              businessID: values.businessID,
+              municipalityID: values.municipality?.id,
+              businessFieldID: values.businessField?.id,
+            },
           },
           refetchQueries: [AllOrganizationsDocument],
         });
