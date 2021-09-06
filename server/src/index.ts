@@ -12,6 +12,7 @@ import typeormConfig from "./ormconfig";
 import { resolvers } from "./resolvers";
 // import { requestLogger } from "./utils/requestLogger";
 import { authChecker } from "./utils/authChecker";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
 const main = async () => {
   await createConnection(typeormConfig);
@@ -66,12 +67,18 @@ const main = async () => {
       res,
       redis,
     }),
+    plugins: [
+      ApolloServerPluginLandingPageGraphQLPlayground({
+        settings: { "request.credentials": "include" },
+      }),
+    ],
   });
+  await apolloServer.start();
 
   apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(config.PORT, () => {
-    console.log(`server started on port ${config.PORT}`);
+    console.log(`🚀 Server started at http://localhost:${config.PORT}/graphql`);
   });
 };
 
