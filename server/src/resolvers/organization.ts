@@ -12,6 +12,9 @@ import { User } from "../entity/User";
 import { Role } from "../types/Role";
 import { SiteType } from "../entity/SiteType";
 import { MyContext } from "../types/MyContext";
+import { BusinessField } from "../entity/BusinessField";
+import { Municipality } from "../entity/Municipality";
+import { inverseNullish } from "../utils/inverseNullish";
 
 @Resolver(Organization)
 export class OrganizationResolver {
@@ -36,16 +39,39 @@ export class OrganizationResolver {
     return users;
   }
 
-  @Authorized("SUPERADMIN")
+  @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Mutation(() => Organization)
-  createOrganization(
+  async createOrganization(
     @Arg("name") name: string,
-    @Arg("businessID") businessID: string
-  ): Promise<Organization> {
-    return Organization.create({
+    @Arg("businessID") businessID: string,
+    @Arg("businessFieldID", () => Int, { nullable: true })
+    businessFieldID: number,
+    @Arg("municipalityID", { nullable: true }) municipalityID: number
+  ): Promise<Organization | undefined> {
+    const businessField = inverseNullish(
+      businessFieldID,
+      await BusinessField.findOne(businessFieldID)
+    );
+    if (!businessField) {
+      console.log("no business field");
+    }
+    const municipality = inverseNullish(
+      municipalityID,
+      await Municipality.findOne(municipalityID)
+    );
+    if (!municipality) {
+      console.log("no municipality");
+    }
+
+    const newOrg = await Organization.create({
       name,
       businessID,
+      businessField,
+      municipality,
     }).save();
+
+    console.log("new org", newOrg);
+    return newOrg;
   }
 
   @Authorized(["SUPERADMIN", "ADMIN"])
