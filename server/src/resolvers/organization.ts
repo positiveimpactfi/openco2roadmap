@@ -46,7 +46,7 @@ export class OrganizationResolver {
     @Arg("businessID") businessID: string,
     @Arg("businessFieldID", () => Int, { nullable: true })
     businessFieldID: number,
-    @Arg("municipalityID", { nullable: true }) municipalityID: number
+    @Arg("municipalityID", () => Int, { nullable: true }) municipalityID: number
   ): Promise<Organization | undefined> {
     const businessField = inverseNullish(
       businessFieldID,
