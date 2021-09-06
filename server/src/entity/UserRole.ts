@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Role } from "../types/Role";
 
 @ObjectType()
 @Entity()
@@ -9,7 +10,7 @@ export class UserRole extends BaseEntity {
   id: number;
 
   @Field()
-  @Column({ default: "COMPANY_USER" })
+  @Column({ type: "enum", enum: Role, default: Role.COMPANY_USER })
   name: string;
 
   @Field()
