@@ -46,7 +46,11 @@ export class EmissionFactor extends BaseEntity {
   values: Promise<EmissionFactorValue[]>;
 
   @Field(() => DataSourceType)
-  @Column({ default: DataSourceType.Secondary })
+  @Column({
+    type: "enum",
+    enum: DataSourceType,
+    default: DataSourceType.Secondary,
+  })
   dataSourceType: DataSourceType;
 
   @Field(() => PhysicalQuantity)
