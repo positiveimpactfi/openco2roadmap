@@ -9,7 +9,7 @@ import {
 } from "type-graphql";
 import { Organization } from "../entity/Organization";
 import { User } from "../entity/User";
-import { UserRoleType as Role } from "../types/UserRoles";
+import { Role } from "../types/Role";
 import { SiteType } from "../entity/SiteType";
 import { MyContext } from "../types/MyContext";
 

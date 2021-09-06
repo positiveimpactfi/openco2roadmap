@@ -1,7 +1,7 @@
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
-import { UserRoleType as Role } from "../types/UserRoles";
+import { Role } from "../types/Role";
 
 @Resolver(EmissionFactorValue)
 export class EmissionFactorValueResolver {

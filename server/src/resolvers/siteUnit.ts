@@ -1,6 +1,6 @@
 import { SiteUnit } from "../entity/SiteUnit";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
-import { UserRoleType as Role } from "../types/UserRoles";
+import { Role } from "../types/Role";
 import { Site } from "../entity/Site";
 
 @Resolver(SiteUnit)

@@ -16,7 +16,7 @@ import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
-import { UserRoleType } from "../types/UserRoles";
+import { Role } from "../types/Role";
 
 @ObjectType()
 class FieldError {
@@ -72,13 +72,13 @@ export class UserResolver {
     return true;
   }
 
-  @Authorized([UserRoleType.SUPERADMIN, UserRoleType.ADMIN])
+  @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Mutation(() => UserResolverResponse)
   async createUser(
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Arg("organizationID") organizationID: string,
-    @Arg("role") role: UserRoleType
+    @Arg("role") role: Role
   ): Promise<UserResolverResponse> {
     const possibleUser = await User.findOne({ where: { email } });
     if (possibleUser) {

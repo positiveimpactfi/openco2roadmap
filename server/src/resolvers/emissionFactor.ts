@@ -3,7 +3,7 @@ import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionSource } from "../entity/EmissionSource";
 import { PhysicalQuantity } from "../entity/PhysicalQuantity";
 import { DataSourceType } from "../types/DataSourceType";
-import { UserRoleType as Role } from "../types/UserRoles";
+import { Role } from "../types/Role";
 
 @Resolver(EmissionFactor)
 export class EmissionFactorResolver {

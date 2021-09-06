@@ -3,7 +3,7 @@ import { Site } from "../entity/Site";
 import { SiteType } from "../entity/SiteType";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { SiteUnit } from "../entity/SiteUnit";
-import { UserRoleType as Role } from "../types/UserRoles";
+import { Role } from "../types/Role";
 import { MyContext } from "../types/MyContext";
 import { User } from "../entity/User";
 
