@@ -1,6 +1,25 @@
-mutation CreateOrganization($name: String!, $businessID: String!) {
-  createOrganization(name: $name, businessID: $businessID) {
+mutation CreateOrganization(
+  $name: String!
+  $businessID: String!
+  $municipalityID: Int
+  $businessFieldID: Int
+) {
+  createOrganization(
+    name: $name
+    businessID: $businessID
+    municipalityID: $municipalityID
+    businessFieldID: $businessFieldID
+  ) {
     id
     name
+    businessID
+    businessField {
+      id
+      name
+    }
+    municipality {
+      name
+      state
+    }
   }
 }

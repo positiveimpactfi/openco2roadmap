@@ -1,5 +1,5 @@
 query GetUsersInOrnization($organizationID: String!) {
-  getUsersInOrganization(organizationID: $organizationID) {
+  usersInOrganization(organizationID: $organizationID) {
     id
     email
   }

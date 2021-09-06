@@ -49,12 +49,14 @@ export type Component = {
 export type DataEntry = {
   __typename?: 'DataEntry';
   id: Scalars['ID'];
-  startDate: Scalars['String'];
-  endDate: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
   consumptionValue: Scalars['Float'];
-  comments: Scalars['String'];
+  comments?: Maybe<Scalars['String']>;
   createdBy: User;
   calculationResults: Array<CalculationResult>;
+  siteUnit: SiteUnit;
+  emissionFactorValue: EmissionFactorValue;
 };
 
 /** Origin of the data */
@@ -70,29 +72,30 @@ export type EmissionFactor = {
   id: Scalars['ID'];
   name: Scalars['String'];
   source?: Maybe<Scalars['String']>;
-  geographicalArea: Scalars['String'];
+  geographicalArea?: Maybe<Scalars['String']>;
   emissionSources: Array<EmissionSource>;
   values?: Maybe<Array<EmissionFactorValue>>;
   dataSourceType: DataSourceType;
+  physicalQuantity: PhysicalQuantity;
 };
 
 export type EmissionFactorValue = {
   __typename?: 'EmissionFactorValue';
   id: Scalars['ID'];
-  name: Scalars['String'];
   value: Scalars['Float'];
-  startDate: Scalars['DateTime'];
-  endDate: Scalars['DateTime'];
+  startDate: Scalars['Int'];
+  endDate: Scalars['Int'];
   emissionFactor: EmissionFactor;
+  dataEntries: Array<DataEntry>;
 };
 
 export type EmissionSource = {
   __typename?: 'EmissionSource';
   id: Scalars['ID'];
   name: Scalars['String'];
-  emissionFactors: Array<EmissionFactor>;
+  emissionFactors?: Maybe<Array<EmissionFactor>>;
   components: Component;
-  scope: GhgScope;
+  scope?: Maybe<GhgScope>;
 };
 
 export type FieldError = {
@@ -144,17 +147,33 @@ export type Municipality = {
 export type Mutation = {
   __typename?: 'Mutation';
   inviteUser: Scalars['Boolean'];
+  createUser: UserResolverResponse;
   register: UserResolverResponse;
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   createOrganization: Organization;
   addUserToOrganization: User;
+  createSiteType: SiteType;
+  createSite: Site;
+  createSiteUnit: SiteUnit;
+  createEmissionSource: EmissionSource;
+  createEmissionFactor: EmissionFactor;
+  createEmissionFactorValue: EmissionFactorValue;
+  createDataEntry: DataEntry;
 };
 
 
 export type MutationInviteUserArgs = {
   role: Scalars['String'];
   organizationID: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
+export type MutationCreateUserArgs = {
+  role: Scalars['String'];
+  organizationID: Scalars['String'];
+  password: Scalars['String'];
   email: Scalars['String'];
 };
 
@@ -173,6 +192,8 @@ export type MutationLoginArgs = {
 
 
 export type MutationCreateOrganizationArgs = {
+  municipalityID?: Maybe<Scalars['Int']>;
+  businessFieldID?: Maybe<Scalars['Int']>;
   businessID: Scalars['String'];
   name: Scalars['String'];
 };
@@ -181,6 +202,56 @@ export type MutationCreateOrganizationArgs = {
 export type MutationAddUserToOrganizationArgs = {
   organizationId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type MutationCreateSiteTypeArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateSiteArgs = {
+  municipalityID: Scalars['Float'];
+  siteTypeID: Scalars['String'];
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateSiteUnitArgs = {
+  siteID: Scalars['String'];
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateEmissionSourceArgs = {
+  name: Scalars['String'];
+  componentIDs: Array<Scalars['String']>;
+};
+
+
+export type MutationCreateEmissionFactorArgs = {
+  dataSourceType?: Maybe<DataSourceType>;
+  source?: Maybe<Scalars['String']>;
+  physicalQuantityID: Scalars['Float'];
+  name: Scalars['String'];
+  emissionSourceIDs: Array<Scalars['String']>;
+};
+
+
+export type MutationCreateEmissionFactorValueArgs = {
+  endDate: Scalars['Float'];
+  startDate: Scalars['Float'];
+  value: Scalars['Float'];
+  emissionFactorID: Scalars['String'];
+};
+
+
+export type MutationCreateDataEntryArgs = {
+  consumptionValue: Scalars['Float'];
+  endDate: Scalars['DateTime'];
+  startDate: Scalars['DateTime'];
+  emissionsFactorValueID: Scalars['String'];
+  siteUnitID: Scalars['String'];
 };
 
 export type Organization = {
@@ -200,24 +271,33 @@ export type PhysicalQuantity = {
   name: Scalars['String'];
   baseUnit: MeasurementUnit;
   units: Array<MeasurementUnit>;
+  emissionFactors?: Maybe<Array<EmissionFactor>>;
 };
 
 export type Query = {
   __typename?: 'Query';
   businessFields: Array<BusinessField>;
-  users: Array<User>;
+  allUsers: Array<User>;
   me?: Maybe<User>;
   allOrganizations: Array<Organization>;
-  getUsersInOrganization: Array<User>;
+  usersInOrganization: Array<User>;
+  siteTypes: Array<SiteType>;
   categories: Array<Category>;
   components: Array<Component>;
   units: Array<MeasurementUnit>;
   physicalQuantities: Array<PhysicalQuantity>;
   allMunicipalities: Array<Municipality>;
+  allSites: Array<Site>;
+  allSitesInMyOrganization: Array<Site>;
+  allSiteUnits: Array<SiteUnit>;
+  allEmissionSources: Array<EmissionSource>;
+  allEmissionFactors: Array<EmissionFactor>;
+  allEmissionFactorValues: Array<EmissionFactorValue>;
+  allDataEntries: Array<DataEntry>;
 };
 
 
-export type QueryGetUsersInOrganizationArgs = {
+export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
 };
 
@@ -226,9 +306,8 @@ export type Site = {
   id: Scalars['ID'];
   name: Scalars['String'];
   siteType: SiteType;
-  city: Scalars['String'];
-  region: Scalars['String'];
-  siteUnits: Array<SiteUnit>;
+  municipality?: Maybe<Municipality>;
+  siteUnits?: Maybe<Array<SiteUnit>>;
 };
 
 export type SiteType = {
@@ -236,7 +315,7 @@ export type SiteType = {
   id: Scalars['ID'];
   name: Scalars['String'];
   organization: Organization;
-  sites: Array<Site>;
+  sites?: Maybe<Array<Site>>;
 };
 
 export type SiteUnit = {
@@ -244,6 +323,7 @@ export type SiteUnit = {
   id: Scalars['ID'];
   name: Scalars['String'];
   site: Site;
+  dataEntries?: Maybe<Array<DataEntry>>;
 };
 
 export type User = {
@@ -273,6 +353,8 @@ export type UserRole = {
 export type CreateOrganizationMutationVariables = Exact<{
   name: Scalars['String'];
   businessID: Scalars['String'];
+  municipalityID?: Maybe<Scalars['Int']>;
+  businessFieldID?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -280,7 +362,14 @@ export type CreateOrganizationMutation = (
   { __typename?: 'Mutation' }
   & { createOrganization: (
     { __typename?: 'Organization' }
-    & Pick<Organization, 'id' | 'name'>
+    & Pick<Organization, 'id' | 'name' | 'businessID'>
+    & { businessField?: Maybe<(
+      { __typename?: 'BusinessField' }
+      & Pick<BusinessField, 'id' | 'name'>
+    )>, municipality?: Maybe<(
+      { __typename?: 'Municipality' }
+      & Pick<Municipality, 'name' | 'state'>
+    )> }
   ) }
 );
 
@@ -366,14 +455,12 @@ export type AllOrganizationsQuery = (
   )> }
 );
 
-export type GetUsersInOrnizationQueryVariables = Exact<{
-  organizationID: Scalars['String'];
-}>;
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersInOrnizationQuery = (
+export type UsersQuery = (
   { __typename?: 'Query' }
-  & { getUsersInOrganization: Array<(
+  & { allUsers: Array<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email'>
   )> }
@@ -404,12 +491,14 @@ export type MeQuery = (
   )> }
 );
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetUsersInOrnizationQueryVariables = Exact<{
+  organizationID: Scalars['String'];
+}>;
 
 
-export type UsersQuery = (
+export type GetUsersInOrnizationQuery = (
   { __typename?: 'Query' }
-  & { users: Array<(
+  & { usersInOrganization: Array<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'email'>
   )> }
@@ -417,10 +506,24 @@ export type UsersQuery = (
 
 
 export const CreateOrganizationDocument = gql`
-    mutation CreateOrganization($name: String!, $businessID: String!) {
-  createOrganization(name: $name, businessID: $businessID) {
+    mutation CreateOrganization($name: String!, $businessID: String!, $municipalityID: Int, $businessFieldID: Int) {
+  createOrganization(
+    name: $name
+    businessID: $businessID
+    municipalityID: $municipalityID
+    businessFieldID: $businessFieldID
+  ) {
     id
     name
+    businessID
+    businessField {
+      id
+      name
+    }
+    municipality {
+      name
+      state
+    }
   }
 }
     `;
@@ -441,6 +544,8 @@ export type CreateOrganizationMutationFn = Apollo.MutationFunction<CreateOrganiz
  *   variables: {
  *      name: // value for 'name'
  *      businessID: // value for 'businessID'
+ *      municipalityID: // value for 'municipalityID'
+ *      businessFieldID: // value for 'businessFieldID'
  *   },
  * });
  */
@@ -652,9 +757,9 @@ export function useAllOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type AllOrganizationsQueryHookResult = ReturnType<typeof useAllOrganizationsQuery>;
 export type AllOrganizationsLazyQueryHookResult = ReturnType<typeof useAllOrganizationsLazyQuery>;
 export type AllOrganizationsQueryResult = Apollo.QueryResult<AllOrganizationsQuery, AllOrganizationsQueryVariables>;
-export const GetUsersInOrnizationDocument = gql`
-    query GetUsersInOrnization($organizationID: String!) {
-  getUsersInOrganization(organizationID: $organizationID) {
+export const UsersDocument = gql`
+    query Users {
+  allUsers {
     id
     email
   }
@@ -662,32 +767,31 @@ export const GetUsersInOrnizationDocument = gql`
     `;
 
 /**
- * __useGetUsersInOrnizationQuery__
+ * __useUsersQuery__
  *
- * To run a query within a React component, call `useGetUsersInOrnizationQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUsersInOrnizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUsersInOrnizationQuery({
+ * const { data, loading, error } = useUsersQuery({
  *   variables: {
- *      organizationID: // value for 'organizationID'
  *   },
  * });
  */
-export function useGetUsersInOrnizationQuery(baseOptions: Apollo.QueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
       }
-export function useGetUsersInOrnizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
         }
-export type GetUsersInOrnizationQueryHookResult = ReturnType<typeof useGetUsersInOrnizationQuery>;
-export type GetUsersInOrnizationLazyQueryHookResult = ReturnType<typeof useGetUsersInOrnizationLazyQuery>;
-export type GetUsersInOrnizationQueryResult = Apollo.QueryResult<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>;
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -745,9 +849,9 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const UsersDocument = gql`
-    query Users {
-  users {
+export const GetUsersInOrnizationDocument = gql`
+    query GetUsersInOrnization($organizationID: String!) {
+  usersInOrganization(organizationID: $organizationID) {
     id
     email
   }
@@ -755,28 +859,29 @@ export const UsersDocument = gql`
     `;
 
 /**
- * __useUsersQuery__
+ * __useGetUsersInOrnizationQuery__
  *
- * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUsersInOrnizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersInOrnizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUsersQuery({
+ * const { data, loading, error } = useGetUsersInOrnizationQuery({
  *   variables: {
+ *      organizationID: // value for 'organizationID'
  *   },
  * });
  */
-export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+export function useGetUsersInOrnizationQuery(baseOptions: Apollo.QueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        return Apollo.useQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
       }
-export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+export function useGetUsersInOrnizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+          return Apollo.useLazyQuery<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>(GetUsersInOrnizationDocument, options);
         }
-export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
-export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export type GetUsersInOrnizationQueryHookResult = ReturnType<typeof useGetUsersInOrnizationQuery>;
+export type GetUsersInOrnizationLazyQueryHookResult = ReturnType<typeof useGetUsersInOrnizationLazyQuery>;
+export type GetUsersInOrnizationQueryResult = Apollo.QueryResult<GetUsersInOrnizationQuery, GetUsersInOrnizationQueryVariables>;
