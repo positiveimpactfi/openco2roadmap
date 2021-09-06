@@ -34,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
   );
   const handleChange = (val) => {
     setSelected(val);
-    setFieldValue(name, val.name);
+    setFieldValue(name, val);
   };
 
   return (
