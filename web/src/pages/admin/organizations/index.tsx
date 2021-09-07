@@ -5,6 +5,7 @@ import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { Organization, useAllOrganizationsQuery } from "generated/graphql";
 import { useState } from "react";
+import Button from "components/Button";
 
 const Organizations = () => {
   const { data, loading } = useAllOrganizationsQuery();
@@ -46,13 +47,7 @@ const Organizations = () => {
               setSlideoverOpen={setEditOrgFormOpen}
             />
           </SlideOver>
-          <button
-            type="button"
-            className="px-2 py-2 mb-4 bg-teal-600 inline-flex items-center justify-center text-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-            onClick={() => setNewOrgFormOpen(true)}
-          >
-            Uusi yritys
-          </button>
+          <Button onClick={() => setNewOrgFormOpen(true)}>Uusi yritys</Button>
           <OrganizationsTable
             handleFormOpen={handleEditOrg}
             organizations={data.allOrganizations}
