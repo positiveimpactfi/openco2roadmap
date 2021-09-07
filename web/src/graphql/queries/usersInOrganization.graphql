@@ -1,6 +1,5 @@
 query GetUsersInOrnization($organizationID: String!) {
   usersInOrganization(organizationID: $organizationID) {
-    id
-    email
+    ...UserFragment
   }
 }

@@ -368,6 +368,32 @@ export type UserRole = {
   organizationID: Scalars['String'];
 };
 
+export type MunicipalityFragmentFragment = (
+  { __typename?: 'Municipality' }
+  & Pick<Municipality, 'id' | 'name' | 'state' | 'stateCode'>
+);
+
+export type OrganizationFragmentFragment = (
+  { __typename?: 'Organization' }
+  & Pick<Organization, 'name' | 'id' | 'businessID'>
+  & { businessField?: Maybe<(
+    { __typename?: 'BusinessField' }
+    & Pick<BusinessField, 'name' | 'id'>
+  )>, municipality?: Maybe<(
+    { __typename?: 'Municipality' }
+    & MunicipalityFragmentFragment
+  )> }
+);
+
+export type UserFragmentFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>
+  & { roles: Array<(
+    { __typename?: 'UserRole' }
+    & Pick<UserRole, 'name' | 'id' | 'organizationID'>
+  )> }
+);
+
 export type CreateOrganizationMutationVariables = Exact<{
   data: OrganizationInput;
 }>;
@@ -469,7 +495,7 @@ export type AllMunicipalitiesQuery = (
   { __typename?: 'Query' }
   & { allMunicipalities: Array<(
     { __typename?: 'Municipality' }
-    & Pick<Municipality, 'id' | 'name' | 'state' | 'stateCode'>
+    & MunicipalityFragmentFragment
   )> }
 );
 
@@ -480,14 +506,7 @@ export type AllOrganizationsQuery = (
   { __typename?: 'Query' }
   & { allOrganizations: Array<(
     { __typename?: 'Organization' }
-    & Pick<Organization, 'name' | 'id' | 'businessID'>
-    & { businessField?: Maybe<(
-      { __typename?: 'BusinessField' }
-      & Pick<BusinessField, 'name' | 'id'>
-    )>, municipality?: Maybe<(
-      { __typename?: 'Municipality' }
-      & Pick<Municipality, 'name' | 'state' | 'id' | 'stateCode'>
-    )> }
+    & OrganizationFragmentFragment
   )> }
 );
 
@@ -498,7 +517,7 @@ export type UsersQuery = (
   { __typename?: 'Query' }
   & { allUsers: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
+    & UserFragmentFragment
   )> }
 );
 
@@ -509,21 +528,11 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>
-    & { roles: Array<(
-      { __typename?: 'UserRole' }
-      & Pick<UserRole, 'name' | 'id' | 'organizationID'>
-    )>, organizations?: Maybe<Array<(
+    & { organizations?: Maybe<Array<(
       { __typename?: 'Organization' }
-      & Pick<Organization, 'name' | 'id' | 'businessID'>
-      & { businessField?: Maybe<(
-        { __typename?: 'BusinessField' }
-        & Pick<BusinessField, 'name' | 'id'>
-      )>, municipality?: Maybe<(
-        { __typename?: 'Municipality' }
-        & Pick<Municipality, 'name' | 'state' | 'id' | 'stateCode'>
-      )> }
+      & OrganizationFragmentFragment
     )>> }
+    & UserFragmentFragment
   )> }
 );
 
@@ -536,11 +545,45 @@ export type GetUsersInOrnizationQuery = (
   { __typename?: 'Query' }
   & { usersInOrganization: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
+    & UserFragmentFragment
   )> }
 );
 
-
+export const MunicipalityFragmentFragmentDoc = gql`
+    fragment MunicipalityFragment on Municipality {
+  id
+  name
+  state
+  stateCode
+}
+    `;
+export const OrganizationFragmentFragmentDoc = gql`
+    fragment OrganizationFragment on Organization {
+  name
+  id
+  businessField {
+    name
+    id
+  }
+  businessID
+  municipality {
+    ...MunicipalityFragment
+  }
+}
+    ${MunicipalityFragmentFragmentDoc}`;
+export const UserFragmentFragmentDoc = gql`
+    fragment UserFragment on User {
+  id
+  firstName
+  lastName
+  email
+  roles {
+    name
+    id
+    organizationID
+  }
+}
+    `;
 export const CreateOrganizationDocument = gql`
     mutation CreateOrganization($data: OrganizationInput!) {
   createOrganization(data: $data) {
@@ -749,13 +792,10 @@ export type UpdateOrganizationMutationOptions = Apollo.BaseMutationOptions<Updat
 export const AllMunicipalitiesDocument = gql`
     query AllMunicipalities {
   allMunicipalities {
-    id
-    name
-    state
-    stateCode
+    ...MunicipalityFragment
   }
 }
-    `;
+    ${MunicipalityFragmentFragmentDoc}`;
 
 /**
  * __useAllMunicipalitiesQuery__
@@ -786,22 +826,10 @@ export type AllMunicipalitiesQueryResult = Apollo.QueryResult<AllMunicipalitiesQ
 export const AllOrganizationsDocument = gql`
     query AllOrganizations {
   allOrganizations {
-    businessField {
-      name
-      id
-    }
-    name
-    id
-    municipality {
-      name
-      state
-      id
-      stateCode
-    }
-    businessID
+    ...OrganizationFragment
   }
 }
-    `;
+    ${OrganizationFragmentFragmentDoc}`;
 
 /**
  * __useAllOrganizationsQuery__
@@ -832,11 +860,10 @@ export type AllOrganizationsQueryResult = Apollo.QueryResult<AllOrganizationsQue
 export const UsersDocument = gql`
     query Users {
   allUsers {
-    id
-    email
+    ...UserFragment
   }
 }
-    `;
+    ${UserFragmentFragmentDoc}`;
 
 /**
  * __useUsersQuery__
@@ -867,33 +894,14 @@ export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariable
 export const MeDocument = gql`
     query Me {
   me {
-    id
-    firstName
-    lastName
-    email
-    roles {
-      name
-      id
-      organizationID
-    }
+    ...UserFragment
     organizations {
-      name
-      id
-      businessField {
-        name
-        id
-      }
-      businessID
-      municipality {
-        name
-        state
-        id
-        stateCode
-      }
+      ...OrganizationFragment
     }
   }
 }
-    `;
+    ${UserFragmentFragmentDoc}
+${OrganizationFragmentFragmentDoc}`;
 
 /**
  * __useMeQuery__
@@ -924,11 +932,10 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const GetUsersInOrnizationDocument = gql`
     query GetUsersInOrnization($organizationID: String!) {
   usersInOrganization(organizationID: $organizationID) {
-    id
-    email
+    ...UserFragment
   }
 }
-    `;
+    ${UserFragmentFragmentDoc}`;
 
 /**
  * __useGetUsersInOrnizationQuery__

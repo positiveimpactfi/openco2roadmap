@@ -1,6 +1,5 @@
 query Users {
   allUsers {
-    id
-    email
+    ...UserFragment
   }
 }

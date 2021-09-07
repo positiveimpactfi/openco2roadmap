@@ -1,0 +1,6 @@
+fragment MunicipalityFragment on Municipality {
+  id
+  name
+  state
+  stateCode
+}

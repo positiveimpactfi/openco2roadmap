@@ -1,28 +1,8 @@
 query Me {
   me {
-    id
-    firstName
-    lastName
-    email
-    roles {
-      name
-      id
-      organizationID
-    }
+    ...UserFragment
     organizations {
-      name
-      id
-      businessField {
-        name
-        id
-      }
-      businessID
-      municipality {
-        name
-        state
-        id
-        stateCode
-      }
+      ...OrganizationFragment
     }
   }
 }

@@ -1,0 +1,12 @@
+fragment OrganizationFragment on Organization {
+  name
+  id
+  businessField {
+    name
+    id
+  }
+  businessID
+  municipality {
+    ...MunicipalityFragment
+  }
+}
