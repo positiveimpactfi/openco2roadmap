@@ -41,7 +41,10 @@ const Organizations = () => {
             open={editOrgFormOpen}
             setOpen={setEditOrgFormOpen}
           >
-            <EditOrganizationForm org={orgUnderEdit} />
+            <EditOrganizationForm
+              org={orgUnderEdit}
+              setSlideoverOpen={setEditOrgFormOpen}
+            />
           </SlideOver>
           <button
             type="button"

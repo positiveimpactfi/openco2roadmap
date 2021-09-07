@@ -67,6 +67,13 @@ export enum DataSourceType {
 }
 
 
+export type EditOrganizationInput = {
+  name?: Maybe<Scalars['String']>;
+  businessID?: Maybe<Scalars['String']>;
+  businessFieldID?: Maybe<Scalars['Int']>;
+  municipalityID?: Maybe<Scalars['Int']>;
+};
+
 export type EmissionFactor = {
   __typename?: 'EmissionFactor';
   id: Scalars['ID'];
@@ -152,6 +159,7 @@ export type Mutation = {
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   createOrganization: Organization;
+  updateOrganization: Organization;
   addUserToOrganization: User;
   createSiteType: SiteType;
   createSite: Site;
@@ -193,6 +201,12 @@ export type MutationLoginArgs = {
 
 export type MutationCreateOrganizationArgs = {
   data: OrganizationInput;
+};
+
+
+export type MutationUpdateOrganizationArgs = {
+  organizationID: Scalars['String'];
+  newData: EditOrganizationInput;
 };
 
 
@@ -423,6 +437,27 @@ export type RegisterMutation = (
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
+    )> }
+  ) }
+);
+
+export type UpdateOrganizationMutationVariables = Exact<{
+  organizationID: Scalars['String'];
+  newData: EditOrganizationInput;
+}>;
+
+
+export type UpdateOrganizationMutation = (
+  { __typename?: 'Mutation' }
+  & { updateOrganization: (
+    { __typename?: 'Organization' }
+    & Pick<Organization, 'id' | 'name' | 'businessID'>
+    & { businessField?: Maybe<(
+      { __typename?: 'BusinessField' }
+      & Pick<BusinessField, 'id' | 'name'>
+    )>, municipality?: Maybe<(
+      { __typename?: 'Municipality' }
+      & Pick<Municipality, 'name' | 'state'>
     )> }
   ) }
 );
@@ -667,6 +702,50 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateOrganizationDocument = gql`
+    mutation UpdateOrganization($organizationID: String!, $newData: EditOrganizationInput!) {
+  updateOrganization(organizationID: $organizationID, newData: $newData) {
+    id
+    name
+    businessID
+    businessField {
+      id
+      name
+    }
+    municipality {
+      name
+      state
+    }
+  }
+}
+    `;
+export type UpdateOrganizationMutationFn = Apollo.MutationFunction<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
+
+/**
+ * __useUpdateOrganizationMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrganizationMutation, { data, loading, error }] = useUpdateOrganizationMutation({
+ *   variables: {
+ *      organizationID: // value for 'organizationID'
+ *      newData: // value for 'newData'
+ *   },
+ * });
+ */
+export function useUpdateOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>(UpdateOrganizationDocument, options);
+      }
+export type UpdateOrganizationMutationHookResult = ReturnType<typeof useUpdateOrganizationMutation>;
+export type UpdateOrganizationMutationResult = Apollo.MutationResult<UpdateOrganizationMutation>;
+export type UpdateOrganizationMutationOptions = Apollo.BaseMutationOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
 export const AllMunicipalitiesDocument = gql`
     query AllMunicipalities {
   allMunicipalities {

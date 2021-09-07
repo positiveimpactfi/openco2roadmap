@@ -1,0 +1,18 @@
+mutation UpdateOrganization(
+  $organizationID: String!
+  $newData: EditOrganizationInput!
+) {
+  updateOrganization(organizationID: $organizationID, newData: $newData) {
+    id
+    name
+    businessID
+    businessField {
+      id
+      name
+    }
+    municipality {
+      name
+      state
+    }
+  }
+}

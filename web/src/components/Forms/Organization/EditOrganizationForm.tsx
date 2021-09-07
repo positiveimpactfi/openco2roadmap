@@ -3,13 +3,23 @@ import Select from "components/Forms/Common/Select";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
+import {
+  AllOrganizationsDocument,
+  Organization,
+  useUpdateOrganizationMutation,
+} from "generated/graphql";
 import { MyOrganization } from "pages/admin/organizations";
 
 interface EditOrganizationProps {
   org: MyOrganization;
+  setSlideoverOpen: (arg: boolean) => void;
 }
 
-const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
+const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
+  org,
+  setSlideoverOpen,
+}) => {
+  const [updateOrganization] = useUpdateOrganizationMutation();
   return (
     <Formik
       initialValues={{
@@ -18,7 +28,30 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({ org }) => {
         municipality: org.municipality,
         businessField: org.businessField,
       }}
-      onSubmit={() => console.log("submitting new org")}
+      onSubmit={async (
+        values: Partial<Organization>,
+        { setSubmitting, resetForm }
+      ) => {
+        const response = await updateOrganization({
+          variables: {
+            organizationID: org.id,
+            newData: {
+              name: values.name,
+              businessID: values.businessID,
+              municipalityID: values.municipality?.id,
+              businessFieldID: values.businessField?.id,
+            },
+          },
+          refetchQueries: [AllOrganizationsDocument],
+        });
+        if (response.data.updateOrganization.id) {
+          setSubmitting(false);
+          resetForm();
+          setSlideoverOpen(false);
+        } else {
+          console.error("Failed to add organization");
+        }
+      }}
     >
       {({ isSubmitting, setFieldValue }: FormikProps<{}>) => (
         <Form>
