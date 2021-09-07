@@ -19,7 +19,7 @@ import { Municipality } from "../entity/Municipality";
 import { inverseNullish } from "../utils/inverseNullish";
 
 @InputType()
-class OrganizationInput {
+class OrganizationInput implements Partial<Organization> {
   @Field()
   name: string;
 
@@ -31,6 +31,15 @@ class OrganizationInput {
 
   @Field(() => Int, { nullable: true })
   municipalityID: number;
+}
+
+@InputType()
+class EditOrganizationInput extends OrganizationInput {
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  businessID: string;
 }
 
 @Resolver(Organization)
@@ -86,6 +95,42 @@ export class OrganizationResolver {
 
     console.log("new org", newOrg);
     return newOrg;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => Organization)
+  async updateOrganization(
+    @Arg("newData")
+    {
+      name,
+      municipalityID,
+      businessFieldID,
+      businessID,
+    }: EditOrganizationInput,
+    @Arg("organizationID") organizationID: string
+  ): Promise<Organization | undefined> {
+    const org = await Organization.findOne(organizationID);
+    if (!org) {
+      console.error("no organization found");
+      return undefined;
+    }
+
+    if (name) org.name = name;
+    if (businessID) org.businessID = businessID;
+    if (businessFieldID) {
+      const businessField = await BusinessField.findOne(businessFieldID);
+      if (businessField) org.businessField = businessField;
+    }
+
+    if (municipalityID) {
+      const municipality = await Municipality.findOne(municipalityID);
+      if (municipality) org.municipality = municipality;
+    }
+
+    const updatedOrg = await org.save();
+    console.log("updated org", updatedOrg);
+
+    return updatedOrg;
   }
 
   @Authorized(["SUPERADMIN", "ADMIN"])
