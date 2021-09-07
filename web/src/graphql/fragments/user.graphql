@@ -8,4 +8,7 @@ fragment UserFragment on User {
     id
     organizationID
   }
+  organizations {
+    ...OrganizationFragment
+  }
 }

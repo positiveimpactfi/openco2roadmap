@@ -1,4 +1,4 @@
-query Users {
+query AllUsers {
   allUsers {
     ...UserFragment
   }
