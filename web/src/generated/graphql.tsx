@@ -25,38 +25,38 @@ export type BusinessField = {
 
 export type CalculationResult = {
   __typename?: 'CalculationResult';
-  id: Scalars['ID'];
-  dateCreated: Scalars['DateTime'];
-  value: Scalars['Float'];
   dataEntry: DataEntry;
+  dateCreated: Scalars['DateTime'];
+  id: Scalars['ID'];
+  value: Scalars['Float'];
 };
 
 export type Category = {
   __typename?: 'Category';
+  components: Array<Component>;
   id: Scalars['Int'];
   name: Scalars['String'];
-  components: Array<Component>;
 };
 
 export type Component = {
   __typename?: 'Component';
-  id: Scalars['ID'];
-  name: Scalars['String'];
   category: Category;
   emissionSources?: Maybe<Array<EmissionSource>>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type DataEntry = {
   __typename?: 'DataEntry';
-  id: Scalars['ID'];
-  startDate: Scalars['DateTime'];
-  endDate: Scalars['DateTime'];
-  consumptionValue: Scalars['Float'];
-  comments?: Maybe<Scalars['String']>;
-  createdBy: User;
   calculationResults: Array<CalculationResult>;
-  siteUnit: SiteUnit;
+  comments?: Maybe<Scalars['String']>;
+  consumptionValue: Scalars['Float'];
+  createdBy: User;
   emissionFactorValue: EmissionFactorValue;
+  endDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  siteUnit: SiteUnit;
+  startDate: Scalars['DateTime'];
 };
 
 /** Origin of the data */
@@ -66,42 +66,41 @@ export enum DataSourceType {
   Tertiary = 'Tertiary'
 }
 
-
 export type EditOrganizationInput = {
-  name?: Maybe<Scalars['String']>;
-  businessID?: Maybe<Scalars['String']>;
   businessFieldID?: Maybe<Scalars['Int']>;
+  businessID?: Maybe<Scalars['String']>;
   municipalityID?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type EmissionFactor = {
   __typename?: 'EmissionFactor';
+  dataSourceType: DataSourceType;
+  emissionSources: Array<EmissionSource>;
+  geographicalArea?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  source?: Maybe<Scalars['String']>;
-  geographicalArea?: Maybe<Scalars['String']>;
-  emissionSources: Array<EmissionSource>;
-  values?: Maybe<Array<EmissionFactorValue>>;
-  dataSourceType: DataSourceType;
   physicalQuantity: PhysicalQuantity;
+  source?: Maybe<Scalars['String']>;
+  values?: Maybe<Array<EmissionFactorValue>>;
 };
 
 export type EmissionFactorValue = {
   __typename?: 'EmissionFactorValue';
-  id: Scalars['ID'];
-  value: Scalars['Float'];
-  startDate: Scalars['Int'];
-  endDate: Scalars['Int'];
-  emissionFactor: EmissionFactor;
   dataEntries: Array<DataEntry>;
+  emissionFactor: EmissionFactor;
+  endDate: Scalars['Int'];
+  id: Scalars['ID'];
+  startDate: Scalars['Int'];
+  value: Scalars['Float'];
 };
 
 export type EmissionSource = {
   __typename?: 'EmissionSource';
+  components: Component;
+  emissionFactors?: Maybe<Array<EmissionFactor>>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  emissionFactors?: Maybe<Array<EmissionFactor>>;
-  components: Component;
   scope?: Maybe<GhgScope>;
 };
 
@@ -129,84 +128,45 @@ export type Kpi = {
 export type KpiValue = {
   __typename?: 'KPIValue';
   id: Scalars['ID'];
-  year: Scalars['Int'];
-  value: Scalars['Float'];
   parentKPI: Kpi;
+  value: Scalars['Float'];
+  year: Scalars['Int'];
 };
 
 export type MeasurementUnit = {
   __typename?: 'MeasurementUnit';
+  conversionFactor: Scalars['Float'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  shorthand: Scalars['String'];
   physicalQuantity: PhysicalQuantity;
-  conversionFactor: Scalars['Float'];
+  shorthand: Scalars['String'];
 };
 
 export type Municipality = {
   __typename?: 'Municipality';
   id: Scalars['Int'];
   name: Scalars['String'];
-  stateCode: Scalars['Float'];
   state: Scalars['String'];
+  stateCode: Scalars['Float'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  inviteUser: Scalars['Boolean'];
-  createUser: UserResolverResponse;
-  register: UserResolverResponse;
-  login: UserResolverResponse;
-  logout: Scalars['Boolean'];
-  createOrganization: Organization;
-  updateOrganization: Organization;
   addUserToOrganization: User;
-  createSiteType: SiteType;
-  createSite: Site;
-  createSiteUnit: SiteUnit;
-  createEmissionSource: EmissionSource;
+  createDataEntry: DataEntry;
   createEmissionFactor: EmissionFactor;
   createEmissionFactorValue: EmissionFactorValue;
-  createDataEntry: DataEntry;
-};
-
-
-export type MutationInviteUserArgs = {
-  role: Scalars['String'];
-  organizationID: Scalars['String'];
-  email: Scalars['String'];
-};
-
-
-export type MutationCreateUserArgs = {
-  role: Scalars['String'];
-  organizationID: Scalars['String'];
-  password: Scalars['String'];
-  email: Scalars['String'];
-};
-
-
-export type MutationRegisterArgs = {
-  password: Scalars['String'];
-  email: Scalars['String'];
-  token: Scalars['String'];
-};
-
-
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  email: Scalars['String'];
-};
-
-
-export type MutationCreateOrganizationArgs = {
-  data: OrganizationInput;
-};
-
-
-export type MutationUpdateOrganizationArgs = {
-  organizationID: Scalars['String'];
-  newData: EditOrganizationInput;
+  createEmissionSource: EmissionSource;
+  createOrganization: Organization;
+  createSite: Site;
+  createSiteType: SiteType;
+  createSiteUnit: SiteUnit;
+  createUser: UserResolverResponse;
+  inviteUser: Scalars['Boolean'];
+  login: UserResolverResponse;
+  logout: Scalars['Boolean'];
+  register: UserResolverResponse;
+  updateOrganization: Organization;
 };
 
 
@@ -216,102 +176,141 @@ export type MutationAddUserToOrganizationArgs = {
 };
 
 
-export type MutationCreateSiteTypeArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationCreateSiteArgs = {
-  municipalityID: Scalars['Float'];
-  siteTypeID: Scalars['String'];
-  name: Scalars['String'];
-};
-
-
-export type MutationCreateSiteUnitArgs = {
-  siteID: Scalars['String'];
-  name: Scalars['String'];
-};
-
-
-export type MutationCreateEmissionSourceArgs = {
-  name: Scalars['String'];
-  componentIDs: Array<Scalars['String']>;
+export type MutationCreateDataEntryArgs = {
+  consumptionValue: Scalars['Float'];
+  emissionsFactorValueID: Scalars['String'];
+  endDate: Scalars['DateTime'];
+  siteUnitID: Scalars['String'];
+  startDate: Scalars['DateTime'];
 };
 
 
 export type MutationCreateEmissionFactorArgs = {
   dataSourceType?: Maybe<DataSourceType>;
-  source?: Maybe<Scalars['String']>;
-  physicalQuantityID: Scalars['Float'];
-  name: Scalars['String'];
   emissionSourceIDs: Array<Scalars['String']>;
+  name: Scalars['String'];
+  physicalQuantityID: Scalars['Float'];
+  source?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationCreateEmissionFactorValueArgs = {
+  emissionFactorID: Scalars['String'];
   endDate: Scalars['Float'];
   startDate: Scalars['Float'];
   value: Scalars['Float'];
-  emissionFactorID: Scalars['String'];
 };
 
 
-export type MutationCreateDataEntryArgs = {
-  consumptionValue: Scalars['Float'];
-  endDate: Scalars['DateTime'];
-  startDate: Scalars['DateTime'];
-  emissionsFactorValueID: Scalars['String'];
-  siteUnitID: Scalars['String'];
+export type MutationCreateEmissionSourceArgs = {
+  componentIDs: Array<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateOrganizationArgs = {
+  data: OrganizationInput;
+};
+
+
+export type MutationCreateSiteArgs = {
+  municipalityID: Scalars['Float'];
+  name: Scalars['String'];
+  siteTypeID: Scalars['String'];
+};
+
+
+export type MutationCreateSiteTypeArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateSiteUnitArgs = {
+  name: Scalars['String'];
+  siteID: Scalars['String'];
+};
+
+
+export type MutationCreateUserArgs = {
+  email: Scalars['String'];
+  organizationID: Scalars['String'];
+  password: Scalars['String'];
+  role: Scalars['String'];
+};
+
+
+export type MutationInviteUserArgs = {
+  email: Scalars['String'];
+  organizationID: Scalars['String'];
+  role: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
+export type MutationUpdateOrganizationArgs = {
+  newData: EditOrganizationInput;
+  organizationID: Scalars['String'];
 };
 
 export type Organization = {
   __typename?: 'Organization';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  businessID: Scalars['String'];
-  municipality?: Maybe<Municipality>;
   businessField?: Maybe<BusinessField>;
-  siteTypes?: Maybe<Array<SiteType>>;
+  businessID: Scalars['String'];
+  id: Scalars['ID'];
   kpis?: Maybe<Array<Kpi>>;
+  municipality?: Maybe<Municipality>;
+  name: Scalars['String'];
+  siteTypes?: Maybe<Array<SiteType>>;
 };
 
 export type OrganizationInput = {
-  name: Scalars['String'];
-  businessID: Scalars['String'];
   businessFieldID?: Maybe<Scalars['Int']>;
+  businessID: Scalars['String'];
   municipalityID?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
 };
 
 export type PhysicalQuantity = {
   __typename?: 'PhysicalQuantity';
+  baseUnit: MeasurementUnit;
+  emissionFactors?: Maybe<Array<EmissionFactor>>;
   id: Scalars['Int'];
   name: Scalars['String'];
-  baseUnit: MeasurementUnit;
   units: Array<MeasurementUnit>;
-  emissionFactors?: Maybe<Array<EmissionFactor>>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  businessFields: Array<BusinessField>;
-  allUsers: Array<User>;
-  me?: Maybe<User>;
-  allOrganizations: Array<Organization>;
-  usersInOrganization: Array<User>;
-  siteTypes: Array<SiteType>;
-  categories: Array<Category>;
-  components: Array<Component>;
-  units: Array<MeasurementUnit>;
-  physicalQuantities: Array<PhysicalQuantity>;
+  allDataEntries: Array<DataEntry>;
+  allEmissionFactorValues: Array<EmissionFactorValue>;
+  allEmissionFactors: Array<EmissionFactor>;
+  allEmissionSources: Array<EmissionSource>;
   allMunicipalities: Array<Municipality>;
+  allOrganizations: Array<Organization>;
+  allSiteUnits: Array<SiteUnit>;
   allSites: Array<Site>;
   allSitesInMyOrganization: Array<Site>;
-  allSiteUnits: Array<SiteUnit>;
-  allEmissionSources: Array<EmissionSource>;
-  allEmissionFactors: Array<EmissionFactor>;
-  allEmissionFactorValues: Array<EmissionFactorValue>;
-  allDataEntries: Array<DataEntry>;
+  allUsers: Array<User>;
+  businessFields: Array<BusinessField>;
+  categories: Array<Category>;
+  components: Array<Component>;
+  me?: Maybe<User>;
+  physicalQuantities: Array<PhysicalQuantity>;
+  siteTypes: Array<SiteType>;
+  units: Array<MeasurementUnit>;
+  usersInOrganization: Array<User>;
 };
 
 
@@ -322,9 +321,9 @@ export type QueryUsersInOrganizationArgs = {
 export type Site = {
   __typename?: 'Site';
   id: Scalars['ID'];
+  municipality?: Maybe<Municipality>;
   name: Scalars['String'];
   siteType: SiteType;
-  municipality?: Maybe<Municipality>;
   siteUnits?: Maybe<Array<SiteUnit>>;
 };
 
@@ -338,21 +337,21 @@ export type SiteType = {
 
 export type SiteUnit = {
   __typename?: 'SiteUnit';
+  dataEntries?: Maybe<Array<DataEntry>>;
   id: Scalars['ID'];
   name: Scalars['String'];
   site: Site;
-  dataEntries?: Maybe<Array<DataEntry>>;
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['ID'];
+  dataEntries?: Maybe<Array<DataEntry>>;
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   lastName?: Maybe<Scalars['String']>;
-  roles: Array<UserRole>;
   organizations?: Maybe<Array<Organization>>;
-  dataEntries?: Maybe<Array<DataEntry>>;
+  roles: Array<UserRole>;
 };
 
 export type UserResolverResponse = {
@@ -368,54 +367,18 @@ export type UserRole = {
   organizationID: Scalars['String'];
 };
 
-export type MunicipalityFragmentFragment = (
-  { __typename?: 'Municipality' }
-  & Pick<Municipality, 'id' | 'name' | 'state' | 'stateCode'>
-);
+export type MunicipalityFragmentFragment = { __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number };
 
-export type OrganizationFragmentFragment = (
-  { __typename?: 'Organization' }
-  & Pick<Organization, 'name' | 'id' | 'businessID'>
-  & { businessField?: Maybe<(
-    { __typename?: 'BusinessField' }
-    & Pick<BusinessField, 'name' | 'id'>
-  )>, municipality?: Maybe<(
-    { __typename?: 'Municipality' }
-    & MunicipalityFragmentFragment
-  )> }
-);
+export type OrganizationFragmentFragment = { __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> };
 
-export type UserFragmentFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>
-  & { roles: Array<(
-    { __typename?: 'UserRole' }
-    & Pick<UserRole, 'name' | 'id' | 'organizationID'>
-  )>, organizations?: Maybe<Array<(
-    { __typename?: 'Organization' }
-    & OrganizationFragmentFragment
-  )>> }
-);
+export type UserFragmentFragment = { __typename?: 'User', id: string, firstName?: Maybe<string>, lastName?: Maybe<string>, email: string, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }>, organizations?: Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>> };
 
 export type CreateOrganizationMutationVariables = Exact<{
   data: OrganizationInput;
 }>;
 
 
-export type CreateOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { createOrganization: (
-    { __typename?: 'Organization' }
-    & Pick<Organization, 'id' | 'name' | 'businessID'>
-    & { businessField?: Maybe<(
-      { __typename?: 'BusinessField' }
-      & Pick<BusinessField, 'id' | 'name'>
-    )>, municipality?: Maybe<(
-      { __typename?: 'Municipality' }
-      & Pick<Municipality, 'name' | 'state'>
-    )> }
-  ) }
-);
+export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization: { __typename?: 'Organization', id: string, name: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', id: number, name: string }>, municipality?: Maybe<{ __typename?: 'Municipality', name: string, state: string }> } };
 
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -425,19 +388,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { createUser: (
-    { __typename?: 'UserResolverResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'message' | 'field'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'email'>
-    )> }
-  ) }
-);
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserResolverResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', message: string, field: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string }> } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -445,31 +396,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'UserResolverResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'email'>
-      & { roles: Array<(
-        { __typename?: 'UserRole' }
-        & Pick<UserRole, 'id' | 'name' | 'organizationID'>
-      )> }
-    )> }
-  ) }
-);
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResolverResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string, roles: Array<{ __typename?: 'UserRole', id: number, name: string, organizationID: string }> }> } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'logout'>
-);
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -478,19 +410,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = (
-  { __typename?: 'Mutation' }
-  & { register: (
-    { __typename?: 'UserResolverResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'email'>
-    )> }
-  ) }
-);
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResolverResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string }> } };
 
 export type UpdateOrganizationMutationVariables = Exact<{
   organizationID: Scalars['String'];
@@ -498,81 +418,34 @@ export type UpdateOrganizationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateOrganizationMutation = (
-  { __typename?: 'Mutation' }
-  & { updateOrganization: (
-    { __typename?: 'Organization' }
-    & Pick<Organization, 'id' | 'name' | 'businessID'>
-    & { businessField?: Maybe<(
-      { __typename?: 'BusinessField' }
-      & Pick<BusinessField, 'id' | 'name'>
-    )>, municipality?: Maybe<(
-      { __typename?: 'Municipality' }
-      & Pick<Municipality, 'name' | 'state'>
-    )> }
-  ) }
-);
+export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization: { __typename?: 'Organization', id: string, name: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', id: number, name: string }>, municipality?: Maybe<{ __typename?: 'Municipality', name: string, state: string }> } };
 
 export type AllMunicipalitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllMunicipalitiesQuery = (
-  { __typename?: 'Query' }
-  & { allMunicipalities: Array<(
-    { __typename?: 'Municipality' }
-    & MunicipalityFragmentFragment
-  )> }
-);
+export type AllMunicipalitiesQuery = { __typename?: 'Query', allMunicipalities: Array<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> };
 
 export type AllOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllOrganizationsQuery = (
-  { __typename?: 'Query' }
-  & { allOrganizations: Array<(
-    { __typename?: 'Organization' }
-    & OrganizationFragmentFragment
-  )> }
-);
+export type AllOrganizationsQuery = { __typename?: 'Query', allOrganizations: Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }> };
 
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllUsersQuery = (
-  { __typename?: 'Query' }
-  & { allUsers: Array<(
-    { __typename?: 'User' }
-    & UserFragmentFragment
-  )> }
-);
+export type AllUsersQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'User', id: string, firstName?: Maybe<string>, lastName?: Maybe<string>, email: string, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }>, organizations?: Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>> }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & { organizations?: Maybe<Array<(
-      { __typename?: 'Organization' }
-      & OrganizationFragmentFragment
-    )>> }
-    & UserFragmentFragment
-  )> }
-);
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: string, firstName?: Maybe<string>, lastName?: Maybe<string>, email: string, organizations?: Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>>, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }> }> };
 
 export type GetUsersInOrnizationQueryVariables = Exact<{
   organizationID: Scalars['String'];
 }>;
 
 
-export type GetUsersInOrnizationQuery = (
-  { __typename?: 'Query' }
-  & { usersInOrganization: Array<(
-    { __typename?: 'User' }
-    & UserFragmentFragment
-  )> }
-);
+export type GetUsersInOrnizationQuery = { __typename?: 'Query', usersInOrganization: Array<{ __typename?: 'User', id: string, firstName?: Maybe<string>, lastName?: Maybe<string>, email: string, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }>, organizations?: Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>> }> };
 
 export const MunicipalityFragmentFragmentDoc = gql`
     fragment MunicipalityFragment on Municipality {
