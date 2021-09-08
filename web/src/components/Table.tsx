@@ -1,9 +1,15 @@
 import { DotsVerticalIcon } from "@heroicons/react/solid";
+import { classNames } from "utils/classNames";
 interface TableProps {
   headers: string[];
+  alignLastRight?: boolean;
 }
 
-const Table: React.FC<TableProps> = ({ headers, children }) => {
+const Table: React.FC<TableProps> = ({
+  headers,
+  alignLastRight = false,
+  children,
+}) => {
   return (
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
@@ -12,7 +18,10 @@ const Table: React.FC<TableProps> = ({ headers, children }) => {
             <th
               key={header}
               scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              className={classNames(
+                "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                alignLastRight ? "last:text-right" : null
+              )}
             >
               {header}
             </th>
