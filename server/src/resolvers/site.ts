@@ -52,7 +52,7 @@ export class SiteResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Query(() => [Site])
   async allSites(): Promise<Site[] | undefined> {
-    const sites = await Site.find({});
+    const sites = await Site.find({ relations: ["siteType"] });
     return sites;
   }
 
@@ -78,7 +78,10 @@ export class SiteResolver {
     }
     let allSites: Site[] = [];
     for (let orgSite of orgSiteTypes) {
-      const mySites = (await orgSite.sites) as Site[];
+      const mySites = await Site.find({
+        where: { siteType: orgSite },
+        relations: ["siteType"],
+      });
       allSites = allSites.concat(mySites);
     }
     return allSites;
