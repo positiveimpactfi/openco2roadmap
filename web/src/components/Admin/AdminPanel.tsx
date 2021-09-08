@@ -7,16 +7,6 @@ export type Headings = {
 
 const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
   return (
-    <div className="flex flex-col w-full h-full flex-1 overflow-hidden">
-      <MainContent title={title} description={description}>
-        {children}
-      </MainContent>
-    </div>
-  );
-};
-
-const MainContent: React.FC<Headings> = ({ title, description, children }) => {
-  return (
     <main className="flex-1 h-full relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
       <div className="px-4 sm:px-6 lg:px-8 py-4 ">
         <Menu />
