@@ -1,10 +1,10 @@
 import ClientOnly from "components/ClientsOnly";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
+import SettingsPanel from "components/SettingsPanel";
+import { SectionUnderConstruction } from "components/UnderConstruction";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
 import Link from "next/link";
-import SettingsPanel from "components/SettingsPanel";
-import { SectionUnderConstruction } from "components/UnderConstruction";
 
 const MySettingsPage: NextPage = () => {
   return (

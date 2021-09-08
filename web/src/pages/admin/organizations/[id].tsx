@@ -1,6 +1,6 @@
-import { useGetUsersInOrnizationQuery } from "generated/graphql";
-import { useRouter } from "next/router";
 import AdminPanel from "components/Admin/AdminPanel";
+import { useGetUsersInOrnizationQuery } from "graphql/queries/users/usersInOrganization.generated";
+import { useRouter } from "next/router";
 
 const Organization: React.FC = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const Organization: React.FC = () => {
     return <div>loading...</div>;
   }
 
-  if (!data?.getUsersInOrganization) {
+  if (!data?.usersInOrganization) {
     return <div>Something went wrong</div>;
   }
 
@@ -27,7 +27,7 @@ const Organization: React.FC = () => {
         <h2>Org id: {orgId}</h2>
         <h3>Users in organization:</h3>
         <ul>
-          {data?.getUsersInOrganization?.map((u) => (
+          {data?.usersInOrganization?.map((u) => (
             <li key={u.id}>{u.email}</li>
           ))}
         </ul>

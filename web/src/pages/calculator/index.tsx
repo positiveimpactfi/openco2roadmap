@@ -5,7 +5,9 @@ import { calculatorLinks } from "data/calculatorLinks";
 const CalculatorHomePage = () => {
   return (
     <CalculatorPanel>
-      <LinksGrid links={calculatorLinks} />
+      <div className="flex flex-col items-start">
+        <LinksGrid links={calculatorLinks} />
+      </div>
     </CalculatorPanel>
   );
 };

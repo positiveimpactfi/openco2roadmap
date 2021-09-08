@@ -1,5 +1,5 @@
 import { useApolloClient } from "@apollo/client";
-import { useLogoutMutation } from "generated/graphql";
+import { useLogoutMutation } from "graphql/mutations/auth/logout.generated";
 import { useRouter } from "next/router";
 
 const useLogout = () => {

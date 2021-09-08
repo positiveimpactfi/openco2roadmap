@@ -3,12 +3,9 @@ import Select from "components/Forms/Common/Select";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
-import {
-  AllOrganizationsDocument,
-  BusinessField,
-  Municipality,
-  useCreateOrganizationMutation,
-} from "generated/graphql";
+import { useCreateOrganizationMutation } from "graphql/mutations/organization/createOrganization.generated";
+import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
+import { BusinessField, Municipality } from "types";
 import { Dispatch, SetStateAction } from "react";
 
 interface FormValues {

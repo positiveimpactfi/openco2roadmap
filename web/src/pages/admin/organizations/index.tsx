@@ -1,11 +1,12 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
+import Button from "components/Button";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { Organization, useAllOrganizationsQuery } from "generated/graphql";
+import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { useState } from "react";
-import Button from "components/Button";
+import { Organization } from "types";
 
 const Organizations = () => {
   const { data, loading } = useAllOrganizationsQuery();

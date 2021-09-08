@@ -1,4 +1,4 @@
-import { User } from "generated/graphql";
+import { User } from "types";
 
 export const isAdmin = (user: User): boolean => {
   if (!user) {

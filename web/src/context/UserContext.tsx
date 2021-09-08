@@ -1,5 +1,5 @@
-import { User } from "generated/graphql";
 import { createContext } from "react";
+import { User } from "types";
 
 interface ContextProps {
   user?: User;

@@ -1,12 +1,10 @@
-import { Formik, FormikProps, Form } from "formik";
-import Select from "../Common/Select";
+import { Form, Formik, FormikProps } from "formik";
+import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
+import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
+import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
+import { Organization } from "types";
 import FormField from "../Common/FormField";
-import {
-  AllUsersDocument,
-  Organization,
-  useAllOrganizationsQuery,
-  useCreateUserMutation,
-} from "generated/graphql";
+import Select from "../Common/Select";
 
 interface FormValues {
   email: string;

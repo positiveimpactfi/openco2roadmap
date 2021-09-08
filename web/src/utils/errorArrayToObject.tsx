@@ -1,4 +1,4 @@
-import { FieldError } from "../generated/graphql";
+import { FieldError } from "types";
 
 export const errorArrayToObject = (errors: FieldError[]) => {
   const errorMap: Record<string, string> = {};

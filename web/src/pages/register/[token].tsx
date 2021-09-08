@@ -1,10 +1,10 @@
-import { FormikProps, Formik } from "formik";
-import { useRegisterMutation } from "generated/graphql";
+import { RegisterForm } from "components/Forms/Auth/RegisterForm";
+import { Formik, FormikProps } from "formik";
+import { useRegisterMutation } from "graphql/mutations/auth/register.generated";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { errorArrayToObject } from "utils/errorArrayToObject";
 import * as yup from "yup";
-import { RegisterForm } from "components/Forms/Auth/RegisterForm";
-import { useState } from "react";
 
 interface RegisterFormProps {
   email: string;

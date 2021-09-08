@@ -1,6 +1,6 @@
 import { useApolloClient } from "@apollo/client";
 import { UserContext } from "context/UserContext";
-import { useLogoutMutation, useMeQuery } from "generated/graphql";
+import { useLogoutMutation } from "graphql/mutations/auth/logout.generated";
 import Link from "next/link";
 import { useContext } from "react";
 

@@ -1,7 +1,7 @@
 import LoadingSpinner from "components/LoadingSpinner";
-import { User } from "generated/graphql";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
+import { User } from "types";
 
 const MyProfilePage: NextPage = () => {
   const { user, loading } = useUser();

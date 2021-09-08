@@ -1,5 +1,5 @@
 import LoadingSpinner from "components/LoadingSpinner";
-import { useMeQuery } from "generated/graphql";
+import { useMeQuery } from "graphql/queries/users/me.generated";
 import { isAdmin } from "utils/isAdmin";
 import AdminPanel, { Headings } from "./AdminPanel";
 
