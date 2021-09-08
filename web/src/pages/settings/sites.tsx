@@ -65,6 +65,7 @@ const SiteSettingsPage = () => {
             "Yksiköt",
             "Muokkaa",
           ]}
+          alignLastRight
         >
           {sites.map((site) => (
             <tr key={site.id}>
