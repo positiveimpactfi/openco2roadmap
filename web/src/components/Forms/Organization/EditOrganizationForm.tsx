@@ -52,12 +52,12 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 businessFieldID: values.businessField?.id,
               },
             },
-            refetchQueries: [AllOrganizationsDocument],
+            refetchQueries: setSlideoverOpen && [AllOrganizationsDocument],
           });
           if (response.data.updateOrganization.id) {
             setSubmitting(false);
             resetForm();
-            setSlideoverOpen(false);
+            setSlideoverOpen && setSlideoverOpen(false);
           } else {
             console.error("Failed to add organization");
           }
