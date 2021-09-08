@@ -1,14 +1,17 @@
+import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
+import Notification from "components/Notification";
 import WarningModal from "components/Warning";
 import { businessFields } from "data/businessFields";
 import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
-import { Organization } from "types";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
+import { Organization } from "types";
+import { deepObjectsEqual } from "utils/objectsEqual";
 
 interface EditOrganizationProps {
   org: MyOrganization;
@@ -21,8 +24,21 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
 }) => {
   const [updateOrganization] = useUpdateOrganizationMutation();
   const [warningOpen, setWarningOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [initialValues, setInitialValues] = useState<Partial<Organization>>({
+    name: org.name,
+    businessID: org.businessID,
+    municipality: org.municipality,
+    businessField: org.businessField,
+  });
   return (
     <>
+      <Notification
+        title="Hienoa!"
+        description="Yrityksen tiedot päivitetty onnistuneesti."
+        show={notificationOpen}
+        setShow={setNotificationOpen}
+      />
       <WarningModal
         open={warningOpen}
         setOpen={setWarningOpen}
@@ -32,38 +48,38 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
         onConfirm={() => console.log("clicked confirm")}
       />
       <Formik
-        initialValues={{
-          name: org.name,
-          businessID: org.businessID,
-          municipality: org.municipality,
-          businessField: org.businessField,
-        }}
+        initialValues={initialValues}
         onSubmit={async (
           values: Partial<Organization>,
           { setSubmitting, resetForm }
         ) => {
-          const response = await updateOrganization({
-            variables: {
-              organizationID: org.id,
-              newData: {
-                name: values.name,
-                businessID: values.businessID,
-                municipalityID: values.municipality?.id,
-                businessFieldID: values.businessField?.id,
+          // Only send request to API server if form values are changed
+          if (!deepObjectsEqual(values, initialValues)) {
+            const response = await updateOrganization({
+              variables: {
+                organizationID: org.id,
+                newData: {
+                  name: values.name,
+                  businessID: values.businessID,
+                  municipalityID: values.municipality?.id,
+                  businessFieldID: values.businessField?.id,
+                },
               },
-            },
-            refetchQueries: setSlideoverOpen && [AllOrganizationsDocument],
-          });
-          if (response.data.updateOrganization.id) {
-            setSubmitting(false);
-            resetForm();
-            setSlideoverOpen && setSlideoverOpen(false);
-          } else {
-            console.error("Failed to add organization");
+              refetchQueries: setSlideoverOpen && [AllOrganizationsDocument],
+            });
+            if (response.data.updateOrganization.id) {
+              setSubmitting(false);
+              resetForm();
+              setSlideoverOpen && setSlideoverOpen(false);
+              setNotificationOpen(true);
+              setInitialValues(values);
+            } else {
+              console.error("Failed to add organization");
+            }
           }
         }}
       >
-        {({ isSubmitting, setFieldValue }: FormikProps<{}>) => (
+        {({ isSubmitting, setFieldValue, values }: FormikProps<{}>) => (
           <Form>
             <div className="rounded-md space-y-4">
               <FormField
@@ -102,21 +118,17 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 selectedValue={org.businessField}
               />
               <div className="pt-5">
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setWarningOpen(true)}
-                    className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                  >
-                    Peruuta
-                  </button>
-                  <button
+                <div className="flex justify-end space-x-4">
+                  <Button onClick={() => setWarningOpen(true)}>Peruuta</Button>
+                  <Button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                    disabled={
+                      isSubmitting || deepObjectsEqual(values, initialValues)
+                    }
+                    variant="success"
                   >
                     Tallenna
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
