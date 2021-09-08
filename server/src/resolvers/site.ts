@@ -21,7 +21,8 @@ export class SiteResolver {
   async createSite(
     @Arg("name") name: string,
     @Arg("siteTypeID") siteTypeID: string,
-    @Arg("municipalityID", () => Int) municipalityID: number
+    @Arg("municipalityID", () => Int) municipalityID: number,
+    @Arg("siteUnits", () => [String], { nullable: true }) siteUnits?: string[]
   ): Promise<Site | undefined> {
     const siteType = await SiteType.findOne(siteTypeID);
     console.log("site type", siteType);
@@ -45,6 +46,15 @@ export class SiteResolver {
       name: "default_" + name,
     }).save();
     newSite.siteUnits.push(defaultSiteUnit);
+    if (siteUnits) {
+      siteUnits.forEach(async (siteUnit) => {
+        const createdSiteUnit = await SiteUnit.create({
+          name: siteUnit,
+          site: newSite,
+        }).save();
+        newSite.siteUnits.push(createdSiteUnit);
+      });
+    }
     await newSite.save();
     return newSite;
   }
