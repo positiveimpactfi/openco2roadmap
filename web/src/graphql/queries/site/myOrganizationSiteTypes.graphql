@@ -1,0 +1,6 @@
+query MyOrganizationSiteTypes {
+  siteTypes {
+    name
+    id
+  }
+}

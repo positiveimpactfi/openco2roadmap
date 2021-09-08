@@ -1,0 +1,20 @@
+mutation CreateSite(
+  $name: String!
+  $siteTypeID: String!
+  $municipalityID: Int!
+) {
+  createSite(
+    name: $name
+    siteTypeID: $siteTypeID
+    municipalityID: $municipalityID
+  ) {
+    id
+    name
+    siteUnits {
+      name
+    }
+    siteType {
+      name
+    }
+  }
+}

@@ -1,0 +1,16 @@
+query MyOrganizationSites {
+  allSitesInMyOrganization {
+    name
+    id
+    municipality {
+      name
+    }
+    siteType {
+      name
+    }
+    siteUnits {
+      id
+      name
+    }
+  }
+}

@@ -211,7 +211,7 @@ export type MutationCreateOrganizationArgs = {
 
 
 export type MutationCreateSiteArgs = {
-  municipalityID: Scalars['Float'];
+  municipalityID: Scalars['Int'];
   name: Scalars['String'];
   siteTypeID: Scalars['String'];
 };

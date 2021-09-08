@@ -1,8 +1,10 @@
 import Button from "components/Button";
+import CreateSiteForm from "components/Forms/Site/CreateSiteForm";
 import CreateSiteTypeForm from "components/Forms/Site/CreateSiteTypeForm";
 import SettingsPanel from "components/SettingsPanel";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import { useState } from "react";
 
 const fakeSite = {
@@ -23,6 +25,9 @@ const fakeSites = Array(20)
 const SiteSettingsPage = () => {
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
+  const { data } = useMyOrganizationSitesQuery();
+  if (!data?.allSitesInMyOrganization) return <div>No organizations</div>;
+  const sites = data.allSitesInMyOrganization;
   return (
     <SettingsPanel
       title="Toimipaikat"
@@ -40,7 +45,7 @@ const SiteSettingsPage = () => {
         open={createSiteOpen}
         setOpen={setCreateSiteOpen}
       >
-        Uusi toimipaikka
+        <CreateSiteForm setOpen={setCreateSiteOpen} />
       </SlideOver>
       <div className="flex space-x-2 mb-4">
         <Button variant="success" onClick={() => setNewSiteTypeOpen(true)}>
@@ -61,13 +66,18 @@ const SiteSettingsPage = () => {
             "Muokkaa",
           ]}
         >
-          {fakeSites.map((site) => (
+          {sites.map((site) => (
             <tr key={site.id}>
               <TableCell value={site.name} />
-              <TableCell value={site.type} />
-              <TableCell value={site.municipality} />
-              <TableCell value={site.destination} />
-              <TableCell value={site.units} />
+              <TableCell value={site.siteType.name} />
+              <TableCell value={site.municipality.name} />
+              <TableCell value={"Destinaatio X"} />
+              <TableCell
+                value={site.siteUnits
+                  ?.map((unit) => unit.name)
+                  .filter((unit) => !unit.startsWith("default_"))
+                  .join(", ")}
+              />
               <TableCellOpenOptions fn={() => console.log("hello")} />
             </tr>
           ))}
