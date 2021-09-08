@@ -1,3 +1,4 @@
+import { AccessDenied } from "components/AccessDenied";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery } from "graphql/queries/users/me.generated";
 import { isAdmin } from "utils/isAdmin";
@@ -18,7 +19,7 @@ const AdminsOnly: React.FC<Headings> = ({ title, description, children }) => {
       </AdminPanel>
     );
   } else {
-    return <div>Pääsy estetty</div>;
+    return <AccessDenied />;
   }
 };
 
