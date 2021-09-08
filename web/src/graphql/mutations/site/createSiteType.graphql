@@ -1,0 +1,10 @@
+mutation CreateSiteType($name: String!) {
+  createSiteType(name: $name) {
+    id
+    name
+    organization {
+      name
+      id
+    }
+  }
+}
