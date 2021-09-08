@@ -71,36 +71,30 @@ const OrganizationsTable: React.FC<OrgTableProps> = ({
   organizations,
 }) => {
   return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <Table
-              headers={[
-                "Yrityksen nimi",
-                "Y-tunnus",
-                "Kotikunta",
-                "Toimiala",
-                "Luotu",
-                "Kirjautunut",
-                "Muokkaa",
-              ]}
-            >
-              {organizations?.map((org) => (
-                <tr key={org.id}>
-                  <TableCell value={org.name} />
-                  <TableCell value={org.businessID} />
-                  <TableCell value={org.municipality?.name} />
-                  <TableCell value={org.businessField?.name} />
-                  <TableCell value="10.10.2020" />
-                  <TableCell value={Date()} />
-                  <TableCellOpenOptions fn={() => handleFormOpen(org)} />
-                </tr>
-              ))}
-            </Table>
-          </div>
-        </div>
-      </div>
+    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
+      <Table
+        headers={[
+          "Yrityksen nimi",
+          "Y-tunnus",
+          "Kotikunta",
+          "Toimiala",
+          "Luotu",
+          "Kirjautunut",
+          "Muokkaa",
+        ]}
+      >
+        {organizations?.map((org) => (
+          <tr key={org.id}>
+            <TableCell value={org.name} />
+            <TableCell value={org.businessID} />
+            <TableCell value={org.municipality?.name} />
+            <TableCell value={org.businessField?.name} />
+            <TableCell value="10.10.2020" />
+            <TableCell value={Date()} />
+            <TableCellOpenOptions fn={() => handleFormOpen(org)} />
+          </tr>
+        ))}
+      </Table>
     </div>
   );
 };
