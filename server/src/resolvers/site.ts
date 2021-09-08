@@ -1,7 +1,15 @@
 import { Municipality } from "../entity/Municipality";
 import { Site } from "../entity/Site";
 import { SiteType } from "../entity/SiteType";
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { SiteUnit } from "../entity/SiteUnit";
 import { Role } from "../types/Role";
 import { MyContext } from "../types/MyContext";
@@ -13,7 +21,7 @@ export class SiteResolver {
   async createSite(
     @Arg("name") name: string,
     @Arg("siteTypeID") siteTypeID: string,
-    @Arg("municipalityID") municipalityID: number
+    @Arg("municipalityID", () => Int) municipalityID: number
   ): Promise<Site | undefined> {
     const siteType = await SiteType.findOne(siteTypeID);
     console.log("site type", siteType);
