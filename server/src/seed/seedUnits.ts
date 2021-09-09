@@ -2,7 +2,6 @@ import { Connection } from "typeorm";
 import { MeasurementUnit } from "../entity/MeasurementUnit";
 import { PhysicalQuantity } from "../entity/PhysicalQuantity";
 import {
-  quantities,
   area,
   currency,
   energy,
@@ -12,10 +11,14 @@ import {
   transport,
   volume,
 } from "./data/measumentUnits";
+import { physicalQuantities } from "./data/physicalQuantities";
 
 export const seedUnits = async (conn: Connection) => {
   console.log("======== SEEDING PHYSICAL QUANTITIES AND UNITS =======");
-  const savedQuantities = await conn.manager.save(PhysicalQuantity, quantities);
+  const savedQuantities = await conn.manager.save(
+    PhysicalQuantity,
+    physicalQuantities
+  );
   const unitsToSave = area
     .map((a) => {
       return { ...a, physicalQuantity: savedQuantities[0] };
