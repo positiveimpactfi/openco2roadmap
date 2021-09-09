@@ -2,11 +2,13 @@ mutation CreateSite(
   $name: String!
   $siteTypeID: String!
   $municipalityID: Int!
+  $siteUnits: [String!]
 ) {
   createSite(
     name: $name
     siteTypeID: $siteTypeID
     municipalityID: $municipalityID
+    siteUnits: $siteUnits
   ) {
     id
     name

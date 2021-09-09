@@ -214,6 +214,7 @@ export type MutationCreateSiteArgs = {
   municipalityID: Scalars['Int'];
   name: Scalars['String'];
   siteTypeID: Scalars['String'];
+  siteUnits?: Maybe<Array<Scalars['String']>>;
 };
 
 

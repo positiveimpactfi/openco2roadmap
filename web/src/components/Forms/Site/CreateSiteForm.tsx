@@ -1,4 +1,4 @@
-import { XIcon, CheckIcon } from "@heroicons/react/outline";
+import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
@@ -29,7 +29,6 @@ const CreateSiteForm: React.FC<{
   const [showNewUnitButton, setShowNewUnitButton] = useState(false);
   const [units, setUnits] = useState([]);
   const [showInputField, setShowInputField] = useState(false);
-  const [newUnitValue, setNewUnitValue] = useState(null);
 
   const { data } = useMyOrganizationSiteTypesQuery();
   if (!data?.siteTypes) return <div>Cannot get site types</div>;
@@ -42,6 +41,7 @@ const CreateSiteForm: React.FC<{
             name: values.name,
             siteTypeID: values.siteType.id,
             municipalityID: values.municipality?.id,
+            siteUnits: units,
           },
           refetchQueries: [MyOrganizationSitesDocument],
         });
