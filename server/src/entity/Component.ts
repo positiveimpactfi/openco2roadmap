@@ -31,7 +31,7 @@ export class Component extends BaseEntity {
   @ManyToMany(
     () => EmissionSource,
     (emissionSource) => emissionSource.components,
-    { nullable: true }
+    { nullable: true, eager: true }
   )
-  emissionSources: Promise<EmissionSource[]>;
+  emissionSources: EmissionSource[];
 }
