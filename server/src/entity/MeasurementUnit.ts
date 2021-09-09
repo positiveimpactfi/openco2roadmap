@@ -1,19 +1,13 @@
 import { Field, Float, Int, ObjectType } from "type-graphql";
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { PhysicalQuantity } from "./PhysicalQuantity";
 
 @ObjectType()
 @Entity()
 export class MeasurementUnit extends BaseEntity {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
-  id!: string;
+  @PrimaryColumn()
+  id!: number;
 
   @Field()
   @Column()
