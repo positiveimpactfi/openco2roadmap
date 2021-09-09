@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { GHGScope } from "../types/GHGScope";
 import { Component } from "./Component";
@@ -15,7 +15,7 @@ import { EmissionFactor } from "./EmissionFactor";
 @Entity()
 export class EmissionSource extends BaseEntity {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id!: number;
 
   @Field()

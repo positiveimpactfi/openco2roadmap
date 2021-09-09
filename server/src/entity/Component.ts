@@ -6,7 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { Category } from "./Category";
 import { EmissionSource } from "./EmissionSource";
@@ -15,7 +15,7 @@ import { EmissionSource } from "./EmissionSource";
 @Entity()
 export class Component extends BaseEntity {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id!: number;
 
   @Field()
