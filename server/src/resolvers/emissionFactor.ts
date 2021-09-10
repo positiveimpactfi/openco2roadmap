@@ -10,7 +10,7 @@ export class EmissionFactorResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Query(() => [EmissionFactor])
   allEmissionFactors() {
-    return EmissionFactor.find({});
+    return EmissionFactor.find({ relations: ["physicalQuantity"] });
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
