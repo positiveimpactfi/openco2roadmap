@@ -60,7 +60,7 @@ export enum EmissionSourceType {
   MuutHyodykkeet = 59,
   PalveluHankinnat = 60,
   TavaraHankinnat = 61,
-  TerveydenHuolto = 62,
+  Terveydenhoito = 62,
   Tietoliikenne = 63,
   Toimistotarvikkeet = 64,
   Toimitilat = 65,

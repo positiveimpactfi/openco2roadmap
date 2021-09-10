@@ -457,7 +457,7 @@ export const emissionSources: EmissionSource[] = [
   },
   {
     name: "Terveydenhoito",
-    id: es.TerveydenHuolto,
+    id: es.Terveydenhoito,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.YleisetHankinnat, ComponentType.MuutHankinnat],
   },
