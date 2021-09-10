@@ -32,7 +32,6 @@ export const seedEmissionFactors = async (conn: Connection) => {
         startDate: ef.year,
         endDate: 2050,
         emissionFactor: savedEF,
-        dataEntries: Promise.resolve([]),
       })
       .save();
     (await savedEF.values).push(efValue);

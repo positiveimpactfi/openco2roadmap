@@ -50,7 +50,7 @@ export class DataEntry extends BaseEntity {
   @ManyToOne(() => SiteUnit, (siteUnit) => siteUnit.dataEntries)
   siteUnit: SiteUnit;
 
-  @Field()
-  @ManyToOne(() => EmissionFactorValue, (EFValue) => EFValue.dataEntries)
+  @Field(() => EmissionFactorValue)
+  @ManyToOne(() => EmissionFactorValue)
   emissionFactorValue: EmissionFactorValue;
 }
