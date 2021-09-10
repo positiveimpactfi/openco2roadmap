@@ -8,7 +8,7 @@ export class EmissionFactorValueResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Query(() => [EmissionFactorValue])
   allEmissionFactorValues() {
-    return EmissionFactorValue.find({});
+    return EmissionFactorValue.find({ relations: ["emissionFactor"] });
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
