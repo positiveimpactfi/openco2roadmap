@@ -7,6 +7,7 @@ import { seedComponents } from "./seedComponents";
 import { seedUnits } from "./seedUnits";
 import { seedMunicipalities } from "./seedMunicipalities";
 import { seedEmissionSources } from "./seedEmissionSources";
+import { seedEmissionFactors } from "./seedEmissionFactors";
 
 const seedAll = async () => {
   const conn = await createConnection({
@@ -20,6 +21,7 @@ const seedAll = async () => {
   await seedComponents(conn);
   await seedEmissionSources(conn);
   await seedUnits(conn);
+  await seedEmissionFactors(conn);
 };
 
 seedAll();
