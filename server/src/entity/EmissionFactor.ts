@@ -11,6 +11,7 @@ import {
 import { DataSourceType } from "../types/DataSourceType";
 import { EmissionFactorValue } from "./EmissionFactorValue";
 import { EmissionSource } from "./EmissionSource";
+import { Organization } from "./Organization";
 import { PhysicalQuantity } from "./PhysicalQuantity";
 
 @ObjectType()
@@ -38,6 +39,10 @@ export class EmissionFactor extends BaseEntity {
     (emissionSource) => emissionSource.emissionFactors
   )
   emissionSources: Promise<EmissionSource[]>;
+
+  @Field(() => Organization, { nullable: true })
+  @ManyToOne(() => Organization)
+  creator: Organization;
 
   @Field(() => [EmissionFactorValue], { defaultValue: [] })
   @OneToMany(() => EmissionFactorValue, (value) => value.emissionFactor, {

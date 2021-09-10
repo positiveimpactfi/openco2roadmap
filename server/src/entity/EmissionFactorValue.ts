@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { EmissionFactor } from "./EmissionFactor";
+import { Organization } from "./Organization";
 
 @ObjectType()
 @Entity()
@@ -30,4 +31,8 @@ export class EmissionFactorValue extends BaseEntity {
   @Field(() => EmissionFactor)
   @ManyToOne(() => EmissionFactor, (emissionFactor) => emissionFactor.values)
   emissionFactor: EmissionFactor;
+
+  @Field(() => Organization, { nullable: true })
+  @ManyToOne(() => Organization)
+  creator: Organization;
 }
