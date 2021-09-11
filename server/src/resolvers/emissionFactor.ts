@@ -1,4 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { getConnection } from "typeorm";
 import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
 import { EmissionSource } from "../entity/EmissionSource";
@@ -7,10 +8,33 @@ import { User } from "../entity/User";
 import { DataSourceType } from "../types/DataSourceType";
 import { MyContext } from "../types/MyContext";
 import { Role } from "../types/Role";
+import { z } from "zod";
+
+type myType = (Omit<Partial<EmissionFactor>, "values"> & {
+  values: (Pick<
+    EmissionFactorValue,
+    "id" | "value" | "startDate" | "endDate"
+  > & {
+    creator: {
+      id: string;
+    };
+  })[];
+})[];
+
+const schema = z.array(
+  z.object({
+    id: z.string(),
+    value: z.number(),
+    name: z.string(),
+    startDate: z.number(),
+    endDate: z.number(),
+    creator: z.string(),
+  })
+);
 
 @Resolver(EmissionFactor)
 export class EmissionFactorResolver {
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.ADMIN])
   @Query(() => [EmissionFactor])
   allEmissionFactors(): Promise<EmissionFactor[]> {
     return EmissionFactor.find({ relations: ["physicalQuantity"] });
@@ -19,7 +43,7 @@ export class EmissionFactorResolver {
   @Query(() => [EmissionFactor])
   async myOrganizationEmissionFactors(
     @Ctx() { req }: MyContext
-  ): Promise<EmissionFactor[] | undefined> {
+  ): Promise<myType | undefined> {
     const user = await User.findOne(req.session.userId, {
       relations: ["organizations"],
     });
@@ -28,40 +52,76 @@ export class EmissionFactorResolver {
       return undefined;
     }
     const org = user.organizations[0];
-    const myEmissionFactorValues = await EmissionFactorValue.find({
-      where: { creator: org },
-      relations: [
-        "emissionFactor",
-        "emissionFactor.values",
-        "emissionFactor.values.creator",
-      ],
-    });
-    // groups organization's emission factor values by emission factor
-    const reduced = myEmissionFactorValues.reduce(async (previous, current) => {
-      const prev = await previous;
-      if (!prev) return;
-      if (prev.some((val) => val.name === current.emissionFactor.name)) {
-        const id = prev.findIndex(
-          (val) => val.name === current.emissionFactor.name
-        );
-        const copied = [...prev];
-        const vals = await copied[id].values;
-        const filteredValues = vals.filter((v) => v.creator?.id === org.id);
-        copied[id].values = Promise.resolve(filteredValues);
-        return copied;
-      } else {
-        const ef = current.emissionFactor;
-        const vals = (await ef.values).filter((v) => v.creator?.id === org.id);
-        const filteredEf = {
-          ...ef,
-          values: Promise.resolve(vals),
-        } as EmissionFactor;
-        console.log();
-        return [...prev, filteredEf];
+    const conn = getConnection();
+    const res = await conn.query(
+      `SELECT
+    ev.id,
+    ev.value,
+    ef AS name,
+    ev. "startDate",
+    ev. "endDate",
+    org.id AS creator
+  FROM
+    emission_factor_value AS ev
+    LEFT JOIN emission_factor AS ef ON ev. "emissionFactorId" = ef.id
+    LEFT JOIN organization AS org ON ev. "creatorId" = org.id
+  WHERE
+    ev. "creatorId" IS NOT NULL
+    AND org.id = $1
+  GROUP BY
+    ef,
+    ev.id,
+    org.id
+  ORDER BY
+    ef`,
+      [org.id]
+    );
+    console.log("raw result", res);
+    const result = schema.safeParse(res);
+    if (!result.success) {
+      console.error("sql statement faulty");
+      console.log(result.error);
+      return undefined;
+    }
+    const rawData = result.data;
+    console.log("rawData", rawData);
+    // group values by emission factors
+    const reducedEmissionFactors = rawData.reduce((prev, current) => {
+      if (prev.some((val) => val.name === current.name)) {
+        const id = prev.findIndex((val) => val.name === current.name);
+        const copiedPrev = [...prev];
+        copiedPrev[id].values = [
+          ...copiedPrev[id].values,
+          {
+            id: current.id,
+            value: current.value,
+            startDate: current.startDate,
+            endDate: current.endDate,
+            creator: {
+              id: current.creator,
+            },
+          },
+        ];
+        return copiedPrev;
       }
-    }, Promise.resolve([]) as Promise<EmissionFactor[] | undefined>);
+      return [
+        ...prev,
+        {
+          name: current.name,
+          values: [
+            {
+              id: current.id,
+              value: current.value,
+              startDate: current.startDate,
+              endDate: current.endDate,
+              creator: { id: current.creator },
+            },
+          ],
+        },
+      ];
+    }, [] as myType);
 
-    return reduced;
+    return reducedEmissionFactors;
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
