@@ -40,7 +40,6 @@ export const authChecker: AuthChecker<MyContext> = async (
   );
 
   const result = schema.safeParse(queryResult);
-  console.log("zod", result);
 
   // validation failed
   if (!result.success) {
@@ -54,8 +53,11 @@ export const authChecker: AuthChecker<MyContext> = async (
   if (data[0].role_name === Role.SUPERADMIN) return true;
   console.log("roles", roles);
 
-  if (data.some((role: any) => roles.includes(role.role_name))) {
-    // grant access if the roles overlap
+  /**
+   * currently we assume user only has one organization
+   * grant access if the roles overlap
+   */
+  if (roles.includes(data[0].role_name)) {
     return true;
   }
 
