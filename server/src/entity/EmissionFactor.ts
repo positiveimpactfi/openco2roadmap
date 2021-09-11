@@ -48,7 +48,7 @@ export class EmissionFactor extends BaseEntity {
   @OneToMany(() => EmissionFactorValue, (value) => value.emissionFactor, {
     nullable: true,
   })
-  values: Promise<EmissionFactorValue[]>;
+  values: EmissionFactorValue[];
 
   @Field(() => DataSourceType)
   @Column({
