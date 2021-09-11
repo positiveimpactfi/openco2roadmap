@@ -7,10 +7,13 @@ import { Role } from "../types/Role";
 
 @Resolver(EmissionFactorValue)
 export class EmissionFactorValueResolver {
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.ADMIN])
   @Query(() => [EmissionFactorValue])
   allEmissionFactorValues() {
-    return EmissionFactorValue.find({ relations: ["emissionFactor"] });
+    return EmissionFactorValue.createQueryBuilder("ev")
+      .select(["ev", "emissionFactor.name", "emissionFactor.id"])
+      .leftJoin("ev.emissionFactor", "emissionFactor")
+      .getMany();
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
