@@ -17,6 +17,13 @@ export const calculatorLinks: PageLink[] = [
     href: "/calculator/emission-sources",
   },
   {
+    name: "Päästökertoimet",
+    description:
+      "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy. Voit muokata näihin liittyviä päästökertoimia asetuksissa.",
+    icon: GlobeAltIcon,
+    href: "/calculator/emission-factors",
+  },
+  {
     name: "Kulutustiedot",
     description:
       "Hiilijalanjäljen laskeminen perustuu yrityksesi todellisiin kulutustietoihin. Saat nämä mm. energiayhtiöiltä, ajopäiväkirjoista ja kirjanpidosta. sivun kautta syötät energian, jätteiden, hankintojen ja hallinnon eri kulutustiedot, kuukausi- tai vuositasolla.",
