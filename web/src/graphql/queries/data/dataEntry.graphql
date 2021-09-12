@@ -1,0 +1,27 @@
+query MyDataEntries {
+  myDataEntries {
+    id
+    startDate
+    endDate
+    consumptionValue
+    measurementUnit
+    emissionSource
+    category
+    emissionFactorValue {
+      value
+      startDate
+      endDate
+      id
+    }
+    createdBy {
+      id
+      email
+    }
+    siteUnit {
+      name
+      site {
+        name
+      }
+    }
+  }
+}

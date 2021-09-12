@@ -35,6 +35,14 @@ export type Category = {
   name: Scalars['String'];
 };
 
+/** Emission categories */
+export enum CategoryType {
+  Hallinto = 'Hallinto',
+  Hankinnat = 'Hankinnat',
+  Logistiikka = 'Logistiikka',
+  Toimitilat = 'Toimitilat'
+}
+
 export type Component = {
   __typename?: 'Component';
   category: Category;
@@ -46,12 +54,15 @@ export type Component = {
 export type DataEntry = {
   __typename?: 'DataEntry';
   calculationResults: Array<CalculationResult>;
+  category: CategoryType;
   comments?: Maybe<Scalars['String']>;
   consumptionValue: Scalars['Float'];
   createdBy: User;
   emissionFactorValue: EmissionFactorValue;
+  emissionSource: EmissionSourceType;
   endDate: Scalars['DateTime'];
   id: Scalars['ID'];
+  measurementUnit: MeasurementUnitType;
   siteUnit: SiteUnit;
   startDate: Scalars['DateTime'];
 };
@@ -102,6 +113,75 @@ export type EmissionSource = {
   scope?: Maybe<GhgScope>;
 };
 
+/** Emission sources */
+export enum EmissionSourceType {
+  BensiiniHenkiloauto = 'BensiiniHenkiloauto',
+  Biojate = 'Biojate',
+  DieselHenkiloauto = 'DieselHenkiloauto',
+  ElintarvikkeetEur = 'ElintarvikkeetEUR',
+  Energiajate = 'Energiajate',
+  HedelmatJaVihannekset = 'HedelmatJaVihannekset',
+  HenkiloautoKa = 'HenkiloautoKA',
+  Herkut = 'Herkut',
+  Jakelukuormaauto6t = 'Jakelukuormaauto6t',
+  Jakelukuormaauto15t = 'Jakelukuormaauto15t',
+  Junaliput = 'Junaliput',
+  Juomat = 'Juomat',
+  KaasuHenkiloauto = 'KaasuHenkiloauto',
+  KalaJaMerenlevat = 'KalaJaMerenlevat',
+  Kananmunat = 'Kananmunat',
+  KasvimaidotJaProteiinit = 'KasvimaidotJaProteiinit',
+  Kaukojaahdytys = 'Kaukojaahdytys',
+  Kaukolampo = 'Kaukolampo',
+  Kaukolennot = 'Kaukolennot',
+  Kiinteistohoito = 'Kiinteistohoito',
+  Konttialus = 'Konttialus',
+  Kotimaanlennot = 'Kotimaanlennot',
+  Laitehankinnat = 'Laitehankinnat',
+  Laivaliput = 'Laivaliput',
+  Lasijate = 'Lasijate',
+  Lentoliput = 'Lentoliput',
+  Liha = 'Liha',
+  LinjaRaitioMetro = 'LinjaRaitioMetro',
+  LyhyetLennotKotimaa = 'LyhyetLennotKotimaa',
+  LyhyetUlkomaatlennot = 'LyhyetUlkomaatlennot',
+  LyhytLennotEurooppa = 'LyhytLennotEurooppa',
+  Maitotuotteet = 'Maitotuotteet',
+  Majoituspalveluhankinnat = 'Majoituspalveluhankinnat',
+  MatkailumenotUlkomailla = 'MatkailumenotUlkomailla',
+  Matkakorvaukset = 'Matkakorvaukset',
+  Metallijate = 'Metallijate',
+  MuutHyodykkeet = 'MuutHyodykkeet',
+  MuutKuljetuspalveluHankinnat = 'MuutKuljetuspalveluHankinnat',
+  MuutProteiinit = 'MuutProteiinit',
+  MuutTuotteet = 'MuutTuotteet',
+  PahviJaKartonki = 'PahviJaKartonki',
+  Pakettiauto = 'Pakettiauto',
+  PalveluHankinnat = 'PalveluHankinnat',
+  Paperijate = 'Paperijate',
+  Paristot = 'Paristot',
+  Peravaunu = 'Peravaunu',
+  PitkatLennotEurooppa = 'PitkatLennotEurooppa',
+  PitkatLennotKotimaa = 'PitkatLennotKotimaa',
+  Polttoaineet = 'Polttoaineet',
+  Puoliperavaunu = 'Puoliperavaunu',
+  Rasvat = 'Rasvat',
+  Ser = 'SER',
+  Sahko = 'Sahko',
+  SahkoHenkiloauto = 'SahkoHenkiloauto',
+  Sekajate = 'Sekajate',
+  Taksikulut = 'Taksikulut',
+  TavaraHankinnat = 'TavaraHankinnat',
+  TavarajunaDiesel = 'TavarajunaDiesel',
+  TavarajunaSahko = 'TavarajunaSahko',
+  Terveydenhoito = 'Terveydenhoito',
+  Tietoliikenne = 'Tietoliikenne',
+  Toimistotarvikkeet = 'Toimistotarvikkeet',
+  Toimitilat = 'Toimitilat',
+  Valmismatkahankinnat = 'Valmismatkahankinnat',
+  Viljatuotteet = 'Viljatuotteet'
+}
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -140,6 +220,44 @@ export type MeasurementUnit = {
   shorthand: Scalars['String'];
 };
 
+/** Units of physical quantities */
+export enum MeasurementUnitType {
+  Eur = 'EUR',
+  Gj = 'GJ',
+  GWh = 'GWh',
+  J = 'J',
+  Mj = 'MJ',
+  Mm = 'MM',
+  MWh = 'MWh',
+  Tj = 'TJ',
+  Wh = 'Wh',
+  A = 'a',
+  Cm = 'cm',
+  Cm2 = 'cm2',
+  Cm3 = 'cm3',
+  D = 'd',
+  G = 'g',
+  H = 'h',
+  Ha = 'ha',
+  KJ = 'kJ',
+  KWh = 'kWh',
+  Kg = 'kg',
+  Km = 'km',
+  Km2 = 'km2',
+  L = 'l',
+  M = 'm',
+  M2 = 'm2',
+  M3 = 'm3',
+  Mi = 'mi',
+  Min = 'min',
+  Ml = 'ml',
+  Nmi = 'nmi',
+  Pkm = 'pkm',
+  S = 's',
+  T = 't',
+  Tkm = 'tkm'
+}
+
 export type Municipality = {
   __typename?: 'Municipality';
   id: Scalars['Int'];
@@ -175,9 +293,12 @@ export type MutationAddUserToOrganizationArgs = {
 
 
 export type MutationCreateDataEntryArgs = {
+  category: CategoryType;
   consumptionValue: Scalars['Float'];
+  emissionSource: EmissionSourceType;
   emissionsFactorValueID: Scalars['String'];
   endDate: Scalars['DateTime'];
+  measurementUnit: MeasurementUnitType;
   siteUnitID: Scalars['String'];
   startDate: Scalars['DateTime'];
 };
@@ -307,7 +428,9 @@ export type Query = {
   businessFields: Array<BusinessField>;
   categories: Array<Category>;
   me?: Maybe<User>;
+  myDataEntries: Array<DataEntry>;
   myEmissionFactors: Array<EmissionFactor>;
+  myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
