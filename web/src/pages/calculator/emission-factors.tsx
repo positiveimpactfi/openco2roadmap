@@ -84,16 +84,6 @@ const CalculatorEmissionFactorsPage = () => {
           </tr>
         ))}
       </Table>
-      <Table
-        headers={[
-          "Nimi",
-          "Lähde",
-          "Alkaen",
-          "Päättyen",
-          "Uusin arvo",
-          "Tiedot",
-        ]}
-      ></Table>
     </CalculatorPanel>
   );
 };
