@@ -45,7 +45,9 @@ export class EmissionFactorResolver {
   @Authorized([Role.ADMIN])
   @Query(() => [EmissionFactor])
   allEmissionFactors(): Promise<EmissionFactor[]> {
-    return EmissionFactor.find({ relations: ["physicalQuantity", "creator"] });
+    return EmissionFactor.find({
+      relations: ["physicalQuantity", "creator", "values"],
+    });
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
@@ -55,6 +57,30 @@ export class EmissionFactorResolver {
       where: { creator: null },
       relations: ["physicalQuantity"],
     });
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
+  @Query(() => [EmissionFactor])
+  async myEmissionFactors(
+    @Ctx() { req }: MyContext
+  ): Promise<EmissionFactor[] | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+    const org = user.organizations[0];
+    const res = await EmissionFactor.createQueryBuilder("ef")
+      .select(["ef", "ev"])
+      .leftJoin("ef.values", "ev")
+      .leftJoin("ef.creator", "creator")
+      .where("ef.creatorId =:efCreatorId", { efCreatorId: org.id })
+      .orWhere("ev.creatorId =:evCreatorId", { evCreatorId: org.id })
+      .getMany();
+    console.log(res);
+    return res;
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
@@ -84,7 +110,7 @@ export class EmissionFactorResolver {
     LEFT JOIN emission_factor AS ef ON ev. "emissionFactorId" = ef.id
     LEFT JOIN organization AS org ON ev. "creatorId" = org.id
   WHERE
-    ev. "creatorId" IS NOT NULL
+    ef. "creatorId" IS NOT NULL
     AND org.id = $1
   GROUP BY
     ef,
