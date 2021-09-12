@@ -12,7 +12,6 @@ import { EmissionSourceType } from "../types/EmissionSourceType";
 import { MeasurementUnitType } from "../types/MeasurementUnitType";
 import { CalculationResult } from "./CalculationResult";
 import { EmissionFactorValue } from "./EmissionFactorValue";
-// import { MeasurementUnit } from "./MeasurementUnit";
 import { SiteUnit } from "./SiteUnit";
 import { User } from "./User";
 
