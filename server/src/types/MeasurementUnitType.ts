@@ -1,3 +1,5 @@
+import { registerEnumType } from "type-graphql";
+
 export enum MeasurementUnitType {
   m2 = 1,
   cm2 = 2,
@@ -34,3 +36,8 @@ export enum MeasurementUnitType {
   l = 33,
   ml = 34,
 }
+
+registerEnumType(MeasurementUnitType, {
+  name: "MeasurementUnitType",
+  description: "Units of physical quantities",
+});

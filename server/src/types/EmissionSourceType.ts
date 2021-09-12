@@ -1,3 +1,5 @@
+import { registerEnumType } from "type-graphql";
+
 export enum EmissionSourceType {
   Kaukojaahdytys = 1,
   Kaukolampo = 2,
@@ -65,3 +67,8 @@ export enum EmissionSourceType {
   Toimistotarvikkeet = 64,
   Toimitilat = 65,
 }
+
+registerEnumType(EmissionSourceType, {
+  name: "EmissionSourceType",
+  description: "Emission sources",
+});
