@@ -58,6 +58,17 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
       possibleTypes: {
         authenticatedItem: ["User"],
       },
+      typePolicies: {
+        EmissionFactor: {
+          fields: {
+            values: {
+              merge(existing = [], incoming: any[]) {
+                return [...existing, ...incoming];
+              },
+            },
+          },
+        },
+      },
     }),
   });
 };
