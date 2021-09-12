@@ -1,0 +1,17 @@
+fragment EmissionFactorFragment on EmissionFactor {
+  id
+  name
+  source
+  values {
+    value
+    startDate
+    endDate
+  }
+  physicalQuantity {
+    name
+    baseUnit {
+      name
+      shorthand
+    }
+  }
+}

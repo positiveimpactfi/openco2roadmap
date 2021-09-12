@@ -185,7 +185,7 @@ export type MutationCreateDataEntryArgs = {
 
 export type MutationCreateEmissionFactorArgs = {
   dataSourceType?: Maybe<DataSourceType>;
-  emissionSourceIDs: Array<Scalars['String']>;
+  emissionSourceIDs: Array<Scalars['Int']>;
   name: Scalars['String'];
   physicalQuantityID: Scalars['Float'];
   source?: Maybe<Scalars['String']>;
@@ -299,6 +299,7 @@ export type Query = {
   allEmissionSources: Array<EmissionSource>;
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
+  allPublicEmissionFactors: Array<EmissionFactor>;
   allSiteUnits: Array<SiteUnit>;
   allSites: Array<Site>;
   allSitesInMyOrganization: Array<Site>;
@@ -306,6 +307,7 @@ export type Query = {
   businessFields: Array<BusinessField>;
   categories: Array<Category>;
   me?: Maybe<User>;
+  myEmissionFactors: Array<EmissionFactor>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
