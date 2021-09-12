@@ -73,13 +73,14 @@ export class EmissionFactorResolver {
     }
     const org = user.organizations[0];
     const res = await EmissionFactor.createQueryBuilder("ef")
-      .select(["ef", "ev"])
+      .select(["ef", "ev", "quantity", "baseUnit"])
       .leftJoin("ef.values", "ev")
       .leftJoin("ef.creator", "creator")
+      .leftJoin("ef.physicalQuantity", "quantity")
+      .leftJoin("quantity.baseUnit", "baseUnit")
       .where("ef.creatorId =:efCreatorId", { efCreatorId: org.id })
       .orWhere("ev.creatorId =:evCreatorId", { evCreatorId: org.id })
       .getMany();
-    console.log(res);
     return res;
   }
 
