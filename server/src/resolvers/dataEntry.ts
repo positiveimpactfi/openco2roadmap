@@ -30,6 +30,28 @@ export class DataEntryResolver {
     });
   }
 
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Query(() => [DataEntry])
+  async myOrganizationDataEntries(
+    @Ctx() { req }: MyContext
+  ): Promise<DataEntry[] | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+    const org = user.organizations[0];
+    const res = await DataEntry.createQueryBuilder("data")
+      .select(["data", "createdBy", "org"])
+      .leftJoin("data.createdBy", "createdBy")
+      .leftJoin("createdBy.organizations", "org")
+      .where("org.id = :id", { id: org.id })
+      .getMany();
+    return res;
+  }
+
   @Mutation(() => DataEntry)
   async createDataEntry(
     @Ctx() { req }: MyContext,
