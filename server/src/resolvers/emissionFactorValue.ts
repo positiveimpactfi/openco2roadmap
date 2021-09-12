@@ -16,7 +16,7 @@ export class EmissionFactorValueResolver {
       .getMany();
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => EmissionFactorValue)
   async createEmissionFactorValue(
     @Ctx() { req }: MyContext,
@@ -33,7 +33,9 @@ export class EmissionFactorValueResolver {
       return undefined;
     }
     const org = user.organizations[0];
-    const EF = await EmissionFactor.findOne(emissionFactorID);
+    const EF = await EmissionFactor.findOne(emissionFactorID, {
+      relations: ["values"],
+    });
     if (!EF) {
       console.error("no EF");
       return undefined;
@@ -47,7 +49,8 @@ export class EmissionFactorValueResolver {
       creator: org,
     }).save();
 
-    (await EF.values).push(newEFValue);
+    EF.values.push(newEFValue);
+    await EmissionFactor.save(EF);
     console.log("created EF value", newEFValue);
     return newEFValue;
   }
