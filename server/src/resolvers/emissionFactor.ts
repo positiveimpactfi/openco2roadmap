@@ -53,10 +53,14 @@ export class EmissionFactorResolver {
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Query(() => [EmissionFactor])
   allPublicEmissionFactors(): Promise<EmissionFactor[]> {
-    return EmissionFactor.find({
-      where: { creator: null },
-      relations: ["physicalQuantity"],
-    });
+    const res = EmissionFactor.createQueryBuilder("ef")
+      .select(["ef", "quantity", "values", "baseUnit"])
+      .leftJoin("ef.physicalQuantity", "quantity")
+      .leftJoin("ef.values", "values")
+      .leftJoin("quantity.baseUnit", "baseUnit")
+      .where("values.creatorId IS NULL")
+      .getMany();
+    return res;
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
