@@ -14,6 +14,22 @@ export class DataEntryResolver {
     return DataEntry.find({});
   }
 
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
+  @Query(() => [DataEntry])
+  async myDataEntries(
+    @Ctx() { req }: MyContext
+  ): Promise<DataEntry[] | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      console.error("no user!");
+      return undefined;
+    }
+    return DataEntry.find({
+      where: { createdBy: user },
+      relations: ["createdBy"],
+    });
+  }
+
   @Mutation(() => DataEntry)
   async createDataEntry(
     @Ctx() { req }: MyContext,
