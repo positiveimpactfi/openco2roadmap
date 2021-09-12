@@ -1,4 +1,12 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { getConnection } from "typeorm";
 import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
@@ -37,9 +45,19 @@ export class EmissionFactorResolver {
   @Authorized([Role.ADMIN])
   @Query(() => [EmissionFactor])
   allEmissionFactors(): Promise<EmissionFactor[]> {
-    return EmissionFactor.find({ relations: ["physicalQuantity"] });
+    return EmissionFactor.find({ relations: ["physicalQuantity", "creator"] });
   }
 
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Query(() => [EmissionFactor])
+  allPublicEmissionFactors(): Promise<EmissionFactor[]> {
+    return EmissionFactor.find({
+      where: { creator: null },
+      relations: ["physicalQuantity"],
+    });
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Query(() => [EmissionFactor])
   async myOrganizationEmissionFactors(
     @Ctx() { req }: MyContext
@@ -128,7 +146,7 @@ export class EmissionFactorResolver {
   @Mutation(() => EmissionFactor)
   async createEmissionFactor(
     @Ctx() { req }: MyContext,
-    @Arg("emissionSourceIDs", () => [String]) emissionSourceIDs: string[],
+    @Arg("emissionSourceIDs", () => [Int]) emissionSourceIDs: number[],
     @Arg("name") name: string,
     @Arg("physicalQuantityID") physicalQuantityID: number,
     @Arg("source", { nullable: true }) source: string,
