@@ -1,10 +1,13 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { DataEntry } from "../entity/DataEntry";
-import { Role } from "../types/Role";
-import { MyContext } from "../types/MyContext";
-import { User } from "../entity/User";
-import { SiteUnit } from "../entity/SiteUnit";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
+import { SiteUnit } from "../entity/SiteUnit";
+import { User } from "../entity/User";
+import { CategoryType } from "../types/CategoryType";
+import { EmissionSourceType } from "../types/EmissionSourceType";
+import { MeasurementUnitType } from "../types/MeasurementUnitType";
+import { MyContext } from "../types/MyContext";
+import { Role } from "../types/Role";
 
 @Resolver(DataEntry)
 export class DataEntryResolver {
@@ -24,10 +27,19 @@ export class DataEntryResolver {
       console.error("no user!");
       return undefined;
     }
-    return DataEntry.find({
-      where: { createdBy: user },
-      relations: ["createdBy"],
-    });
+
+    const res = await DataEntry.createQueryBuilder("data")
+      .select(["data", "createdBy", "siteUnit", "site", "ev", "ef"])
+      .leftJoin("data.createdBy", "createdBy")
+      .leftJoin("createdBy.organizations", "org")
+      .leftJoin("data.siteUnit", "siteUnit")
+      .leftJoin("siteUnit.site", "site")
+      .leftJoin("data.emissionFactorValue", "ev")
+      .leftJoin("ev.emissionFactor", "ef")
+      .where("createdBy.id = :id", { id: user.id })
+      .getMany();
+
+    return res;
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
@@ -57,6 +69,11 @@ export class DataEntryResolver {
     @Ctx() { req }: MyContext,
     @Arg("siteUnitID") siteUnitID: string,
     @Arg("emissionsFactorValueID") emissionFactorValueID: string,
+    @Arg("emissionSource", () => EmissionSourceType)
+    emissionSource: EmissionSourceType,
+    @Arg("measurementUnit", () => MeasurementUnitType)
+    measurementUnit: MeasurementUnitType,
+    @Arg("category", () => CategoryType) category: CategoryType,
     @Arg("startDate", () => Date) startDate: Date,
     @Arg("endDate", () => Date) endDate: Date,
     @Arg("consumptionValue") consumptionValue: number
@@ -81,6 +98,9 @@ export class DataEntryResolver {
       startDate,
       endDate,
       consumptionValue,
+      measurementUnit,
+      category,
+      emissionSource,
       emissionFactorValue: EFValue,
       createdBy: user,
     }).save();
