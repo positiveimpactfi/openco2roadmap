@@ -7,8 +7,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { CategoryType } from "../types/CategoryType";
+import { EmissionSourceType } from "../types/EmissionSourceType";
+import { MeasurementUnitType } from "../types/MeasurementUnitType";
 import { CalculationResult } from "./CalculationResult";
 import { EmissionFactorValue } from "./EmissionFactorValue";
+// import { MeasurementUnit } from "./MeasurementUnit";
 import { SiteUnit } from "./SiteUnit";
 import { User } from "./User";
 
@@ -53,4 +57,25 @@ export class DataEntry extends BaseEntity {
   @Field(() => EmissionFactorValue)
   @ManyToOne(() => EmissionFactorValue)
   emissionFactorValue: EmissionFactorValue;
+
+  @Field(() => MeasurementUnitType)
+  @Column({
+    type: "enum",
+    enum: MeasurementUnitType,
+  })
+  measurementUnit: MeasurementUnitType;
+
+  @Field(() => EmissionSourceType)
+  @Column({
+    type: "enum",
+    enum: EmissionSourceType,
+  })
+  emissionSource: EmissionSourceType;
+
+  @Field(() => CategoryType)
+  @Column({
+    type: "enum",
+    enum: CategoryType,
+  })
+  category: CategoryType;
 }
