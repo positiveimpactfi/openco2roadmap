@@ -5,10 +5,15 @@ import { Component } from "../entity/Component";
 
 @Resolver(EmissionSource)
 export class EmissionSourceResolver {
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Query(() => [EmissionSource])
-  allEmissionSources() {
-    return EmissionSource.find({});
+  async allEmissionSources(): Promise<EmissionSource[]> {
+    const res = await EmissionSource.createQueryBuilder("es")
+      .select(["es", "components", "category.name", "category.id"])
+      .leftJoin("es.components", "components")
+      .leftJoin("components.category", "category")
+      .getMany();
+    return res;
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
