@@ -1,22 +1,11 @@
 import CalculatorPanel from "components/CalculatorPanel";
 import Table, { TableCell } from "components/Table";
-
-const fakeSite = {
-  id: 1,
-  name: "Inarin hotelli",
-  type: "Hotelli",
-  municipality: "Inari",
-  destination: "Lappi",
-  units: "Päärakennus, rantamökit, sauna",
-};
-
-const fakeSites = Array(20)
-  .fill(fakeSite)
-  .map((es, i) => {
-    return { ...es, id: es.id + i };
-  });
+import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 
 const CalculatorSitesPage = () => {
+  const { data } = useMyOrganizationSitesQuery();
+  if (!data?.allSitesInMyOrganization) return <div>No organizations</div>;
+  const sites = data.allSitesInMyOrganization;
   return (
     <CalculatorPanel
       title="Toimipaikat"
@@ -32,13 +21,18 @@ const CalculatorSitesPage = () => {
             "Yksiköt",
           ]}
         >
-          {fakeSites.map((site) => (
+          {sites.map((site) => (
             <tr key={site.id}>
               <TableCell value={site.name} />
-              <TableCell value={site.type} />
-              <TableCell value={site.municipality} />
-              <TableCell value={site.destination} />
-              <TableCell value={site.units} />
+              <TableCell value={site.siteType.name} />
+              <TableCell value={site.municipality.name} />
+              <TableCell value={"Destinaatio X"} />
+              <TableCell
+                value={site.siteUnits
+                  ?.map((unit) => unit.name)
+                  .filter((unit) => !unit.startsWith("default_"))
+                  .join(", ")}
+              />
             </tr>
           ))}
         </Table>
