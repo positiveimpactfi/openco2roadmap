@@ -1,0 +1,14 @@
+query allComponents {
+  allComponents {
+    id
+    name
+    category {
+      name
+    }
+    emissionSources {
+      id
+      name
+      scope
+    }
+  }
+}

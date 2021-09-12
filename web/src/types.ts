@@ -39,7 +39,7 @@ export type Component = {
   __typename?: 'Component';
   category: Category;
   emissionSources?: Maybe<Array<EmissionSource>>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -72,6 +72,7 @@ export type EditOrganizationInput = {
 
 export type EmissionFactor = {
   __typename?: 'EmissionFactor';
+  creator?: Maybe<Organization>;
   dataSourceType: DataSourceType;
   emissionSources: Array<EmissionSource>;
   geographicalArea?: Maybe<Scalars['String']>;
@@ -84,7 +85,7 @@ export type EmissionFactor = {
 
 export type EmissionFactorValue = {
   __typename?: 'EmissionFactorValue';
-  dataEntries: Array<DataEntry>;
+  creator?: Maybe<Organization>;
   emissionFactor: EmissionFactor;
   endDate: Scalars['Int'];
   id: Scalars['ID'];
@@ -94,9 +95,9 @@ export type EmissionFactorValue = {
 
 export type EmissionSource = {
   __typename?: 'EmissionSource';
-  components: Component;
+  components: Array<Component>;
   emissionFactors?: Maybe<Array<EmissionFactor>>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   name: Scalars['String'];
   scope?: Maybe<GhgScope>;
 };
@@ -291,6 +292,7 @@ export type PhysicalQuantity = {
 
 export type Query = {
   __typename?: 'Query';
+  allComponents: Array<Component>;
   allDataEntries: Array<DataEntry>;
   allEmissionFactorValues: Array<EmissionFactorValue>;
   allEmissionFactors: Array<EmissionFactor>;
@@ -303,8 +305,8 @@ export type Query = {
   allUsers: Array<User>;
   businessFields: Array<BusinessField>;
   categories: Array<Category>;
-  components: Array<Component>;
   me?: Maybe<User>;
+  myOrganizationEmissionFactors: Array<EmissionFactor>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
   units: Array<MeasurementUnit>;
