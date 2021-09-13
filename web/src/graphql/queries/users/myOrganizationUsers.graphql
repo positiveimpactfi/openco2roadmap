@@ -1,0 +1,8 @@
+query MyOrganizationUsers {
+  myOrganizationUsers {
+    id
+    firstName
+    lastName
+    email
+  }
+}

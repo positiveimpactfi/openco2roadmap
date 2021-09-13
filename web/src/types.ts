@@ -432,6 +432,7 @@ export type Query = {
   myEmissionFactors: Array<EmissionFactor>;
   myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
+  myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
   units: Array<MeasurementUnit>;
