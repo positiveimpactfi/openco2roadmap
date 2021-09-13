@@ -34,7 +34,8 @@ export const seedEmissionFactors = async (conn: Connection) => {
         emissionFactor: savedEF,
       })
       .save();
-    (await savedEF.values).push(efValue);
+    savedEF.values = savedEF.values ? [...savedEF.values, efValue] : [efValue];
+    await conn.manager.save(EmissionFactor, savedEF);
   }
 
   console.log("===========FINISH SEEDING EMISSION FACTORS==========");
