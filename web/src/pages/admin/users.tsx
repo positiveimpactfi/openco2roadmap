@@ -4,10 +4,14 @@ import CreateUserForm from "components/Forms/User/CreateUserForm";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllUsersQuery } from "graphql/queries/users/allUsers.generated";
+import { useMeQuery } from "graphql/queries/users/me.generated";
+import { useMyOrganizationUsersQuery } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useState } from "react";
 import { User } from "types";
+import { isSuperAdmin } from "utils/isAdmin";
 
 const UsersPage = () => {
+  const { data } = useMeQuery();
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [inviteFormOpen, setInviteFormOpen] = useState(false);
   const [addFormOpen, setAddFormOpen] = useState(false);
@@ -44,46 +48,51 @@ const UsersPage = () => {
         >
           <CreateUserForm setOpen={setAddFormOpen} />
         </SlideOver>
-        <div className="flex space-x-2">
-          <Button onClick={() => setInviteFormOpen(true)}>
+        <div className="flex space-x-2 mb-4">
+          <Button variant="success" onClick={() => setInviteFormOpen(true)}>
             Kutsu käyttäjä
           </Button>
-          <Button onClick={() => setAddFormOpen(true)}>Lisää käyttäjä</Button>
+          <Button variant="success" onClick={() => setAddFormOpen(true)}>
+            Lisää käyttäjä
+          </Button>
         </div>
-        <UsersTable handleFormOpen={handleEditUser} />
+        {isSuperAdmin(data?.me) ? (
+          <SuperAdminUserTable handleFormOpen={handleEditUser} />
+        ) : (
+          <CompanyUsersTable handleFormOpen={handleEditUser} />
+        )}
       </div>
     </AdminsOnly>
   );
 };
 
-const UsersTable: React.FC<{ handleFormOpen: (val: User) => void }> = ({
-  handleFormOpen,
-}) => {
-  const { data, loading } = useAllUsersQuery();
-  if (loading) return <div>loading...</div>;
-  if (!data.allUsers) return <div>no users</div>;
+const CompanyUsersTable: React.FC<{
+  handleFormOpen: (val: Partial<User>) => void;
+}> = ({ handleFormOpen }) => {
+  const { data, loading } = useMyOrganizationUsersQuery();
+  if (loading) return <div>ladataan...</div>;
+  if (!data?.myOrganizationUsers) return <div>ei käyttäjiä</div>;
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <Table
+              alignLastRight
               headers={[
                 "Sukunimi",
                 "Etunimi",
                 "Sähköposti",
                 "Luotu",
-                "Yritykset",
                 "Muokkaa",
               ]}
             >
-              {data.allUsers?.map((user) => (
+              {data.myOrganizationUsers?.map((user) => (
                 <tr key={user.id}>
-                  <TableCell value={user.lastName} />
-                  <TableCell value={user.firstName} />
+                  <TableCell value={user.lastName ?? "--"} />
+                  <TableCell value={user.firstName ?? "--"} />
                   <TableCell value={user.email} />
                   <TableCell value="10.10.2020" />
-                  <TableCell value={user.organizations[0]?.name} />
                   <TableCellOpenOptions fn={() => handleFormOpen(user)} />
                 </tr>
               ))}
@@ -94,5 +103,44 @@ const UsersTable: React.FC<{ handleFormOpen: (val: User) => void }> = ({
     </div>
   );
 };
+
+const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
+  ({ handleFormOpen }) => {
+    const { data, loading } = useAllUsersQuery();
+    if (loading) return <div>ladataan...</div>;
+    if (!data.allUsers) return <div>ei käyttäjiä</div>;
+    return (
+      <div className="flex flex-col">
+        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <Table
+                alignLastRight
+                headers={[
+                  "Sukunimi",
+                  "Etunimi",
+                  "Sähköposti",
+                  "Luotu",
+                  "Yritykset",
+                  "Muokkaa",
+                ]}
+              >
+                {data.allUsers?.map((user) => (
+                  <tr key={user.id}>
+                    <TableCell value={user.lastName} />
+                    <TableCell value={user.firstName} />
+                    <TableCell value={user.email} />
+                    <TableCell value="10.10.2020" />
+                    <TableCell value={user.organizations[0]?.name} />
+                    <TableCellOpenOptions fn={() => handleFormOpen(user)} />
+                  </tr>
+                ))}
+              </Table>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
 export default UsersPage;
