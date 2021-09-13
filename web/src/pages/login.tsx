@@ -54,14 +54,14 @@ const LoginPage = () => {
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 Kirjaudu CO2-laskuriin
               </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
+              {/* <p className="mt-2 text-center text-sm text-gray-600">
                 Tai{" "}
                 <Link href="/register" passHref>
                   <a className="font-medium text-teal-600 hover:text-teal-500">
                     Luo uusi käyttäjätunnus
                   </a>
                 </Link>
-              </p>
+              </p> */}
             </div>
             <LoginForm isSubmitting={isSubmitting} />
           </div>
