@@ -65,6 +65,24 @@ export class OrganizationResolver {
     return users;
   }
 
+  @Authorized(Role.ADMIN, Role.COMPANY_ADMIN)
+  @Query(() => [User])
+  async myOrganizationUsers(
+    @Ctx() { req }: MyContext
+  ): Promise<User[] | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) return undefined;
+    const org = user.organizations[0];
+    const res = await User.createQueryBuilder("user")
+      .select(["user", "org"])
+      .leftJoin("user.organizations", "org")
+      .where("org.id = :id", { id: org.id })
+      .getMany();
+    return res;
+  }
+
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Mutation(() => Organization)
   async createOrganization(
