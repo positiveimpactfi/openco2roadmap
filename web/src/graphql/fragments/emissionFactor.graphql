@@ -14,4 +14,8 @@ fragment EmissionFactorFragment on EmissionFactor {
       shorthand
     }
   }
+  emissionSources {
+    id
+    name
+  }
 }

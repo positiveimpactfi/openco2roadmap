@@ -1,0 +1,24 @@
+mutation CreateDataEntry(
+  $consumptionValue: Float!
+  $endDate: DateTime!
+  $startDate: DateTime!
+  $category: CategoryType!
+  $measurementUnit: MeasurementUnitType!
+  $emissionSource: EmissionSourceType!
+  $emissionsFactorValueID: String!
+  $siteUnitID: String!
+) {
+  createDataEntry(
+    consumptionValue: $consumptionValue
+    emissionsFactorValueID: $emissionsFactorValueID
+    emissionSource: $emissionSource
+    category: $category
+    measurementUnit: $measurementUnit
+    siteUnitID: $siteUnitID
+    startDate: $startDate
+    endDate: $endDate
+  ) {
+    id
+    consumptionValue
+  }
+}
