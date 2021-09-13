@@ -14,8 +14,11 @@ interface LoginFormProps {
 }
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email!").min(5).required("Required!"),
-  password: Yup.string().min(5).max(30).required("Required!"),
+  email: Yup.string()
+    .email("Tarkista antamasi sähköpostiosoite")
+    .min(5)
+    .required("Sähköpostiosoite vaaditaan!"),
+  password: Yup.string().min(5).max(30).required("Salasana vaaditan!"),
 });
 
 const LoginPage = () => {
