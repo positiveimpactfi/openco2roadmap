@@ -1,15 +1,30 @@
+import Button from "components/Button";
 import CalculatorPanel from "components/CalculatorPanel";
+import CreateDataEntryForm from "components/Forms/Data/CreateDataEntryForm";
+import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { allUnits } from "data/measumentUnits";
+import { allUnits } from "data/measurementUnits";
 import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
+import { useState } from "react";
 
 const CalculatorConsumptionDataPage = () => {
+  const [formOpen, setFormOpen] = useState(false);
   const { data } = useMyDataEntriesQuery();
   if (!data?.myDataEntries) return <div>no data!</div>;
   const dataEntries = data.myDataEntries;
   return (
     <CalculatorPanel title="Kulutustiedot" description="">
-      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+      <Button variant="success" onClick={() => setFormOpen(true)}>
+        Lisää tietoja
+      </Button>
+      <SlideOver
+        title="Lisää kulutustietoja"
+        open={formOpen}
+        setOpen={setFormOpen}
+      >
+        <CreateDataEntryForm setOpen={setFormOpen} />
+      </SlideOver>
+      <div className="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <Table
           headers={[
             "Kategoria",
@@ -47,7 +62,7 @@ const CalculatorConsumptionDataPage = () => {
                     entry.emissionFactorValue.value *
                     allUnits.find(
                       (unit) => unit.shorthand === entry.measurementUnit
-                    ).conversionFactor +
+                    )?.conversionFactor +
                   " kg CO2e"
                 }
               />
