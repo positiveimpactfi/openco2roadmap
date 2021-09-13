@@ -37,7 +37,7 @@ const SelectNumber: React.FC<SelectProps> = ({
               {label}
             </Listbox.Label>
           )}
-          <div className="mt-1 relative">
+          <div className="mt-2 relative">
             <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
               <span className="block truncate">
                 {selected ? selected : "Valitse..."}
