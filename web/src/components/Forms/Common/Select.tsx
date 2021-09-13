@@ -99,6 +99,7 @@ const Select: React.FC<SelectProps> = ({
                           className={classNames(
                             selected ? "font-semibold" : "font-normal",
                             "block truncate",
+                            !isTwoLevelSelect ? "ml-4" : null,
                             isTwoLevelSelect && !option.isParent ? "ml-4" : null
                           )}
                         >
