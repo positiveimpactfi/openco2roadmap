@@ -6,6 +6,7 @@ import { classNames } from "utils/classNames";
 interface SelectOption {
   id: number | string;
   name: string;
+  isParent?: boolean;
 }
 
 interface Props {
@@ -32,6 +33,8 @@ const Select: React.FC<SelectProps> = ({
       ? null
       : options.filter((option) => option.name === selectedValue.name)[0]
   );
+  const isTwoLevelSelect = options.some((option) => option.isParent);
+
   const handleChange = (val) => {
     setSelected(val);
     setFieldValue(name, val);
@@ -72,7 +75,9 @@ const Select: React.FC<SelectProps> = ({
                     key={option.id}
                     className={({ active }) =>
                       classNames(
-                        active ? "text-white bg-teal-600" : "text-gray-900",
+                        active
+                          ? "text-white bg-teal-600 rounded-md"
+                          : "text-gray-900",
                         "cursor-default select-none relative py-2 pl-3 pr-9"
                       )
                     }
@@ -80,25 +85,25 @@ const Select: React.FC<SelectProps> = ({
                   >
                     {({ selected, active }) => (
                       <>
-                        <span
-                          className={classNames(
-                            selected ? "font-semibold" : "font-normal",
-                            "block truncate"
-                          )}
-                        >
-                          {option.name}
-                        </span>
-
                         {selected ? (
                           <span
                             className={classNames(
                               active ? "text-white" : "text-teal-600",
-                              "absolute inset-y-0 right-0 flex items-center pr-4"
+                              "absolute inset-y-0 left-1 flex items-center mr-4"
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}
+                        <span
+                          className={classNames(
+                            selected ? "font-semibold" : "font-normal",
+                            "block truncate",
+                            isTwoLevelSelect && !option.isParent ? "ml-4" : null
+                          )}
+                        >
+                          {option.name}
+                        </span>
                       </>
                     )}
                   </Listbox.Option>
