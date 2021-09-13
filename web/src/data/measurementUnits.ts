@@ -278,3 +278,14 @@ export const allUnits = area.concat(
   transport,
   volume
 );
+
+export const allUnitsObject = {
+  Area: area,
+  Currency: currency,
+  Energy: energy,
+  Length: length,
+  Mass: mass,
+  Time: time,
+  Transport: transport,
+  Volume: volume,
+};

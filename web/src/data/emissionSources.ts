@@ -570,3 +570,89 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
 ];
+
+export enum CategoryType {
+  Toimitilat = 1,
+  Logistiikka = 2,
+  Hankinnat = 3,
+  Hallinto = 4,
+}
+
+interface Component {
+  id: ComponentType;
+  name: string;
+  categoryID?: CategoryType;
+  sources?: EmissionSourceType[];
+}
+
+export const emissionComponents: Component[] = [
+  {
+    name: "Jäähdytys",
+    id: ComponentType.Jaahdytys,
+    categoryID: CategoryType.Toimitilat,
+  },
+
+  {
+    name: "Lämmitys",
+    id: ComponentType.Lammitys,
+    categoryID: CategoryType.Toimitilat,
+  },
+  {
+    name: "Sähkönkulutus",
+    id: ComponentType.Sahkonkulutus,
+    categoryID: CategoryType.Toimitilat,
+  },
+  {
+    name: "Jäte",
+    id: ComponentType.Jate,
+    categoryID: CategoryType.Toimitilat,
+  },
+
+  {
+    name: "Asiakkaiden kuljetukset",
+    id: ComponentType.AsiakkaidenKuljetukset,
+    categoryID: CategoryType.Logistiikka,
+  },
+  {
+    name: "Työmatkat",
+    id: ComponentType.Tyomatkat,
+    categoryID: CategoryType.Logistiikka,
+  },
+  {
+    name: "Työssäkäyntimatkat",
+    id: ComponentType.Tyossakayntimatkat,
+    categoryID: CategoryType.Logistiikka,
+  },
+  {
+    name: "Tavarakuljetukset",
+    id: ComponentType.Tavarakuljetukset,
+    categoryID: CategoryType.Logistiikka,
+  },
+  {
+    name: "Elintarvikehankinnat",
+    id: ComponentType.Elintarvikehankinnat,
+    categoryID: CategoryType.Hankinnat,
+  },
+  {
+    name: "Yleiset hankinnat",
+    id: ComponentType.YleisetHankinnat,
+    categoryID: CategoryType.Hallinto,
+  },
+  {
+    name: "Muut hankinnat",
+    id: ComponentType.MuutHankinnat,
+    categoryID: CategoryType.Hankinnat,
+  },
+  {
+    name: "Palveluhankinnat",
+    id: ComponentType.PalveluHankinnat,
+    categoryID: CategoryType.Hankinnat,
+  },
+];
+
+export const components = emissionComponents.map((component) => {
+  const sources = emissionSources.filter((es) =>
+    es.componentIDs.includes(component.id)
+  );
+  return { ...component, sources: sources };
+});
