@@ -3,13 +3,26 @@ import { PageLink } from "./adminLinks";
 
 export const settingsLinks: PageLink[] = [
   {
+    name: "Yritysasetukset",
+    description:
+      "Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.",
+    icon: GlobeAltIcon,
+    href: "/settings/organization-settings",
+  },
+  {
     name: "Toimipaikat",
     description: "Lyhyt kuvaus",
     icon: GlobeAltIcon,
     href: "/settings/sites",
   },
   {
-    name: "Päästolähteet",
+    name: "Päästölähteet",
+    description: "Lyhyt kuvaus",
+    icon: GlobeAltIcon,
+    href: "/settings/emission-sources",
+  },
+  {
+    name: "Päästökertoimet",
     description: "Lyhyt kuvaus",
     icon: GlobeAltIcon,
     href: "/settings/emission-sources",
