@@ -8,8 +8,8 @@ const useLogout = () => {
   const router = useRouter();
   const logoutFn = async () => {
     await logout();
-    await apolloClient.resetStore();
-    router.push("/");
+    await apolloClient.clearStore();
+    await router.push("/");
   };
 
   return [logoutFn];
