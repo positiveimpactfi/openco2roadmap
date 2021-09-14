@@ -20,9 +20,8 @@ export const AccessDenied = () => {
           </span>{" "}
           tai palaa{" "}
           <button className="text-teal-600" onClick={() => router.back()}>
-            edelliselle sivulle
+            edelliselle sivulle.
           </button>
-          .
         </p>
       </div>
     </div>
