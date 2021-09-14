@@ -36,6 +36,14 @@ export const seedEmissionFactors = async (conn: Connection) => {
       .save();
     savedEF.values = savedEF.values ? [...savedEF.values, efValue] : [efValue];
     await conn.manager.save(EmissionFactor, savedEF);
+    for (let emissionSource of es) {
+      const currentFactors = await emissionSource.emissionFactors;
+      emissionSource.emissionFactors = Promise.resolve([
+        ...currentFactors,
+        savedEF,
+      ]);
+      await conn.manager.save(EmissionSource, emissionSource);
+    }
   }
 
   console.log("===========FINISH SEEDING EMISSION FACTORS==========");
