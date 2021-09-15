@@ -4,8 +4,7 @@ import { HeroIcon, PageLink } from "types/PageLink";
 export const linkWithDefaultIcon = (
   link: PageLink
 ): PageLink & { icon: HeroIcon } => {
-  const icon = link.icon || GlobeAltIcon;
-  return { ...link, icon: icon };
+  return { ...link, icon: link.icon || GlobeAltIcon };
 };
 
 export const linksWithDefaultIcons = (
