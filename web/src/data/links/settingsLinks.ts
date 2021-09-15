@@ -1,30 +1,26 @@
-import { GlobeAltIcon } from "@heroicons/react/outline";
-import { PageLink } from "./adminLinks";
+import { PageLink } from "types/PageLink";
+import { linksWithDefaultIcons } from "utils/linkWithDefaultIcon";
 
-export const settingsLinks: PageLink[] = [
+export const settingsLinks: PageLink[] = linksWithDefaultIcons([
   {
     name: "Yritysasetukset",
     description:
       "Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.",
-    icon: GlobeAltIcon,
     href: "/settings/organization-settings",
   },
   {
     name: "Toimipaikat",
     description: "Lyhyt kuvaus",
-    icon: GlobeAltIcon,
     href: "/settings/sites",
   },
   {
     name: "Päästölähteet",
     description: "Lyhyt kuvaus",
-    icon: GlobeAltIcon,
     href: "/settings/emission-sources",
   },
   {
     name: "Päästökertoimet",
     description: "Lyhyt kuvaus",
-    icon: GlobeAltIcon,
     href: "/settings/emission-factors",
   },
-];
+]);
