@@ -10,7 +10,7 @@ import { useUpdateOrganizationMutation } from "graphql/mutations/organization/up
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
-import { Organization } from "types";
+import { Organization } from "types/generatedTypes";
 import { deepObjectsEqual } from "utils/objectsEqual";
 
 interface EditOrganizationProps {

@@ -1,4 +1,4 @@
-import { User } from "types";
+import { User } from "types/generatedTypes";
 
 export const isAdmin = (user: User): boolean => {
   if (!user) {

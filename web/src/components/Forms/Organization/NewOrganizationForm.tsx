@@ -5,7 +5,7 @@ import { municipalities } from "data/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateOrganizationMutation } from "graphql/mutations/organization/createOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
-import { BusinessField, Municipality } from "types";
+import { BusinessField, Municipality } from "types/generatedTypes";
 import { Dispatch, SetStateAction } from "react";
 
 interface FormValues {

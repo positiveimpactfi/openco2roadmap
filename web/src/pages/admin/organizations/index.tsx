@@ -6,7 +6,7 @@ import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { useState } from "react";
-import { Organization } from "types";
+import { Organization } from "types/generatedTypes";
 
 const Organizations = () => {
   const { data, loading } = useAllOrganizationsQuery();

@@ -22,7 +22,7 @@ import {
   EmissionSourceType,
   MeasurementUnitType,
   SiteUnit,
-} from "types";
+} from "types/generatedTypes";
 import FormField from "../Common/FormField";
 
 interface FormValues {

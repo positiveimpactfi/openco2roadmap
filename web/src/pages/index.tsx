@@ -1,6 +1,6 @@
 import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery } from "graphql/queries/users/me.generated";
-import { User } from "types";
+import { User } from "types/generatedTypes";
 import Link from "next/link";
 
 const Home = () => {

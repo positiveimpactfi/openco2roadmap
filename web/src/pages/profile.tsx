@@ -1,7 +1,7 @@
 import LoadingSpinner from "components/LoadingSpinner";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
-import { User } from "types";
+import { User } from "types/generatedTypes";
 
 const MyProfilePage: NextPage = () => {
   const { user, loading } = useUser();

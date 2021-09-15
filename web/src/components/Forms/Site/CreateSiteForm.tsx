@@ -9,7 +9,7 @@ import { useCreateSiteMutation } from "graphql/mutations/site/createSite.generat
 import { MyOrganizationSitesDocument } from "graphql/queries/site/myOrganizationSites.generated";
 import { useMyOrganizationSiteTypesQuery } from "graphql/queries/site/myOrganizationSiteTypes.generated";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Municipality, SiteType } from "types";
+import { Municipality, SiteType } from "types/generatedTypes";
 
 interface FormValues {
   name: string;

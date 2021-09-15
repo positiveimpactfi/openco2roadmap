@@ -1,4 +1,4 @@
-import { FieldError } from "types";
+import { FieldError } from "types/generatedTypes";
 
 export const errorArrayToObject = (errors: FieldError[]) => {
   const errorMap: Record<string, string> = {};

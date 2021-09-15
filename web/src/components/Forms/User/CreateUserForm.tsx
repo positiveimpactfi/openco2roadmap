@@ -2,7 +2,7 @@ import { Form, Formik, FormikProps } from "formik";
 import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
-import { Organization } from "types";
+import { Organization } from "types/generatedTypes";
 import FormField from "../Common/FormField";
 import Select from "../Common/Select";
 

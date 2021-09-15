@@ -7,7 +7,7 @@ import { useAllUsersQuery } from "graphql/queries/users/allUsers.generated";
 import { useMeQuery } from "graphql/queries/users/me.generated";
 import { useMyOrganizationUsersQuery } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useState } from "react";
-import { User } from "types";
+import { User } from "types/generatedTypes";
 import { isSuperAdmin } from "utils/isAdmin";
 
 const UsersPage = () => {
