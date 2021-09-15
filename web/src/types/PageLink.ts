@@ -6,4 +6,5 @@ export interface PageLink {
   icon?: HeroIcon;
   href: string;
   disabled?: boolean;
+  current?: boolean;
 }

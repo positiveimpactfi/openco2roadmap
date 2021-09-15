@@ -1,22 +1,23 @@
-import Menu from "./Menu";
-
-export type Headings = {
-  title?: string;
-  description?: string;
-};
+import PageWithTabs from "components/Layout/PageWithTabs";
+import { adminLinks } from "data/links/adminLinks";
+import { useRouter } from "next/router";
+import { Headings } from "types/Headings";
+import { PageLink } from "types/PageLink";
 
 const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
+  const router = useRouter();
+  const currentTab: PageLink = {
+    name: "Hallintapaneeli",
+    description: "Hallintapaneeli - Etusivu",
+    href: "/admin",
+    current: router.pathname === "/admin",
+  };
+  const activeLinks = adminLinks.filter((link) => !link.disabled);
+  const links = [currentTab, ...activeLinks];
   return (
-    <main className="flex-1 h-full relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
-      <div className="px-4 sm:px-6 lg:px-8 py-4 ">
-        <Menu />
-      </div>
-      <div className="px-4 mt-2 sm:px-6 lg:px-8">
-        <h1 className="text-2xl mb-4">{title} </h1>
-        <p className="text-md mb-4">{description}</p>
-        {children}
-      </div>
-    </main>
+    <PageWithTabs title={title} description={description} links={links}>
+      {children}
+    </PageWithTabs>
   );
 };
 
