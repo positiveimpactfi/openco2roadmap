@@ -1,4 +1,5 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
+import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
@@ -99,4 +100,4 @@ const OrganizationsTable: React.FC<OrgTableProps> = ({
   );
 };
 
-export default Organizations;
+export default withAuth(Organizations);

@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import ClientOnly from "components/ClientsOnly";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import SettingsPanel from "components/SettingsPanel";
@@ -81,4 +82,4 @@ const CompanyEFs = () => {
   );
 };
 
-export default OrganizationSettingsPage;
+export default withAuth(OrganizationSettingsPage);

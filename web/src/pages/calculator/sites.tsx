@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import Table, { TableCell } from "components/Table";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
@@ -41,4 +42,4 @@ const CalculatorSitesPage = () => {
   );
 };
 
-export default CalculatorSitesPage;
+export default withAuth(CalculatorSitesPage);

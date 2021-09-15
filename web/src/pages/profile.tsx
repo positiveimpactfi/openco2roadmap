@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import LoadingSpinner from "components/LoadingSpinner";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
@@ -110,4 +111,4 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
   );
 };
 
-export default MyProfilePage;
+export default withAuth(MyProfilePage);

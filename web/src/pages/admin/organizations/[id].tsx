@@ -1,4 +1,5 @@
 import AdminPanel from "components/Admin/AdminPanel";
+import { withAuth } from "components/Auth";
 import { useGetUsersInOrnizationQuery } from "graphql/queries/users/usersInOrganization.generated";
 import { useRouter } from "next/router";
 
@@ -36,4 +37,4 @@ const Organization: React.FC = () => {
   );
 };
 
-export default Organization;
+export default withAuth(Organization);

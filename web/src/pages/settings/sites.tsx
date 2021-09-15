@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateSiteForm from "components/Forms/Site/CreateSiteForm";
 import CreateSiteTypeForm from "components/Forms/Site/CreateSiteTypeForm";
@@ -88,4 +89,4 @@ const SiteSettingsPage = () => {
   );
 };
 
-export default SiteSettingsPage;
+export default withAuth(SiteSettingsPage);

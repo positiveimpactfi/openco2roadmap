@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import { Formik, FormikProps } from "formik";
 import { useLoginMutation } from "graphql/mutations/auth/login.generated";
 import { MeDocument, MeQuery } from "graphql/queries/users/me.generated";
@@ -74,4 +75,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withAuth(LoginPage, false);

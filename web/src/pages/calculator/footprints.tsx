@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import { PageUnderConstruction } from "components/UnderConstruction";
 
@@ -14,4 +15,4 @@ const CalculatorFootprintsPage = () => {
   );
 };
 
-export default CalculatorFootprintsPage;
+export default withAuth(CalculatorFootprintsPage);

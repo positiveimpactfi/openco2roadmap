@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import Table, { TableCell } from "components/Table";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
@@ -36,4 +37,4 @@ const CalculatorEmissionSourcesPage = () => {
   );
 };
 
-export default CalculatorEmissionSourcesPage;
+export default withAuth(CalculatorEmissionSourcesPage);

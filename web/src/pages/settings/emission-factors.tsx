@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import SettingsPanel from "components/SettingsPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
@@ -89,4 +90,4 @@ const SettingsEmissionFactorsPage = () => {
   );
 };
 
-export default SettingsEmissionFactorsPage;
+export default withAuth(SettingsEmissionFactorsPage);

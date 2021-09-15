@@ -2,6 +2,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import { useMeQuery } from "graphql/queries/users/me.generated";
 import { User } from "types/generatedTypes";
 import Link from "next/link";
+import { withAuth } from "components/Auth";
 
 const Home = () => {
   const { data, loading } = useMeQuery();
@@ -14,11 +15,7 @@ const Home = () => {
     );
   }
 
-  return (
-    <div className="h-full w-full">
-      {user ? <UserLoggedIn user={user} /> : <UserNotLoggedIn />}
-    </div>
-  );
+  return <UserLoggedIn user={user} />;
 };
 
 const UserLoggedIn: React.FC<{ user: Partial<User> }> = ({ user }) => {
@@ -34,19 +31,4 @@ const UserLoggedIn: React.FC<{ user: Partial<User> }> = ({ user }) => {
   );
 };
 
-const UserNotLoggedIn = () => {
-  return (
-    <div className="flex flex-col h-full items-center justify-center">
-      <div>Et ole kirjautunut!</div>
-      <div>
-        <Link href="/login" passHref>
-          <a className="font-medium text-teal-600 hover:text-teal-500">
-            Kirjautumaan
-          </a>
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-export default Home;
+export default withAuth(Home);

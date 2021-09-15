@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
@@ -88,4 +89,4 @@ const CalculatorEmissionFactorsPage = () => {
   );
 };
 
-export default CalculatorEmissionFactorsPage;
+export default withAuth(CalculatorEmissionFactorsPage);

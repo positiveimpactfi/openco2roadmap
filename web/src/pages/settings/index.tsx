@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import LinksGrid from "components/LinksGrid";
 import SettingsPanel from "components/SettingsPanel";
 import { settingsLinks } from "data/links/settingsLinks";
@@ -16,4 +17,4 @@ const SettingsHomePage: NextPage = () => {
   );
 };
 
-export default SettingsHomePage;
+export default withAuth(SettingsHomePage);

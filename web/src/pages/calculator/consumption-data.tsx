@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CalculatorPanel from "components/CalculatorPanel";
 import CreateDataEntryForm from "components/Forms/Data/CreateDataEntryForm";
@@ -75,4 +76,4 @@ const CalculatorConsumptionDataPage = () => {
   );
 };
 
-export default CalculatorConsumptionDataPage;
+export default withAuth(CalculatorConsumptionDataPage);

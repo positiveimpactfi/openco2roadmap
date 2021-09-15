@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import { RegisterForm } from "components/Forms/Auth/RegisterForm";
 import { Formik, FormikProps } from "formik";
 import { useRegisterMutation } from "graphql/mutations/auth/register.generated";
@@ -61,4 +62,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default withAuth(RegisterPage, false);

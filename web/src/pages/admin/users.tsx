@@ -1,4 +1,5 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
+import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateUserForm from "components/Forms/User/CreateUserForm";
 import SlideOver from "components/SlideOver";
@@ -143,4 +144,4 @@ const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
     );
   };
 
-export default UsersPage;
+export default withAuth(UsersPage);

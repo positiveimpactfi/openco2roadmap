@@ -1,4 +1,5 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
+import { withAuth } from "components/Auth";
 import LinksGrid from "components/LinksGrid";
 import { adminLinks } from "data/links/adminLinks";
 import { useUser } from "hooks/useUser";
@@ -19,4 +20,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default withAuth(AdminHome);

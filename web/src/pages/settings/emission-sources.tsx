@@ -1,3 +1,4 @@
+import { withAuth } from "components/Auth";
 import SettingsPanel from "components/SettingsPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 
@@ -49,4 +50,4 @@ const EmissionSourcesSettingsPage = () => {
   );
 };
 
-export default EmissionSourcesSettingsPage;
+export default withAuth(EmissionSourcesSettingsPage);
