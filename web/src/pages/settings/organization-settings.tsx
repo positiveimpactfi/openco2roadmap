@@ -5,7 +5,6 @@ import SettingsPanel from "components/SettingsPanel";
 import { SectionUnderConstruction } from "components/UnderConstruction";
 import { useUser } from "hooks/useUser";
 import { NextPage } from "next";
-import Link from "next/link";
 
 const OrganizationSettingsPage: NextPage = () => {
   return (
@@ -19,7 +18,6 @@ const OrganizationSettingsPage: NextPage = () => {
       <ClientOnly>
         <CompanyKPIs />
       </ClientOnly>
-      <CompanyEFs />
     </SettingsPanel>
   );
 };
@@ -57,27 +55,6 @@ const CompanyKPIs = () => {
       <div className="max-w-2xl">
         <SectionUnderConstruction />
       </div>
-    </div>
-  );
-};
-
-const CompanyEFs = () => {
-  const { user } = useUser();
-  if (!user) return null;
-  return (
-    <div className="mt-4">
-      <h2 className="text-xl">Omat päästökertoimet</h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Voit lisätä omia päästökertoimia{" "}
-        <span>
-          <Link href="/settings/emission-factors" passHref>
-            <a className="font-medium text-teal-600 hover:text-teal-500">
-              tämän sivun kautta
-            </a>
-          </Link>
-        </span>
-        .
-      </p>
     </div>
   );
 };
