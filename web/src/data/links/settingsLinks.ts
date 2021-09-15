@@ -27,16 +27,4 @@ export const settingsLinks: PageLink[] = [
     icon: GlobeAltIcon,
     href: "/settings/emission-factors",
   },
-  {
-    name: "Kulutustiedot",
-    description: "Lyhyt kuvaus",
-    icon: GlobeAltIcon,
-    href: "/settings/consumption-data",
-  },
-  {
-    name: "Hiilijalanjäljet",
-    description: "Lyhyt kuvaus",
-    icon: GlobeAltIcon,
-    href: "/settings/footprints",
-  },
 ];
