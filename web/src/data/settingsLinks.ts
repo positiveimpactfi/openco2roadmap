@@ -25,7 +25,7 @@ export const settingsLinks: PageLink[] = [
     name: "Päästökertoimet",
     description: "Lyhyt kuvaus",
     icon: GlobeAltIcon,
-    href: "/settings/emission-sources",
+    href: "/settings/emission-factors",
   },
   {
     name: "Kulutustiedot",
