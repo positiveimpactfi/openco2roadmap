@@ -1,23 +1,12 @@
 import { withAuth } from "components/Auth";
 import SettingsPanel from "components/SettingsPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-
-const fakeEmissionSource = {
-  id: 1,
-  category: "Toimitilat ja kiinteistöt",
-  component: "Lämmitys",
-  emissionSource: "Oma lämmöntuotanto",
-  scope: "Scope 1",
-  emissionFactor: "Helen kaukolämpö (0.141 kg CO2e)",
-};
-
-const emissionSources = Array(20)
-  .fill(fakeEmissionSource)
-  .map((es, i) => {
-    return { ...es, id: es.id + i };
-  });
+import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
 
 const EmissionSourcesSettingsPage = () => {
+  const { data } = useAllEmissionSourcesQuery();
+  if (!data?.allEmissionSources) return <div>No data</div>;
+  const emissionSources = data.allEmissionSources;
   return (
     <SettingsPanel
       title="Päästölähteet"
@@ -34,13 +23,13 @@ const EmissionSourcesSettingsPage = () => {
             "Muokkaa",
           ]}
         >
-          {emissionSources.map((emissionSource) => (
-            <tr key={emissionSource.id}>
-              <TableCell value={emissionSource.category} />
-              <TableCell value={emissionSource.component} />
-              <TableCell value={emissionSource.emissionSource} />
-              <TableCell value={emissionSource.scope} />
-              <TableCell value={emissionSource.emissionFactor} />
+          {emissionSources.map((es) => (
+            <tr key={es.id}>
+              <TableCell value={es.components[0].category.name} />
+              <TableCell value={es.components[0].name} />
+              <TableCell value={es.name} />
+              <TableCell value={es.scope} />
+              <TableCell value={"--"} />
               <TableCellOpenOptions fn={() => console.log("hello")} />
             </tr>
           ))}
