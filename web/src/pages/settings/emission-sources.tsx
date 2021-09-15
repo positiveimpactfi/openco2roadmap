@@ -10,7 +10,7 @@ const EmissionSourcesSettingsPage = () => {
   return (
     <SettingsPanel
       title="Päästölähteet"
-      description="Tälle sivulle tulee valmis listaus yrityksen  päästölähteistä, kolmelle tasolle ryhmiteltynä (kategoria, komponentti, päästölähde). Yrityksen pääkäyttäjä voi muokata päästölähteiden asetuksia. Ainakin oletuspäästökerroin on suositeltavaa määritellä."
+      description="Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla. Jos muutat oletuskerrointa, aiemmin lisäämäsi kulutustiedot pysyvät ennallaan."
     >
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <Table

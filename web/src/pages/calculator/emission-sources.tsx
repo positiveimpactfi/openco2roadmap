@@ -10,7 +10,7 @@ const CalculatorEmissionSourcesPage = () => {
   return (
     <CalculatorPanel
       title="Päästölähteet"
-      description="Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. "
+      description="Tällä sivulla näet, mitä päästölähteitä yrityksesi laskentaan sisältyy, ja mitä päästökertoimia eri kulutustiedoissa käytetään. Oletuskertoimia pääsee muokkaamaan Asetukset-osion kautta."
     >
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <Table

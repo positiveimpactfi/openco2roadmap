@@ -4,23 +4,25 @@ import { linksWithDefaultIcons } from "utils/linkWithDefaultIcon";
 export const settingsLinks: PageLink[] = linksWithDefaultIcons([
   {
     name: "Yritysasetukset",
-    description:
-      "Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.",
+    description: "Yrityksen perustietoja voi muokata tällä sivulla.",
     href: "/settings/organization-settings",
   },
   {
     name: "Toimipaikat",
-    description: "Lyhyt kuvaus",
+    description:
+      "Ennen laskennan aloittamista luo yrityksellesi toimipaikkarakenne.",
     href: "/settings/sites",
   },
   {
     name: "Päästölähteet",
-    description: "Lyhyt kuvaus",
+    description:
+      "Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla.",
     href: "/settings/emission-sources",
   },
   {
     name: "Päästökertoimet",
-    description: "Lyhyt kuvaus",
+    description:
+      "Voit lisätä omia päästökertoimia tai päivittää yleisen tietokannan kertoimien arvoja.",
     href: "/settings/emission-factors",
   },
 ]);

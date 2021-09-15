@@ -10,7 +10,7 @@ const CalculatorSitesPage = () => {
   return (
     <CalculatorPanel
       title="Toimipaikat"
-      description="Lyhyt kuvaus sivun sisällöstä. Tähän voi tarvittaessa laittaa linkin tarkempiin ohjeisiin yms. "
+      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla näet yrityksesi hiilijalanjälkilaskennassa käytetyn toimipaikkarakenteen."
     >
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <Table

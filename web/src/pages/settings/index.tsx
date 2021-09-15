@@ -8,7 +8,7 @@ const SettingsHomePage: NextPage = () => {
   return (
     <SettingsPanel
       title="Yritysasetukset"
-      description="Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla. "
+      description="Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
     >
       <div className="flex flex-col items-start">
         <LinksGrid links={settingsLinks} />

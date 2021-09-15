@@ -8,21 +8,6 @@ import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import { useState } from "react";
 
-const fakeSite = {
-  id: 1,
-  name: "Inarin hotelli",
-  type: "Hotelli",
-  municipality: "Inari",
-  destination: "Lappi",
-  units: "Päärakennus, rantamökit, sauna",
-};
-
-const fakeSites = Array(20)
-  .fill(fakeSite)
-  .map((es, i) => {
-    return { ...es, id: es.id + i };
-  });
-
 const SiteSettingsPage = () => {
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
@@ -32,7 +17,7 @@ const SiteSettingsPage = () => {
   return (
     <SettingsPanel
       title="Toimipaikat"
-      description="Lyhyt kuvaus sivun sisällöstä. Tähän voi tarvittaessa laittaa linkin tarkempiin ohjeisiin yms. "
+      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla voit määritellä yrityksesi toimipaikkarakenteen."
     >
       <SlideOver
         title="Uusi toimipaikan tyyppi"

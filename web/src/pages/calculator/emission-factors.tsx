@@ -12,7 +12,7 @@ const CalculatorEmissionFactorsPage = () => {
   return (
     <CalculatorPanel
       title="Päästökertoimet"
-      description="Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. "
+      description="Tällä sivulla voit tarkastella yrityksesi laskennassa käytettäviä päästökertoimia. Kertoimia pääsee lisäämään ja muokkaamaan Asetukset-osion kautta."
     >
       <Table
         headers={[

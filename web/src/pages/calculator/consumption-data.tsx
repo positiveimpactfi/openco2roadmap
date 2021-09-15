@@ -14,7 +14,10 @@ const CalculatorConsumptionDataPage = () => {
   if (!data?.myDataEntries) return <div>no data!</div>;
   const dataEntries = data.myDataEntries;
   return (
-    <CalculatorPanel title="Kulutustiedot" description="">
+    <CalculatorPanel
+      title="Kulutustiedot"
+      description="Hiilijalanjälkilaskelmat muodostuvat kulutustietoja yhdistelemällä. Tällä sivulla pääset syöttämään ja muokkaamaan yrityksesi kulutustietoja."
+    >
       <Button variant="success" onClick={() => setFormOpen(true)}>
         Lisää tietoja
       </Button>

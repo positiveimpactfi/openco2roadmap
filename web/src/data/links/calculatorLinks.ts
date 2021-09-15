@@ -5,19 +5,18 @@ export const calculatorLinks: PageLink[] = linksWithDefaultIcons([
   {
     name: "Toimipaikat",
     description:
-      "Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Ennen kulutustietojen kirjaamista määrittele täällä yrityksesi toimipaikat ja niiden sijainnit.",
+      "Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla näet yrityksesi hiilijalanjälkilaskennassa käytetyn toimipaikkarakenteen.",
     href: "/calculator/sites",
   },
   {
     name: "Päästolähteet",
-    description:
-      "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy. Voit muokata näihin liittyviä päästökertoimia asetuksissa.",
+    description: "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy.",
     href: "/calculator/emission-sources",
   },
   {
     name: "Päästökertoimet",
     description:
-      "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy. Voit muokata näihin liittyviä päästökertoimia asetuksissa.",
+      "Tutki mitä päästökertoimia yrityksesi laskentaan on käytettävissä.",
     href: "/calculator/emission-factors",
   },
   {
@@ -29,7 +28,7 @@ export const calculatorLinks: PageLink[] = linksWithDefaultIcons([
   {
     name: "Hiilijalanjäljet",
     description:
-      "Päästölaskennan tuloksia pääset tutkimaan hiilijalanjäljet-sivulla.",
+      "Päästölaskennan yhteenvedot muodostetaan hiilijalanjäljet-sivulla.",
     href: "/calculator/footprints",
   },
 ]);
