@@ -9,7 +9,7 @@ generates:
     preset: near-operation-file
     presetConfig:
       extension: .generated.tsx
-      baseTypesPath: types.ts
+      baseTypesPath: types/generatedTypes.ts
     plugins:
       - "typescript-operations"
       - "typescript-react-apollo"

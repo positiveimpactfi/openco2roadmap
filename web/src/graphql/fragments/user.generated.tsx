@@ -1,4 +1,4 @@
-import * as Types from '../../types';
+import * as Types from '../../types/generatedTypes';
 
 import { gql } from '@apollo/client';
 import { OrganizationFragmentFragmentDoc } from './organization.generated';
