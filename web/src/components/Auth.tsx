@@ -9,9 +9,11 @@ export const Auth: React.FC = ({ children }) => {
   const user = data?.me;
   if (loading) {
     return (
-      <div className="flex h-screen justify-center items-center">
-        <LoadingSpinner />
-      </div>
+      <Container>
+        <div className="flex h-screen justify-center items-center">
+          <LoadingSpinner />
+        </div>
+      </Container>
     );
   }
 
