@@ -1,6 +1,6 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
 import LinksGrid from "components/LinksGrid";
-import { adminLinks } from "data/adminLinks";
+import { adminLinks } from "data/links/adminLinks";
 import { useUser } from "hooks/useUser";
 import { isSuperAdmin } from "utils/isAdmin";
 

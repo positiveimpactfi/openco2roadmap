@@ -1,4 +1,4 @@
-import { calculatorLinks } from "data/calculatorLinks";
+import { calculatorLinks } from "data/links/calculatorLinks";
 import { useRouter } from "next/router";
 import { Headings } from "./Admin/AdminPanel";
 import TabMenu from "./TabMenu";

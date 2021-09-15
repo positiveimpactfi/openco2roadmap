@@ -1,6 +1,6 @@
 import LinksGrid from "components/LinksGrid";
 import SettingsPanel from "components/SettingsPanel";
-import { settingsLinks } from "data/settingsLinks";
+import { settingsLinks } from "data/links/settingsLinks";
 import { NextPage } from "next";
 
 const SettingsHomePage: NextPage = () => {

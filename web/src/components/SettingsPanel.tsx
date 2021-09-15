@@ -1,4 +1,4 @@
-import { settingsLinks } from "data/settingsLinks";
+import { settingsLinks } from "data/links/settingsLinks";
 import { useRouter } from "next/router";
 import { Headings } from "./Admin/AdminPanel";
 import TabMenu from "./TabMenu";

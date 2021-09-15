@@ -1,4 +1,4 @@
-import { PageLink } from "data/adminLinks";
+import { PageLink } from "data/links/adminLinks";
 import { classNames } from "utils/classNames";
 import Link from "next/link";
 

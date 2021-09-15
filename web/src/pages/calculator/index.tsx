@@ -1,6 +1,6 @@
 import CalculatorPanel from "components/CalculatorPanel";
 import LinksGrid from "components/LinksGrid";
-import { calculatorLinks } from "data/calculatorLinks";
+import { calculatorLinks } from "data/links/calculatorLinks";
 
 const CalculatorHomePage = () => {
   return (
