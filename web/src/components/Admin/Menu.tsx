@@ -1,6 +1,7 @@
 import TabMenu from "components/TabMenu";
-import { adminLinks, PageLink } from "data/links/adminLinks";
+import { adminLinks } from "data/links/adminLinks";
 import { useRouter } from "next/router";
+import { PageLink } from "types/PageLink";
 
 const Menu = () => {
   const router = useRouter();

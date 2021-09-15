@@ -1,4 +1,4 @@
-import { PageLink } from "data/links/adminLinks";
+import { PageLink } from "types/PageLink";
 import { useRouter } from "next/router";
 import { classNames } from "utils/classNames";
 
