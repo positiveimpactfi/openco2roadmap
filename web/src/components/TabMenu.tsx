@@ -8,12 +8,14 @@ interface TabMenuProps {
 
 const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
   const router = useRouter();
-  const tabs = links.map((link) => {
-    return {
-      ...link,
-      current: link.current ?? router.pathname.startsWith(link.href),
-    };
-  });
+  const tabs = links
+    .filter((link) => !link.disabled)
+    .map((link) => {
+      return {
+        ...link,
+        current: link.current ?? router.pathname.startsWith(link.href),
+      };
+    });
   return (
     <div>
       <div className="sm:hidden">
