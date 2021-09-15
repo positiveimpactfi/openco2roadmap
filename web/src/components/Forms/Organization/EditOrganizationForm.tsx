@@ -119,7 +119,12 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
               />
               <div className="pt-5">
                 <div className="flex justify-end space-x-4">
-                  <Button onClick={() => setWarningOpen(true)}>Peruuta</Button>
+                  {/* only show cancel button when not inside modal*/}
+                  {setSlideoverOpen && (
+                    <Button onClick={() => setWarningOpen(true)}>
+                      Peruuta
+                    </Button>
+                  )}
                   <Button
                     type="submit"
                     disabled={
