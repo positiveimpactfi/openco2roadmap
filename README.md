@@ -10,6 +10,7 @@ The calculator is initially designed to serve small and medium size companies in
 ## Available documentation
 * [Current and upcoming features](docs/features.md)
 * [Calculation methodology (in Finnish only)](https://docs.google.com/document/d/1CvHBqop9aaz7wTSQzzQz7qYP0S1VqrNNqfVHhqnYONQ/edit?usp=sharing)
+* [User journey and architecture diagrams](https://miro.com/app/board/o9J_l_ZRMF8=/)
 
 Demo is available at [app.co2roadmap.fi](https://app.co2roadmap.fi)
 
