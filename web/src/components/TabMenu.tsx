@@ -8,19 +8,17 @@ interface TabMenuProps {
 
 const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
   const router = useRouter();
-  const tabs = links
-    .filter((link) => !link.disabled)
-    .map((link) => {
-      return {
-        ...link,
-        current: link.current ?? router.pathname.startsWith(link.href),
-      };
-    });
+  const tabs = links.map((link) => {
+    return {
+      ...link,
+      current: link.current ?? router.pathname.startsWith(link.href),
+    };
+  });
   return (
     <div>
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
-          Select a tab
+          Valitse sivu
         </label>
         <select
           id="tabs"
@@ -47,7 +45,8 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
                   tab.current
                     ? "border-green-500 text-green-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                  "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                  "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm",
+                  tab.disabled ? "text-opacity-50" : null
                 )}
                 aria-current={tab.current ? "page" : undefined}
               >

@@ -1,10 +1,13 @@
 import PageWithTabs from "components/Layout/PageWithTabs";
 import { adminLinks } from "data/links/adminLinks";
+import { useUser } from "hooks/useUser";
 import { useRouter } from "next/router";
 import { Headings } from "types/Headings";
 import { PageLink } from "types/PageLink";
+import { isSuperAdmin } from "utils/isAdmin";
 
 const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
+  const { user } = useUser();
   const router = useRouter();
   const currentTab: PageLink = {
     name: "Hallintapaneeli",
@@ -12,7 +15,11 @@ const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
     href: "/admin",
     current: router.pathname === "/admin",
   };
-  const activeLinks = adminLinks.filter((link) => !link.disabled);
+  const activeLinks = isSuperAdmin(user)
+    ? adminLinks
+    : adminLinks
+        .filter((link) => !link.disabled)
+        .filter((link) => link.href !== "/admin/organizations");
   const links = [currentTab, ...activeLinks];
   return (
     <PageWithTabs title={title} description={description} links={links}>

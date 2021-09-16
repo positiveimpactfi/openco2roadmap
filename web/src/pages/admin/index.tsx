@@ -14,7 +14,15 @@ const AdminHome = () => {
       description="Näillä sivuilla voit muokata CO2-laskurin asetuksia. "
     >
       <div className="flex flex-col items-start">
-        <LinksGrid links={isSuperAdmin(user) ? adminLinks : activeLinks} />
+        <LinksGrid
+          links={
+            isSuperAdmin(user)
+              ? adminLinks
+              : activeLinks.filter(
+                  (link) => link.href !== "/admin/organizations"
+                )
+          }
+        />
       </div>
     </AdminsOnly>
   );

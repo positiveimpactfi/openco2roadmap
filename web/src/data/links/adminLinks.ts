@@ -7,13 +7,13 @@ export const adminLinks: PageLink[] = linksWithDefaultIcons([
     description:
       "Luettelo kaikista laskuria käyttävistä yrityksistä. Voit lisätä uusia yrityksiä, ja muokata yritysten tietoja. Yritysten poistaminen laskurista ei ole tätä kautta mahdollista. ",
     href: "/admin/organizations",
-    disabled: true,
   },
   {
     name: "Päästökertoimet",
     description:
       "Luettelo kaikista laskurin yleisistä päästökertoimista. Voit lisätä, muokata päästökertoimia vapaasti. Muutokset tulevat käyttöön välittömästi kaikille laskurin yrityksille ja käyttäjille. ",
     href: "/admin/emission-factors",
+    disabled: true,
   },
   {
     name: "Käyttäjät",
