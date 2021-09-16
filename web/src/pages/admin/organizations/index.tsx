@@ -49,7 +49,11 @@ const Organizations = () => {
               setSlideoverOpen={setEditOrgFormOpen}
             />
           </SlideOver>
-          <Button onClick={() => setNewOrgFormOpen(true)}>Uusi yritys</Button>
+          <div className="mb-4">
+            <Button onClick={() => setNewOrgFormOpen(true)} variant="success">
+              Uusi yritys
+            </Button>
+          </div>
           <OrganizationsTable
             handleFormOpen={handleEditOrg}
             organizations={data.allOrganizations}
