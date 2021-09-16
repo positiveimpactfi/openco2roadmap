@@ -1,20 +1,36 @@
 import { withAuth } from "components/Auth";
-import CalculatorPanel from "components/CalculatorPanel";
 import SettingsPanel from "components/SettingsPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { numberToString } from "utils/numberToString";
+import Button from "components/Button";
+import SlideOver from "components/SlideOver";
+import { useState } from "react";
 
 const SettingsEmissionFactorsPage = () => {
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
+  const [formOpen, setFormOpen] = useState(false);
 
   return (
     <SettingsPanel
       title="Päästökertoimet"
       description="Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. "
     >
+      <SlideOver
+        title="Lisätään uusi päästökerroin"
+        open={formOpen}
+        setOpen={setFormOpen}
+      >
+        Uusi kerroin lomake
+      </SlideOver>
+
+      <div className="mb-4">
+        <Button variant="success" onClick={() => setFormOpen(true)}>
+          Lisää uusi päästökerroin
+        </Button>
+      </div>
       <Table
         headers={[
           "Nimi",
