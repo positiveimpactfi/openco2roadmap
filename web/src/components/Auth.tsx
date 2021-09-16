@@ -1,17 +1,16 @@
-import { useMeQuery } from "graphql/queries/users/me.generated";
+import { useUser } from "hooks/useUser";
 import Link from "next/link";
 import React from "react";
 import Container from "./Layout/Container";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingBar from "./LoadingBar";
 
 export const Auth: React.FC = ({ children }) => {
-  const { data, loading } = useMeQuery();
-  const user = data?.me;
+  const { user, loading } = useUser();
   if (loading) {
     return (
       <Container>
         <div className="flex h-screen justify-center items-center">
-          <LoadingSpinner />
+          <LoadingBar />
         </div>
       </Container>
     );
