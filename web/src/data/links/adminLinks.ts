@@ -26,6 +26,7 @@ export const adminLinks: PageLink[] = linksWithDefaultIcons([
     description:
       "Tunnusluvut-osiossa määrittelet, mitä erilaisia tietoja yrityksiltä kysytään ilmastovaikutuksista kertovien hiilijalanjäljen tunnuslukujen laskemiseksi ja yritysten vertailua varten.",
     href: "/admin/kpis",
+    disabled: true,
   },
   {
     name: "Toimipaikkojen asetukset",
@@ -39,6 +40,7 @@ export const adminLinks: PageLink[] = linksWithDefaultIcons([
     description:
       "Vertailuarvot ovat lukemia, joihin yrityksen hiilijalanjälki suhteutetaan. Nämä tulevat kaikkien laskurin käyttäjien näkyville yrityksen hiilijalanjälkilaskelmien yhteydessä.",
     href: "/admin/comparison",
+    disabled: true,
   },
   {
     name: "Päästölähteet",
