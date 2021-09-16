@@ -72,7 +72,7 @@ export class UserResolver {
     return true;
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => UserResolverResponse)
   async createUser(
     @Arg("email") email: string,
