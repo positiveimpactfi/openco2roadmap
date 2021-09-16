@@ -2,7 +2,10 @@ import { Form, Formik, FormikProps } from "formik";
 import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
-import { Organization } from "types/generatedTypes";
+import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
+import { useUser } from "hooks/useUser";
+import { Organization, User } from "types/generatedTypes";
+import { isSuperAdmin } from "utils/isAdmin";
 import FormField from "../Common/FormField";
 import Select from "../Common/Select";
 
@@ -16,12 +19,12 @@ interface FormValues {
 const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   setOpen,
 }) => {
+  const { user } = useUser();
   const [createUser] = useCreateUserMutation();
-  const { data } = useAllOrganizationsQuery();
   const initialValues = {
     email: "",
     password: "",
-    organization: null,
+    organization: user?.organizations[0],
     role: null,
   };
 
@@ -36,7 +39,9 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
             organizationID: values.organization?.id,
             role: values.role?.name.toUpperCase().replace(" ", "_"),
           },
-          refetchQueries: [AllUsersDocument],
+          refetchQueries: [
+            isSuperAdmin(user) ? AllUsersDocument : MyOrganizationUsersDocument,
+          ],
         });
         if (response.data.createUser.user) {
           setSubmitting(false);
@@ -70,13 +75,11 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
               required
               type="password"
             />
-            <Select
-              options={data?.allOrganizations ?? []}
-              showLabel
-              label="Liitä yritykseen"
-              name="organization"
-              setFieldValue={setFieldValue}
-            />
+            {isSuperAdmin(user) ? (
+              <AllOrgsSelect setFieldValue={setFieldValue} />
+            ) : (
+              <MyOrgSelect user={user} />
+            )}
             <Select
               options={[
                 { name: "Company Admin", id: 3 },
@@ -112,6 +115,40 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         </Form>
       )}
     </Formik>
+  );
+};
+
+const AllOrgsSelect: React.FC<{
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+}> = ({ setFieldValue }) => {
+  const { data } = useAllOrganizationsQuery();
+  return (
+    <Select
+      options={data?.allOrganizations ?? []}
+      showLabel
+      label="Liitä yritykseen"
+      name="organization"
+      setFieldValue={setFieldValue}
+    />
+  );
+};
+
+const MyOrgSelect: React.FC<{ user: User }> = ({ user }) => {
+  return (
+    <div className="space-y-6">
+      <label
+        htmlFor="user-org"
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Liitä yritykseen
+      </label>
+      <div
+        id="user-org"
+        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+      >
+        {user?.organizations[0].name}
+      </div>
+    </div>
   );
 };
 
