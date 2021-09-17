@@ -3,6 +3,7 @@ import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
+import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
@@ -20,8 +21,7 @@ const Organizations = () => {
     setEditOrgFormOpen(true);
   };
 
-  if (loading) return <div>ladataan...</div>;
-  if (!data.allOrganizations) return <div>jotain meni pieleen</div>;
+  const organizations = data?.allOrganizations;
 
   return (
     <AdminsOnly
@@ -29,7 +29,7 @@ const Organizations = () => {
       description="Tällä sivulla voit tarkastella ja muokata kaikkia laskurista löytyviä yrityksiä."
     >
       {loading ? (
-        <div> Ladataan...</div>
+        <LoadingSpinner />
       ) : (
         <>
           <SlideOver
@@ -56,7 +56,7 @@ const Organizations = () => {
           </div>
           <OrganizationsTable
             handleFormOpen={handleEditOrg}
-            organizations={data.allOrganizations}
+            organizations={organizations}
           />
         </>
       )}

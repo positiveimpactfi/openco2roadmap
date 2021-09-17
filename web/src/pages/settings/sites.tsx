@@ -12,7 +12,7 @@ import { useState } from "react";
 const SiteSettingsPage = () => {
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
-  const { data } = useMyOrganizationSitesQuery();
+  const { data, loading } = useMyOrganizationSitesQuery();
   const sites = data?.allSitesInMyOrganization ?? [];
   return (
     <SettingsPanel
@@ -41,35 +41,39 @@ const SiteSettingsPage = () => {
           Lisää toimipaikka
         </Button>
       </div>
-      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <Table
-          headers={[
-            "Toimipaikan nimi",
-            "Toimipaikan tyyppi",
-            "Sijaintikunta",
-            "Destinaatio(t)",
-            "Yksiköt",
-            "Muokkaa",
-          ]}
-          alignLastRight
-        >
-          {sites.map((site) => (
-            <tr key={site.id}>
-              <TableCell value={site.name} />
-              <TableCell value={site.siteType.name} />
-              <TableCell value={site.municipality.name} />
-              <TableCell value={"Destinaatio X"} />
-              <TableCell
-                value={site.siteUnits
-                  ?.map((unit) => unit.name)
-                  .filter((unit) => !unit.startsWith("default_"))
-                  .join(", ")}
-              />
-              <TableCellOpenOptions fn={() => console.log("hello")} />
-            </tr>
-          ))}
-        </Table>
-      </div>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <Table
+            headers={[
+              "Toimipaikan nimi",
+              "Toimipaikan tyyppi",
+              "Sijaintikunta",
+              "Destinaatio(t)",
+              "Yksiköt",
+              "Muokkaa",
+            ]}
+            alignLastRight
+          >
+            {sites.map((site) => (
+              <tr key={site.id}>
+                <TableCell value={site.name} />
+                <TableCell value={site.siteType.name} />
+                <TableCell value={site.municipality.name} />
+                <TableCell value={"Destinaatio X"} />
+                <TableCell
+                  value={site.siteUnits
+                    ?.map((unit) => unit.name)
+                    .filter((unit) => !unit.startsWith("default_"))
+                    .join(", ")}
+                />
+                <TableCellOpenOptions fn={() => console.log("hello")} />
+              </tr>
+            ))}
+          </Table>
+        </div>
+      )}
     </SettingsPanel>
   );
 };

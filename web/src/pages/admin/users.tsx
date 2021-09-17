@@ -2,6 +2,7 @@ import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateUserForm from "components/Forms/User/CreateUserForm";
+import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllUsersQuery } from "graphql/queries/users/allUsers.generated";
@@ -71,34 +72,37 @@ const CompanyUsersTable: React.FC<{
   handleFormOpen: (val: Partial<User>) => void;
 }> = ({ handleFormOpen }) => {
   const { data, loading } = useMyOrganizationUsersQuery();
-  if (loading) return <div>ladataan...</div>;
-  if (!data?.myOrganizationUsers) return <div>ei käyttäjiä</div>;
+  const users = data?.myOrganizationUsers;
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <Table
-              alignLastRight
-              headers={[
-                "Sukunimi",
-                "Etunimi",
-                "Sähköposti",
-                "Luotu",
-                "Muokkaa",
-              ]}
-            >
-              {data.myOrganizationUsers?.map((user) => (
-                <tr key={user.id}>
-                  <TableCell value={user.lastName ?? "--"} />
-                  <TableCell value={user.firstName ?? "--"} />
-                  <TableCell value={user.email} />
-                  <TableCell value="10.10.2020" />
-                  <TableCellOpenOptions fn={() => handleFormOpen(user)} />
-                </tr>
-              ))}
-            </Table>
-          </div>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <Table
+                alignLastRight
+                headers={[
+                  "Sukunimi",
+                  "Etunimi",
+                  "Sähköposti",
+                  "Luotu",
+                  "Muokkaa",
+                ]}
+              >
+                {users?.map((user) => (
+                  <tr key={user.id}>
+                    <TableCell value={user.lastName ?? "--"} />
+                    <TableCell value={user.firstName ?? "--"} />
+                    <TableCell value={user.email} />
+                    <TableCell value="10.10.2020" />
+                    <TableCellOpenOptions fn={() => handleFormOpen(user)} />
+                  </tr>
+                ))}
+              </Table>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -108,36 +112,39 @@ const CompanyUsersTable: React.FC<{
 const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
   ({ handleFormOpen }) => {
     const { data, loading } = useAllUsersQuery();
-    if (loading) return <div>ladataan...</div>;
-    if (!data.allUsers) return <div>ei käyttäjiä</div>;
+    const users = data?.allUsers;
     return (
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <Table
-                alignLastRight
-                headers={[
-                  "Sukunimi",
-                  "Etunimi",
-                  "Sähköposti",
-                  "Luotu",
-                  "Yritykset",
-                  "Muokkaa",
-                ]}
-              >
-                {data.allUsers?.map((user) => (
-                  <tr key={user.id}>
-                    <TableCell value={user.lastName} />
-                    <TableCell value={user.firstName} />
-                    <TableCell value={user.email} />
-                    <TableCell value="10.10.2020" />
-                    <TableCell value={user.organizations[0]?.name} />
-                    <TableCellOpenOptions fn={() => handleFormOpen(user)} />
-                  </tr>
-                ))}
-              </Table>
-            </div>
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <Table
+                  alignLastRight
+                  headers={[
+                    "Sukunimi",
+                    "Etunimi",
+                    "Sähköposti",
+                    "Luotu",
+                    "Yritykset",
+                    "Muokkaa",
+                  ]}
+                >
+                  {data.allUsers?.map((user) => (
+                    <tr key={user.id}>
+                      <TableCell value={user.lastName} />
+                      <TableCell value={user.firstName} />
+                      <TableCell value={user.email} />
+                      <TableCell value="10.10.2020" />
+                      <TableCell value={user.organizations[0]?.name} />
+                      <TableCellOpenOptions fn={() => handleFormOpen(user)} />
+                    </tr>
+                  ))}
+                </Table>
+              </div>
+            )}
           </div>
         </div>
       </div>

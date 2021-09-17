@@ -9,14 +9,11 @@ const AdminsOnly: React.FC<Headings> = ({ title, description, children }) => {
   const { data, loading } = useMeQuery();
 
   const user = data?.me;
-  if (loading) {
-    return <LoadingSpinner />;
-  }
 
   if (isAdmin(user)) {
     return (
       <AdminPanel title={title} description={description}>
-        {children}
+        {loading ? <LoadingSpinner /> : children}
       </AdminPanel>
     );
   } else {

@@ -8,11 +8,7 @@ const Home = () => {
   const { data, loading } = useMeQuery();
   const user = data?.me;
   if (loading) {
-    return (
-      <div className="flex h-full justify-center items-center">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return <UserLoggedIn user={user} />;
