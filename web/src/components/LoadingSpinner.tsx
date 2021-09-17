@@ -12,11 +12,13 @@ const LoadingSpinner: React.FC<{ delay?: number }> = ({ delay = 2000 }) => {
   }, [setShow, delay]);
   if (!show) return null;
   return (
-    <div className="flex flex-col">
-      <div className="animate-spin mb-6">
-        <Image src={logo} alt="loading image" />
+    <div className="flex h-full justify-center items-center">
+      <div className="flex flex-col">
+        <div className="animate-spin mb-6">
+          <Image src={logo} alt="loading image" />
+        </div>
+        <div>Ladataan...</div>
       </div>
-      <div>Ladataan...</div>
     </div>
   );
 };

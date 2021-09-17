@@ -13,9 +13,7 @@ const EmissionSourcesSettingsPage = () => {
       description="Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla. Jos muutat oletuskerrointa, aiemmin lisäämäsi kulutustiedot pysyvät ennallaan."
     >
       {loading ? (
-        <div className="flex h-full justify-center items-center">
-          <LoadingSpinner />
-        </div>
+        <LoadingSpinner />
       ) : (
         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
           <Table
