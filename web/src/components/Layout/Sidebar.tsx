@@ -30,14 +30,17 @@ const sidebarNavigation = [
 export interface SidebarProps {
   sidebarOpen?: boolean;
   setSidebarOpen?: Dispatch<SetStateAction<boolean>>;
+  hidden?: boolean;
 }
 
 export const MobileSideBar: React.FC<SidebarProps> = ({
   sidebarOpen,
   setSidebarOpen,
+  hidden = false,
 }) => {
   const { pathname } = useRouter();
   const currentPath = "/" + pathname.split("/")[1];
+  if (hidden) return null;
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
@@ -142,9 +145,12 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
   );
 };
 
-export const DesktopSidebar: React.FC<{}> = () => {
+export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
+  hidden = false,
+}) => {
   const { pathname } = useRouter();
   const currentPath = "/" + pathname.split("/")[1];
+  if (hidden) return null;
   return (
     <div className="hidden md:flex md:sticky md:h-screen md:top-0">
       <div className="flex flex-col w-28">

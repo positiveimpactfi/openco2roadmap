@@ -4,9 +4,14 @@ import React, { useState } from "react";
 import { Header } from "./Header";
 import { DesktopSidebar, MobileSideBar } from "./Sidebar";
 
-interface ContainerProps {}
+interface ContainerProps {
+  hideElements?: boolean;
+}
 
-const Container: React.FC<ContainerProps> = ({ children }) => {
+const Container: React.FC<ContainerProps> = ({
+  children,
+  hideElements = false,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <>
@@ -15,12 +20,16 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex min-h-screen bg-gray-100">
-        <DesktopSidebar />
+        <DesktopSidebar hidden={hideElements} />
         <MobileSideBar
           sidebarOpen={mobileMenuOpen}
           setSidebarOpen={setMobileMenuOpen}
+          hidden={hideElements}
         />
-        <ContentArea setMobileMenuOpen={setMobileMenuOpen}>
+        <ContentArea
+          setMobileMenuOpen={setMobileMenuOpen}
+          hidden={hideElements}
+        >
           <ClientOnly>{children}</ClientOnly>
         </ContentArea>
       </div>
@@ -28,7 +37,11 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
   );
 };
 
-export const ContentArea = ({ setMobileMenuOpen, children }) => {
+export const ContentArea: React.FC<{
+  setMobileMenuOpen: (val: boolean) => void;
+  hidden?: boolean;
+}> = ({ setMobileMenuOpen, hidden = false, children }) => {
+  if (hidden) return null;
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <Header setMobileMenuOpen={setMobileMenuOpen} />

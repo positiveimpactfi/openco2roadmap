@@ -8,7 +8,7 @@ export const Auth: React.FC = ({ children }) => {
   const { user, loading } = useUser();
   if (loading) {
     return (
-      <Container>
+      <Container hideElements={true}>
         <div className="flex h-screen justify-center items-center">
           <LoadingBar />
         </div>
