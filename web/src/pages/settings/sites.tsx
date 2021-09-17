@@ -2,6 +2,7 @@ import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateSiteForm from "components/Forms/Site/CreateSiteForm";
 import CreateSiteTypeForm from "components/Forms/Site/CreateSiteTypeForm";
+import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
@@ -12,8 +13,7 @@ const SiteSettingsPage = () => {
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
   const { data } = useMyOrganizationSitesQuery();
-  if (!data?.allSitesInMyOrganization) return <div>No organizations</div>;
-  const sites = data.allSitesInMyOrganization;
+  const sites = data?.allSitesInMyOrganization ?? [];
   return (
     <SettingsPanel
       title="Toimipaikat"
