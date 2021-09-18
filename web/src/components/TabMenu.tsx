@@ -1,6 +1,7 @@
 import { PageLink } from "types/PageLink";
 import { useRouter } from "next/router";
 import { classNames } from "utils/classNames";
+import Link from "next/link";
 
 interface TabMenuProps {
   links: Partial<PageLink & { current?: boolean }>[];
@@ -25,9 +26,12 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
           name="tabs"
           className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
           defaultValue={tabs.find((tab) => tab.current)?.name}
+          onChange={(e) => router.push(e.currentTarget.value)}
         >
           {tabs.map((tab) => (
-            <option key={tab.name}>{tab.name}</option>
+            <option key={tab.name} label={tab.name}>
+              {tab.href}
+            </option>
           ))}
         </select>
       </div>
@@ -38,20 +42,20 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
             aria-label="Tabs"
           >
             {tabs.map((tab) => (
-              <a
-                key={tab.name}
-                href={tab.href}
-                className={classNames(
-                  tab.current
-                    ? "border-green-500 text-green-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                  "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm",
-                  tab.disabled ? "text-opacity-50" : null
-                )}
-                aria-current={tab.current ? "page" : undefined}
-              >
-                {tab.name}
-              </a>
+              <Link href={tab.href} key={tab.name} passHref>
+                <a
+                  className={classNames(
+                    tab.current
+                      ? "border-green-500 text-green-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                    "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm",
+                    tab.disabled ? "text-opacity-50" : null
+                  )}
+                  aria-current={tab.current ? "page" : undefined}
+                >
+                  {tab.name}
+                </a>
+              </Link>
             ))}
           </nav>
         </div>
