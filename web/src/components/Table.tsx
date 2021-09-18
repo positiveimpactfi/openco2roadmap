@@ -33,9 +33,19 @@ const Table: React.FC<TableProps> = ({
   );
 };
 
-export const TableCell: React.FC<{ value: string }> = ({ value }) => {
+export const TableCell: React.FC<{
+  value: string;
+  clamped?: boolean;
+  hideOnSm?: boolean;
+}> = ({ value, clamped = false, hideOnSm = false }) => {
   return (
-    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+    <td
+      className={classNames(
+        "px-6 py-4  text-sm font-medium text-gray-500",
+        clamped ? `max-w-[40px] md:max-w-[70px] truncate` : null,
+        hideOnSm ? "hidden md:visible" : null
+      )}
+    >
       {value}
     </td>
   );
