@@ -14,18 +14,7 @@ import { classNames } from "utils/classNames";
 import logoImg from "../../../public/logo.svg";
 import EUlogo from "../../../public/EU_flag.svg";
 import VipuVoimaaImg from "../../../public/vipuvoimaaEU.svg";
-
-const sidebarNavigation = [
-  { name: "Etusivu", href: "/", icon: HomeIcon, current: false },
-  {
-    name: "Laskuri",
-    href: "/calculator",
-    icon: CalculatorIcon,
-    current: false,
-  },
-  { name: "Asetukset", href: "/settings", icon: CogIcon, current: false },
-  { name: "Hallintapaneeli", href: "/admin", icon: ServerIcon, current: true },
-];
+import { sidebarLinks } from "data/links/sidebarLinks";
 
 export interface SidebarProps {
   sidebarOpen?: boolean;
@@ -104,7 +93,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
             <div className="mt-5 flex-1 h-0 overflow-y-auto">
               <nav className="px-2">
                 <div className="space-y-1">
-                  {sidebarNavigation.map((item) => (
+                  {sidebarLinks?.map((item) => (
                     <Link href={item.href} passHref key={item.name}>
                       <a
                         key={item.name}
@@ -163,7 +152,7 @@ export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
             </div>
             <div className="flex flex-col justify-between h-full w-full">
               <div className="flex-1 mt-6 w-full px-2 space-y-1">
-                {sidebarNavigation.map((item) => (
+                {sidebarLinks?.map((item) => (
                   <Link href={item.href} passHref key={item.name}>
                     <a
                       className={classNames(
