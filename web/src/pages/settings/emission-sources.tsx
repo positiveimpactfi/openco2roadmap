@@ -29,8 +29,8 @@ const EmissionSourcesSettingsPage = () => {
             {emissionSources.map((es) => (
               <tr key={es.id}>
                 <TableCell value={es.components[0].category.name} />
-                <TableCell value={es.components[0].name} />
-                <TableCell value={es.name} />
+                <TableCell value={es.components[0].name} clamped />
+                <TableCell value={es.name} clamped />
                 <TableCell value={es.scope} />
                 <TableCell value={"--"} />
                 <TableCellOpenOptions fn={() => console.log("hello")} />
