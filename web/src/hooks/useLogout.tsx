@@ -10,6 +10,7 @@ const useLogout = () => {
     await logout();
     await apolloClient.clearStore();
     await router.push("/");
+    router.reload();
   };
 
   return [logoutFn];
