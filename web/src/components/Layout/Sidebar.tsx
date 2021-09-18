@@ -164,30 +164,30 @@ export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
             <div className="flex flex-col justify-between h-full w-full">
               <div className="flex-1 mt-6 w-full px-2 space-y-1">
                 {sidebarNavigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.href === currentPath
-                        ? "bg-gray-800 text-green-400"
-                        : "text-indigo-100 hover:bg-gray-800 hover:text-white",
-                      "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
-                    )}
-                    aria-current={
-                      item.href === currentPath ? "page" : undefined
-                    }
-                  >
-                    <item.icon
+                  <Link href={item.href} passHref key={item.name}>
+                    <a
                       className={classNames(
                         item.href === currentPath
-                          ? "text-green-400"
-                          : "text-white group-hover:text-white",
-                        "h-6 w-6"
+                          ? "bg-gray-800 text-green-400"
+                          : "text-indigo-100 hover:bg-gray-800 hover:text-white",
+                        "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                       )}
-                      aria-hidden="true"
-                    />
-                    <span className="mt-2">{item.name}</span>
-                  </a>
+                      aria-current={
+                        item.href === currentPath ? "page" : undefined
+                      }
+                    >
+                      <item.icon
+                        className={classNames(
+                          item.href === currentPath
+                            ? "text-green-400"
+                            : "text-white group-hover:text-white",
+                          "h-6 w-6"
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="mt-2">{item.name}</span>
+                    </a>
+                  </Link>
                 ))}
               </div>
               <div className="flex flex-col w-28 ml-auto">
