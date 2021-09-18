@@ -46,7 +46,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
       <Dialog
         as="div"
         static
-        className="fixed inset-0 flex z-40 lg:hidden"
+        className="fixed inset-0 flex z-40 xl:hidden"
         open={sidebarOpen}
         onClose={setSidebarOpen}
       >
@@ -152,7 +152,7 @@ export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
   const currentPath = "/" + pathname.split("/")[1];
   if (hidden) return null;
   return (
-    <div className="hidden md:flex md:sticky md:h-screen md:top-0">
+    <div className="hidden lg:flex md:sticky md:h-screen md:top-0">
       <div className="flex flex-col w-28">
         <div className="min-h-screen hidden w-28 bg-gray-700 overflow-y-auto md:block">
           <div className="w-full h-full py-6 flex flex-col items-center">
