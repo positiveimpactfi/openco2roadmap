@@ -48,8 +48,8 @@ const SettingsEmissionFactorsPage = () => {
         >
           {myEFs?.myEmissionFactors.map((ef) => (
             <tr key={ef.id}>
-              <TableCell value={ef.name} />
-              <TableCell value={ef.source} />
+              <TableCell value={ef.name} clamped />
+              <TableCell value={ef.source} clamped />
               <TableCell
                 value={[...ef.values]
                   .sort((a, b) => a.startDate - b.startDate)[0]
@@ -83,8 +83,8 @@ const SettingsEmissionFactorsPage = () => {
           </tr>
           {publicEFs?.allPublicEmissionFactors.map((ef) => (
             <tr key={ef.id}>
-              <TableCell value={ef.name} />
-              <TableCell value={ef.source} />
+              <TableCell value={ef.name} clamped />
+              <TableCell value={ef.source} clamped />
               <TableCell
                 value={[...ef.values]
                   .sort((a, b) => a.startDate - b.startDate)[0]
