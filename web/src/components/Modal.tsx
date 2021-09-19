@@ -8,7 +8,6 @@ interface ModalProps {
   description?: string;
   open: boolean;
   setOpen: (val: boolean) => void;
-  onSuccess?: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -16,7 +15,6 @@ const Modal: React.FC<ModalProps> = ({
   description,
   open,
   setOpen,
-  onSuccess,
   children,
 }) => {
   return (
@@ -81,12 +79,6 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               </div>
               <div className="mt-6 relative flex-1 px-4">{children}</div>
-              <div className="mt-5 ml-4 sm:flex space-x-2">
-                <Button variant="success" onClick={onSuccess}>
-                  Lähetä
-                </Button>
-                <Button onClick={() => setOpen(false)}>Peruuta</Button>
-              </div>
             </div>
           </Transition.Child>
         </div>
