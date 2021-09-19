@@ -1,6 +1,7 @@
 import ClientOnly from "components/ClientsOnly";
 import Head from "next/head";
 import React, { useState } from "react";
+import GiveFeedback from "./GiveFeedback";
 import { Header } from "./Header";
 import { DesktopSidebar, MobileSideBar } from "./Sidebar";
 
@@ -32,6 +33,7 @@ const Container: React.FC<ContainerProps> = ({
         >
           <ClientOnly>{children}</ClientOnly>
         </ContentArea>
+        <GiveFeedback />
       </div>
     </>
   );
