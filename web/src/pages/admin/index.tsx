@@ -10,7 +10,7 @@ const AdminHome = () => {
   const activeLinks = adminLinks.filter((link) => !link.disabled);
   return (
     <AdminsOnly
-      title="Hallintapaneeli MVP"
+      title="Hallintapaneeli"
       description="Näillä sivuilla voit muokata CO2-laskurin asetuksia. "
     >
       <div className="flex flex-col items-start">
