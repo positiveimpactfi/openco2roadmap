@@ -11,9 +11,10 @@ const GiveFeedback = () => {
         <FeedbackForm />
       </Modal>
       <div className="fixed right-8 bottom-8 w-10 h-10 border border-gray-600 px-2 py-2 hover:text-white hover:bg-teal-500 rounded-md">
-        <span onClick={() => setOpen(true)}>
+        <span className="sr-only">Avaa anna palautetta lomake</span>
+        <button onClick={() => setOpen(true)} className="w-full h-full">
           <ReplyIcon />
-        </span>
+        </button>
       </div>
     </>
   );
