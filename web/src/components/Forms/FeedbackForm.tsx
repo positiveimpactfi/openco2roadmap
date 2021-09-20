@@ -22,6 +22,7 @@ const FeedbackForm: React.FC<{
             ========================================
             New feedback received!\n
             User: ${user.email}\n
+            Organization: ${user.organizations[0].name}\n
             User agent: ${navigator.userAgent}\n
             URL: ${router.pathname}\n
             Date: ${new Date().toLocaleString("fi")}\n
