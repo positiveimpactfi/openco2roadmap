@@ -21,7 +21,6 @@ const CalculatorSitesPage = () => {
               "Toimipaikan nimi",
               "Toimipaikan tyyppi",
               "Sijaintikunta",
-              "Destinaatio(t)",
               "Yksiköt",
             ]}
           >
@@ -30,7 +29,6 @@ const CalculatorSitesPage = () => {
                 <TableCell value={site.name} />
                 <TableCell value={site.siteType.name} />
                 <TableCell value={site.municipality.name} />
-                <TableCell value={"Destinaatio X"} />
                 <TableCell
                   value={site.siteUnits
                     ?.map((unit) => unit.name)
