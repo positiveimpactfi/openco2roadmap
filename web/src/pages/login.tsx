@@ -45,8 +45,7 @@ const LoginPage = () => {
         if (response.data?.login.errors) {
           setErrors(errorArrayToObject(response.data.login.errors));
         } else {
-          const user = response.data.login.user;
-          isAdmin(user) ? router.push("/admin") : router.push("/");
+          router.push("/");
         }
         setSubmitting(false);
       }}
