@@ -8,6 +8,7 @@ import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { allUnits } from "data/measurementUnits";
 import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
 import { useState } from "react";
+import { numberToString } from "utils/numberToString";
 
 const CalculatorConsumptionDataPage = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -36,6 +37,7 @@ const CalculatorConsumptionDataPage = () => {
             headers={[
               "Kategoria",
               "Päästölähde",
+              "Päästökerroin",
               "Toimipaikka",
               "Alkupäivä",
               "Loppupäivä",
@@ -49,7 +51,16 @@ const CalculatorConsumptionDataPage = () => {
               <tr key={entry.id}>
                 <TableCell value={entry.category} />
                 <TableCell value={entry.emissionSource} />
-                <TableCell value={entry.siteUnit.name} />
+                <TableCell
+                  value={`${
+                    entry.emissionFactorValue.emissionFactor.name
+                  } (${numberToString(
+                    entry.emissionFactorValue.value
+                  )} kg CO2e)`}
+                />
+                <TableCell
+                  value={`${entry.siteUnit.name} (${entry.siteUnit.site.name})`}
+                />
                 <TableCell
                   value={new Date(entry.startDate).toISOString().split("T")[0]}
                 />
@@ -65,12 +76,13 @@ const CalculatorConsumptionDataPage = () => {
                 />
                 <TableCell
                   value={
-                    entry.consumptionValue *
+                    (
+                      entry.consumptionValue *
                       entry.emissionFactorValue.value *
                       allUnits.find(
                         (unit) => unit.shorthand === entry.measurementUnit
-                      )?.conversionFactor +
-                    " kg CO2e"
+                      )?.conversionFactor
+                    ).toFixed() + " kg CO2e"
                   }
                 />
                 <TableCellOpenOptions
