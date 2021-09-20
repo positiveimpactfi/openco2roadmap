@@ -22,6 +22,7 @@ const FeedbackForm: React.FC<{
             ========================================
             New feedback received!\n
             User: ${user.email}\n
+            User agent: ${navigator.userAgent}\n
             URL: ${router.pathname}\n
             Date: ${new Date().toLocaleString("fi")}\n
             Feedback: ${feedback}\n
@@ -54,6 +55,7 @@ const FeedbackForm: React.FC<{
                   as="textarea"
                 />
               </div>
+
               <div className="mt-5 sm:flex space-x-2">
                 <Button variant="success" type="submit">
                   Lähetä
@@ -61,6 +63,21 @@ const FeedbackForm: React.FC<{
                 <Button onClick={() => console.log("form closed")}>
                   Peruuta
                 </Button>
+              </div>
+              <div className="mt-10 text-xs text-gray-500 max-w-prose">
+                Palautteesi yhteyteen tallennetaan automaattisesti seuraavat
+                tiedot:
+                <ul className="list-disc list-inside">
+                  <li>käyttäjätunnuksesi</li>
+                  <li>sivun URL jolta palautetta lähetät</li>
+                  <li>päivämäärä ja kellonaika</li>
+                  <li>
+                    käyttämäsi käyttöjärjestelmän ja selaimen nimi ja versio
+                  </li>
+                </ul>
+                Tiedot tallennetaan suoraan Positive Impactin
+                palautejärjestelmään, ja niistä ei jää kopiota laskurin
+                tietokantoihin.
               </div>
             </div>
           </Form>
