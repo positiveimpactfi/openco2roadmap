@@ -19,7 +19,6 @@ const FeedbackForm: React.FC<{
             method: "POST",
             body: JSON.stringify({
               text: `
-            ========================================
             New feedback received!\n
             User: ${user.email}\n
             Organization: ${user.organizations[0].name}\n
@@ -69,8 +68,9 @@ const FeedbackForm: React.FC<{
                 Palautteesi yhteyteen tallennetaan automaattisesti seuraavat
                 tiedot:
                 <ul className="list-disc list-inside">
-                  <li>käyttäjätunnuksesi</li>
-                  <li>sivun URL jolta palautetta lähetät</li>
+                  <li>käyttäjätunnus</li>
+                  <li>yrityksen nimi</li>
+                  <li>lomakkeen avaussivun osoite (URL)</li>
                   <li>päivämäärä ja kellonaika</li>
                   <li>
                     käyttämäsi käyttöjärjestelmän ja selaimen nimi ja versio
