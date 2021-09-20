@@ -12,6 +12,9 @@ query MyDataEntries {
       startDate
       endDate
       id
+      emissionFactor {
+        name
+      }
     }
     createdBy {
       id

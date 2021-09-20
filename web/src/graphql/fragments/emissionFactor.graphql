@@ -3,6 +3,7 @@ fragment EmissionFactorFragment on EmissionFactor {
   name
   source
   values {
+    id
     value
     startDate
     endDate
