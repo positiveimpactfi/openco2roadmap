@@ -11,7 +11,8 @@ export const sidebarLinks: PageLink[] = [
     name: "Etusivu",
     href: "/",
     icon: HomeIcon,
-    description: "Sovelluksen etusivu",
+    description:
+      "Tervetuloa käyttämään matkailualan yritysten hiilijlanjälkilaskuria!",
   },
   {
     name: "Laskuri",
