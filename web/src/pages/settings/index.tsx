@@ -7,7 +7,7 @@ import { NextPage } from "next";
 const SettingsHomePage: NextPage = () => {
   return (
     <SettingsPanel
-      title="Yritysasetukset"
+      title="Asetukset"
       description="Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
     >
       <div className="flex flex-col items-start">
