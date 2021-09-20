@@ -8,6 +8,11 @@ interface Props {
   showLabel?: boolean;
   label?: string;
   selectedValue?: number;
+  setFieldValue?: (
+    field: string,
+    value: number,
+    shouldValidate?: boolean
+  ) => void;
 }
 
 export type SelectProps = Props & SelectHTMLAttributes<HTMLSelectElement>;
@@ -17,6 +22,8 @@ const SelectNumber: React.FC<SelectProps> = ({
   showLabel,
   label,
   selectedValue,
+  setFieldValue,
+  name,
 }) => {
   const [selected, setSelected] = useState(() =>
     !selectedValue
@@ -24,8 +31,10 @@ const SelectNumber: React.FC<SelectProps> = ({
       : options.filter((option) => option === selectedValue)[0]
   );
 
-  const handleChange = (val) => {
+  const handleChange = (val: number) => {
+    console.log("year value just changed now", val);
     setSelected(val);
+    setFieldValue(name, val);
   };
 
   return (
