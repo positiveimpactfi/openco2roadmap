@@ -28,7 +28,7 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <input
             id="remember-me"
             name="remember-me"
@@ -41,13 +41,13 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
           >
             Muista minut
           </label>
-        </div>
+        </div> */}
 
-        <div className="text-sm">
+        {/* <div className="text-sm">
           <a href="#" className="font-medium text-teal-600 hover:text-teal-500">
             Salasana hukassa?
           </a>
-        </div>
+        </div> */}
       </div>
 
       <div>
