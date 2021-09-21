@@ -3,23 +3,23 @@ import Button from "components/Button";
 import Select from "components/Forms/Common/Select";
 import SelectNumber from "components/Forms/Common/SelectNumber";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { components } from "data/emissionSources";
+import {
+  CategoryType,
+  components,
+  EmissionSourceType,
+} from "data/emissionSources";
 import { allUnitsObject } from "data/measurementUnits";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
+import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
+import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
+import { useState } from "react";
 import {
-  MyOrganizationSitesDocument,
-  useMyOrganizationSitesQuery,
-} from "graphql/queries/site/myOrganizationSites.generated";
-import { Dispatch, SetStateAction, useState } from "react";
-import {
-  CategoryType,
-  EmissionFactorValue,
   EmissionSource,
-  EmissionSourceType,
+  MeasurementUnit,
   MeasurementUnitType,
   SiteUnit,
 } from "types/generatedTypes";
@@ -27,32 +27,53 @@ import FormField from "../Common/FormField";
 
 interface FormValues {
   consumptionValue: number;
-  startDate: Date;
-  endDate: Date;
-  category: CategoryType;
-  measurementUnit: MeasurementUnitType;
+  emissionFactorValue: ReducedEF;
   emissionSource: EmissionSource;
-  emissionFactorValue: EmissionFactorValue;
+  measurementUnit: MeasurementUnit;
   siteUnit: SiteUnit;
+  month: { id: number; name: string };
+  year: number;
 }
 
+type ReducedEF = {
+  sourceNames: string[];
+  sourceIds: number[];
+  id: number;
+  name: string;
+  physicalQuantity: {
+    __typename?: "PhysicalQuantity";
+    name: string;
+    baseUnit: {
+      __typename?: "MeasurementUnit";
+      name: string;
+      shorthand: string;
+    };
+  };
+  values: {
+    __typename?: "EmissionFactorValue";
+    id: string;
+    value: number;
+    startDate: number;
+    endDate: number;
+  }[];
+};
+
 const CreateDataEntryForm: React.FC<{
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: (arg: boolean) => void;
 }> = ({ setOpen }) => {
   const initialValues: FormValues = {
     consumptionValue: 0,
-    startDate: null,
-    endDate: null,
-    category: null,
-    measurementUnit: null,
-    emissionSource: null,
     emissionFactorValue: null,
+    emissionSource: null,
+    measurementUnit: null,
     siteUnit: null,
+    month: {
+      id: new Date().getMonth() + 1,
+      name: months.find((m) => m.id === new Date().getMonth() + 1).name,
+    },
+    year: new Date().getFullYear(),
   };
   const [createDataEntry] = useCreateDataEntryMutation();
-  const [showNewUnitButton, setShowNewUnitButton] = useState(false);
-  const [units, setUnits] = useState([]);
-  const [showInputField, setShowInputField] = useState(false);
 
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
@@ -69,16 +90,11 @@ const CreateDataEntryForm: React.FC<{
           sourceNames: current?.emissionSources.map((e) => e.name),
           id: current?.id,
           name: current?.name,
-          physicalQuantityName: current?.physicalQuantity?.name,
+          physicalQuantity: current?.physicalQuantity,
+          values: current?.values,
         },
       ],
-      [] as {
-        sourceNames: string[];
-        sourceIds: number[];
-        id: number;
-        name: string;
-        physicalQuantityName: string;
-      }[]
+      [] as ReducedEF[]
     )
     .flat();
 
@@ -105,25 +121,36 @@ const CreateDataEntryForm: React.FC<{
     <Formik
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
+        const vars = {
+          category: CategoryType[
+            (
+              values.emissionSource as EmissionSource & {
+                categoryID: number;
+              }
+            ).categoryID
+          ] as unknown as CategoryType,
+          consumptionValue: values.consumptionValue,
+          emissionsFactorValueID: values.emissionFactorValue.values[0].id,
+          emissionSource: EmissionSourceType[
+            values.emissionSource.id
+          ] as unknown as EmissionSourceType,
+          measurementUnit: values.measurementUnit
+            .shorthand as unknown as MeasurementUnitType,
+          siteUnitID: values.siteUnit.id,
+          startDate: new Date(values.year, values.month.id),
+          endDate: new Date(values.year, values.month.id),
+        };
+        console.log("variables", vars);
         const response = await createDataEntry({
-          variables: {
-            consumptionValue: values.consumptionValue,
-            endDate: values.endDate,
-            startDate: values.startDate,
-            category: values.category,
-            measurementUnit: values.measurementUnit,
-            emissionSource: EmissionSourceType[values.emissionSource.id],
-            emissionsFactorValueID: values.emissionFactorValue.id,
-            siteUnitID: values.siteUnit.id,
-          },
-          refetchQueries: [MyOrganizationSitesDocument],
+          variables: vars as any,
+          refetchQueries: [MyDataEntriesDocument],
         });
         if (response.data.createDataEntry.id) {
           setSubmitting(false);
           resetForm();
           setOpen(false);
         } else {
-          console.error("Failed to create site");
+          console.error("Failed to create data entry");
         }
       }}
     >
@@ -154,9 +181,15 @@ const CreateDataEntryForm: React.FC<{
             <div className="flex justify-between">
               <div>
                 <SelectNumber
-                  options={[2015, 2016, 2017]}
+                  options={Array.from(
+                    { length: 10 },
+                    (_, i) => new Date().getFullYear() - i
+                  )}
                   label="Vuosi"
+                  name="year"
                   showLabel
+                  selectedValue={values.year}
+                  setFieldValue={setFieldValue}
                 />
               </div>
               <div className="w-full ml-2">
@@ -166,6 +199,7 @@ const CreateDataEntryForm: React.FC<{
                   showLabel
                   options={months}
                   name="month"
+                  selectedValue={values.month}
                   setFieldValue={setFieldValue}
                 />
               </div>
@@ -199,42 +233,20 @@ const CreateDataEntryForm: React.FC<{
               <div className="w-full ml-2">
                 <Select
                   name="measurementUnit"
-                  placeholder="0,00"
                   label="Mittayksikkö"
                   showLabel
                   options={
                     allUnitsObject[
-                      (values.emissionFactorValue as any)?.physicalQuantityName
-                    ] ?? []
+                      values.emissionFactorValue?.physicalQuantity.name
+                    ]?.map((unit) => {
+                      return { ...unit, name: unit.shorthand };
+                    }) ?? []
                   }
                   setFieldValue={setFieldValue}
                 />
               </div>
             </div>
-            <button
-              type="button"
-              className="mt-4 text-sm"
-              onClick={() => setShowNewUnitButton(!showNewUnitButton)}
-            >
-              Lisäasetukset
-            </button>
-            {showNewUnitButton && (
-              <div className="flex flex-col space-y-4">
-                <div>
-                  <Button onClick={() => setShowInputField(!showInputField)}>
-                    Lisää uusi yksikkö
-                  </Button>
-                </div>
-                {showInputField && (
-                  <NewUnitInputField
-                    units={units}
-                    setUnits={setUnits}
-                    setOpen={setShowInputField}
-                  />
-                )}
-                <SiteUnitsTable units={units} />
-              </div>
-            )}
+
             <div className="pt-5">
               <div className="flex justify-end space-x-2">
                 <Button
@@ -254,67 +266,6 @@ const CreateDataEntryForm: React.FC<{
         </Form>
       )}
     </Formik>
-  );
-};
-
-const SiteUnitsTable: React.FC<{ units: string[] }> = ({ units }) => {
-  if (units.length === 0) return null;
-  return (
-    <Table headers={["Yksiköt", ""]}>
-      {units.map((unit, id) => (
-        <tr key={unit + id}>
-          <TableCell value={unit} />
-          <TableCellOpenOptions fn={() => console.log("opened edit")} />
-        </tr>
-      ))}
-    </Table>
-  );
-};
-
-const NewUnitInputField: React.FC<{
-  units: string[];
-  setUnits: (val: string[]) => void;
-  setOpen: (val: boolean) => void;
-}> = ({ units, setUnits, setOpen }) => {
-  const [unit, setUnit] = useState("");
-  return (
-    <div className="bg-gray-200 px-2 py-2 rounded-md">
-      <label
-        htmlFor="newUnitField"
-        className="block text-sm font-medium text-gray-700 mb-1"
-      >
-        Uuden yksikön nimi
-      </label>
-      <div className="flex">
-        <input
-          id="newUnitField"
-          placeholder="Uusi yksikkö"
-          className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-md"
-          value={unit}
-          onChange={(e) => setUnit(e.currentTarget.value)}
-        />
-        <button
-          type="submit"
-          className="w-8 h-8 bg-white inline-flex items-center justify-center text-red-500 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-          onClick={() => {
-            setUnit(null);
-            setOpen(false);
-          }}
-        >
-          <XIcon className="w-5 h-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          className="w-8 h-8 bg-teal-500 inline-flex items-center justify-center text-teal-500 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-          onClick={() => {
-            setUnits([...units, unit]);
-            setUnit("");
-          }}
-        >
-          <CheckIcon className="w-5 h-5" aria-hidden="true" />
-        </button>
-      </div>
-    </div>
   );
 };
 
