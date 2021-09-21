@@ -3,8 +3,8 @@ import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
 import Notification from "components/Notification";
 import WarningModal from "components/Warning";
-import { businessFields } from "data/businessFields";
-import { municipalities } from "data/municipalities";
+import { businessFields } from "@/shared/businessFields";
+import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
@@ -12,6 +12,7 @@ import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
 import { Organization } from "types/generatedTypes";
 import { deepObjectsEqual } from "utils/objectsEqual";
+import { compareString } from "utils/compareStrings";
 
 interface EditOrganizationProps {
   org: MyOrganization;
@@ -114,7 +115,9 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 showLabel
                 label="Toimiala"
                 setFieldValue={setFieldValue}
-                options={businessFields}
+                options={[...businessFields].sort((a, b) =>
+                  compareString(a.name, b.name)
+                )}
                 selectedValue={org.businessField}
               />
               <div className="pt-5">

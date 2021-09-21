@@ -3,7 +3,7 @@ import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { municipalities } from "data/municipalities";
+import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateSiteMutation } from "graphql/mutations/site/createSite.generated";
 import { MyOrganizationSitesDocument } from "graphql/queries/site/myOrganizationSites.generated";

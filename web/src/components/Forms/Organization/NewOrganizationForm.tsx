@@ -1,12 +1,13 @@
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
-import { businessFields } from "data/businessFields";
-import { municipalities } from "data/municipalities";
+import { businessFields } from "@/shared/businessFields";
+import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateOrganizationMutation } from "graphql/mutations/organization/createOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import { BusinessField, Municipality } from "types/generatedTypes";
 import { Dispatch, SetStateAction } from "react";
+import { compareString } from "utils/compareStrings";
 
 interface FormValues {
   name: string;
@@ -79,7 +80,9 @@ const NewOrganizationForm: React.FC<{
               setFieldValue={setFieldValue}
             />
             <Select
-              options={businessFields}
+              options={[...businessFields].sort((a, b) =>
+                compareString(a.name, b.name)
+              )}
               showLabel
               label="Toimiala"
               name="businessField"

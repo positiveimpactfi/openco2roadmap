@@ -1,14 +1,10 @@
-import { CheckIcon, XIcon } from "@heroicons/react/outline";
+import { components } from "@/shared/components";
+import { allUnitsObject } from "@/shared/measurementUnits";
+import { CategoryType } from "@/shared/types/CategoryType";
+import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import Button from "components/Button";
 import Select from "components/Forms/Common/Select";
 import SelectNumber from "components/Forms/Common/SelectNumber";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import {
-  CategoryType,
-  components,
-  EmissionSourceType,
-} from "data/emissionSources";
-import { allUnitsObject } from "data/measurementUnits";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
@@ -16,7 +12,6 @@ import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated"
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
-import { useState } from "react";
 import {
   EmissionSource,
   MeasurementUnit,

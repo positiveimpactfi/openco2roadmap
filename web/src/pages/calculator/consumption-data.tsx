@@ -5,7 +5,7 @@ import CreateDataEntryForm from "components/Forms/Data/CreateDataEntryForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { allUnits } from "data/measurementUnits";
+import { allUnits } from "@/shared/measurementUnits";
 import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
 import { useState } from "react";
 import { numberToString } from "utils/numberToString";
