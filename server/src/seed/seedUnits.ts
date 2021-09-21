@@ -10,8 +10,8 @@ import {
   time,
   transport,
   volume,
-} from "./data/measumentUnits";
-import { physicalQuantities } from "./data/physicalQuantities";
+} from "../../../shared/measurementUnits";
+import { physicalQuantities } from "../../../shared/physicalQuantities";
 
 export const seedUnits = async (conn: Connection) => {
   console.log("======== SEEDING PHYSICAL QUANTITIES AND UNITS =======");

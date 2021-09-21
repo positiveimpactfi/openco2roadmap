@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 import { Municipality } from "../entity/Municipality";
-import { municipalities } from "./data/municipalities";
+import { municipalities } from "../../../shared/municipalities";
 
 export const seedMunicipalities = async (conn: Connection) => {
   const res = await conn.manager.save(Municipality, municipalities);

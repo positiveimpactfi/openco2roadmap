@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import { Component } from "../entity/Component";
 import { EmissionSource } from "../entity/EmissionSource";
-import { emissionSources } from "./data/emissionSources";
+import { emissionSources } from "../../../shared/emissionSources";
 
 export const seedEmissionSources = async (conn: Connection) => {
   for (let es of emissionSources) {

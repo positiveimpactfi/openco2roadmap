@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import { Component } from "../entity/Component";
 import { Category } from "../entity/Category";
-import { emissionComponents } from "./data/components";
+import { emissionComponents } from "../../../shared/components";
 
 export const seedComponents = async (conn: Connection) => {
   console.log("==============COMPONENT SEED STARTED ===================");

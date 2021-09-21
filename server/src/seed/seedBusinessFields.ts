@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 import { BusinessField } from "../entity/BusinessField";
-import { businessFields } from "./data/businessFields";
+import { businessFields } from "../../../shared/businessFields";
 
 export const seedBusinessFields = async (conn: Connection) => {
   const res = await conn.manager.save(BusinessField, businessFields);
