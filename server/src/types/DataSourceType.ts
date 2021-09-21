@@ -1,10 +1,5 @@
 import { registerEnumType } from "type-graphql";
-
-export enum DataSourceType {
-  Primary,
-  Secondary,
-  Tertiary,
-}
+import { DataSourceType } from "../../../shared/types/DataSourceType";
 
 registerEnumType(DataSourceType, {
   name: "DataSourceType",

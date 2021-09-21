@@ -1,11 +1,5 @@
 import { registerEnumType } from "type-graphql";
-
-export enum CategoryType {
-  Toimitilat = 1,
-  Logistiikka = 2,
-  Hankinnat = 3,
-  Hallinto = 4,
-}
+import { CategoryType } from "../../../shared/types/CategoryType";
 
 registerEnumType(CategoryType, {
   name: "CategoryType",
