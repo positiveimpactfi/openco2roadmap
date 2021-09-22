@@ -93,8 +93,7 @@ const CreateDataEntryForm: React.FC<{
     )
     .flat();
 
-  if (!siteUnits?.allSitesInMyOrganization)
-    return <div>Cannot get site types</div>;
+  if (!siteUnits?.allSitesInMyOrganization) return <div>Ei yksikköjä</div>;
 
   const allSiteUnits = siteUnits.allSitesInMyOrganization
     .map((site) => {
@@ -127,7 +126,7 @@ const CreateDataEntryForm: React.FC<{
           consumptionValue: values.consumptionValue,
           emissionsFactorValueID: values.emissionFactorValue.values[0].id,
           emissionSource: EmissionSourceType[
-            values.emissionSource.id
+            values.emissionFactorValue.sourceIds[0]
           ] as unknown as EmissionSourceType,
           measurementUnit: values.measurementUnit
             .shorthand as unknown as MeasurementUnitType,
@@ -169,7 +168,7 @@ const CreateDataEntryForm: React.FC<{
             <Select
               options={components.sort((a, b) => (a.name > b.name ? 1 : -1))}
               showLabel
-              label="Päästölähde"
+              label="Komponentti"
               name="emissionSource"
               setFieldValue={setFieldValue}
             />
