@@ -1,6 +1,3 @@
-import { Municipality } from "../entity/Municipality";
-import { Site } from "../entity/Site";
-import { SiteType } from "../entity/SiteType";
 import {
   Arg,
   Authorized,
@@ -10,10 +7,13 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
+import { Municipality } from "../entity/Municipality";
+import { Site } from "../entity/Site";
+import { SiteType } from "../entity/SiteType";
 import { SiteUnit } from "../entity/SiteUnit";
-import { Role } from "../types/Role";
-import { MyContext } from "../types/MyContext";
 import { User } from "../entity/User";
+import { Role } from "../types";
+import { MyContext } from "../types/MyContext";
 
 @Resolver(Site)
 export class SiteResolver {

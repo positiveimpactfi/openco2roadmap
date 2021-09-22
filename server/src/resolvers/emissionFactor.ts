@@ -8,15 +8,15 @@ import {
   Resolver,
 } from "type-graphql";
 import { getConnection } from "typeorm";
+import { z } from "zod";
 import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
 import { EmissionSource } from "../entity/EmissionSource";
 import { PhysicalQuantity } from "../entity/PhysicalQuantity";
 import { User } from "../entity/User";
+import { Role } from "../types";
 import { DataSourceType } from "../types/DataSourceType";
 import { MyContext } from "../types/MyContext";
-import { Role } from "../types/Role";
-import { z } from "zod";
 
 type myType = (Omit<Partial<EmissionFactor>, "values"> & {
   values: (Pick<

@@ -3,11 +3,13 @@ import { DataEntry } from "../entity/DataEntry";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
 import { SiteUnit } from "../entity/SiteUnit";
 import { User } from "../entity/User";
-import { CategoryType } from "../types/CategoryType";
-import { EmissionSourceType } from "../types/EmissionSourceType";
-import { MeasurementUnitType } from "../types/MeasurementUnitType";
+import {
+  CategoryType,
+  EmissionSourceType,
+  MeasurementUnitType,
+  Role,
+} from "../types";
 import { MyContext } from "../types/MyContext";
-import { Role } from "../types/Role";
 
 @Resolver(DataEntry)
 export class DataEntryResolver {

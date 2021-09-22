@@ -1,6 +1,6 @@
 import { Component } from "../entity/Component";
 import { Authorized, Query, Resolver } from "type-graphql";
-import { Role } from "../types/Role";
+import { Role } from "../types";
 
 @Resolver(Component)
 export class ComponentResolver {

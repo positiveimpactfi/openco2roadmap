@@ -1,7 +1,7 @@
-import { EmissionSource } from "../entity/EmissionSource";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
-import { Role } from "../types/Role";
 import { Component } from "../entity/Component";
+import { EmissionSource } from "../entity/EmissionSource";
+import { Role } from "../types";
 
 @Resolver(EmissionSource)
 export class EmissionSourceResolver {

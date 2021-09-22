@@ -9,13 +9,13 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { Organization } from "../entity/Organization";
-import { User } from "../entity/User";
-import { Role } from "../types/Role";
-import { SiteType } from "../entity/SiteType";
-import { MyContext } from "../types/MyContext";
 import { BusinessField } from "../entity/BusinessField";
 import { Municipality } from "../entity/Municipality";
+import { Organization } from "../entity/Organization";
+import { SiteType } from "../entity/SiteType";
+import { User } from "../entity/User";
+import { Role } from "../types";
+import { MyContext } from "../types/MyContext";
 import { inverseNullish } from "../utils/inverseNullish";
 
 @InputType()

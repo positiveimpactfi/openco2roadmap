@@ -1,5 +1,4 @@
 import argon2 from "argon2";
-import { Organization } from "../entity/Organization";
 import {
   Arg,
   Authorized,
@@ -12,11 +11,12 @@ import {
 } from "type-graphql";
 import { v4 } from "uuid";
 import config from "../config";
+import { Organization } from "../entity/Organization";
 import { User } from "../entity/User";
 import { UserRole } from "../entity/UserRole";
+import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
-import { Role } from "../types/Role";
 
 @ObjectType()
 class FieldError {

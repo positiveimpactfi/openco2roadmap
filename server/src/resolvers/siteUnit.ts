@@ -1,7 +1,7 @@
-import { SiteUnit } from "../entity/SiteUnit";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
-import { Role } from "../types/Role";
 import { Site } from "../entity/Site";
+import { SiteUnit } from "../entity/SiteUnit";
+import { Role } from "../types";
 
 @Resolver(SiteUnit)
 export class SiteUnitResolver {

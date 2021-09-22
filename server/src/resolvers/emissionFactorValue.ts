@@ -2,8 +2,8 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { EmissionFactor } from "../entity/EmissionFactor";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
 import { User } from "../entity/User";
+import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
-import { Role } from "../types/Role";
 
 @Resolver(EmissionFactorValue)
 export class EmissionFactorValueResolver {

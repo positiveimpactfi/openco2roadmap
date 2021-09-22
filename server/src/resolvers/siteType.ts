@@ -1,8 +1,8 @@
-import { SiteType } from "../entity/SiteType";
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
-import { Role } from "../types/Role";
-import { MyContext } from "../types/MyContext";
+import { SiteType } from "../entity/SiteType";
 import { User } from "../entity/User";
+import { Role } from "../types";
+import { MyContext } from "../types/MyContext";
 
 @Resolver(SiteType)
 export class SiteTypeResolver {
