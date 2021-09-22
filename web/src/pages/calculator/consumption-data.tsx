@@ -10,6 +10,10 @@ import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated"
 import { useState } from "react";
 import { numberToString } from "utils/numberToString";
 import { format } from "date-fns";
+import { emissionSources } from "@/shared/emissionSources";
+import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
+import { emissionCategories } from "@/shared/categories";
+import { CategoryType } from "@/shared/types/CategoryType";
 
 const CalculatorConsumptionDataPage = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -50,8 +54,20 @@ const CalculatorConsumptionDataPage = () => {
           >
             {dataEntries.map((entry) => (
               <tr key={entry.id}>
-                <TableCell value={entry.category} />
-                <TableCell value={entry.emissionSource} />
+                <TableCell
+                  value={
+                    emissionCategories.find(
+                      (category) => category.id === CategoryType[entry.category]
+                    ).name
+                  }
+                />
+                <TableCell
+                  value={
+                    emissionSources.find(
+                      (es) => es.id === EmissionSourceType[entry.emissionSource]
+                    ).name
+                  }
+                />
                 <TableCell
                   value={`${
                     entry.emissionFactorValue.emissionFactor.name
