@@ -19,6 +19,7 @@ import {
   SiteUnit,
 } from "types/generatedTypes";
 import FormField from "../Common/FormField";
+import { startOfMonth, endOfMonth, add, sub } from "date-fns";
 
 interface FormValues {
   consumptionValue: number;
@@ -115,6 +116,16 @@ const CreateDataEntryForm: React.FC<{
     <Formik
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
+        const today = new Date(values.year, values.month.id - 1);
+        const monthStart = startOfMonth(today);
+        const monthEnd = endOfMonth(today);
+        const startDayUTC = sub(monthStart, {
+          minutes: today.getTimezoneOffset(),
+        });
+        const endDayUTC = sub(monthEnd, {
+          minutes: today.getTimezoneOffset(),
+        });
+
         const vars = {
           category: CategoryType[
             (
@@ -131,8 +142,8 @@ const CreateDataEntryForm: React.FC<{
           measurementUnit: values.measurementUnit
             .shorthand as unknown as MeasurementUnitType,
           siteUnitID: values.siteUnit.id,
-          startDate: new Date(values.year, values.month.id),
-          endDate: new Date(values.year, values.month.id),
+          startDate: startDayUTC,
+          endDate: endDayUTC,
         };
         console.log("variables", vars);
         const response = await createDataEntry({
