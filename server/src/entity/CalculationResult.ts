@@ -7,6 +7,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import {
+  CategoryType,
+  EmissionSourceType,
+  MeasurementUnitType,
+} from "../types";
 import { DataEntry } from "./DataEntry";
 
 @ObjectType()
@@ -22,7 +27,64 @@ export class CalculationResult extends BaseEntity {
 
   @Field()
   @Column()
-  value: number;
+  startDate: Date;
+
+  @Field()
+  @Column()
+  endDate: Date;
+
+  @Field()
+  @Column()
+  consumptionValue: number;
+
+  @Field()
+  @Column({ type: "double precision" })
+  emissionFactorValue: number;
+
+  @Field(() => MeasurementUnitType)
+  @Column({
+    type: "enum",
+    enum: MeasurementUnitType,
+  })
+  measurementUnit: MeasurementUnitType;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true, type: "double precision" })
+  emissionsCalculated: number;
+
+  @Field()
+  @Column()
+  siteUnitID: string;
+
+  @Field()
+  @Column()
+  siteID: string;
+
+  @Field()
+  @Column()
+  creatorID: string;
+
+  @Field()
+  @Column()
+  organizationID: string;
+
+  @Field(() => EmissionSourceType)
+  @Column({
+    type: "enum",
+    enum: EmissionSourceType,
+  })
+  emissionSource: EmissionSourceType;
+
+  @Field(() => CategoryType)
+  @Column({
+    type: "enum",
+    enum: CategoryType,
+  })
+  category: CategoryType;
+
+  @Field()
+  @Column()
+  isLatest: boolean;
 
   @Field(() => DataEntry)
   @ManyToOne(() => DataEntry, (dataEntry) => dataEntry.calculationResults)
