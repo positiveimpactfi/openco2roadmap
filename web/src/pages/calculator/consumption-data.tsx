@@ -9,6 +9,7 @@ import { allUnits } from "@/shared/measurementUnits";
 import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
 import { useState } from "react";
 import { numberToString } from "utils/numberToString";
+import { format } from "date-fns";
 
 const CalculatorConsumptionDataPage = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -66,10 +67,10 @@ const CalculatorConsumptionDataPage = () => {
                   }
                 />
                 <TableCell
-                  value={new Date(entry.startDate).toISOString().split("T")[0]}
+                  value={format(new Date(entry.startDate), "dd.MM.yyyy")}
                 />
                 <TableCell
-                  value={new Date(entry.endDate).toISOString().split("T")[0]}
+                  value={format(new Date(entry.endDate), "dd.MM.yyyy")}
                 />
                 <TableCell
                   value={
