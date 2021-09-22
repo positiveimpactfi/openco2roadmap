@@ -7,9 +7,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { CategoryType } from "../types/CategoryType";
-import { EmissionSourceType } from "../types/EmissionSourceType";
-import { MeasurementUnitType } from "../types/MeasurementUnitType";
+import {
+  CategoryType,
+  EmissionSourceType,
+  MeasurementUnitType,
+} from "../types";
 import { CalculationResult } from "./CalculationResult";
 import { EmissionFactorValue } from "./EmissionFactorValue";
 import { SiteUnit } from "./SiteUnit";
