@@ -1,4 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { CalculationResult } from "../entity/CalculationResult";
 import { DataEntry } from "../entity/DataEntry";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
 import { SiteUnit } from "../entity/SiteUnit";
@@ -10,6 +11,7 @@ import {
   Role,
 } from "../types";
 import { MyContext } from "../types/MyContext";
+import { allUnits } from "../../../shared/measurementUnits";
 
 @Resolver(DataEntry)
 export class DataEntryResolver {
@@ -80,12 +82,16 @@ export class DataEntryResolver {
     @Arg("endDate", () => Date) endDate: Date,
     @Arg("consumptionValue") consumptionValue: number
   ): Promise<DataEntry | undefined> {
-    const user = await User.findOne(req.session.userId);
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
     if (!user) {
       console.error("no user");
       return undefined;
     }
-    const siteUnit = await SiteUnit.findOne(siteUnitID);
+    const siteUnit = await SiteUnit.findOne(siteUnitID, {
+      relations: ["site"],
+    });
     if (!siteUnit) {
       console.error("no site unit");
       return undefined;
@@ -105,8 +111,36 @@ export class DataEntryResolver {
       emissionSource,
       emissionFactorValue: EFValue,
       createdBy: user,
+      calculationResults: [],
     }).save();
+
+    const mUnit = allUnits.find(
+      (unit) => unit.shorthand === MeasurementUnitType[measurementUnit]
+    )?.conversionFactor;
+
+    const calculationResult = await CalculationResult.create({
+      startDate,
+      endDate,
+      consumptionValue,
+      measurementUnit,
+      emissionSource,
+      category,
+      emissionFactorValue: EFValue.value,
+      siteUnitID: siteUnit.id,
+      siteID: siteUnit.site.id,
+      creatorID: user.id,
+      organizationID: user.organizations[0].id,
+      emissionsCalculated: mUnit
+        ? EFValue.value * consumptionValue * mUnit
+        : undefined,
+      isLatest: true,
+      dataEntry: newDataEntry,
+    }).save();
+
+    newDataEntry.calculationResults.push(calculationResult);
+    await newDataEntry.save();
     console.log("created data entry", newDataEntry);
+    console.log("created new calculation result", calculationResult);
     return newDataEntry;
   }
 }
