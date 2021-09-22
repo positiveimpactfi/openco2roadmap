@@ -5,3 +5,5 @@ registerEnumType(CategoryType, {
   name: "CategoryType",
   description: "Emission categories",
 });
+
+export { CategoryType };

@@ -1,7 +1,7 @@
 import { AuthChecker } from "type-graphql";
 import { getConnection } from "typeorm";
 import { MyContext } from "../types/MyContext";
-import { Role } from "../types/Role";
+import { Role } from "../../../shared/types";
 import { z } from "zod";
 
 const schema = z

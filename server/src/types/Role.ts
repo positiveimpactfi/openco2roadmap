@@ -5,3 +5,5 @@ registerEnumType(Role, {
   name: "Role",
   description: "User roles",
 });
+
+export { Role };

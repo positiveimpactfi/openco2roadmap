@@ -5,3 +5,5 @@ registerEnumType(MeasurementUnitType, {
   name: "MeasurementUnitType",
   description: "Units of physical quantities",
 });
+
+export { MeasurementUnitType };

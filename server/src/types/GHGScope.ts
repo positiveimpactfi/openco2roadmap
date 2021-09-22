@@ -5,3 +5,5 @@ registerEnumType(GHGScope, {
   name: "GHGScope",
   description: "Greenhouse gas protocol emission scopes",
 });
+
+export { GHGScope };

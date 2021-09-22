@@ -5,3 +5,5 @@ registerEnumType(EmissionSourceType, {
   name: "EmissionSourceType",
   description: "Emission sources",
 });
+
+export { EmissionSourceType };

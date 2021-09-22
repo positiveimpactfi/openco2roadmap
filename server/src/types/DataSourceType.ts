@@ -5,3 +5,5 @@ registerEnumType(DataSourceType, {
   name: "DataSourceType",
   description: "Origin of the data",
 });
+
+export { DataSourceType };
