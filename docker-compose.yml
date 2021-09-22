@@ -5,21 +5,19 @@ services:
     container_name: openco2roadmap-backend
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: server/Dockerfile
     restart: "unless-stopped"
     ports:
       - "4000:4000"
     networks:
       - default
-    volumes:
-      - ./:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
     links:
       - "redis:redis"
     depends_on:
       - db
       - redis
     environment:
+      NODE_ENV: "production"
       PORT: ${PORT}
       PG_HOST: ${PG_HOST}
       PG_PORT: ${PG_PORT}
@@ -32,6 +30,10 @@ services:
       SESSION_SECRET: ${SESSION_SECRET}
       COOKIE_NAME: ${COOKIE_NAME}
       CORS_ORIGIN: ${CORS_ORIGIN}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SENDGRID_EMAIL: ${SENDGRID_EMAIL}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL}
+      SUPERADMIN_PW: ${SUPERADMIN_PW}
 
   db:
     image: postgres
@@ -66,4 +68,3 @@ networks:
 volumes:
   database:
   redis:
-  node_modules:

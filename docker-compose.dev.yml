@@ -4,22 +4,24 @@ services:
   api:
     container_name: openco2roadmap-backend
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./server
+      dockerfile: Dockerfile.dev
     restart: "unless-stopped"
     ports:
       - "4000:4000"
     networks:
       - default
     volumes:
-      - ./:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
-    links:
-      - "redis:redis"
+      - ./server:/usr/src/app/server
+      - ./shared:/usr/src/app/shared
+      - node_modules:/usr/src/app/server/node_modules
+    # links:
+    # - "redis:redis"
     depends_on:
       - db
-      - redis
+      # - redis
     environment:
+      NODE_ENV: "development"
       PORT: ${PORT}
       PG_HOST: ${PG_HOST}
       PG_PORT: ${PG_PORT}
@@ -32,7 +34,10 @@ services:
       SESSION_SECRET: ${SESSION_SECRET}
       COOKIE_NAME: ${COOKIE_NAME}
       CORS_ORIGIN: ${CORS_ORIGIN}
-      NODE_ENV: "production"
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SENDGRID_EMAIL: ${SENDGRID_EMAIL}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL}
+      SUPERADMIN_PW: ${SUPERADMIN_PW}
 
   db:
     image: postgres
@@ -47,24 +52,24 @@ services:
       POSTGRES_DB: ${PG_DB}
       POSTGRES_USER: ${PG_USERNAME}
       POSTGRES_PASSWORD: ${PG_PW}
-  redis:
-    image: bitnami/redis
-    restart: "unless-stopped"
-    ports:
-      - 6379:6379
-    volumes:
-      - redis:/data
-    networks:
-      - default
-    environment:
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      REDIS_PASSWORD: ${REDIS_PW}
+  # redis:
+  #   image: bitnami/redis
+  #   restart: "unless-stopped"
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis:/data
+  #   networks:
+  #     - default
+  #   environment:
+  #     REDIS_HOST: ${REDIS_HOST}
+  #     REDIS_PORT: ${REDIS_PORT}
+  #     REDIS_PASSWORD: ${REDIS_PW}
 
 networks:
   default:
 
 volumes:
   database:
-  redis:
   node_modules:
+  # redis:
