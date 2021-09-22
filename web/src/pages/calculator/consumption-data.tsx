@@ -59,7 +59,11 @@ const CalculatorConsumptionDataPage = () => {
                   )} kg CO2e)`}
                 />
                 <TableCell
-                  value={`${entry.siteUnit.name} (${entry.siteUnit.site.name})`}
+                  value={
+                    entry.siteUnit.name.startsWith("default_")
+                      ? `${entry.siteUnit.site.name}`
+                      : `${entry.siteUnit.name} (${entry.siteUnit.site.name})`
+                  }
                 />
                 <TableCell
                   value={new Date(entry.startDate).toISOString().split("T")[0]}
