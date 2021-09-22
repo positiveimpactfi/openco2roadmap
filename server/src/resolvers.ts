@@ -13,6 +13,7 @@ import { EmissionSourceResolver } from "./resolvers/emissionSource";
 import { EmissionFactorResolver } from "./resolvers/emissionFactor";
 import { EmissionFactorValueResolver } from "./resolvers/emissionFactorValue";
 import { DataEntryResolver } from "./resolvers/dataEntry";
+import { CalculationResultResolver } from "./resolvers/calculationResult";
 
 export const resolvers = [
   UserResolver,
@@ -30,4 +31,5 @@ export const resolvers = [
   EmissionFactorResolver,
   EmissionFactorValueResolver,
   DataEntryResolver,
+  CalculationResultResolver,
 ] as const;
