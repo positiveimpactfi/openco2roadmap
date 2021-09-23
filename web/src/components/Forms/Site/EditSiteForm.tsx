@@ -2,7 +2,11 @@ import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, {
+  TableCell,
+  TableCellOpenOptions,
+  TableCellWithEdit,
+} from "components/Table";
 import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateSiteMutation } from "graphql/mutations/site/createSite.generated";
@@ -25,9 +29,7 @@ const EditSiteForm: React.FC<{
   site: Site;
 }> = ({ setOpen, site }) => {
   const [updateSite] = useUpdateSiteMutation();
-  const [units, setUnits] = useState(() =>
-    site.siteUnits.map((unit) => unit.name)
-  );
+  const [units, setUnits] = useState(site.siteUnits);
   const [showInputField, setShowInputField] = useState(false);
 
   const { data } = useMyOrganizationSiteTypesQuery();
@@ -110,7 +112,8 @@ const EditSiteForm: React.FC<{
                 />
               )}
               <SiteUnitsTable
-                units={units.filter((u) => !u.startsWith("default_"))}
+                units={units.filter((u) => !u.name.startsWith("default_"))}
+                setUnits={setUnits}
               />
             </div>
 
@@ -136,23 +139,35 @@ const EditSiteForm: React.FC<{
   );
 };
 
-const SiteUnitsTable: React.FC<{ units: string[] }> = ({ units }) => {
+const SiteUnitsTable: React.FC<{
+  units: SiteUnit[];
+  setUnits: (val: SiteUnit[]) => void;
+}> = ({ units, setUnits }) => {
   if (units.length === 0) return null;
   return (
     <Table headers={["Yksiköt", ""]}>
-      {units.map((unit, id) => (
-        <tr key={unit + id}>
-          <TableCell value={unit} />
-          <TableCellOpenOptions fn={() => console.log("opened edit")} />
-        </tr>
-      ))}
+      {units.map((unit, id) => {
+        return (
+          <tr key={unit.id + id}>
+            <TableCellWithEdit value={unit.name} />
+            {/* <TableCellOpenOptions
+              fn={() => console.log("opened edit")}
+              variant="edit"
+            /> */}
+            <TableCellOpenOptions
+              fn={() => setUnits(units.filter((u) => u.id !== unit.id))}
+              variant="delete"
+            />
+          </tr>
+        );
+      })}
     </Table>
   );
 };
 
 const NewUnitInputField: React.FC<{
-  units: string[];
-  setUnits: (val: string[]) => void;
+  units: SiteUnit[];
+  setUnits: (val: SiteUnit[]) => void;
   setOpen: (val: boolean) => void;
 }> = ({ units, setUnits, setOpen }) => {
   const [unit, setUnit] = useState("");
@@ -186,7 +201,10 @@ const NewUnitInputField: React.FC<{
           type="button"
           className="w-8 h-8 bg-teal-500 inline-flex items-center justify-center text-teal-500 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
           onClick={() => {
-            setUnits([...units, unit]);
+            setUnits([
+              ...units,
+              { id: `new_${unit}`, name: unit, site: units[0].site },
+            ]);
             setUnit("");
           }}
         >
