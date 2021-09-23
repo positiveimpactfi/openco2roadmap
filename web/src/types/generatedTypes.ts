@@ -295,6 +295,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResolverResponse;
   updateOrganization: Organization;
+  updateSite: Site;
 };
 
 
@@ -394,6 +395,14 @@ export type MutationRegisterArgs = {
 export type MutationUpdateOrganizationArgs = {
   newData: EditOrganizationInput;
   organizationID: Scalars['String'];
+};
+
+
+export type MutationUpdateSiteArgs = {
+  municipalityID?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  siteID: Scalars['String'];
+  siteTypeID?: Maybe<Scalars['String']>;
 };
 
 export type Organization = {

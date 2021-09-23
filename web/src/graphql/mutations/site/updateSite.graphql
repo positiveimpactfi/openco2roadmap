@@ -1,0 +1,23 @@
+mutation UpdateSite(
+  $siteID: String!
+  $name: String
+  $municipalityID: Int
+  $siteTypeID: String
+) {
+  updateSite(
+    siteID: $siteID
+    name: $name
+    municipalityID: $municipalityID
+    siteTypeID: $siteTypeID
+  ) {
+    name
+    id
+    municipality {
+      name
+    }
+    siteType {
+      id
+      name
+    }
+  }
+}
