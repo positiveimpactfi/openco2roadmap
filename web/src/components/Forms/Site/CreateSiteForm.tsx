@@ -26,7 +26,6 @@ const CreateSiteForm: React.FC<{
     municipality: null,
   };
   const [createSite] = useCreateSiteMutation();
-  const [showNewUnitButton, setShowNewUnitButton] = useState(false);
   const [units, setUnits] = useState([]);
   const [showInputField, setShowInputField] = useState(false);
 
@@ -82,30 +81,22 @@ const CreateSiteForm: React.FC<{
               name="municipality"
               setFieldValue={setFieldValue}
             />
-            <button
-              type="button"
-              className="mt-4 text-sm"
-              onClick={() => setShowNewUnitButton(!showNewUnitButton)}
-            >
-              Lisäasetukset
-            </button>
-            {showNewUnitButton && (
-              <div className="flex flex-col space-y-4">
-                <div>
-                  <Button onClick={() => setShowInputField(!showInputField)}>
-                    Lisää uusi yksikkö
-                  </Button>
-                </div>
-                {showInputField && (
-                  <NewUnitInputField
-                    units={units}
-                    setUnits={setUnits}
-                    setOpen={setShowInputField}
-                  />
-                )}
-                <SiteUnitsTable units={units} />
+
+            <div className="flex flex-col space-y-4">
+              <div>
+                <Button onClick={() => setShowInputField(!showInputField)}>
+                  Lisää uusi yksikkö
+                </Button>
               </div>
-            )}
+              {showInputField && (
+                <NewUnitInputField
+                  units={units}
+                  setUnits={setUnits}
+                  setOpen={setShowInputField}
+                />
+              )}
+              <SiteUnitsTable units={units} />
+            </div>
             <div className="pt-5">
               <div className="flex justify-end space-x-2">
                 <Button

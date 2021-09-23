@@ -25,7 +25,6 @@ const EditSiteForm: React.FC<{
   site: Site;
 }> = ({ setOpen, site }) => {
   const [updateSite] = useUpdateSiteMutation();
-  const [showNewUnitButton, setShowNewUnitButton] = useState(false);
   const [units, setUnits] = useState(() =>
     site.siteUnits.map((unit) => unit.name)
   );
@@ -96,13 +95,6 @@ const EditSiteForm: React.FC<{
               setFieldValue={setFieldValue}
               selectedValue={initialValues.municipality}
             />
-            <button
-              type="button"
-              className="mt-4 text-sm"
-              onClick={() => setShowNewUnitButton(!showNewUnitButton)}
-            >
-              Lisäasetukset
-            </button>
 
             <div className="flex flex-col space-y-4">
               <div>
