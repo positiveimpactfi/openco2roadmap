@@ -1,20 +1,18 @@
+import { municipalities } from "@/shared/municipalities";
 import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
 import Table, {
-  TableCell,
   TableCellOpenOptions,
   TableCellWithEdit,
 } from "components/Table";
-import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
-import { useCreateSiteMutation } from "graphql/mutations/site/createSite.generated";
+import { useUpdateSiteMutation } from "graphql/mutations/site/updateSite.generated";
 import { MyOrganizationSitesDocument } from "graphql/queries/site/myOrganizationSites.generated";
 import { useMyOrganizationSiteTypesQuery } from "graphql/queries/site/myOrganizationSiteTypes.generated";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Municipality, Site, SiteType, SiteUnit } from "types/generatedTypes";
-import { useUpdateSiteMutation } from "graphql/mutations/site/updateSite.generated";
 import { deepObjectsEqual } from "utils/objectsEqual";
 
 interface FormValues {
@@ -109,6 +107,7 @@ const EditSiteForm: React.FC<{
                   units={units}
                   setUnits={setUnits}
                   setOpen={setShowInputField}
+                  site={site}
                 />
               )}
               <SiteUnitsTable
@@ -177,7 +176,8 @@ const NewUnitInputField: React.FC<{
   units: SiteUnit[];
   setUnits: (val: SiteUnit[]) => void;
   setOpen: (val: boolean) => void;
-}> = ({ units, setUnits, setOpen }) => {
+  site: Site;
+}> = ({ units, setUnits, setOpen, site }) => {
   const [unit, setUnit] = useState("");
   return (
     <div className="bg-gray-200 px-2 py-2 rounded-md">
@@ -211,7 +211,12 @@ const NewUnitInputField: React.FC<{
           onClick={() => {
             setUnits([
               ...units,
-              { id: `new_${unit}`, name: unit, site: units[0].site },
+              {
+                id: `new_${unit}`,
+                name: unit,
+                site: site,
+                __typename: "SiteUnit",
+              },
             ]);
             setUnit("");
           }}
