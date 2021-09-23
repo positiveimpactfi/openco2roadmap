@@ -2,12 +2,15 @@ import {
   Arg,
   Authorized,
   Ctx,
+  Field,
+  InputType,
   Int,
   Mutation,
   Query,
   Resolver,
 } from "type-graphql";
 import { z } from "zod";
+import { DataEntry } from "../entity/DataEntry";
 import { Municipality } from "../entity/Municipality";
 import { Site } from "../entity/Site";
 import { SiteType } from "../entity/SiteType";
@@ -24,6 +27,15 @@ const updateSchema = z
     municipalityID: z.number(),
   })
   .partial();
+
+@InputType()
+class SiteUnitInput {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+}
 
 @Resolver(Site)
 export class SiteResolver {
@@ -76,8 +88,10 @@ export class SiteResolver {
     @Arg("siteID") siteID: string,
     @Arg("name", { nullable: true }) name: string,
     @Arg("siteTypeID", { nullable: true }) siteTypeID: string,
-    @Arg("municipalityID", () => Int, { nullable: true }) municipalityID: number
-    // @Arg("siteUnits", () => [String], { nullable: true }) siteUnits?: string[]
+    @Arg("municipalityID", () => Int, { nullable: true })
+    municipalityID: number,
+    @Arg("siteUnits", () => [SiteUnitInput], { nullable: true })
+    siteUnits: SiteUnit[]
   ): Promise<Site | undefined> {
     const site = await Site.findOne(siteID, {
       relations: ["siteUnits", "siteType"],
@@ -103,6 +117,56 @@ export class SiteResolver {
         municipality: await Municipality.findOne(pMunicipalityID),
       }),
     };
+
+    const oldSiteUnits = site.siteUnits;
+    /** handle deleted site units
+     * we don't want to lose data entries, so they are moved to site's default site unit
+     */
+    for (let oldUnit of oldSiteUnits) {
+      const isDeleted =
+        !oldUnit.name.startsWith("default_") &&
+        !siteUnits.some((s) => s.id === oldUnit.id);
+      if (isDeleted) {
+        console.log(`${oldUnit.name} has been deleted`);
+        const defaultUnit = oldSiteUnits.find((u) =>
+          u.name.startsWith("default_")
+        );
+        if (defaultUnit) {
+          const oldDataEntries = await oldUnit.dataEntries;
+          let savedDataEntries: DataEntry[] = [];
+          for (let dataEntry of oldDataEntries) {
+            dataEntry.siteUnit = defaultUnit;
+            savedDataEntries.push(await dataEntry.save());
+          }
+          defaultUnit.dataEntries = Promise.resolve(
+            (await defaultUnit.dataEntries).concat(savedDataEntries)
+          );
+          await defaultUnit.save();
+          await oldUnit.remove();
+        }
+      }
+    }
+
+    for (let s of siteUnits) {
+      /** handle site units that were renamed */
+      if (oldSiteUnits.some((oldUnit) => s.id === oldUnit.id)) {
+        const siteUnit = await SiteUnit.findOne(s.id);
+        if (siteUnit) {
+          siteUnit.name = s.name;
+          await siteUnit.save();
+        }
+      }
+      /** handle new sites */
+      if (s.id.startsWith("new_")) {
+        const newSiteUnit = await SiteUnit.create({
+          name: s.name,
+          site: site,
+        }).save();
+        site.siteUnits.push(newSiteUnit);
+        await site.save();
+      }
+    }
+
     /** siteData fields can be undefined (if findOne fails), so we pass only truthy fields to the update function  */
     await Site.update(site.id, truthyObject(siteData));
     await site.reload();
