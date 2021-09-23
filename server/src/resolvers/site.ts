@@ -17,6 +17,7 @@ import { MyContext } from "../types/MyContext";
 
 @Resolver(Site)
 export class SiteResolver {
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => Site)
   async createSite(
     @Arg("name") name: string,
@@ -59,19 +60,14 @@ export class SiteResolver {
     return newSite;
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.ADMIN])
   @Query(() => [Site])
   async allSites(): Promise<Site[] | undefined> {
     const sites = await Site.find({ relations: ["siteType"] });
     return sites;
   }
 
-  @Authorized([
-    Role.SUPERADMIN,
-    Role.ADMIN,
-    Role.COMPANY_ADMIN,
-    Role.COMPANY_USER,
-  ])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Query(() => [Site])
   async allSitesInMyOrganization(
     @Ctx() { req }: MyContext
