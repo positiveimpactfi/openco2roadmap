@@ -144,16 +144,24 @@ const SiteUnitsTable: React.FC<{
   setUnits: (val: SiteUnit[]) => void;
 }> = ({ units, setUnits }) => {
   if (units.length === 0) return null;
+
+  const handleParentValue = (oldVal: string, newValue: string) => {
+    setUnits(
+      units.map((u) => {
+        return u.name === oldVal ? { ...u, name: newValue } : u;
+      })
+    );
+  };
+
   return (
     <Table headers={["Yksiköt", ""]}>
       {units.map((unit, id) => {
         return (
-          <tr key={unit.id + id}>
-            <TableCellWithEdit value={unit.name} />
-            {/* <TableCellOpenOptions
-              fn={() => console.log("opened edit")}
-              variant="edit"
-            /> */}
+          <tr key={unit.id + id} className="">
+            <TableCellWithEdit
+              value={unit.name}
+              handleParentValue={handleParentValue}
+            />
             <TableCellOpenOptions
               fn={() => setUnits(units.filter((u) => u.id !== unit.id))}
               variant="delete"
