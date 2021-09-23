@@ -2,18 +2,28 @@ import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateSiteForm from "components/Forms/Site/CreateSiteForm";
 import CreateSiteTypeForm from "components/Forms/Site/CreateSiteTypeForm";
+import EditSiteForm from "components/Forms/Site/EditSiteForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import { useState } from "react";
+import { Site } from "types/generatedTypes";
 
 const SiteSettingsPage = () => {
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
+  const [editSiteOpen, setEditSiteOpen] = useState(false);
+  const [site, setSite] = useState<Site>(null);
   const { data, loading } = useMyOrganizationSitesQuery();
   const sites = data?.allSitesInMyOrganization ?? [];
+
+  const handleSiteChange = (s: Site) => {
+    setSite(s);
+    setEditSiteOpen(true);
+  };
+
   return (
     <SettingsPanel
       title="Toimipaikat"
@@ -32,6 +42,13 @@ const SiteSettingsPage = () => {
         setOpen={setCreateSiteOpen}
       >
         <CreateSiteForm setOpen={setCreateSiteOpen} />
+      </SlideOver>
+      <SlideOver
+        title="Muokkaa toimapaikkaa"
+        open={editSiteOpen}
+        setOpen={setEditSiteOpen}
+      >
+        <EditSiteForm setOpen={setEditSiteOpen} site={site} />
       </SlideOver>
       <div className="flex space-x-2 mb-4">
         <Button variant="success" onClick={() => setNewSiteTypeOpen(true)}>
@@ -66,7 +83,9 @@ const SiteSettingsPage = () => {
                     .filter((unit) => !unit.startsWith("default_"))
                     .join(", ")}
                 />
-                <TableCellOpenOptions fn={() => console.log("hello")} />
+                <TableCellOpenOptions
+                  fn={() => handleSiteChange(site as Site)}
+                />
               </tr>
             ))}
           </Table>
