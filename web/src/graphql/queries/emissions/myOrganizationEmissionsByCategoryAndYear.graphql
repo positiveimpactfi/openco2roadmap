@@ -1,0 +1,6 @@
+query MyOrganizationEmissionsByCategoryAndYear {
+  myOrganizationEmissionsByCategoryAndYear {
+    categoryid
+    yearlysums
+  }
+}

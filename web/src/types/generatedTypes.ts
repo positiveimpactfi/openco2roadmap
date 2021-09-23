@@ -22,10 +22,22 @@ export type BusinessField = {
 
 export type CalculationResult = {
   __typename?: 'CalculationResult';
+  category: CategoryType;
+  consumptionValue: Scalars['Float'];
+  creatorID: Scalars['String'];
   dataEntry: DataEntry;
   dateCreated: Scalars['DateTime'];
+  emissionFactorValue: Scalars['Float'];
+  emissionSource: EmissionSourceType;
+  emissionsCalculated?: Maybe<Scalars['Float']>;
+  endDate: Scalars['DateTime'];
   id: Scalars['ID'];
-  value: Scalars['Float'];
+  isLatest: Scalars['Boolean'];
+  measurementUnit: MeasurementUnitType;
+  organizationID: Scalars['String'];
+  siteID: Scalars['String'];
+  siteUnitID: Scalars['String'];
+  startDate: Scalars['DateTime'];
 };
 
 export type Category = {
@@ -413,6 +425,7 @@ export type PhysicalQuantity = {
 
 export type Query = {
   __typename?: 'Query';
+  allCalculationResults: Array<CalculationResult>;
   allComponents: Array<Component>;
   allDataEntries: Array<DataEntry>;
   allEmissionFactorValues: Array<EmissionFactorValue>;
@@ -432,6 +445,7 @@ export type Query = {
   myEmissionFactors: Array<EmissionFactor>;
   myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
+  myOrganizationEmissionsByCategoryAndYear: Array<Return>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
@@ -442,6 +456,12 @@ export type Query = {
 
 export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
+};
+
+export type Return = {
+  __typename?: 'Return';
+  categoryid?: Maybe<Scalars['String']>;
+  yearlysums?: Maybe<Scalars['String']>;
 };
 
 export type Site = {
