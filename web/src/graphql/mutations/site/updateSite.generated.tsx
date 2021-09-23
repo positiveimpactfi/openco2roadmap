@@ -8,6 +8,7 @@ export type UpdateSiteMutationVariables = Types.Exact<{
   name?: Types.Maybe<Types.Scalars['String']>;
   municipalityID?: Types.Maybe<Types.Scalars['Int']>;
   siteTypeID?: Types.Maybe<Types.Scalars['String']>;
+  siteUnits?: Types.Maybe<Array<Types.SiteUnitInput> | Types.SiteUnitInput>;
 }>;
 
 
@@ -15,12 +16,13 @@ export type UpdateSiteMutation = { __typename?: 'Mutation', updateSite: { __type
 
 
 export const UpdateSiteDocument = gql`
-    mutation UpdateSite($siteID: String!, $name: String, $municipalityID: Int, $siteTypeID: String) {
+    mutation UpdateSite($siteID: String!, $name: String, $municipalityID: Int, $siteTypeID: String, $siteUnits: [SiteUnitInput!]) {
   updateSite(
     siteID: $siteID
     name: $name
     municipalityID: $municipalityID
     siteTypeID: $siteTypeID
+    siteUnits: $siteUnits
   ) {
     name
     id
@@ -53,6 +55,7 @@ export type UpdateSiteMutationFn = Apollo.MutationFunction<UpdateSiteMutation, U
  *      name: // value for 'name'
  *      municipalityID: // value for 'municipalityID'
  *      siteTypeID: // value for 'siteTypeID'
+ *      siteUnits: // value for 'siteUnits'
  *   },
  * });
  */

@@ -44,13 +44,19 @@ const EditSiteForm: React.FC<{
     <Formik
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
-        if (!deepObjectsEqual(values, initialValues)) {
+        if (
+          !deepObjectsEqual(values, initialValues) ||
+          !deepObjectsEqual(units, site.siteUnits)
+        ) {
           const response = await updateSite({
             variables: {
               siteID: site.id,
               name: values.name,
               siteTypeID: values.siteType?.id,
               municipalityID: values.municipality?.id,
+              siteUnits: units.map((u) => {
+                return { id: u.id, name: u.name };
+              }),
             },
             refetchQueries: [MyOrganizationSitesDocument],
           });
@@ -62,7 +68,6 @@ const EditSiteForm: React.FC<{
             console.error("Failed to update site");
           }
         }
-        console.log("din do notin");
       }}
     >
       {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (

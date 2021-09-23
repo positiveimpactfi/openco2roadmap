@@ -3,12 +3,14 @@ mutation UpdateSite(
   $name: String
   $municipalityID: Int
   $siteTypeID: String
+  $siteUnits: [SiteUnitInput!]
 ) {
   updateSite(
     siteID: $siteID
     name: $name
     municipalityID: $municipalityID
     siteTypeID: $siteTypeID
+    siteUnits: $siteUnits
   ) {
     name
     id

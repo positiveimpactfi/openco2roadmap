@@ -403,6 +403,7 @@ export type MutationUpdateSiteArgs = {
   name?: Maybe<Scalars['String']>;
   siteID: Scalars['String'];
   siteTypeID?: Maybe<Scalars['String']>;
+  siteUnits?: Maybe<Array<SiteUnitInput>>;
 };
 
 export type Organization = {
@@ -496,6 +497,11 @@ export type SiteUnit = {
   id: Scalars['ID'];
   name: Scalars['String'];
   site: Site;
+};
+
+export type SiteUnitInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type User = {
