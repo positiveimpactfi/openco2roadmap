@@ -5,12 +5,12 @@ import Notification from "components/Notification";
 import WarningModal from "components/Warning";
 import { businessFields } from "@/shared/businessFields";
 import { municipalities } from "@/shared/municipalities";
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps, FormikHelpers } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
-import { Organization } from "types/generatedTypes";
+import { Municipality, Organization } from "types/generatedTypes";
 import { deepObjectsEqual } from "utils/objectsEqual";
 import { compareString } from "utils/compareStrings";
 
@@ -52,7 +52,11 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
         initialValues={initialValues}
         onSubmit={async (
           values: Partial<Organization>,
-          { setSubmitting, resetForm }
+          {
+            setSubmitting,
+            resetForm,
+            setValues,
+          }: FormikHelpers<Partial<Organization>>
         ) => {
           // Only send request to API server if form values are changed
           if (!deepObjectsEqual(values, initialValues)) {
@@ -69,11 +73,24 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
               refetchQueries: setSlideoverOpen && [AllOrganizationsDocument],
             });
             if (response.data.updateOrganization.id) {
+              const updatedOrg = response.data.updateOrganization;
+              console.log("updated org", updatedOrg);
               setSubmitting(false);
               resetForm();
               setSlideoverOpen && setSlideoverOpen(false);
               setNotificationOpen(true);
-              setInitialValues(values);
+              setValues({
+                name: updatedOrg.name,
+                businessID: updatedOrg.businessID,
+                municipality: updatedOrg.municipality as Municipality,
+                businessField: updatedOrg.businessField,
+              });
+              setInitialValues({
+                name: updatedOrg.name,
+                businessID: updatedOrg.businessID,
+                municipality: updatedOrg.municipality as Municipality,
+                businessField: updatedOrg.businessField,
+              });
             } else {
               console.error("Failed to add organization");
             }
