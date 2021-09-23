@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type MyOrganizationSitesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyOrganizationSitesQuery = { __typename?: 'Query', allSitesInMyOrganization: Array<{ __typename?: 'Site', name: string, id: string, municipality?: Types.Maybe<{ __typename?: 'Municipality', name: string }>, siteType: { __typename?: 'SiteType', name: string }, siteUnits?: Types.Maybe<Array<{ __typename?: 'SiteUnit', id: string, name: string }>> }> };
+export type MyOrganizationSitesQuery = { __typename?: 'Query', allSitesInMyOrganization: Array<{ __typename?: 'Site', name: string, id: string, municipality?: Types.Maybe<{ __typename?: 'Municipality', name: string }>, siteType: { __typename?: 'SiteType', id: string, name: string }, siteUnits?: Types.Maybe<Array<{ __typename?: 'SiteUnit', id: string, name: string }>> }> };
 
 
 export const MyOrganizationSitesDocument = gql`
@@ -18,6 +18,7 @@ export const MyOrganizationSitesDocument = gql`
       name
     }
     siteType {
+      id
       name
     }
     siteUnits {

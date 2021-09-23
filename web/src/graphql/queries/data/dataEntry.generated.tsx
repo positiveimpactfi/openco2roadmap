@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type MyDataEntriesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyDataEntriesQuery = { __typename?: 'Query', myDataEntries: Array<{ __typename?: 'DataEntry', id: string, startDate: any, endDate: any, consumptionValue: number, measurementUnit: Types.MeasurementUnitType, emissionSource: Types.EmissionSourceType, category: Types.CategoryType, emissionFactorValue: { __typename?: 'EmissionFactorValue', value: number, startDate: number, endDate: number, id: string, emissionFactor: { __typename?: 'EmissionFactor', name: string } }, createdBy: { __typename?: 'User', id: string, email: string }, siteUnit: { __typename?: 'SiteUnit', name: string, site: { __typename?: 'Site', name: string } } }> };
+export type MyDataEntriesQuery = { __typename?: 'Query', myDataEntries: Array<{ __typename?: 'DataEntry', id: string, startDate: any, endDate: any, consumptionValue: number, measurementUnit: Types.MeasurementUnitType, emissionSource: Types.EmissionSourceType, category: Types.CategoryType, emissionFactorValue: { __typename?: 'EmissionFactorValue', value: number, startDate: number, endDate: number, id: string, emissionFactor: { __typename?: 'EmissionFactor', name: string } }, createdBy: { __typename?: 'User', id: string, email: string }, siteUnit: { __typename?: 'SiteUnit', id: string, name: string, site: { __typename?: 'Site', name: string } } }> };
 
 
 export const MyDataEntriesDocument = gql`
@@ -33,6 +33,7 @@ export const MyDataEntriesDocument = gql`
       email
     }
     siteUnit {
+      id
       name
       site {
         name
