@@ -13,28 +13,29 @@ import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allP
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import {
-  EmissionSource,
   MeasurementUnit,
   MeasurementUnitType,
   SiteUnit,
 } from "types/generatedTypes";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
+import { Unit } from "@/shared/measurementUnits";
+import { EmissionSource } from "@/shared/emissionSources";
 
-interface FormValues {
+export interface FormValues {
   consumptionValue: number;
   emissionFactorValue: ReducedEF;
   emissionSource: EmissionSource;
-  measurementUnit: MeasurementUnit;
+  measurementUnit: MeasurementUnit | Unit;
   siteUnit: SiteUnit;
   month: { id: number; name: string };
   year: number;
 }
 
-type ReducedEF = {
+export type ReducedEF = {
   sourceNames: string[];
   sourceIds: number[];
-  id: number;
+  id: string;
   name: string;
   physicalQuantity: {
     __typename?: "PhysicalQuantity";
@@ -175,8 +176,8 @@ const CreateDataEntryForm: React.FC<{
               name="emissionSource"
               setFieldValue={setFieldValue}
             />
-            <div className="flex justify-between">
-              <div>
+            <div className="flex">
+              <div className="w-1/3">
                 <SelectNumber
                   options={Array.from(
                     { length: 10 },
@@ -189,7 +190,7 @@ const CreateDataEntryForm: React.FC<{
                   setFieldValue={setFieldValue}
                 />
               </div>
-              <div className="w-full ml-2">
+              <div className="w-2/3 ml-2">
                 <Select
                   className="w-full"
                   label="Kuukausi"
@@ -216,18 +217,20 @@ const CreateDataEntryForm: React.FC<{
               name="emissionFactorValue"
               setFieldValue={setFieldValue}
             />
-            <div className="flex justify-between items-center">
-              <FormField
-                name="consumptionValue"
-                type="number"
-                placeholder="0,00"
-                label="Kulutus"
-                showLabel
-                roundedBottom
-                roundedTop
-                variant="tight"
-              />
-              <div className="w-full ml-2">
+            <div className="flex">
+              <div className="w-1/3">
+                <FormField
+                  name="consumptionValue"
+                  type="number"
+                  placeholder="0,00"
+                  label="Kulutus"
+                  showLabel
+                  roundedBottom
+                  roundedTop
+                  variant="tight"
+                />
+              </div>
+              <div className="w-2/3 ml-2">
                 <Select
                   name="measurementUnit"
                   label="Mittayksikkö"
