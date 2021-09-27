@@ -3,7 +3,7 @@ import { StaticEntity } from "./types/StaticEntity";
 import { ComponentType } from "./types/ComponentType";
 import { emissionSources } from "./emissionSources";
 
-type EmissionComponent = StaticEntity & {
+export type EmissionComponent = StaticEntity & {
   categoryID: number;
 };
 

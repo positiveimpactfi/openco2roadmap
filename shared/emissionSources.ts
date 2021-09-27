@@ -3,7 +3,7 @@ import { StaticEntity } from "./types/StaticEntity";
 import { EmissionSourceType as es } from "./types/EmissionSourceType";
 import { ComponentType } from "./types/ComponentType";
 
-type EmissionSource = StaticEntity & {
+export type EmissionSource = StaticEntity & {
   componentIDs: number[];
   scope: GHGScope;
 };
