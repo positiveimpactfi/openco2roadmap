@@ -44,7 +44,7 @@ const SiteSettingsPage = () => {
         <CreateSiteForm setOpen={setCreateSiteOpen} />
       </SlideOver>
       <SlideOver
-        title="Muokkaa toimapaikkaa"
+        title="Muokkaa toimipaikkaa"
         open={editSiteOpen}
         setOpen={setEditSiteOpen}
       >
