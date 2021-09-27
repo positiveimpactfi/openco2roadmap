@@ -14,11 +14,22 @@ import { emissionSources } from "@/shared/emissionSources";
 import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import { emissionCategories } from "@/shared/categories";
 import { CategoryType } from "@/shared/types/CategoryType";
+import ShowDataEntryForm from "components/ShowDataEntryForm";
+import { DataEntry } from "types/generatedTypes";
+import OptionsMenu from "components/OptionsMenu";
 
 const CalculatorConsumptionDataPage = () => {
   const [formOpen, setFormOpen] = useState(false);
+  const [editFormOpen, setEditFormOpen] = useState(false);
+  const [dataEntry, setDataEntry] = useState(null);
   const { data, loading } = useMyDataEntriesQuery();
   const dataEntries = data?.myDataEntries;
+
+  const handleEditDataEntry = (entry: DataEntry) => {
+    setDataEntry(entry);
+    setEditFormOpen(true);
+  };
+
   return (
     <CalculatorPanel
       title="Kulutustiedot"
@@ -34,6 +45,16 @@ const CalculatorConsumptionDataPage = () => {
       >
         <CreateDataEntryForm setOpen={setFormOpen} />
       </SlideOver>
+      <SlideOver
+        title="Näytetään kulutustietoja"
+        open={editFormOpen}
+        setOpen={setEditFormOpen}
+      >
+        <ShowDataEntryForm
+          dataEntry={dataEntry as DataEntry}
+          setOpen={setEditFormOpen}
+        />
+      </SlideOver>
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -48,7 +69,7 @@ const CalculatorConsumptionDataPage = () => {
               "Loppupäivä",
               "Määrä",
               "kg CO2e",
-              "Muokkaa",
+              "Toiminnot",
             ]}
             alignLastRight
           >
@@ -106,9 +127,13 @@ const CalculatorConsumptionDataPage = () => {
                     ).toFixed() + " kg CO2e"
                   }
                 />
-                <TableCellOpenOptions
-                  fn={() => console.log("edit data entry")}
-                />
+                {/* <TableCellOpenOptions fn={() => handleEditDataEntry(entry)} /> */}
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <OptionsMenu
+                    onShow={() => handleEditDataEntry(entry as DataEntry)}
+                    onDelete={() => console.log("clicked delete")}
+                  />
+                </td>
               </tr>
             ))}
           </Table>
