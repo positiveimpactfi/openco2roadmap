@@ -7,7 +7,8 @@ import { classNames } from "utils/classNames";
 const OptionsMenu: React.FC<{
   onShow: () => void;
   onDelete: () => void;
-}> = ({ onShow, onDelete }) => {
+  variant?: "normal" | "last-element";
+}> = ({ onShow, onDelete, variant = "normal" }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -26,7 +27,12 @@ const OptionsMenu: React.FC<{
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
+        <Menu.Items
+          className={classNames(
+            "origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20",
+            variant === "last-element" ? "bottom-0 mb-7" : null
+          )}
+        >
           <div className="py-1">
             <Menu.Item>
               {() => (
