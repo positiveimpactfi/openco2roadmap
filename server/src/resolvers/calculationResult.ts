@@ -35,7 +35,7 @@ export class CalculationResultResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
   @Query(() => [CalculationResult])
   allCalculationResults(): Promise<CalculationResult[] | undefined> {
-    return CalculationResult.find({});
+    return CalculationResult.find({ relations: ["dataEntry"] });
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
