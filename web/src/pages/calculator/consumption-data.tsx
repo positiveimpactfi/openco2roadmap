@@ -47,7 +47,7 @@ const CalculatorConsumptionDataPage = () => {
       variables: { dataEntryID: id },
       refetchQueries: [MyDataEntriesDocument],
     });
-    if (res.data.deleteEntry) {
+    if (res.data) {
       setWarningOpen(false);
     }
   };
