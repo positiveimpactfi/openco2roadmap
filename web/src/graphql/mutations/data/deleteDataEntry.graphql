@@ -1,0 +1,6 @@
+mutation DeleteEntry($dataEntryID: String!) {
+  deleteEntry(dataEntryID: $dataEntryID) {
+    startDate
+    endDate
+  }
+}

@@ -290,6 +290,7 @@ export type Mutation = {
   createSiteType: SiteType;
   createSiteUnit: SiteUnit;
   createUser: UserResolverResponse;
+  deleteEntry: DataEntry;
   inviteUser: Scalars['Boolean'];
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
@@ -369,6 +370,11 @@ export type MutationCreateUserArgs = {
   organizationID: Scalars['String'];
   password: Scalars['String'];
   role: Scalars['String'];
+};
+
+
+export type MutationDeleteEntryArgs = {
+  dataEntryID: Scalars['String'];
 };
 
 
