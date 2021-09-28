@@ -14,7 +14,11 @@ import SlideOver from "components/SlideOver";
 import Table, { TableCell } from "components/Table";
 import WarningModal from "components/Warning";
 import { format } from "date-fns";
-import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
+import { useDeleteEntryMutation } from "graphql/mutations/data/deleteDataEntry.generated";
+import {
+  MyDataEntriesDocument,
+  useMyDataEntriesQuery,
+} from "graphql/queries/data/dataEntry.generated";
 import { useState } from "react";
 import { DataEntry } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
@@ -25,6 +29,7 @@ const CalculatorConsumptionDataPage = () => {
   const [warningOpen, setWarningOpen] = useState(false);
   const [dataEntry, setDataEntry] = useState(null);
   const { data, loading } = useMyDataEntriesQuery();
+  const [deleteEntry] = useDeleteEntryMutation();
   const dataEntries = data?.myDataEntries;
 
   const handleEditDataEntry = (entry: DataEntry) => {
@@ -35,6 +40,16 @@ const CalculatorConsumptionDataPage = () => {
   const handleDeleteDataEntry = (entry: DataEntry) => {
     setDataEntry(entry);
     setWarningOpen(true);
+  };
+
+  const handleConfirmDelete = async (id: string) => {
+    const res = await deleteEntry({
+      variables: { dataEntryID: id },
+      refetchQueries: [MyDataEntriesDocument],
+    });
+    if (res.data.deleteEntry) {
+      setWarningOpen(false);
+    }
   };
 
   return (
@@ -60,9 +75,9 @@ const CalculatorConsumptionDataPage = () => {
         <ShowDataEntryForm dataEntry={dataEntry as DataEntry} />
       </SlideOver>
       <WarningModal
-        title="Poistetaanko kulutustiedot"
+        title="Poistetaanko kulutustiedot?"
         description="Haluatko varmasti poistaa alla olevat kulutustiedot? Tätä toimipidettä ei voi perua."
-        onConfirm={() => console.log("deleted entry")}
+        onConfirm={() => handleConfirmDelete(dataEntry.id)}
         open={warningOpen}
         setOpen={setWarningOpen}
       >
