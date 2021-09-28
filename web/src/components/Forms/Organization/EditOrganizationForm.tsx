@@ -1,18 +1,17 @@
+import { businessFields } from "@/shared/businessFields";
+import { municipalities } from "@/shared/municipalities";
 import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
 import Select from "components/Forms/Common/Select";
 import Notification from "components/Notification";
-import WarningModal from "components/Warning";
-import { businessFields } from "@/shared/businessFields";
-import { municipalities } from "@/shared/municipalities";
-import { Form, Formik, FormikProps, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
 import { Municipality, Organization } from "types/generatedTypes";
-import { deepObjectsEqual } from "utils/objectsEqual";
 import { compareString } from "utils/compareStrings";
+import { deepObjectsEqual } from "utils/objectsEqual";
 
 interface EditOrganizationProps {
   org: MyOrganization;
@@ -24,7 +23,6 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
   setSlideoverOpen,
 }) => {
   const [updateOrganization] = useUpdateOrganizationMutation();
-  const [warningOpen, setWarningOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [initialValues, setInitialValues] = useState<Partial<Organization>>({
     name: org.name,
@@ -39,14 +37,6 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
         description="Yrityksen tiedot päivitetty onnistuneesti."
         show={notificationOpen}
         setShow={setNotificationOpen}
-      />
-      <WarningModal
-        open={warningOpen}
-        setOpen={setWarningOpen}
-        title="Deactivate account"
-        description="Are you sure you want to deactivate your account? All of your data will be permanently removed
-                      from our servers forever. This action cannot be undone."
-        onConfirm={() => console.log("clicked confirm")}
       />
       <Formik
         initialValues={initialValues}
@@ -141,7 +131,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 <div className="flex justify-end space-x-4">
                   {/* only show cancel button when not inside modal*/}
                   {setSlideoverOpen && (
-                    <Button onClick={() => setWarningOpen(true)}>
+                    <Button onClick={() => setSlideoverOpen(false)}>
                       Peruuta
                     </Button>
                   )}
