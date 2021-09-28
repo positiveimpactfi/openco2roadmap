@@ -143,4 +143,37 @@ export class DataEntryResolver {
     console.log("created new calculation result", calculationResult);
     return newDataEntry;
   }
+
+  @Mutation(() => DataEntry)
+  async deleteEntry(
+    @Ctx() { req }: MyContext,
+    @Arg("dataEntryID") dataEntryID: string
+  ): Promise<DataEntry | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["dataEntries"],
+    });
+    if (!user) {
+      console.error("no user when trying to delete entry");
+      return undefined;
+    }
+    const dataEntry = await DataEntry.findOne(dataEntryID, {
+      relations: ["calculationResults"],
+    });
+    if (!dataEntry) {
+      console.error("data entry not found");
+      return undefined;
+    }
+    const deletedCalculationResults = await CalculationResult.remove(
+      dataEntry.calculationResults
+    );
+    console.log("deleted calculation results", deletedCalculationResults);
+    user.dataEntries = user.dataEntries?.filter(
+      (entry) => entry.id !== dataEntry.id
+    );
+    await user.save();
+
+    const deletedEntry = await dataEntry.remove();
+    console.log("deleted data entry", { ...deletedEntry, id: dataEntry.id });
+    return deletedEntry;
+  }
 }
