@@ -16,6 +16,7 @@ const WarningModal: React.FC<WarningModalProps> = ({
   title,
   description,
   onConfirm,
+  children,
 }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -78,8 +79,9 @@ const WarningModal: React.FC<WarningModalProps> = ({
                   >
                     {title}
                   </Dialog.Title>
-                  <div className="mt-2">
+                  <div className="mt-2 space-y-2">
                     <p className="text-sm text-gray-500">{description}</p>
+                    {children}
                   </div>
                 </div>
               </div>
