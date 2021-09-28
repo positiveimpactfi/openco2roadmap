@@ -1,26 +1,28 @@
+import { emissionCategories } from "@/shared/categories";
+import { emissionSources } from "@/shared/emissionSources";
+import { allUnits } from "@/shared/measurementUnits";
+import { CategoryType } from "@/shared/types/CategoryType";
+import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CalculatorPanel from "components/CalculatorPanel";
 import CreateDataEntryForm from "components/Forms/Data/CreateDataEntryForm";
 import LoadingSpinner from "components/LoadingSpinner";
+import OptionsMenu from "components/OptionsMenu";
+import ShowDataEntryForm from "components/ShowDataEntry";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { allUnits } from "@/shared/measurementUnits";
+import Table, { TableCell } from "components/Table";
+import WarningModal from "components/Warning";
+import { format } from "date-fns";
 import { useMyDataEntriesQuery } from "graphql/queries/data/dataEntry.generated";
 import { useState } from "react";
-import { numberToString } from "utils/numberToString";
-import { format } from "date-fns";
-import { emissionSources } from "@/shared/emissionSources";
-import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
-import { emissionCategories } from "@/shared/categories";
-import { CategoryType } from "@/shared/types/CategoryType";
-import ShowDataEntryForm from "components/ShowDataEntryForm";
 import { DataEntry } from "types/generatedTypes";
-import OptionsMenu from "components/OptionsMenu";
+import { numberToString } from "utils/numberToString";
 
 const CalculatorConsumptionDataPage = () => {
   const [formOpen, setFormOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
+  const [warningOpen, setWarningOpen] = useState(false);
   const [dataEntry, setDataEntry] = useState(null);
   const { data, loading } = useMyDataEntriesQuery();
   const dataEntries = data?.myDataEntries;
@@ -28,6 +30,11 @@ const CalculatorConsumptionDataPage = () => {
   const handleEditDataEntry = (entry: DataEntry) => {
     setDataEntry(entry);
     setEditFormOpen(true);
+  };
+
+  const handleDeleteDataEntry = (entry: DataEntry) => {
+    setDataEntry(entry);
+    setWarningOpen(true);
   };
 
   return (
@@ -50,11 +57,17 @@ const CalculatorConsumptionDataPage = () => {
         open={editFormOpen}
         setOpen={setEditFormOpen}
       >
-        <ShowDataEntryForm
-          dataEntry={dataEntry as DataEntry}
-          setOpen={setEditFormOpen}
-        />
+        <ShowDataEntryForm dataEntry={dataEntry as DataEntry} />
       </SlideOver>
+      <WarningModal
+        title="Poistetaanko kulutustiedot"
+        description="Haluatko varmasti poistaa alla olevat kulutustiedot? Tätä toimipidettä ei voi perua."
+        onConfirm={() => console.log("deleted entry")}
+        open={warningOpen}
+        setOpen={setWarningOpen}
+      >
+        <ShowDataEntryForm dataEntry={dataEntry} />
+      </WarningModal>
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -131,7 +144,7 @@ const CalculatorConsumptionDataPage = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <OptionsMenu
                     onShow={() => handleEditDataEntry(entry as DataEntry)}
-                    onDelete={() => console.log("clicked delete")}
+                    onDelete={() => handleDeleteDataEntry(entry as DataEntry)}
                   />
                 </td>
               </tr>
