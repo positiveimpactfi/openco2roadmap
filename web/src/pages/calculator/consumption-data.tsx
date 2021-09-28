@@ -101,7 +101,7 @@ const CalculatorConsumptionDataPage = () => {
             ]}
             alignLastRight
           >
-            {dataEntries.map((entry) => (
+            {dataEntries.map((entry, index) => (
               <tr key={entry.id}>
                 <TableCell
                   value={
@@ -160,6 +160,11 @@ const CalculatorConsumptionDataPage = () => {
                   <OptionsMenu
                     onShow={() => handleEditDataEntry(entry as DataEntry)}
                     onDelete={() => handleDeleteDataEntry(entry as DataEntry)}
+                    variant={
+                      index === dataEntries.length - 1
+                        ? "last-element"
+                        : "normal"
+                    }
                   />
                 </td>
               </tr>
