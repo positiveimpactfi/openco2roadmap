@@ -1,5 +1,6 @@
 import { components } from "@/shared/components";
-import { allUnitsObject } from "@/shared/measurementUnits";
+import { EmissionSource } from "@/shared/emissionSources";
+import { allUnitsObject, Unit } from "@/shared/measurementUnits";
 import { CategoryType } from "@/shared/types/CategoryType";
 import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import Button from "components/Button";
@@ -19,8 +20,6 @@ import {
 } from "types/generatedTypes";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
-import { Unit } from "@/shared/measurementUnits";
-import { EmissionSource } from "@/shared/emissionSources";
 
 export interface FormValues {
   consumptionValue: number;
@@ -230,6 +229,7 @@ const CreateDataEntryForm: React.FC<{
                   roundedBottom
                   roundedTop
                   variant="tight"
+                  value={values.consumptionValue || ""}
                 />
               </div>
               <div className="w-2/3 ml-2">

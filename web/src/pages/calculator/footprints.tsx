@@ -2,12 +2,13 @@ import { emissionCategories } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import Table, { TableCell } from "components/Table";
-import { PageUnderConstruction } from "components/UnderConstruction";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
 import { numberToString } from "utils/numberToString";
 
 const CalculatorFootprintsPage = () => {
-  const { data } = useMyOrganizationEmissionsByCategoryAndYearQuery();
+  const { data } = useMyOrganizationEmissionsByCategoryAndYearQuery({
+    fetchPolicy: "network-only",
+  });
   const components = data?.myOrganizationEmissionsByCategoryAndYear;
   const allYears = components?.map((c) => JSON.parse(c.yearlysums)) as {
     [key: number]: number;
