@@ -83,7 +83,7 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
             <Select
               options={[
                 { name: "Company Admin", id: 3 },
-                { name: "Company user", id: 4 },
+                // { name: "Company user", id: 4 },
               ]}
               showLabel
               label="Rooli"
