@@ -1,4 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { allUnits } from "../../../shared/measurementUnits";
 import { CalculationResult } from "../entity/CalculationResult";
 import { DataEntry } from "../entity/DataEntry";
 import { EmissionFactorValue } from "../entity/EmissionFactorValue";
@@ -11,7 +12,6 @@ import {
   Role,
 } from "../types";
 import { MyContext } from "../types/MyContext";
-import { allUnits } from "../../../shared/measurementUnits";
 
 @Resolver(DataEntry)
 export class DataEntryResolver {

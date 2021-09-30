@@ -33,7 +33,7 @@ export class DataEntry extends BaseEntity {
   endDate: Date;
 
   @Field()
-  @Column()
+  @Column({ type: "double precision" })
   consumptionValue: number;
 
   @Field({ nullable: true })
