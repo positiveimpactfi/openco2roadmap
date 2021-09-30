@@ -139,20 +139,22 @@ const CalculatorConsumptionDataPage = () => {
                 />
                 <TableCell
                   value={
-                    entry.consumptionValue.toString() +
+                    entry.consumptionValue.toLocaleString() +
                     " " +
                     entry.measurementUnit
                   }
                 />
                 <TableCell
                   value={
-                    (
-                      entry.consumptionValue *
-                      entry.emissionFactorValue.value *
-                      allUnits.find(
-                        (unit) => unit.shorthand === entry.measurementUnit
-                      )?.conversionFactor
-                    ).toFixed() + " kg CO2e"
+                    parseFloat(
+                      (
+                        entry.consumptionValue *
+                        entry.emissionFactorValue.value *
+                        allUnits.find(
+                          (unit) => unit.shorthand === entry.measurementUnit
+                        )?.conversionFactor
+                      ).toFixed()
+                    ).toLocaleString() + " kg CO2e"
                   }
                 />
                 {/* <TableCellOpenOptions fn={() => handleEditDataEntry(entry)} /> */}
