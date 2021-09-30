@@ -53,7 +53,7 @@ const UsersPage = () => {
         <div className="flex space-x-2 mb-4">
           <Button
             variant="success"
-            onClick={() => setInviteFormOpen(true)}
+            // onClick={() => setInviteFormOpen(true)}
             disabled
           >
             Kutsu käyttäjä
