@@ -50,7 +50,7 @@ export class EmissionFactorResolver {
     });
   }
 
-  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Query(() => [EmissionFactor])
   allPublicEmissionFactors(): Promise<EmissionFactor[]> {
     const res = EmissionFactor.createQueryBuilder("ef")
