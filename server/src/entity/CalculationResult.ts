@@ -34,7 +34,7 @@ export class CalculationResult extends BaseEntity {
   endDate: Date;
 
   @Field()
-  @Column()
+  @Column({ type: "double precision" })
   consumptionValue: number;
 
   @Field()
