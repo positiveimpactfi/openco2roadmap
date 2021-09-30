@@ -1,4 +1,4 @@
-export const numberToString = (x: number): string => {
+export const numberToString = (x: number, precision: number = 2): string => {
   if (Math.abs(x) < 1.0) {
     if (x === 0) return "0";
 
@@ -10,7 +10,7 @@ export const numberToString = (x: number): string => {
     if (e) {
       return (
         parseFloat(
-          parseFloat(x.toString().split("e-")[0]).toFixed(2)
+          parseFloat(x.toString().split("e-")[0]).toFixed(precision)
         ).toLocaleString() +
         "e-" +
         e
@@ -21,12 +21,12 @@ export const numberToString = (x: number): string => {
     if (e) {
       return (
         parseFloat(
-          parseFloat(x.toString().split("e+")[0]).toFixed(2)
+          parseFloat(x.toString().split("e+")[0]).toFixed(precision)
         ).toLocaleString() +
         "e-" +
         e
       );
     }
   }
-  return x.toLocaleString();
+  return parseFloat(x.toFixed(precision)).toLocaleString();
 };
