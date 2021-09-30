@@ -59,7 +59,7 @@ const CreateDataEntryForm: React.FC<{
   setOpen: (arg: boolean) => void;
 }> = ({ setOpen }) => {
   const initialValues: FormValues = {
-    consumptionValue: 0,
+    consumptionValue: null,
     emissionFactorValue: null,
     emissionSource: null,
     measurementUnit: null,
