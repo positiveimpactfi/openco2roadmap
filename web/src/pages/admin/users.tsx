@@ -51,7 +51,11 @@ const UsersPage = () => {
           <CreateUserForm setOpen={setAddFormOpen} />
         </SlideOver>
         <div className="flex space-x-2 mb-4">
-          <Button variant="success" onClick={() => setInviteFormOpen(true)}>
+          <Button
+            variant="success"
+            onClick={() => setInviteFormOpen(true)}
+            disabled
+          >
             Kutsu käyttäjä
           </Button>
           <Button variant="success" onClick={() => setAddFormOpen(true)}>
