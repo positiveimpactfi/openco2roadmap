@@ -47,7 +47,7 @@ const CalculatorFootprintsPage = () => {
             {allYearsParsed?.map((y) => (
               <TableCell
                 key={c.categoryid.toString() + y.toString()}
-                value={allYears[i][y]?.toFixed(1) ?? ""}
+                value={numberToString(allYears[i][y], 1)}
                 clamped
               />
             ))}

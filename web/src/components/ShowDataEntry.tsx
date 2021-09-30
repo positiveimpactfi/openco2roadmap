@@ -119,7 +119,7 @@ const ShowDataEntry: React.FC<{
                 "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
               }
             >
-              {entry.consumptionValue}
+              {entry.consumptionValue.toLocaleString()}
             </span>
           </div>
           <div className="w-2/3 ml-2">
