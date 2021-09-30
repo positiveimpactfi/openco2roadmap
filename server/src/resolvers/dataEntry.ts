@@ -144,6 +144,7 @@ export class DataEntryResolver {
     return newDataEntry;
   }
 
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Mutation(() => DataEntry)
   async deleteEntry(
     @Ctx() { req }: MyContext,
