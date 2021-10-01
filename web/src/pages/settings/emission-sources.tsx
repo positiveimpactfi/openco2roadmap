@@ -22,17 +22,18 @@ const EmissionSourcesSettingsPage = () => {
               "Komponentti",
               "Päästölähde",
               "Sovellusala (oletus)",
-              "Päästökerroin (oletus)",
+              // "Päästökerroin (oletus)",
               "Muokkaa",
             ]}
+            alignLastRight
           >
             {emissionSources.map((es) => (
               <tr key={es.id}>
                 <TableCell value={es.components[0].category.name} />
-                <TableCell value={es.components[0].name} clamped />
-                <TableCell value={es.name} clamped />
+                <TableCell value={es.components[0].name} />
+                <TableCell value={es.name} />
                 <TableCell value={es.scope} />
-                <TableCell value={"--"} />
+                {/* <TableCell value={"--"} /> */}
                 <TableCellOpenOptions fn={() => console.log("hello")} />
               </tr>
             ))}
