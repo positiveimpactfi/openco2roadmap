@@ -44,7 +44,7 @@ export const TableCell: React.FC<{
   return (
     <td
       className={classNames(
-        "px-6 py-4  text-sm font-medium text-gray-500",
+        "px-6 py-1  text-sm font-medium text-gray-500",
         clamped ? `max-w-[40px] md:max-w-[70px] truncate` : null,
         hideOnSm ? "hidden md:visible" : null
       )}
@@ -65,7 +65,7 @@ export const TableCellWithEdit: React.FC<{
   return (
     <td
       className={classNames(
-        "px-6 py-4 text-sm font-medium text-gray-500",
+        "px-6 py-1 text-sm font-medium text-gray-500",
         clamped ? `max-w-[40px] md:max-w-[70px] truncate` : null,
         hideOnSm ? "hidden md:visible" : null
       )}
@@ -121,7 +121,7 @@ export const TableCellOpenOptions: React.FC<{
   variant?: "edit" | "delete" | "expand";
 }> = ({ fn, variant = "expand" }) => {
   return (
-    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
       <button
         type="button"
         className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
