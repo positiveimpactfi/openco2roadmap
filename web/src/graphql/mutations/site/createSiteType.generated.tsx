@@ -8,7 +8,7 @@ export type CreateSiteTypeMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateSiteTypeMutation = { __typename?: 'Mutation', createSiteType: { __typename?: 'SiteType', id: string, name: string, organization: { __typename?: 'Organization', name: string, id: string } } };
+export type CreateSiteTypeMutation = { __typename?: 'Mutation', createSiteType: { __typename?: 'SiteType', id: string, name: string } };
 
 
 export const CreateSiteTypeDocument = gql`
@@ -16,10 +16,6 @@ export const CreateSiteTypeDocument = gql`
   createSiteType(name: $name) {
     id
     name
-    organization {
-      name
-      id
-    }
   }
 }
     `;

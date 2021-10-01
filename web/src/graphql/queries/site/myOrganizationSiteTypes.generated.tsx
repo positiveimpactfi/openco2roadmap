@@ -6,14 +6,14 @@ const defaultOptions =  {}
 export type MyOrganizationSiteTypesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyOrganizationSiteTypesQuery = { __typename?: 'Query', siteTypes: Array<{ __typename?: 'SiteType', name: string, id: string }> };
+export type MyOrganizationSiteTypesQuery = { __typename?: 'Query', siteTypes: Array<{ __typename?: 'SiteType', id: string, name: string }> };
 
 
 export const MyOrganizationSiteTypesDocument = gql`
     query MyOrganizationSiteTypes {
   siteTypes {
-    name
     id
+    name
   }
 }
     `;

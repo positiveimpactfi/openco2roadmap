@@ -1,6 +1,6 @@
 query MyOrganizationSiteTypes {
   siteTypes {
-    name
     id
+    name
   }
 }
