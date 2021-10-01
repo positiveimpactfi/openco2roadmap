@@ -29,7 +29,9 @@ const CreateSiteForm: React.FC<{
   const [units, setUnits] = useState([]);
   const [showInputField, setShowInputField] = useState(false);
 
-  const { data } = useMyOrganizationSiteTypesQuery();
+  const { data } = useMyOrganizationSiteTypesQuery({
+    fetchPolicy: "network-only",
+  });
   if (!data?.siteTypes) return <div>Cannot get site types</div>;
   return (
     <Formik
