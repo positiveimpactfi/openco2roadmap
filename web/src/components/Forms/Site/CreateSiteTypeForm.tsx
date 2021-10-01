@@ -1,7 +1,11 @@
 import FormField from "components/Forms/Common/FormField";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateSiteTypeMutation } from "graphql/mutations/site/createSiteType.generated";
-import { useMyOrganizationSiteTypesLazyQuery } from "graphql/queries/site/myOrganizationSiteTypes.generated";
+import {
+  MyOrganizationSiteTypesDocument,
+  MyOrganizationSiteTypesQueryResult,
+  useMyOrganizationSiteTypesLazyQuery,
+} from "graphql/queries/site/myOrganizationSiteTypes.generated";
 
 interface FormValues {
   name: string;
@@ -23,7 +27,13 @@ const CreateSiteTypeForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
           variables: {
             name: values.name,
           },
-          onCompleted: () => fetchSiteTypes(),
+          update: async (proxy, { data: { createSiteType } }) => {
+            const data = proxy.readQuery({
+              query: MyOrganizationSiteTypesDocument,
+            }) as MyOrganizationSiteTypesQueryResult;
+            data?.data.siteTypes.push(createSiteType);
+            proxy.writeQuery({ query: MyOrganizationSiteTypesDocument, data });
+          },
         });
         if (response.data.createSiteType.id) {
           setSubmitting(false);
