@@ -33,7 +33,7 @@ const CalculatorFootprintsPage = () => {
   return (
     <CalculatorPanel
       title="Hiilijalanjäljet"
-      description="Tällä sivulla voit tarkastella yrityksesi päästötietojen yhteenvetoja ja hiilijalanjälkilaskelmia. Luvut on ilmoitettu tonneina CO2e. Luvut on merkitty kursiivilla, mikäli kyseiselle vuodelle ei ole ilmoitettu ko. rivin kulutustietoja. "
+      description="Tällä sivulla voit tarkastella yrityksesi päästötietojen yhteenvetoja ja hiilijalanjälkilaskelmia. Luvut on ilmoitettu tonneina CO2e."
     >
       {loading ? (
         <LoadingBar />
@@ -54,7 +54,7 @@ const CalculatorFootprintsPage = () => {
               {allYearsParsed?.map((y) => (
                 <TableCell
                   key={c.categoryid.toString() + y.toString()}
-                  value={numberToString(allYears[i][y], 1)}
+                  value={numberToString(allYears[i][y] / 1000, 1)}
                   clamped
                 />
               ))}
