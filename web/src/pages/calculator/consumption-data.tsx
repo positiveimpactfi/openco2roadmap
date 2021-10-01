@@ -93,8 +93,7 @@ const CalculatorConsumptionDataPage = () => {
               "Päästölähde",
               "Päästökerroin",
               "Toimipaikka",
-              "Alkupäivä",
-              "Loppupäivä",
+              "kk/vuosi",
               "Määrä",
               "kg CO2e",
               "Toiminnot",
@@ -132,11 +131,9 @@ const CalculatorConsumptionDataPage = () => {
                   }
                 />
                 <TableCell
-                  value={format(new Date(entry.startDate), "dd.MM.yyyy")}
+                  value={format(new Date(entry.startDate), "MM/yyyy")}
                 />
-                <TableCell
-                  value={format(new Date(entry.endDate), "dd.MM.yyyy")}
-                />
+
                 <TableCell
                   value={
                     entry.consumptionValue.toLocaleString() +
