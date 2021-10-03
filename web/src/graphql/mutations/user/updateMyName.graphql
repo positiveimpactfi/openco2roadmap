@@ -1,0 +1,3 @@
+mutation UpdateMyName($newLastName: String, $newFirstName: String) {
+  updateMyName(newLastName: $newLastName, newFirstName: $newFirstName)
+}

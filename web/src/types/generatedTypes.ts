@@ -295,6 +295,7 @@ export type Mutation = {
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   register: UserResolverResponse;
+  updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
   updateSite: Site;
 };
@@ -395,6 +396,12 @@ export type MutationRegisterArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationUpdateMyNameArgs = {
+  newFirstName?: Maybe<Scalars['String']>;
+  newLastName?: Maybe<Scalars['String']>;
 };
 
 
