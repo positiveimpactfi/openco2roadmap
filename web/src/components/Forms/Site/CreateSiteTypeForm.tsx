@@ -4,7 +4,7 @@ import { useCreateSiteTypeMutation } from "graphql/mutations/site/createSiteType
 import {
   MyOrganizationSiteTypesDocument,
   MyOrganizationSiteTypesQueryResult,
-  useMyOrganizationSiteTypesLazyQuery,
+  useMyOrganizationSiteTypesQuery,
 } from "graphql/queries/site/myOrganizationSiteTypes.generated";
 
 interface FormValues {
@@ -15,7 +15,9 @@ const CreateSiteTypeForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   setOpen,
 }) => {
   const [createSiteType] = useCreateSiteTypeMutation();
-  const [fetchSiteTypes] = useMyOrganizationSiteTypesLazyQuery();
+  const { data } = useMyOrganizationSiteTypesQuery({
+    fetchPolicy: "network-only",
+  });
   const initialValues: FormValues = {
     name: "",
   };
@@ -26,13 +28,6 @@ const CreateSiteTypeForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         const response = await createSiteType({
           variables: {
             name: values.name,
-          },
-          update: async (proxy, { data: { createSiteType } }) => {
-            const data = proxy.readQuery({
-              query: MyOrganizationSiteTypesDocument,
-            }) as MyOrganizationSiteTypesQueryResult;
-            data?.data.siteTypes.push(createSiteType);
-            proxy.writeQuery({ query: MyOrganizationSiteTypesDocument, data });
           },
         });
         if (response.data.createSiteType.id) {
@@ -79,6 +74,18 @@ const CreateSiteTypeForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
               </div>
             </div>
           </div>
+          {data?.siteTypes && (
+            <>
+              <p className="mt-2 text-sm font-medium text-gray-700">
+                Organisaatiosi toimipaikkojen tyypit:
+              </p>
+              <ul className="list-disc ml-8 text-sm font-medium text-gray-700">
+                {data.siteTypes.map((st) => (
+                  <li key={st.id}> {st.name}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </Form>
       )}
     </Formik>
