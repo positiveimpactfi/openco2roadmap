@@ -371,7 +371,7 @@ export const emissionFactors: EmissionFactor[] = [
   },
   {
     emissionSource: EmissionSourceType.Sahko,
-    name: "Sähkön jäännösjakauman mukaisten päästöjen keskiarvo (2019)",
+    name: "Sähkön jäännösjakauman keskiarvo",
     unit: MeasurementUnitType.kWh,
     region: "Suomi",
     scope: GHGScope.Scope2,
@@ -782,7 +782,7 @@ export const emissionFactors: EmissionFactor[] = [
   },
   {
     emissionSource: EmissionSourceType.Pakettiauto,
-    name: "Pakettiauto *",
+    name: "Pakettiauto",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
     scope: GHGScope.Scope3,
