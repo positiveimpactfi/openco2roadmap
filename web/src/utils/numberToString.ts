@@ -1,4 +1,5 @@
 export const numberToString = (x: number, precision: number = 2): string => {
+  if (!x) return "-";
   if (Math.abs(x) < 1.0) {
     if (x === 0) return "0";
 
