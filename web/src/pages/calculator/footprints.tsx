@@ -37,7 +37,7 @@ const CalculatorFootprintsPage = () => {
     >
       {loading ? (
         <LoadingBar />
-      ) : (
+      ) : allYearsParsed ? (
         <Table
           headers={["Hiilijalanjäljen Yhteenveto"].concat(allParsedString)}
         >
@@ -51,7 +51,7 @@ const CalculatorFootprintsPage = () => {
                   ).name
                 }
               />
-              {allYearsParsed?.map((y) => (
+              {allYearsParsed.map((y) => (
                 <TableCell
                   key={c.categoryid.toString() + y.toString()}
                   value={numberToString(allYears[i][y] / 1000, 1)}
@@ -60,8 +60,22 @@ const CalculatorFootprintsPage = () => {
               ))}
             </tr>
           ))}
+          <tr className="h-2" />
+          <tr>
+            <TableCell value="Hiilijalanjälki yhteensä" />
+            {allYearsParsed.map((y) => (
+              <TableCell
+                key={y + "_total"}
+                value={numberToString(
+                  allYears.reduce((p, c) => (c[y] ? p + c[y] : p), 0) / 1000,
+                  1
+                )}
+                clamped
+              />
+            ))}
+          </tr>
         </Table>
-      )}
+      ) : null}
     </CalculatorPanel>
   );
 };
