@@ -1,3 +1,4 @@
+import Button from "components/Button";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
@@ -6,6 +7,7 @@ import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizatio
 import { useUser } from "hooks/useUser";
 import { Organization, User } from "types/generatedTypes";
 import { isSuperAdmin } from "utils/isAdmin";
+import * as Yup from "yup";
 import FormField from "../Common/FormField";
 import Select from "../Common/Select";
 
@@ -15,6 +17,19 @@ interface FormValues {
   organization: Organization;
   role: { name: string; id: number };
 }
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Tarkista antamasi sähköpostiosoite")
+    .min(5)
+    .required("Sähköpostiosoite vaaditaan!"),
+  password: Yup.string()
+    .min(5, "Salasanan pitää olla vähintään viisi merkkiä pitkä")
+    .max(30, "Salasana ei volla olla yli 30 merkkiä pitkä")
+    .required("Salasana vaaditan!"),
+  organization: Yup.object().required("Organisaatio vaaditaan!"),
+  role: Yup.object().required("Rooli vaaditaan!"),
+});
 
 const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   setOpen,
@@ -31,6 +46,7 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const response = await createUser({
           variables: {
@@ -52,7 +68,12 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         }
       }}
     >
-      {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (
+      {({
+        isSubmitting,
+        handleReset,
+        setFieldValue,
+        errors,
+      }: FormikProps<{}>) => (
         <Form>
           <div className="rounded-md space-y-4">
             <FormField
@@ -91,24 +112,22 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
               setFieldValue={setFieldValue}
             />
             <div className="pt-5">
-              <div className="flex justify-end">
-                <button
-                  type="button"
+              <div className="flex justify-end space-x-2">
+                <Button
                   onClick={() => {
                     handleReset();
                     setOpen(false);
                   }}
-                  className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                 >
                   Peruuta
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                  variant="success"
+                  disabled={isSubmitting || Object.keys(errors).length !== 0}
                 >
                   Tallenna
-                </button>
+                </Button>
               </div>
             </div>
           </div>
