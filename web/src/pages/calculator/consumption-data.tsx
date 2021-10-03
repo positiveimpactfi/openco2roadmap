@@ -72,7 +72,10 @@ const CalculatorConsumptionDataPage = () => {
         open={editFormOpen}
         setOpen={setEditFormOpen}
       >
-        <ShowDataEntryForm dataEntry={dataEntry as DataEntry} />
+        <ShowDataEntryForm
+          dataEntry={dataEntry as DataEntry}
+          setOpen={setEditFormOpen}
+        />
       </SlideOver>
       <WarningModal
         title="Poistetaanko kulutustiedot?"

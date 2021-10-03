@@ -2,33 +2,12 @@ import { DataEntry } from "types/generatedTypes";
 import { emissionSources } from "@/shared/emissionSources";
 import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import { months } from "data/months";
-
-export type ReducedEF = {
-  sourceNames: string[];
-  sourceIds: number[];
-  id: string;
-  name: string;
-  physicalQuantity: {
-    __typename?: "PhysicalQuantity";
-    name: string;
-    baseUnit: {
-      __typename?: "MeasurementUnit";
-      name: string;
-      shorthand: string;
-    };
-  };
-  values: {
-    __typename?: "EmissionFactorValue";
-    id: string;
-    value: number;
-    startDate: number;
-    endDate: number;
-  }[];
-};
+import Button from "./Button";
 
 const ShowDataEntry: React.FC<{
   dataEntry: DataEntry;
-}> = ({ dataEntry: entry }) => {
+  setOpen?: (val: boolean) => void;
+}> = ({ dataEntry: entry, setOpen }) => {
   return (
     <>
       <div className="rounded-md space-y-4">
@@ -135,6 +114,11 @@ const ShowDataEntry: React.FC<{
             </span>
           </div>
         </div>
+        {setOpen && (
+          <div className="flex justify-end">
+            <Button onClick={() => setOpen(false)}>Sulje</Button>
+          </div>
+        )}
       </div>
     </>
   );
