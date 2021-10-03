@@ -225,4 +225,27 @@ export class UserResolver {
       })
     );
   }
+
+  @Mutation(() => Boolean)
+  async updateMyName(
+    @Ctx() { req }: MyContext,
+    @Arg("newFirstName", { nullable: true }) newFirstName: string,
+    @Arg("newLastName", { nullable: true }) newLastName: string
+  ): Promise<boolean | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user to edit");
+      return false;
+    }
+    if (newFirstName) {
+      user.firstName = newFirstName;
+    }
+    if (newLastName) {
+      user.lastName = newLastName;
+    }
+    await user.save();
+    return true;
+  }
 }
