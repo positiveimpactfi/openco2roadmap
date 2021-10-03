@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
           : "bg-teal-600 text-white border-transparent hover:bg-teal-700 ",
         disabled ? "opacity-50 cursor-not-allowed" : null
       )}
-      onClick={onClick}
+      onClick={disabled ? null : onClick}
     >
       {children}
     </button>
