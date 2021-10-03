@@ -18,6 +18,7 @@ import {
   MeasurementUnitType,
   SiteUnit,
 } from "types/generatedTypes";
+import { compareString } from "utils/compareStrings";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
 
@@ -203,13 +204,15 @@ const CreateDataEntryForm: React.FC<{
             </div>
             <Select
               options={
-                reducedSources?.filter((r) =>
-                  (
-                    values.emissionSource as EmissionSource & {
-                      sources: EmissionSource[];
-                    }
-                  )?.sources.some((id) => r.sourceIds.includes(id.id))
-                ) ?? []
+                reducedSources
+                  ?.filter((r) =>
+                    (
+                      values.emissionSource as EmissionSource & {
+                        sources: EmissionSource[];
+                      }
+                    )?.sources.some((id) => r.sourceIds.includes(id.id))
+                  )
+                  .sort((a, b) => compareString(a.name, b.name)) ?? []
               }
               showLabel
               label="Käytettävä päästökerroin"
