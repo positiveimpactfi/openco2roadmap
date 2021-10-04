@@ -1,6 +1,7 @@
 import FormField from "components/Forms/Common/FormField";
 import { Form } from "formik";
 import { LockClosedIcon } from "@heroicons/react/solid";
+import Link from "next/link";
 
 export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
   isSubmitting,
@@ -43,11 +44,13 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
           </label>
         </div> */}
 
-        {/* <div className="text-sm">
-          <a href="#" className="font-medium text-teal-600 hover:text-teal-500">
-            Salasana hukassa?
-          </a>
-        </div> */}
+        <div className="text-sm">
+          <Link href="/forgot-password" passHref>
+            <a className="font-medium text-teal-600 hover:text-teal-500">
+              Salasana hukassa?
+            </a>
+          </Link>
+        </div>
       </div>
 
       <div>

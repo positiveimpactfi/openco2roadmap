@@ -281,6 +281,7 @@ export type Municipality = {
 export type Mutation = {
   __typename?: 'Mutation';
   addUserToOrganization: User;
+  changePassword: UserResolverResponse;
   createDataEntry: DataEntry;
   createEmissionFactor: EmissionFactor;
   createEmissionFactorValue: EmissionFactorValue;
@@ -291,6 +292,7 @@ export type Mutation = {
   createSiteUnit: SiteUnit;
   createUser: UserResolverResponse;
   deleteEntry: DataEntry;
+  forgotPassword: Scalars['Boolean'];
   inviteUser: Scalars['Boolean'];
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
@@ -304,6 +306,12 @@ export type Mutation = {
 export type MutationAddUserToOrganizationArgs = {
   organizationId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
 };
 
 
@@ -376,6 +384,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteEntryArgs = {
   dataEntryID: Scalars['String'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  email: Scalars['String'];
 };
 
 

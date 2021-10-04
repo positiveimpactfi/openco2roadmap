@@ -2,10 +2,8 @@ import { withAuth } from "components/Auth";
 import { Formik, FormikProps } from "formik";
 import { useLoginMutation } from "graphql/mutations/auth/login.generated";
 import { MeDocument, MeQuery } from "graphql/queries/users/me.generated";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { errorArrayToObject } from "utils/errorArrayToObject";
-import { isAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import { LoginForm } from "../components/Forms/Auth/LoginForm";
 
