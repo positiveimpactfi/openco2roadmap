@@ -248,4 +248,90 @@ export class UserResolver {
     await user.save();
     return true;
   }
+
+  @Mutation(() => Boolean)
+  async forgotPassword(
+    @Arg("email") email: string,
+    @Ctx() { redis }: MyContext
+  ) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      console.error(`invalid user requested password reset: ${email}`);
+      return true;
+    }
+
+    const token = v4();
+
+    await redis.set(
+      "PASSWORD_RESET_REQUEST_" + token,
+      user.id,
+      "ex",
+      1000 * 60 * 60 * 24 * 3
+    ); // 3 days
+
+    const emailHtml = `<a href="${config.CORS_ORIGIN}/change-password/${token}">Nollaa salasanasi</a>`;
+    const emailObject: EmailProps = {
+      htmlBody: emailHtml,
+      subject: "OpenCO2roadmap salasanan vaihto",
+      textBody: emailHtml,
+    };
+    await sendEmail(email, emailObject);
+
+    return true;
+  }
+
+  @Mutation(() => UserResolverResponse)
+  async changePassword(
+    @Arg("token") token: string,
+    @Arg("newPassword") newPassword: string,
+    @Ctx() { redis }: MyContext
+  ): Promise<UserResolverResponse> {
+    if (newPassword.length <= 5) {
+      return {
+        errors: [
+          {
+            field: "newPassword",
+            message: "salasanan pitää olla vähintään 5 merkkiä pitkä",
+          },
+        ],
+      };
+    }
+
+    const tokenInRedis = "PASSWORD_RESET_REQUEST_" + token;
+    const userId = await redis.get(tokenInRedis);
+    if (!userId) {
+      return {
+        errors: [
+          {
+            field: "token",
+            message: "tietue epäkelpo",
+          },
+        ],
+      };
+    }
+
+    const user = await User.findOne(userId);
+
+    if (!user) {
+      return {
+        errors: [
+          {
+            field: "token",
+            message: "tietue epäkelpo",
+          },
+        ],
+      };
+    }
+
+    await User.update(
+      { id: userId },
+      {
+        password: await argon2.hash(newPassword),
+      }
+    );
+
+    await redis.del(tokenInRedis);
+
+    return { user };
+  }
 }
