@@ -66,7 +66,8 @@ const ForgotPasswordForm: React.FC = () => {
                 <div>
                   <p className="text-center font-medium text-md text-gray-700">
                     Hienoa! Jos käyttäjä löytyy järjestelmästä, antamaasi
-                    sähköpostiisi lähetetään linkki salasanan nollaamiseen
+                    sähköpostiisi lähetetään linkki salasanan nollaamiseen.
+                    Linkki on voimassa kolme päivää.
                   </p>
                 </div>
               )}
