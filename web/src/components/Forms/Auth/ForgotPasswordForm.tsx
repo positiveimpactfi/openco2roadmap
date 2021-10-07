@@ -13,8 +13,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPasswordForm: React.FC = () => {
-  const [forgotPassword] = useForgotPasswordMutation();
+  const [forgotPassword, { error }] = useForgotPasswordMutation();
   const [complete, setComplete] = useState(false);
+  if (error) {
+    console.error(error);
+  }
   return (
     <Formik
       initialValues={{ email: "" }}
