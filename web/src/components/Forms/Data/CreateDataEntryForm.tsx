@@ -166,7 +166,10 @@ const CreateDataEntryForm: React.FC<{
               showLabel
               label="Toimipaikka ja yksikkö"
               name="siteUnit"
-              placeholder="Valitse toimipaikka "
+              placeholder="Valitse toimipaikka"
+              selectedValue={
+                allSiteUnits.flat().length === 1 ? allSiteUnits.flat()[0] : null
+              }
               required
             />
             <Select
