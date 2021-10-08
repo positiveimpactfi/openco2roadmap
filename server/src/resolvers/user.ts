@@ -269,11 +269,35 @@ export class UserResolver {
       1000 * 60 * 60 * 24 * 3
     ); // 3 days
 
-    const emailHtml = `<a href="${config.CORS_ORIGIN}/change-password/${token}">Nollaa salasanasi</a>`;
+    const emailText = `Hei, saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.
+    Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa: ${config.CORS_ORIGIN}/change-password/${token}.
+    Linkki on voimassa kolme päivää.
+    Pääset kirjautumaan laskuriin osoitteessa https://app.co2roadmap.fi.
+    Ystävällisin terveisin
+    OpenCO2Roadmap tiimi
+    `;
+    const emailHtml = `
+    <div>
+      <div>Hei,</div>
+      <br />
+      <div>saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.</div>
+      <br />
+      <div>Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa:</div>
+      <br />
+      <div><span><a href="${config.CORS_ORIGIN}/change-password/${token}">Nollaa salasanasi</a></span></div>
+      <br />
+      <div>Linkki on voimassa kolme päivää.</div> 
+      <br />
+      <div>Pääset kirjautumaan laskuriin osoitteessa <span><a href="https://app.co2roadmap.fi">https://app.co2roadmap.fi/</a></span></div>
+      <br />
+      <div>Ystävallisin terveisin</div>
+      <div>OpenCO2Roadmap tiimi</div>
+    </div
+    `;
     const emailObject: EmailProps = {
       htmlBody: emailHtml,
       subject: "OpenCO2roadmap salasanan vaihto",
-      textBody: emailHtml,
+      textBody: emailText,
     };
     await sendEmail(email, emailObject);
 
