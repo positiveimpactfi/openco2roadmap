@@ -60,9 +60,7 @@ const FeedbackForm: React.FC<{
                 <Button variant="success" type="submit">
                   Lähetä
                 </Button>
-                <Button onClick={() => console.log("form closed")}>
-                  Peruuta
-                </Button>
+                <Button onClick={() => setShowModal(false)}>Peruuta</Button>
               </div>
               <div className="mt-10 text-xs text-gray-500 max-w-prose">
                 Palautteesi yhteyteen tallennetaan automaattisesti seuraavat
