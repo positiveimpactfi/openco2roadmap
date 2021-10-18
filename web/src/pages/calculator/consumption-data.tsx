@@ -89,89 +89,100 @@ const CalculatorConsumptionDataPage = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <Table
-            headers={[
-              "Kategoria",
-              "Päästölähde",
-              "Päästökerroin",
-              "Toimipaikka",
-              "kk/vuosi",
-              "Määrä",
-              "kg CO2e",
-              "Toiminnot",
-            ]}
-            alignLastRight
-          >
-            {dataEntries.map((entry, index) => (
-              <tr key={entry.id}>
-                <TableCell
-                  value={
-                    emissionCategories.find(
-                      (category) => category.id === CategoryType[entry.category]
-                    ).name
-                  }
-                />
-                <TableCell
-                  value={
-                    emissionSources.find(
-                      (es) => es.id === EmissionSourceType[entry.emissionSource]
-                    ).name
-                  }
-                />
-                <TableCell
-                  value={`${
-                    entry.emissionFactorValue.emissionFactor.name
-                  } (${numberToString(
-                    entry.emissionFactorValue.value
-                  )} kg CO2e)`}
-                />
-                <TableCell
-                  value={
-                    entry.siteUnit.name.startsWith("default_")
-                      ? `${entry.siteUnit.site.name}`
-                      : `${entry.siteUnit.name} (${entry.siteUnit.site.name})`
-                  }
-                />
-                <TableCell
-                  value={format(new Date(entry.startDate), "MM/yyyy")}
-                />
+        <div className="flex flex-col">
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <Table
+                  headers={[
+                    "Kategoria",
+                    "Päästölähde",
+                    "Päästökerroin",
+                    "Toimipaikka",
+                    "kk/vuosi",
+                    "Määrä",
+                    "kg CO2e",
+                    "Toiminnot",
+                  ]}
+                  alignLastRight
+                >
+                  {dataEntries.map((entry, index) => (
+                    <tr key={entry.id}>
+                      <TableCell
+                        value={
+                          emissionCategories.find(
+                            (category) =>
+                              category.id === CategoryType[entry.category]
+                          ).name
+                        }
+                      />
+                      <TableCell
+                        value={
+                          emissionSources.find(
+                            (es) =>
+                              es.id === EmissionSourceType[entry.emissionSource]
+                          ).name
+                        }
+                      />
+                      <TableCell
+                        value={`${
+                          entry.emissionFactorValue.emissionFactor.name
+                        } (${numberToString(
+                          entry.emissionFactorValue.value
+                        )} kg CO2e)`}
+                      />
+                      <TableCell
+                        value={
+                          entry.siteUnit.name.startsWith("default_")
+                            ? `${entry.siteUnit.site.name}`
+                            : `${entry.siteUnit.name} (${entry.siteUnit.site.name})`
+                        }
+                      />
+                      <TableCell
+                        value={format(new Date(entry.startDate), "MM/yyyy")}
+                      />
 
-                <TableCell
-                  value={
-                    entry.consumptionValue.toLocaleString() +
-                    " " +
-                    entry.measurementUnit
-                  }
-                />
-                <TableCell
-                  value={
-                    parseFloat(
-                      (
-                        entry.consumptionValue *
-                        entry.emissionFactorValue.value *
-                        allUnits.find(
-                          (unit) => unit.shorthand === entry.measurementUnit
-                        )?.conversionFactor
-                      ).toFixed()
-                    ).toLocaleString() + " kg CO2e"
-                  }
-                />
-                {/* <TableCellOpenOptions fn={() => handleEditDataEntry(entry)} /> */}
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <OptionsMenu
-                    onShow={() => handleEditDataEntry(entry as DataEntry)}
-                    onDelete={() => handleDeleteDataEntry(entry as DataEntry)}
-                    variant={
-                      index === dataEntries.length - 1
-                        ? "last-element"
-                        : "normal"
-                    }
-                  />
-                </td>
-              </tr>
-            ))}
-          </Table>
+                      <TableCell
+                        value={
+                          entry.consumptionValue.toLocaleString() +
+                          " " +
+                          entry.measurementUnit
+                        }
+                      />
+                      <TableCell
+                        value={
+                          parseFloat(
+                            (
+                              entry.consumptionValue *
+                              entry.emissionFactorValue.value *
+                              allUnits.find(
+                                (unit) =>
+                                  unit.shorthand === entry.measurementUnit
+                              )?.conversionFactor
+                            ).toFixed()
+                          ).toLocaleString() + " kg CO2e"
+                        }
+                      />
+                      {/* <TableCellOpenOptions fn={() => handleEditDataEntry(entry)} /> */}
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <OptionsMenu
+                          onShow={() => handleEditDataEntry(entry as DataEntry)}
+                          onDelete={() =>
+                            handleDeleteDataEntry(entry as DataEntry)
+                          }
+                          variant={
+                            index === dataEntries.length - 1
+                              ? "last-element"
+                              : "normal"
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </Table>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </CalculatorPanel>

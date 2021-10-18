@@ -15,26 +15,32 @@ const CalculatorEmissionSourcesPage = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <Table
-            headers={[
-              "Kategoria",
-              "Komponentti",
-              "Päästölähde",
-              "Sovellusala (oletus)",
-              "Päästökerroin (oletus)",
-            ]}
-          >
-            {emissionSources.map((es) => (
-              <tr key={es.id}>
-                <TableCell value={es.components[0].category.name} />
-                <TableCell value={es.components[0].name} />
-                <TableCell value={es.name} />
-                <TableCell value={es.scope} />
-                <TableCell value={"--"} />
-              </tr>
-            ))}
-          </Table>
+        <div className="flex flex-col">
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <Table
+                  headers={[
+                    "Kategoria",
+                    "Komponentti",
+                    "Päästölähde",
+                    "Sovellusala (oletus)",
+                    "Päästökerroin (oletus)",
+                  ]}
+                >
+                  {emissionSources.map((es) => (
+                    <tr key={es.id}>
+                      <TableCell value={es.components[0].category.name} />
+                      <TableCell value={es.components[0].name} />
+                      <TableCell value={es.name} />
+                      <TableCell value={es.scope} />
+                      <TableCell value={"--"} />
+                    </tr>
+                  ))}
+                </Table>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </CalculatorPanel>

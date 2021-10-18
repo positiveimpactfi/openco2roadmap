@@ -38,43 +38,52 @@ const CalculatorFootprintsPage = () => {
       {loading ? (
         <LoadingBar />
       ) : allYearsParsed ? (
-        <Table
-          headers={["Hiilijalanjäljen Yhteenveto"].concat(allParsedString)}
-        >
-          {components?.map((c, i) => (
-            <tr key={c.categoryid}>
-              <TableCell
-                key={c.categoryid.toString() + i.toString()}
-                value={
-                  emissionCategories.find(
-                    (category) => category.id === parseInt(c.categoryid)
-                  ).name
-                }
-              />
-              {allYearsParsed.map((y) => (
-                <TableCell
-                  key={c.categoryid.toString() + y.toString()}
-                  value={numberToString(allYears[i][y] / 1000, 1)}
-                  clamped
-                />
-              ))}
-            </tr>
-          ))}
-          <tr className="h-2" />
-          <tr>
-            <TableCell value="Hiilijalanjälki yhteensä" />
-            {allYearsParsed.map((y) => (
-              <TableCell
-                key={y + "_total"}
-                value={numberToString(
-                  allYears.reduce((p, c) => (c[y] ? p + c[y] : p), 0) / 1000,
-                  1
+        <div className="flex flex-col">
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+              <Table
+                headers={["Hiilijalanjäljen Yhteenveto"].concat(
+                  allParsedString
                 )}
-                clamped
-              />
-            ))}
-          </tr>
-        </Table>
+              >
+                {components?.map((c, i) => (
+                  <tr key={c.categoryid}>
+                    <TableCell
+                      key={c.categoryid.toString() + i.toString()}
+                      value={
+                        emissionCategories.find(
+                          (category) => category.id === parseInt(c.categoryid)
+                        ).name
+                      }
+                    />
+                    {allYearsParsed.map((y) => (
+                      <TableCell
+                        key={c.categoryid.toString() + y.toString()}
+                        value={numberToString(allYears[i][y] / 1000, 1)}
+                        clamped
+                      />
+                    ))}
+                  </tr>
+                ))}
+                <tr className="h-2" />
+                <tr>
+                  <TableCell value="Hiilijalanjälki yhteensä" />
+                  {allYearsParsed.map((y) => (
+                    <TableCell
+                      key={y + "_total"}
+                      value={numberToString(
+                        allYears.reduce((p, c) => (c[y] ? p + c[y] : p), 0) /
+                          1000,
+                        1
+                      )}
+                      clamped
+                    />
+                  ))}
+                </tr>
+              </Table>
+            </div>
+          </div>
+        </div>
       ) : null}
     </CalculatorPanel>
   );
