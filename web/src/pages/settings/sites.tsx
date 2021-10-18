@@ -27,7 +27,7 @@ const SiteSettingsPage = () => {
   return (
     <SettingsPanel
       title="Toimipaikat"
-      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla voit määritellä yrityksesi toimipaikkarakenteen."
+      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla voit määritellä yrityksesi toimipaikkarakenteen. Luo ensin tarvitsemasi toimipaikkatyypit (esim. Yritys, Ravintola, Hotelli tai Toimisto)."
     >
       <SlideOver
         title="Uusi toimipaikan tyyppi"
