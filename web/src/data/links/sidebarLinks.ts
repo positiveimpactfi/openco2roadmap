@@ -19,7 +19,7 @@ export const sidebarLinks: PageLink[] = [
     href: "/calculator",
     icon: CalculatorIcon,
     description:
-      "Laskuri-osiossa voit syöttää ja muokata yrityksesi kulutustietoja",
+      "Laskuri-osiossa voit syöttää ja muokata yrityksesi kulutustietoja.",
   },
   {
     name: "Asetukset",

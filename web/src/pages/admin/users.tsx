@@ -44,7 +44,7 @@ const UsersPage = () => {
           Invite user form
         </SlideOver>
         <SlideOver
-          title="Lisää käyttäjää"
+          title="Lisää käyttäjä"
           open={addFormOpen}
           setOpen={setAddFormOpen}
         >

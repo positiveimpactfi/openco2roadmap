@@ -1,10 +1,9 @@
-import LoadingSpinner from "components/LoadingSpinner";
-import { useMeQuery } from "graphql/queries/users/me.generated";
-import { User } from "types/generatedTypes";
-import Link from "next/link";
 import { withAuth } from "components/Auth";
 import LinksGrid from "components/LinksGrid";
+import LoadingSpinner from "components/LoadingSpinner";
 import { sidebarLinks } from "data/links/sidebarLinks";
+import { useMeQuery } from "graphql/queries/users/me.generated";
+import { User } from "types/generatedTypes";
 
 const Home = () => {
   const { data, loading } = useMeQuery();
