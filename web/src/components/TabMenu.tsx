@@ -25,12 +25,12 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
           id="tabs"
           name="tabs"
           className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
-          defaultValue={tabs.find((tab) => tab.current)?.name}
           onChange={(e) => router.push(e.currentTarget.value)}
+          value={tabs.find((tab) => tab.current)?.href}
         >
           {tabs.map((tab) => (
-            <option key={tab.name} label={tab.name}>
-              {tab.href}
+            <option key={tab.name} label={tab.name} value={tab.href}>
+              {tab.name}
             </option>
           ))}
         </select>
