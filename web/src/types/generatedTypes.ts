@@ -462,6 +462,7 @@ export type PhysicalQuantity = {
 export type Query = {
   __typename?: 'Query';
   allCalculationResults: Array<CalculationResult>;
+  allCategories: Array<Category>;
   allComponents: Array<Component>;
   allDataEntries: Array<DataEntry>;
   allEmissionFactorValues: Array<EmissionFactorValue>;
@@ -475,7 +476,6 @@ export type Query = {
   allSitesInMyOrganization: Array<Site>;
   allUsers: Array<User>;
   businessFields: Array<BusinessField>;
-  categories: Array<Category>;
   me?: Maybe<User>;
   myDataEntries: Array<DataEntry>;
   myEmissionFactors: Array<EmissionFactor>;

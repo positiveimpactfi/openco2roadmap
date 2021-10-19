@@ -1,0 +1,14 @@
+query AllCategories {
+  allCategories {
+    name
+    id
+    components {
+      name
+      id
+      emissionSources {
+        name
+        id
+      }
+    }
+  }
+}
