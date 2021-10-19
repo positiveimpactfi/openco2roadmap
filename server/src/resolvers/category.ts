@@ -4,7 +4,7 @@ import { Category } from "../entity/Category";
 @Resolver(Category)
 export class CategoryResolver {
   @Query(() => [Category])
-  categories(): Promise<Category[]> {
+  allCategories(): Promise<Category[]> {
     return Category.find({ relations: ["components"] });
   }
 }
