@@ -1,4 +1,3 @@
-import { components } from "@/shared/components";
 import { EmissionSource } from "@/shared/emissionSources";
 import { allUnitsObject, Unit } from "@/shared/measurementUnits";
 import { CategoryType } from "@/shared/types/CategoryType";
@@ -10,10 +9,12 @@ import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
 import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
+import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import {
+  EmissionFactor,
   MeasurementUnit,
   MeasurementUnitType,
   SiteUnit,
@@ -21,46 +22,57 @@ import {
 import { compareString } from "utils/compareStrings";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
+import MultiLevelSelect from "../Common/MultiLevelSelect";
 
 export interface FormValues {
   consumptionValue: number;
-  emissionFactorValue: ReducedEF;
-  emissionSource: EmissionSource;
+  emissionFactor: EmissionFactor;
+  emissionSource: EmissionSource & { categoryID: number };
   measurementUnit: MeasurementUnit | Unit;
   siteUnit: SiteUnit;
   month: { id: number; name: string };
   year: number;
 }
 
-export type ReducedEF = {
-  sourceNames: string[];
-  sourceIds: number[];
-  id: string;
-  name: string;
-  physicalQuantity: {
-    __typename?: "PhysicalQuantity";
-    name: string;
-    baseUnit: {
-      __typename?: "MeasurementUnit";
+interface SourceOption {
+  children: {
+    children: {
+      __typename?: "EmissionSource";
       name: string;
-      shorthand: string;
-    };
-  };
-  values: {
-    __typename?: "EmissionFactorValue";
-    id: string;
-    value: number;
-    startDate: number;
-    endDate: number;
+      id: number;
+      categoryID: number;
+    }[];
+    categoryID: number;
+    __typename?: "Component";
+    name: string;
+    id: number;
+    emissionSources?: {
+      __typename?: "EmissionSource";
+      name: string;
+      id: number;
+    }[];
   }[];
-};
+  __typename?: "Category";
+  name: string;
+  id: number;
+  components: {
+    __typename?: "Component";
+    name: string;
+    id: number;
+    emissionSources?: {
+      __typename?: "EmissionSource";
+      name: string;
+      id: number;
+    }[];
+  }[];
+}
 
 const CreateDataEntryForm: React.FC<{
   setOpen: (arg: boolean) => void;
 }> = ({ setOpen }) => {
   const initialValues: FormValues = {
     consumptionValue: null,
-    emissionFactorValue: null,
+    emissionFactor: null,
     emissionSource: null,
     measurementUnit: null,
     siteUnit: null,
@@ -75,25 +87,26 @@ const CreateDataEntryForm: React.FC<{
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
+  const { data: sources } = useAllCategoriesQuery();
+
+  const sourceOptions: SourceOption[] = sources?.allCategories.map((cat) => {
+    return {
+      ...cat,
+      children: cat.components.map((comp) => {
+        return {
+          ...comp,
+          children: comp.emissionSources.map((es) => {
+            return { ...es, categoryID: cat.id };
+          }),
+          categoryID: cat.id,
+        };
+      }),
+    };
+  });
+
   const allEmissionFactors = myEFs?.myEmissionFactors.concat(
     publicEFs?.allPublicEmissionFactors
   );
-  const reducedSources = allEmissionFactors
-    ?.reduce(
-      (prev, current) => [
-        ...prev,
-        {
-          sourceIds: current?.emissionSources.map((e) => e.id),
-          sourceNames: current?.emissionSources.map((e) => e.name),
-          id: current?.id,
-          name: current?.name,
-          physicalQuantity: current?.physicalQuantity,
-          values: current?.values,
-        },
-      ],
-      [] as ReducedEF[]
-    )
-    .flat();
 
   if (!siteUnits?.allSitesInMyOrganization) return <div>Ei yksikköjä</div>;
 
@@ -118,27 +131,17 @@ const CreateDataEntryForm: React.FC<{
       initialValues={initialValues}
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const today = new Date(values.year, values.month.id - 1);
-
         const vars = {
-          category: CategoryType[
-            (
-              values.emissionSource as EmissionSource & {
-                categoryID: number;
-              }
-            ).categoryID
-          ] as unknown as CategoryType,
+          category: CategoryType[values.emissionSource?.categoryID],
           consumptionValue: values.consumptionValue,
-          emissionsFactorValueID: values.emissionFactorValue.values[0].id,
-          emissionSource: EmissionSourceType[
-            values.emissionFactorValue.sourceIds[0]
-          ] as unknown as EmissionSourceType,
+          emissionsFactorValueID: values.emissionFactor.values[0].id,
+          emissionSource: EmissionSourceType[values.emissionSource.id],
           measurementUnit: values.measurementUnit
             .shorthand as unknown as MeasurementUnitType,
           siteUnitID: values.siteUnit.id,
           startDate: getMonthStartAndEndDays(today).start,
           endDate: getMonthStartAndEndDays(today).end,
         };
-        console.log("variables", vars);
         const response = await createDataEntry({
           variables: vars as any,
           refetchQueries: [MyDataEntriesDocument],
@@ -172,12 +175,14 @@ const CreateDataEntryForm: React.FC<{
               }
               required
             />
-            <Select
-              options={components.sort((a, b) => (a.name > b.name ? 1 : -1))}
+
+            <MultiLevelSelect
+              options={sourceOptions}
               showLabel
-              label="Komponentti"
-              name="emissionSource"
+              label="Päästölähde"
               setFieldValue={setFieldValue}
+              name="emissionSource"
+              levels="three"
             />
             <div className="flex">
               <div className="w-1/3">
@@ -207,19 +212,19 @@ const CreateDataEntryForm: React.FC<{
             </div>
             <Select
               options={
-                reducedSources
-                  ?.filter((r) =>
-                    (
-                      values.emissionSource as EmissionSource & {
-                        sources: EmissionSource[];
-                      }
-                    )?.sources.some((id) => r.sourceIds.includes(id.id))
-                  )
-                  .sort((a, b) => compareString(a.name, b.name)) ?? []
+                allEmissionFactors
+                  ? allEmissionFactors
+                      ?.filter((ef) =>
+                        ef?.emissionSources
+                          .map((es) => es.id)
+                          .includes(values.emissionSource?.id)
+                      )
+                      .sort((a, b) => compareString(a.name, b.name))
+                  : []
               }
               showLabel
               label="Käytettävä päästökerroin"
-              name="emissionFactorValue"
+              name="emissionFactor"
               setFieldValue={setFieldValue}
             />
             <div className="flex">
@@ -245,7 +250,7 @@ const CreateDataEntryForm: React.FC<{
                   showLabel
                   options={
                     allUnitsObject[
-                      values.emissionFactorValue?.physicalQuantity.name
+                      values.emissionFactor?.physicalQuantity.name
                     ]?.map((unit) => {
                       return { ...unit, name: unit.shorthand };
                     }) ?? []
