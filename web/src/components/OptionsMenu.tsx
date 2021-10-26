@@ -5,10 +5,11 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 import { classNames } from "utils/classNames";
 
 const OptionsMenu: React.FC<{
-  onShow: () => void;
-  onDelete: () => void;
+  onShow?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
   variant?: "normal" | "last-element";
-}> = ({ onShow, onDelete, variant = "normal" }) => {
+}> = ({ onShow, onEdit, onDelete, variant = "normal" }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -34,30 +35,48 @@ const OptionsMenu: React.FC<{
           )}
         >
           <div className="py-1">
-            <Menu.Item>
-              {() => (
-                <button
-                  onClick={onShow}
-                  className={classNames(
-                    "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                  )}
-                >
-                  Näytä
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {() => (
-                <button
-                  onClick={onDelete}
-                  className={classNames(
-                    "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                  )}
-                >
-                  Poista
-                </button>
-              )}
-            </Menu.Item>
+            {onShow && (
+              <Menu.Item>
+                {() => (
+                  <button
+                    onClick={onShow}
+                    className={classNames(
+                      "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    )}
+                  >
+                    Näytä
+                  </button>
+                )}
+              </Menu.Item>
+            )}
+            {onEdit && (
+              <Menu.Item>
+                {() => (
+                  <button
+                    onClick={onShow}
+                    className={classNames(
+                      "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    )}
+                  >
+                    Muokkaa
+                  </button>
+                )}
+              </Menu.Item>
+            )}
+            {onDelete && (
+              <Menu.Item>
+                {() => (
+                  <button
+                    onClick={onDelete}
+                    className={classNames(
+                      "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    )}
+                  >
+                    Poista
+                  </button>
+                )}
+              </Menu.Item>
+            )}
           </div>
         </Menu.Items>
       </Transition>
