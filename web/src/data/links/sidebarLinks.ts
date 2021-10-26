@@ -12,7 +12,7 @@ export const sidebarLinks: PageLink[] = [
     href: "/",
     icon: HomeIcon,
     description:
-      "Tervetuloa käyttämään matkailualan yritysten hiilijlanjälkilaskuria!",
+      "Tervetuloa käyttämään matkailualan yritysten hiilijalanjälkilaskuria!",
   },
   {
     name: "Laskuri",
