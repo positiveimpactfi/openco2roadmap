@@ -2,6 +2,7 @@ fragment EmissionFactorFragment on EmissionFactor {
   id
   name
   source
+  dataSourceType
   values {
     id
     value
