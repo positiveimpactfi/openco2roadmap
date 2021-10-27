@@ -1,10 +1,20 @@
-const path = require("path");
+const { resolve } = require("path");
 
 const aliasPathsToResolve = [
-  { name: "shared", path: path.resolve(__dirname, "../shared/") },
+  { name: "shared", path: resolve(__dirname, "../shared/") },
 ];
 
-module.exports = {
+const securityHeaders = [
+  {
+    key: "Permissions-Policy",
+    value: "interest-cohort=()",
+  },
+];
+
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {
   async headers() {
     return [
       {
@@ -13,11 +23,10 @@ module.exports = {
       },
     ];
   },
-
-  webpack: (config, { defaultLoaders }) => {
+  webpack(config, { defaultLoaders }) {
     config.module.rules.push({
       test: /\.(js|jsx|ts|tsx)$/,
-      include: [path.resolve(__dirname, "../shared/")],
+      include: [resolve(__dirname, "../shared/")],
       use: [defaultLoaders.babel],
     });
 
@@ -29,9 +38,4 @@ module.exports = {
   },
 };
 
-const securityHeaders = [
-  {
-    key: "Permissions-Policy",
-    value: "interest-cohort=()",
-  },
-];
+module.exports = nextConfig;
