@@ -1,5 +1,4 @@
-import { EmissionSource } from "@/shared/emissionSources";
-import { allUnitsObject, Unit } from "@/shared/measurementUnits";
+import { allUnits, allUnitsObject } from "@/shared/measurementUnits";
 import { CategoryType } from "@/shared/types/CategoryType";
 import { EmissionSourceType } from "@/shared/types/EmissionSourceType";
 import Button from "components/Button";
@@ -7,82 +6,25 @@ import Select from "components/Forms/Common/Select";
 import SelectNumber from "components/Forms/Common/SelectNumber";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
-import { EmissionFactorFragmentFragment } from "graphql/fragments/emissionFactor.generated";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
 import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
 import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
-import {
-  EmissionFactor,
-  MeasurementUnit,
-  MeasurementUnitType,
-  SiteUnit,
-} from "types/generatedTypes";
+import { DataEntry, MeasurementUnitType, SiteUnit } from "types/generatedTypes";
 import { compareString } from "utils/compareStrings";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
 import MultiLevelSelect from "../Common/MultiLevelSelect";
+import { FormValues, SourceOption } from "./CreateDataEntryForm";
 
-export interface FormValues {
-  consumptionValue: number;
-  emissionFactor: EmissionFactorFragmentFragment;
-  emissionSource: EmissionSource & { categoryID: number };
-  measurementUnit: MeasurementUnit | Unit;
-  siteUnit: SiteUnit;
-  month: { id: number; name: string };
-  year: number;
-}
-
-export interface SourceOption {
-  children: {
-    children: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-      categoryID: number;
-    }[];
-    categoryID: number;
-    __typename?: "Component";
-    name: string;
-    id: number;
-    emissionSources?: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-    }[];
-  }[];
-  __typename?: "Category";
-  name: string;
-  id: number;
-  components: {
-    __typename?: "Component";
-    name: string;
-    id: number;
-    emissionSources?: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-    }[];
-  }[];
-}
-
-const CreateDataEntryForm: React.FC<{
+const EditDataEntryForm: React.FC<{
   setOpen: (arg: boolean) => void;
-}> = ({ setOpen }) => {
-  const initialValues: FormValues = {
-    consumptionValue: null,
-    emissionFactor: null,
-    emissionSource: null,
-    measurementUnit: null,
-    siteUnit: null,
-    month: {
-      id: new Date().getMonth() + 1,
-      name: months.find((m) => m.id === new Date().getMonth() + 1).name,
-    },
-    year: new Date().getFullYear(),
-  };
+  dataEntry: DataEntry;
+}> = ({ setOpen, dataEntry }) => {
+  console.log("data entry", dataEntry);
+
   const [createDataEntry] = useCreateDataEntryMutation();
 
   const { data: siteUnits } = useMyOrganizationSitesQuery();
@@ -104,10 +46,18 @@ const CreateDataEntryForm: React.FC<{
       }),
     };
   });
-
+  if (!sourceOptions) return null;
+  const allSources = sources?.allCategories.flatMap((cat) =>
+    cat.components.flatMap((comp) =>
+      comp.emissionSources.map((source) => {
+        return { ...source, categoryID: cat.id };
+      })
+    )
+  );
   const allEmissionFactors = myEFs?.myEmissionFactors.concat(
     publicEFs?.allPublicEmissionFactors
   );
+  if (!allEmissionFactors) return null;
 
   if (!siteUnits?.allSitesInMyOrganization) return <div>Ei yksikköjä</div>;
 
@@ -127,9 +77,29 @@ const CreateDataEntryForm: React.FC<{
     })
     .reduce((prev, current) => [...prev, current.siteUnits], [] as SiteUnit[]);
 
+  const initialValues: FormValues = {
+    consumptionValue: dataEntry.consumptionValue,
+    emissionFactor: allEmissionFactors.find(
+      (ef) => ef?.id === dataEntry.emissionFactorValue.emissionFactor.id
+    ),
+    emissionSource: allSources?.find(
+      (source) => source.id === EmissionSourceType[dataEntry.emissionSource]
+    ) as any,
+    measurementUnit: allUnits.find(
+      (unit) => unit.shorthand === dataEntry.measurementUnit
+    ),
+    siteUnit: allSiteUnits
+      .flat()
+      .find((s) => s.id === dataEntry.siteUnit.id) as SiteUnit,
+    month: months.find(
+      (m) => m.id === new Date(dataEntry.startDate).getMonth() + 1
+    ),
+    year: new Date(dataEntry.startDate).getFullYear(),
+  };
   return (
     <Formik
       initialValues={initialValues}
+      enableReinitialize
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const today = new Date(values.year, values.month.id - 1);
         const vars = {
@@ -152,7 +122,7 @@ const CreateDataEntryForm: React.FC<{
           resetForm();
           setOpen(false);
         } else {
-          console.error("Failed to create data entry");
+          console.error("Failed to edit data entry");
         }
       }}
     >
@@ -171,9 +141,7 @@ const CreateDataEntryForm: React.FC<{
               label="Toimipaikka ja yksikkö"
               name="siteUnit"
               placeholder="Valitse toimipaikka"
-              selectedValue={
-                allSiteUnits.flat().length === 1 ? allSiteUnits.flat()[0] : null
-              }
+              selectedValue={values.siteUnit}
               required
             />
 
@@ -182,6 +150,7 @@ const CreateDataEntryForm: React.FC<{
               showLabel
               label="Päästölähde"
               setFieldValue={setFieldValue}
+              selectedValue={values.emissionSource}
               name="emissionSource"
               levels="three"
             />
@@ -227,6 +196,7 @@ const CreateDataEntryForm: React.FC<{
               label="Käytettävä päästökerroin"
               name="emissionFactor"
               setFieldValue={setFieldValue}
+              selectedValue={values.emissionFactor}
             />
             <div className="flex">
               <div className="w-1/3">
@@ -257,6 +227,13 @@ const CreateDataEntryForm: React.FC<{
                     }) ?? []
                   }
                   setFieldValue={setFieldValue}
+                  selectedValue={allUnits
+                    .map((unit) => {
+                      return { ...unit, name: unit.shorthand };
+                    })
+                    .find(
+                      (unit) => unit.name === values.measurementUnit.shorthand
+                    )}
                 />
               </div>
             </div>
@@ -283,4 +260,4 @@ const CreateDataEntryForm: React.FC<{
   );
 };
 
-export default CreateDataEntryForm;
+export default EditDataEntryForm;

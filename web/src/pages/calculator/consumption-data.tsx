@@ -7,6 +7,7 @@ import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CalculatorPanel from "components/CalculatorPanel";
 import CreateDataEntryForm from "components/Forms/Data/CreateDataEntryForm";
+import EditDataEntryForm from "components/Forms/Data/EditDataEntryForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import OptionsMenu from "components/OptionsMenu";
 import ShowDataEntryForm from "components/ShowDataEntry";
@@ -88,7 +89,7 @@ const CalculatorConsumptionDataPage = () => {
         open={editFormOpen}
         setOpen={setEditFormOpen}
       >
-        <div>Edit data entry</div>
+        <EditDataEntryForm setOpen={setEditFormOpen} dataEntry={dataEntry} />
       </SlideOver>
       <WarningModal
         title="Poistetaanko kulutustiedot?"
