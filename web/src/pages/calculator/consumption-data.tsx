@@ -24,7 +24,8 @@ import { DataEntry } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
 const CalculatorConsumptionDataPage = () => {
-  const [formOpen, setFormOpen] = useState(false);
+  const [createFormOpen, setCreateFormOpen] = useState(false);
+  const [showEntryOpen, setShowEntryOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [dataEntry, setDataEntry] = useState(null);
@@ -32,7 +33,12 @@ const CalculatorConsumptionDataPage = () => {
   const [deleteEntry] = useDeleteEntryMutation();
   const dataEntries = data?.myDataEntries;
 
-  const handleEditDataEntry = (entry: DataEntry) => {
+  const handleShowEntry = (entry: DataEntry) => {
+    setDataEntry(entry);
+    setShowEntryOpen(true);
+  };
+
+  const handleEditEntry = (entry: DataEntry) => {
     setDataEntry(entry);
     setEditFormOpen(true);
   };
@@ -57,25 +63,32 @@ const CalculatorConsumptionDataPage = () => {
       title="Kulutustiedot"
       description="Hiilijalanjälkilaskelmat muodostuvat kulutustietoja yhdistelemällä. Tällä sivulla pääset syöttämään ja muokkaamaan yrityksesi kulutustietoja."
     >
-      <Button variant="success" onClick={() => setFormOpen(true)}>
+      <Button variant="success" onClick={() => setCreateFormOpen(true)}>
         Lisää tietoja
       </Button>
       <SlideOver
         title="Lisää kulutustietoja"
-        open={formOpen}
-        setOpen={setFormOpen}
+        open={createFormOpen}
+        setOpen={setCreateFormOpen}
       >
-        <CreateDataEntryForm setOpen={setFormOpen} />
+        <CreateDataEntryForm setOpen={setCreateFormOpen} />
       </SlideOver>
       <SlideOver
         title="Näytetään kulutustietoja"
-        open={editFormOpen}
-        setOpen={setEditFormOpen}
+        open={showEntryOpen}
+        setOpen={setShowEntryOpen}
       >
         <ShowDataEntryForm
           dataEntry={dataEntry as DataEntry}
-          setOpen={setEditFormOpen}
+          setOpen={setShowEntryOpen}
         />
+      </SlideOver>
+      <SlideOver
+        title="Muokataan kulutustietoja"
+        open={editFormOpen}
+        setOpen={setEditFormOpen}
+      >
+        <div>Edit data entry</div>
       </SlideOver>
       <WarningModal
         title="Poistetaanko kulutustiedot?"
@@ -163,10 +176,10 @@ const CalculatorConsumptionDataPage = () => {
                           ).toLocaleString() + " kg CO2e"
                         }
                       />
-                      {/* <TableCellOpenOptions fn={() => handleEditDataEntry(entry)} /> */}
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <OptionsMenu
-                          onShow={() => handleEditDataEntry(entry as DataEntry)}
+                          onShow={() => handleShowEntry(entry as DataEntry)}
+                          onEdit={() => handleEditEntry(entry as DataEntry)}
                           onDelete={() =>
                             handleDeleteDataEntry(entry as DataEntry)
                           }
