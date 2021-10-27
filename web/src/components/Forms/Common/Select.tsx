@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, SelectHTMLAttributes, useState } from "react";
+import { Fragment, SelectHTMLAttributes, useEffect, useState } from "react";
 import { classNames } from "utils/classNames";
 
 interface SelectOption {
@@ -33,6 +33,13 @@ const Select: React.FC<SelectProps> = ({
       ? null
       : options.filter((option) => option.name === selectedValue.name)[0]
   );
+
+  useEffect(() => {
+    if (selectedValue) {
+      setSelected(selectedValue);
+    }
+  }, [selectedValue, setSelected]);
+
   const isTwoLevelSelect = options.some((option) => option.isParent);
 
   const handleChange = (val) => {

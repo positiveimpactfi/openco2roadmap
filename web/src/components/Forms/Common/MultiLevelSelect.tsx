@@ -1,6 +1,11 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
-import React, { Fragment, SelectHTMLAttributes, useState } from "react";
+import React, {
+  Fragment,
+  SelectHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 import { classNames } from "utils/classNames";
 
 interface SelectOption {
@@ -30,11 +35,13 @@ const MultiLevelSelect: React.FC<SelectProps> = ({
   selectedValue,
   levels = "two",
 }) => {
-  const [selected, setSelected] = useState(() =>
-    !selectedValue
-      ? null
-      : options.filter((option) => option.name === selectedValue.name)[0]
-  );
+  const [selected, setSelected] = useState(() => selectedValue ?? null);
+
+  useEffect(() => {
+    if (selectedValue) {
+      setSelected(selectedValue);
+    }
+  }, [selectedValue, setSelected]);
 
   const handleChange = (val) => {
     setSelected(val);
