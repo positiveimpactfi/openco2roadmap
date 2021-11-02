@@ -68,6 +68,7 @@ export class DataEntryResolver {
     return res;
   }
 
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
   @Mutation(() => DataEntry)
   async createDataEntry(
     @Ctx() { req }: MyContext,
