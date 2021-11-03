@@ -30,19 +30,6 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 | SUPERADMIN_EMAIL | Email for the initial SuperAdmin user           |
 | SUPERADMIN_PW    | Password for the initial SuperAdmin user        |
 
-## Getting started
-
-1. Clone the repository
-1. CD into the `server` directory
-1. Fill in the environment variables
-
-### Local development
-
-1. Make sure you're in the `server` directory
-1. Duplicate the `.env.example` file and fill in the missing values
-1. Start the server `docker compose -f docker-compose.dev.yml up --build`
-1. Databases are not populated on first launch, so run `yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
-
 ## Available scripts
 
 | Script           | Description                                                       |
@@ -54,15 +41,26 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 | migration:revert | reverts the latest applied migration                              |
 | db:seed          | seeds the database with initial data                              |
 | db:drop          | drops the entire database                                         |
-| db:reset         | resets the database = drop then seed                              |
+| db:reset         | resets the database to the initial state = drop then seed         |
 
-### Deployment
+## Getting started
 
-Instructions for deploying on a server running Ubuntu:
+1. Clone the repository
+1. cd into the `server` directory
+1. Duplicate the `.env.example` file, rename it to `.env` and fill in the missing values
+1. Fill in the environment variables
 
-1. Install docker and docker-compose
-1. Install nginx and certbot
-1. Modify the nginx config file to reverse-proxy the server
-1. Clone the repository and run the docker compose file
+### Local development
+
+1. Make sure you're in the root directory of the monorepo
+1. Start the server `docker compose -f docker-compose.dev.yml --env-file server/.env up --build`
+1. Databases are not populated on first launch, so run `yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
+
+### Production deployment
+
+1. Clone the repository
+1. Set up the environment variables
+1. While in the root directory, run `docker compose -f docker-compose.yml --env-file server/.env up -d --build` to start the server
 1. If it's the first run, run the migrations `docker exec -it openco2roadmap-backend yarn migration:run`
-1. Install LetsEncrypt SSL certificate with certbot
+
+If you're deploying to the internet, you also need to install SSL certificates (for example using Certbot) and if you're behind a reverse proxy like nginx, you need to configure that as well.
