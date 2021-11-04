@@ -1,0 +1,25 @@
+mutation UpdateDataEntry(
+  $consumptionValue: Float
+  $endDate: DateTime
+  $startDate: DateTime
+  $category: CategoryType
+  $measurementUnit: MeasurementUnitType
+  $emissionSource: EmissionSourceType
+  $emissionsFactorValueID: String
+  $siteUnitID: String
+  $dataEntryID: String!
+) {
+  updateDataEntry(
+    consumptionValue: $consumptionValue
+    endDate: $endDate
+    startDate: $startDate
+    category: $category
+    measurementUnit: $measurementUnit
+    emissionSource: $emissionSource
+    emissionsFactorValueID: $emissionsFactorValueID
+    siteUnitID: $siteUnitID
+    dataEntryID: $dataEntryID
+  ) {
+    id
+  }
+}
