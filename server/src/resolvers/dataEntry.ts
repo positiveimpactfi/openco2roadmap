@@ -33,13 +33,22 @@ export class DataEntryResolver {
     }
 
     const res = await DataEntry.createQueryBuilder("data")
-      .select(["data", "createdBy", "siteUnit", "site", "ev", "ef"])
+      .select([
+        "data",
+        "createdBy",
+        "siteUnit",
+        "site",
+        "ev",
+        "ef",
+        "calculationResults",
+      ])
       .leftJoin("data.createdBy", "createdBy")
       .leftJoin("createdBy.organizations", "org")
       .leftJoin("data.siteUnit", "siteUnit")
       .leftJoin("siteUnit.site", "site")
       .leftJoin("data.emissionFactorValue", "ev")
       .leftJoin("ev.emissionFactor", "ef")
+      .leftJoin("data.calculationResults", "calculationResults")
       .where("createdBy.id = :id", { id: user.id })
       .getMany();
 
@@ -143,6 +152,120 @@ export class DataEntryResolver {
     console.log("created data entry", newDataEntry);
     console.log("created new calculation result", calculationResult);
     return newDataEntry;
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
+  @Mutation(() => DataEntry)
+  async updateDataEntry(
+    @Ctx() { req }: MyContext,
+    @Arg("dataEntryID") dataEntryID: string,
+    @Arg("siteUnitID", { nullable: true }) siteUnitID?: string,
+    @Arg("emissionsFactorValueID", { nullable: true })
+    emissionFactorValueID?: string,
+    @Arg("emissionSource", () => EmissionSourceType, { nullable: true })
+    emissionSource?: EmissionSourceType,
+    @Arg("measurementUnit", () => MeasurementUnitType, { nullable: true })
+    measurementUnit?: MeasurementUnitType,
+    @Arg("category", () => CategoryType, { nullable: true })
+    category?: CategoryType,
+    @Arg("startDate", () => Date, { nullable: true }) startDate?: Date,
+    @Arg("endDate", () => Date, { nullable: true }) endDate?: Date,
+    @Arg("consumptionValue", { nullable: true }) consumptionValue?: number
+  ): Promise<DataEntry | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+
+    const dataEntry = await DataEntry.findOne(dataEntryID, {
+      relations: [
+        "emissionFactorValue",
+        "siteUnit",
+        "siteUnit.site",
+        "calculationResults",
+      ],
+    });
+    if (!dataEntry) {
+      console.error("could not find data entry for specified id");
+      return undefined;
+    }
+    // Data entry found, check its latest calculation result
+    const oldCalculationResult = await CalculationResult.findOne({
+      where: { isLatest: true, dataEntry: dataEntry },
+      relations: ["dataEntry"],
+    });
+
+    // Update fields if the mutation provides argument values for them
+    let newSiteUnit, newEFValue;
+    if (siteUnitID) {
+      newSiteUnit = await SiteUnit.findOne(siteUnitID, {
+        relations: ["site"],
+      });
+      if (newSiteUnit) dataEntry.siteUnit = newSiteUnit;
+    }
+    if (emissionFactorValueID) {
+      newEFValue = await EmissionFactorValue.findOne(emissionFactorValueID);
+      if (newEFValue) dataEntry.emissionFactorValue = newEFValue;
+    }
+    if (emissionSource) dataEntry.emissionSource = emissionSource;
+    if (measurementUnit) dataEntry.measurementUnit = measurementUnit;
+    if (category) dataEntry.category = category;
+    if (startDate) dataEntry.startDate = startDate;
+    if (endDate) dataEntry.endDate = endDate;
+    if (consumptionValue) dataEntry.consumptionValue = consumptionValue;
+
+    const mUnit = allUnits.find(
+      (unit) =>
+        unit.shorthand === MeasurementUnitType[dataEntry.measurementUnit]
+    )?.conversionFactor;
+
+    // calculate the emissions
+    const emissionsCalculated = mUnit
+      ? newEFValue
+        ? newEFValue.value * dataEntry.consumptionValue * mUnit
+        : dataEntry.emissionFactorValue.value *
+          dataEntry.consumptionValue *
+          mUnit
+      : undefined;
+
+    const updatedDataEntry = await dataEntry.save();
+
+    // create new CalculationResult and save it
+    const calculationResult = await CalculationResult.create({
+      startDate: dataEntry.startDate,
+      endDate: dataEntry.endDate,
+      consumptionValue: dataEntry.consumptionValue,
+      measurementUnit: dataEntry.measurementUnit,
+      emissionSource: dataEntry.emissionSource,
+      category: dataEntry.category,
+      emissionFactorValue: newEFValue
+        ? newEFValue.value
+        : dataEntry.emissionFactorValue.value,
+      siteUnitID: newSiteUnit ? newSiteUnit.id : dataEntry.siteUnit.id,
+      siteID: newSiteUnit ? newSiteUnit.site.id : dataEntry.siteUnit.site.id,
+      creatorID: user.id,
+      organizationID: user.organizations[0].id,
+      emissionsCalculated: emissionsCalculated,
+      isLatest: true,
+      dataEntry: updatedDataEntry,
+    }).save();
+
+    // update previous calculation result
+    if (oldCalculationResult) {
+      oldCalculationResult.isLatest = false;
+      await oldCalculationResult.save();
+    }
+
+    dataEntry.calculationResults
+      ? dataEntry.calculationResults.push(calculationResult)
+      : (dataEntry.calculationResults = [calculationResult]);
+    const finalDataEntry = await dataEntry.save();
+    console.log("updated data entry", finalDataEntry);
+    console.log("created new calculation result", calculationResult);
+    return finalDataEntry;
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
