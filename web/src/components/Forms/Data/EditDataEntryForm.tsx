@@ -6,7 +6,7 @@ import Select from "components/Forms/Common/Select";
 import SelectNumber from "components/Forms/Common/SelectNumber";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
-import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
+import { useUpdateDataEntryMutation } from "graphql/mutations/data/updateDataEntry.generated";
 import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
 import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
@@ -23,9 +23,7 @@ const EditDataEntryForm: React.FC<{
   setOpen: (arg: boolean) => void;
   dataEntry: DataEntry;
 }> = ({ setOpen, dataEntry }) => {
-  console.log("data entry", dataEntry);
-
-  const [createDataEntry] = useCreateDataEntryMutation();
+  const [updateDataEntry] = useUpdateDataEntryMutation();
 
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
@@ -103,6 +101,7 @@ const EditDataEntryForm: React.FC<{
       onSubmit={async (values: FormValues, { setSubmitting, resetForm }) => {
         const today = new Date(values.year, values.month.id - 1);
         const vars = {
+          dataEntryID: dataEntry.id,
           category: CategoryType[values.emissionSource?.categoryID],
           consumptionValue: values.consumptionValue,
           emissionsFactorValueID: values.emissionFactor.values[0].id,
@@ -113,11 +112,11 @@ const EditDataEntryForm: React.FC<{
           startDate: getMonthStartAndEndDays(today).start,
           endDate: getMonthStartAndEndDays(today).end,
         };
-        const response = await createDataEntry({
+        const response = await updateDataEntry({
           variables: vars as any,
           refetchQueries: [MyDataEntriesDocument],
         });
-        if (response.data.createDataEntry.id) {
+        if (response.data.updateDataEntry.id) {
           setSubmitting(false);
           resetForm();
           setOpen(false);

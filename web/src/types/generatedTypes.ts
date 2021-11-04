@@ -297,6 +297,7 @@ export type Mutation = {
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   register: UserResolverResponse;
+  updateDataEntry: DataEntry;
   updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
   updateSite: Site;
@@ -409,6 +410,19 @@ export type MutationRegisterArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationUpdateDataEntryArgs = {
+  category?: Maybe<CategoryType>;
+  consumptionValue?: Maybe<Scalars['Float']>;
+  dataEntryID: Scalars['String'];
+  emissionSource?: Maybe<EmissionSourceType>;
+  emissionsFactorValueID?: Maybe<Scalars['String']>;
+  endDate?: Maybe<Scalars['DateTime']>;
+  measurementUnit?: Maybe<MeasurementUnitType>;
+  siteUnitID?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['DateTime']>;
 };
 
 
