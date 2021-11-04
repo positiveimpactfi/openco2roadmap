@@ -127,6 +127,9 @@ const CreateDataEntryForm: React.FC<{
     })
     .reduce((prev, current) => [...prev, current.siteUnits], [] as SiteUnit[]);
 
+  if (allSiteUnits.flat().length === 1)
+    initialValues.siteUnit = allSiteUnits.flat()[0] as SiteUnit;
+
   return (
     <Formik
       initialValues={initialValues}
