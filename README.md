@@ -1,6 +1,6 @@
 # Open CO2 roadmap
 
-This is an open source carbon footprint calculator project created by [Positive Impact](https://www.positiveimpact.fi). The first release of the project in September 2021 was made for the [Regional Council of Lapland](https://www.lapinliitto.fi/en/), and funded by [European Regional Development fund (ERDF)](http://www.rakennerahastot.fi/web/en).
+This is an open source carbon footprint calculator project created by [Positive Impact](https://www.positiveimpact.fi). The first release of the project in November 2021 was made for the [Regional Council of Lapland](https://www.lapinliitto.fi/en/), and funded by [European Regional Development fund (ERDF)](http://www.rakennerahastot.fi/web/en).
 
 <div style="display:flex">
   <img src="https://www.rakennerahastot.fi/documents/10179/54846/EU_EAKR_FI_vertical_20mm_rgb.png" height= "120px" alt="EU-lippulogo">
