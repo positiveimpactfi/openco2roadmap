@@ -1,7 +1,17 @@
 # CO2 calculator features 
 
-* A list of current and planned features available [here](https://docs.google.com/spreadsheets/d/1W55HH44OIPGIKftISMirpHyIrGAsHL9K/edit?usp=sharing&ouid=105698508153976932132&rtpof=true&sd=true) (in Finnish only)
-
-* Backlog and wishlist [here](https://docs.google.com/spreadsheets/d/1l0MOk8T3tNCEsewe2Hobi4jQNazC9WH_aenGLSEk7P8/edit?usp=sharing) (English & Finnish for now) 
-
-* A form for end users to submit ideas and bug reports [here](https://forms.gle/4PVdtDkaK8A8LXJL7)
+### v0.9 - Välkky calculator release
+* Authorization and authentication: registration, login, logout, role-based user rights
+* Organization creation and update: name, business field, VAT number, location
+* User roles: Superadmin, Company admin
+* User management: Superadmin can directly add a user to any organization, Company admin can add a user to their own organization
+* Emission factor library with GHG scope definitions, including Finnish transport and energy factors as sample data
+* Calculation boundary based on the organization structure
+* Fixed emission source grouping for data collection and summaries: 
+  * Premises: Heating, Electricity, Cooling, Fuels for property maintenance, Waste
+  * Logistics: Transport of goods, Customer transport, Business travel
+  * Purchases: Food, Services and subcontracting, Other
+  * Administration: General purchases, Travel to work
+* Consumption data management: Add, edit and delete entries with the ability to add pre-calculated emissions directly
+* Carbon footprint calculation based on organization data entries, basic summary table
+* User interface language: Finnish.
