@@ -3,18 +3,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   ManyToMany,
   JoinTable,
   OneToMany,
 } from "typeorm";
 import { DataEntry } from "./DataEntry";
+import { MyBaseEntity } from "./MyBaseEntity";
 import { Organization } from "./Organization";
 import { UserRole } from "./UserRole";
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class User extends MyBaseEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id!: string;
