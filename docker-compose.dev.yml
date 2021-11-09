@@ -15,11 +15,11 @@ services:
       - ./server:/usr/src/app/server
       - ./shared:/usr/src/app/shared
       - node_modules:/usr/src/app/server/node_modules
-    # links:
-    # - "redis:redis"
+    links:
+      - "redis:redis"
     depends_on:
       - db
-      # - redis
+      - redis
     environment:
       NODE_ENV: "development"
       PORT: ${PORT}
@@ -52,19 +52,19 @@ services:
       POSTGRES_DB: ${PG_DB}
       POSTGRES_USER: ${PG_USERNAME}
       POSTGRES_PASSWORD: ${PG_PW}
-  # redis:
-  #   image: bitnami/redis
-  #   restart: "unless-stopped"
-  #   ports:
-  #     - 6379:6379
-  #   volumes:
-  #     - redis:/data
-  #   networks:
-  #     - default
-  #   environment:
-  #     REDIS_HOST: ${REDIS_HOST}
-  #     REDIS_PORT: ${REDIS_PORT}
-  #     REDIS_PASSWORD: ${REDIS_PW}
+  redis:
+    image: bitnami/redis
+    restart: "unless-stopped"
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+    networks:
+      - default
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PW}
 
 networks:
   default:
@@ -72,4 +72,4 @@ networks:
 volumes:
   database:
   node_modules:
-  # redis:
+  redis:
