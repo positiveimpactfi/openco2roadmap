@@ -8,7 +8,7 @@ export default {
   username: config.PG_USERNAME,
   password: config.PG_PW,
   database: config.PG_DB,
-  synchronize: true,
+  synchronize: false,
   logging: config.ENV !== "production",
   entities: [getFolder("entity")],
   migrations: [getFolder("migration")],
