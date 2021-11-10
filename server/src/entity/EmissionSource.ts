@@ -35,6 +35,6 @@ export class EmissionSource extends BaseEntity {
   components: Promise<Component[]>;
 
   @Field(() => GHGScope, { defaultValue: GHGScope.Scope3 })
-  @Column({ default: GHGScope.Scope3 })
+  @Column({ type: "enum", enum: GHGScope, default: GHGScope.Scope3 })
   scope: GHGScope;
 }
