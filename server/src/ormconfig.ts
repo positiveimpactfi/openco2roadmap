@@ -12,7 +12,7 @@ export default {
   logging: config.ENV !== "production",
   entities: [getFolder("entity")],
   migrations: [getFolder("migration")],
-  subscribers: [getFolder("subsciber")],
+  subscribers: [getFolder("subscriber")],
   cli: {
     entitiesDir: `src/entity`,
     migrationsDir: `src/migration`,
