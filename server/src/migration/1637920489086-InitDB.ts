@@ -14,13 +14,13 @@ export class InitDB1637920489086 implements MigrationInterface {
       `CREATE TABLE IF NOT EXISTS "municipality" ("id" integer NOT NULL, "name" character varying NOT NULL, "stateCode" integer NOT NULL, "state" character varying NOT NULL, CONSTRAINT "PK_281ad341f20df7c41b83a182e2a" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "calculation_result_measurementunit_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34')`
+      `CREATE TYPE "calculation_result_measurementunit_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34')`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "calculation_result_emissionsource_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65')`
+      `CREATE TYPE "calculation_result_emissionsource_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65')`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "calculation_result_category_enum" AS ENUM('1', '2', '3', '4')`
+      `CREATE TYPE "calculation_result_category_enum" AS ENUM('1', '2', '3', '4')`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "calculation_result" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "dateCreated" TIMESTAMP NOT NULL DEFAULT now(), "startDate" TIMESTAMP NOT NULL, "endDate" TIMESTAMP NOT NULL, "consumptionValue" double precision NOT NULL, "emissionFactorValue" double precision NOT NULL, "measurementUnit" "calculation_result_measurementunit_enum" NOT NULL, "emissionsCalculated" double precision, "siteUnitID" character varying NOT NULL, "siteID" character varying NOT NULL, "creatorID" character varying NOT NULL, "organizationID" character varying NOT NULL, "emissionSource" "calculation_result_emissionsource_enum" NOT NULL, "category" "calculation_result_category_enum" NOT NULL, "isLatest" boolean NOT NULL, "dataEntryId" uuid, CONSTRAINT "PK_6e89a2824e3d464474c75e3e43b" PRIMARY KEY ("id"))`
@@ -32,7 +32,7 @@ export class InitDB1637920489086 implements MigrationInterface {
       `CREATE TABLE IF NOT EXISTS "component" ("id" integer NOT NULL, "name" character varying NOT NULL, "categoryId" integer, CONSTRAINT "PK_c084eba2d3b157314de79135f09" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "emission_source_scope_enum" AS ENUM('Scope 1', 'Scope 2', 'Scope 3')`
+      `CREATE TYPE "emission_source_scope_enum" AS ENUM('Scope 1', 'Scope 2', 'Scope 3')`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "emission_source" ("id" integer NOT NULL, "name" character varying NOT NULL, "scope" "emission_source_scope_enum" NOT NULL DEFAULT 'Scope 3', CONSTRAINT "PK_519ffc6f377bca49760dcd8ba8a" PRIMARY KEY ("id"))`
@@ -44,7 +44,7 @@ export class InitDB1637920489086 implements MigrationInterface {
       `CREATE TABLE IF NOT EXISTS "physical_quantity" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "baseUnitId" integer, CONSTRAINT "UQ_bac1b594d4799415d4275d493fb" UNIQUE ("name"), CONSTRAINT "REL_52d90f9fff2f7e91258a676edf" UNIQUE ("baseUnitId"), CONSTRAINT "PK_6dc5041452efe0499e23736331c" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "emission_factor_datasourcetype_enum" AS ENUM('0', '1', '2')`
+      `CREATE TYPE "emission_factor_datasourcetype_enum" AS ENUM('0', '1', '2')`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "emission_factor" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "source" character varying, "geographicalArea" character varying, "dataSourceType" "emission_factor_datasourcetype_enum" NOT NULL DEFAULT '1', "creatorId" uuid, "physicalQuantityId" integer, CONSTRAINT "PK_d43611b38f58108945ea9bf3019" PRIMARY KEY ("id"))`
@@ -53,7 +53,7 @@ export class InitDB1637920489086 implements MigrationInterface {
       `CREATE TABLE IF NOT EXISTS "emission_factor_value" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "value" double precision NOT NULL, "startDate" integer NOT NULL, "endDate" integer NOT NULL, "emissionFactorId" uuid, "creatorId" uuid, CONSTRAINT "PK_360cf7b50b79541e9e479ec21de" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "user_role_name_enum" AS ENUM('SUPERADMIN', 'ADMIN', 'DESTINATION_MANAGER', 'COMPANY_ADMIN', 'COMPANY_USER')`
+      `CREATE TYPE "user_role_name_enum" AS ENUM('SUPERADMIN', 'ADMIN', 'DESTINATION_MANAGER', 'COMPANY_ADMIN', 'COMPANY_USER')`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "user_role" ("id" SERIAL NOT NULL, "name" "user_role_name_enum" NOT NULL DEFAULT 'COMPANY_USER', "organizationID" character varying NOT NULL, CONSTRAINT "PK_fb2e442d14add3cefbdf33c4561" PRIMARY KEY ("id"))`
@@ -62,13 +62,13 @@ export class InitDB1637920489086 implements MigrationInterface {
       `CREATE TABLE IF NOT EXISTS "user" ("createdDate" TIMESTAMP NOT NULL DEFAULT now(), "updatedDate" TIMESTAMP NOT NULL DEFAULT now(), "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying NOT NULL, "password" character varying NOT NULL, "firstName" character varying, "lastName" character varying, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "data_entry_measurementunit_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34')`
+      `CREATE TYPE "data_entry_measurementunit_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34')`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "data_entry_emissionsource_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65')`
+      `CREATE TYPE "data_entry_emissionsource_enum" AS ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65')`
     );
     await queryRunner.query(
-      `CREATE TYPE IF NOT EXISTS "data_entry_category_enum" AS ENUM('1', '2', '3', '4')`
+      `CREATE TYPE "data_entry_category_enum" AS ENUM('1', '2', '3', '4')`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "data_entry" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "startDate" TIMESTAMP NOT NULL, "endDate" TIMESTAMP NOT NULL, "consumptionValue" double precision NOT NULL, "comments" character varying, "measurementUnit" "data_entry_measurementunit_enum" NOT NULL, "emissionSource" "data_entry_emissionsource_enum" NOT NULL, "category" "data_entry_category_enum" NOT NULL, "createdById" uuid, "siteUnitId" uuid, "emissionFactorValueId" uuid, CONSTRAINT "PK_31c5981e1ba6c6b29e59215dd37" PRIMARY KEY ("id"))`
