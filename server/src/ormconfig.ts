@@ -3,7 +3,7 @@ import config from "./config";
 
 export default {
   type: "postgres",
-  host: process.env.NODE_ENV === "migration" ? "localhost" : config.PG_HOST,
+  host: config.PG_HOST,
   port: config.PG_PORT,
   username: config.PG_USERNAME,
   password: config.PG_PW,
