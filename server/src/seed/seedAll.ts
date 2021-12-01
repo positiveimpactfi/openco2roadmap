@@ -12,7 +12,7 @@ import { seedEmissionFactors } from "./seedEmissionFactors";
 const seedAll = async () => {
   const conn = await createConnection({
     ...typeormConfig,
-    host: "localhost",
+    // host: "localhost",
   });
   await seedBusinessFields(conn);
   await seedMunicipalities(conn);

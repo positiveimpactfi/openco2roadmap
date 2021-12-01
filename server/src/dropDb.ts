@@ -4,7 +4,7 @@ import { createConnection } from "typeorm";
 const dropDb = async () => {
   const conn = await createConnection({
     ...typeormConfig,
-    host: "localhost",
+    // host: "localhost",
   });
   await conn.dropDatabase();
 };
