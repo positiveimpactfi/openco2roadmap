@@ -52,15 +52,25 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 
 ### Local development
 
-1. Make sure you're in the root directory of the monorepo
+1. Make sure you're in the same directory as the `docker-compose-dev.yml` file.
 1. Start the server `docker compose -f docker-compose.dev.yml --env-file server/.env up --build`
-1. Databases are not populated on first launch, so run `yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
+1. Run the migrations `docker exec -it openco2roadmap-backend yarn migration:run`
+1. Databases are not populated on first launch, so run `docker exec -it openco2roadmap-backend yarn db:seed` to seed SuperAdmin user, emission categories and components, business fields, physical quantities and measurement units.'
 
 ### Production deployment
 
 1. Clone the repository
 1. Set up the environment variables
-1. While in the root directory, run `docker compose -f docker-compose.yml --env-file server/.env up -d --build` to start the server
-1. If it's the first run, run the migrations `docker exec -it openco2roadmap-backend yarn migration:run`
+1. While in the same directory as the `docker-compose.yml` file, run `docker compose -f docker-compose.yml --env-file server/.env up -d --build` to start the server
+1. Run the migrations `docker exec -it openco2roadmap-backend yarn migration:run`
+1. Seed the initial database if you haven't `docker exec -it openco2roadmap-backend yarn db:seed`
 
 If you're deploying to the internet, you also need to install SSL certificates (for example using Certbot) and if you're behind a reverse proxy like nginx, you need to configure that as well.
+
+### Database backup
+
+You can dump the database from its docker container: `docker exec -t openco2roadmap_db_1 pg_dump --dbname=postgresql://${PG_USERNAME}:${PG_PW}@${PG_HOST}:${PG_PORT}/${PG_DB} > db_dump.sql`. Substitute the variables in the postgres connection string with the values from your environment variables and run the command. Check the dump file to see that the operation succeeded `cat db_dump.sql`.
+
+### Restore from database dump
+
+You can restore a previously dumped database: `cat dump.sql | docker exec -i openco2roadmap-db-1 psql --dbname=postgresql://${PG_USERNAME}:${PG_PW}@${PG_HOST}:${PG_PORT}/${PG_DB}`. Substitute the variables in the postgres connection string with the values from your environment variables and run the command.
