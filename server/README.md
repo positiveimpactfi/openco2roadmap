@@ -47,8 +47,8 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 
 1. Clone the repository
 1. cd into the `server` directory
-1. Duplicate the `.env.example` file, rename it to `.env` and fill in the missing values
-1. Fill in the environment variables
+1. Duplicate the `.env.example` file, rename it to `.env`
+1. Fill in the environment variables inside the `.env` file
 
 ### Local development
 
@@ -74,3 +74,13 @@ You can dump the database from its docker container: `docker exec -t openco2road
 ### Restore from database dump
 
 You can restore a previously dumped database: `cat db_dump.sql | docker exec -i openco2roadmap-db-1 psql --dbname=postgresql://${PG_USERNAME}:${PG_PW}@${PG_HOST}:${PG_PORT}/${PG_DB}`. Substitute the variables in the postgres connection string with the values from your environment variables and run the command.
+
+## Typical workflow
+
+First, make the desired changes. If you made changes to the existing entities or created new ones, you need to create a new migration. There are two options here:
+
+1. Generate the migration with typeorm: `docker exec -it openco2roadmap-backend yarn typeorm migration:generate -n MigrationName`. This will attempt to generate a new migration file under `server/migration`. Check that the generated SQL statements look OK and modify them as needed. If this step fails, you have to manually create the migration.
+1. Create the migration with typeorm: `docker exec -it openco2roadmap-backend yarn typeorm migration:create -n MigrationName`. This will create a template file for your migration under `server/migration`. Write the up and down migrations.
+
+Before running the migration, it's a good idea to create a database dump.
+With the new migration ready, you can now run it: `docker exec -it openco2roadmap-backend yarn migration:run`. You can revert the migration with `docker exec -it openco2roadmap-backend yarn migration:revert`. In case the migration goes terribly wrong, you can drop the database and then restore from a dump.
