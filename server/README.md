@@ -73,4 +73,4 @@ You can dump the database from its docker container: `docker exec -t openco2road
 
 ### Restore from database dump
 
-You can restore a previously dumped database: `cat dump.sql | docker exec -i openco2roadmap-db-1 psql --dbname=postgresql://${PG_USERNAME}:${PG_PW}@${PG_HOST}:${PG_PORT}/${PG_DB}`. Substitute the variables in the postgres connection string with the values from your environment variables and run the command.
+You can restore a previously dumped database: `cat db_dump.sql | docker exec -i openco2roadmap-db-1 psql --dbname=postgresql://${PG_USERNAME}:${PG_PW}@${PG_HOST}:${PG_PORT}/${PG_DB}`. Substitute the variables in the postgres connection string with the values from your environment variables and run the command.
