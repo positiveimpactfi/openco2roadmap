@@ -61,7 +61,12 @@ export class UserResolver {
     @Arg("role", () => Role) role: Role
   ) {
     const token = v4();
-    await redis.set("INVITE_" + token, organizationID + "_" + role);
+    await redis.set(
+      "INVITE_" + token,
+      organizationID + "_" + role,
+      "ex",
+      60 * 60 * 24 * 30
+    ); // 30 days
     const emailText = `<p>You have been invited to join OpenCO2Roadmap. Follow <span><a href=${config.CORS_ORIGIN}/register/${token} >this<a/></span> link to join! </p>`;
     const emailObject: EmailProps = {
       htmlBody: emailText,
