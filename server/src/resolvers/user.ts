@@ -271,8 +271,8 @@ export class UserResolver {
       "PASSWORD_RESET_REQUEST_" + token,
       user.id,
       "ex",
-      1000 * 60 * 60 * 24 * 3
-    ); // 3 days
+      60 * 60 * 2
+    ); // 2 hours
 
     const emailText = `Hei, saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.
     Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa: ${config.CORS_ORIGIN}/change-password/${token}.
