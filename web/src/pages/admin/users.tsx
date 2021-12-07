@@ -2,6 +2,7 @@ import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import CreateUserForm from "components/Forms/User/CreateUserForm";
+import InviteUserForm from "components/Forms/User/InviteUserForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
@@ -41,7 +42,7 @@ const UsersPage = () => {
           open={inviteFormOpen}
           setOpen={setInviteFormOpen}
         >
-          Invite user form
+          <InviteUserForm setOpen={setInviteFormOpen} />
         </SlideOver>
         <SlideOver
           title="Lisää käyttäjä"
@@ -53,8 +54,8 @@ const UsersPage = () => {
         <div className="flex space-x-2 mb-4">
           <Button
             variant="success"
-            // onClick={() => setInviteFormOpen(true)}
-            disabled
+            onClick={() => setInviteFormOpen(true)}
+            // disabled
           >
             Kutsu käyttäjä
           </Button>

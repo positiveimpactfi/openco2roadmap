@@ -396,7 +396,7 @@ export type MutationForgotPasswordArgs = {
 export type MutationInviteUserArgs = {
   email: Scalars['String'];
   organizationID: Scalars['String'];
-  role: Scalars['String'];
+  role: Role;
 };
 
 
@@ -514,6 +514,15 @@ export type Return = {
   yearlysums?: Maybe<Scalars['String']>;
 };
 
+/** User roles */
+export enum Role {
+  Admin = 'ADMIN',
+  CompanyAdmin = 'COMPANY_ADMIN',
+  CompanyUser = 'COMPANY_USER',
+  DestinationManager = 'DESTINATION_MANAGER',
+  Superadmin = 'SUPERADMIN'
+}
+
 export type Site = {
   __typename?: 'Site';
   id: Scalars['ID'];
@@ -546,6 +555,7 @@ export type SiteUnitInput = {
 
 export type User = {
   __typename?: 'User';
+  createdDate: Scalars['DateTime'];
   dataEntries?: Maybe<Array<DataEntry>>;
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
@@ -553,6 +563,7 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   organizations?: Maybe<Array<Organization>>;
   roles: Array<UserRole>;
+  updatedDate: Scalars['DateTime'];
 };
 
 export type UserResolverResponse = {
