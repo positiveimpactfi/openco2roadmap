@@ -55,11 +55,18 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async inviteUser(
-    @Ctx() { redis }: MyContext,
+    @Ctx() { redis, req }: MyContext,
     @Arg("email") email: string,
     @Arg("organizationID") organizationID: string,
     @Arg("role", () => Role) role: Role
   ) {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
     const token = v4();
     await redis.set(
       "INVITE_" + token,
@@ -67,12 +74,43 @@ export class UserResolver {
       "ex",
       60 * 60 * 24 * 30
     ); // 30 days
-    const emailText = `<p>You have been invited to join OpenCO2Roadmap. Follow <span><a href=${config.CORS_ORIGIN}/register/${token} >this<a/></span> link to join! </p>`;
+
+    const emailContent = `
+    <div>
+    <div>Hei,</div>
+    <br/>
+    <div>${
+      user.organizations[0].name
+    } on ottanut matkailualan avoimen hiilijalanjälkilaskurin käyttöön, ja ${
+      user.firstName && user.lastName
+        ? user.firstName + " " + user.lastName
+        : user.email
+    } on nyt kutsunut sinut osallistumaan työhön.</div>
+    <br/>
+    <div>Voit rekisteröityä laskurin käyttäjäksi seuraavan linkin kautta:</div> 
+    <br/>
+    <div><span><a href="${config.CORS_ORIGIN}/register/${token}">${
+      config.CORS_ORIGIN
+    }/register/${token}</a></span></div> 
+    <br/>
+    <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
+      user.email
+    }.</div> 
+    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://app.co2roadmap.fi">XXXXXXX.fi</a></span><div> 
+    <br /> 
+    <div>Tervetuloa!<div> 
+    <br />
+    <div>Ystävällisin terveisin</div>
+    <div>OpenCO2Roadmap tiimi</div>
+    </div>
+    `;
+
     const emailObject: EmailProps = {
-      htmlBody: emailText,
-      subject: "OpenCO2Roadmap invite",
-      textBody: emailText,
+      htmlBody: emailContent,
+      subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
+      textBody: emailContent,
     };
+
     await sendEmail(email, emailObject);
     return true;
   }
