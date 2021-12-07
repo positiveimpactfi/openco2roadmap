@@ -6,7 +6,7 @@ import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrgani
 import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
 import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useUser } from "hooks/useUser";
-import { Organization, User } from "types/generatedTypes";
+import { Organization, Role, User } from "types/generatedTypes";
 import { isSuperAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
@@ -47,7 +47,7 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
           variables: {
             email: values.email,
             organizationID: values.organization?.id,
-            role: values.role?.name.toUpperCase().replace(" ", "_"),
+            role: values.role?.name.toUpperCase().replace(" ", "_") as Role,
           },
           refetchQueries: [
             isSuperAdmin(user) ? AllUsersDocument : MyOrganizationUsersDocument,
