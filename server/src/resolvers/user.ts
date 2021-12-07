@@ -58,7 +58,7 @@ export class UserResolver {
     @Ctx() { redis }: MyContext,
     @Arg("email") email: string,
     @Arg("organizationID") organizationID: string,
-    @Arg("role") role: string
+    @Arg("role", () => Role) role: Role
   ) {
     const token = v4();
     await redis.set("INVITE_" + token, organizationID + "_" + role);
@@ -137,7 +137,7 @@ export class UserResolver {
         };
       }
       const orgId = orgAndRole.split("_")[0];
-      const roleString = orgAndRole.split("_")[1];
+      const roleString = orgAndRole.split("_").slice(1).join("_");
       const hashedPassword = await argon2.hash(password);
       const role = await UserRole.create({
         organizationID: orgId,
