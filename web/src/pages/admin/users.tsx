@@ -167,8 +167,8 @@ const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
                   ))}
                   {users?.map((user) => (
                     <tr key={user.id}>
-                      <TableCell value={user.lastName} />
-                      <TableCell value={user.firstName} />
+                      <TableCell value={user.lastName ?? "--"} />
+                      <TableCell value={user.firstName ?? "--"} />
                       <TableCell value={user.email} />
                       <TableCell value="Aktiivinen" />
                       <TableCell value={user.organizations[0]?.name} />
