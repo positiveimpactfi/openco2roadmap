@@ -40,6 +40,12 @@ export type CalculationResult = {
   startDate: Scalars['DateTime'];
 };
 
+export type CalculationSummary = {
+  __typename?: 'CalculationSummary';
+  categoryid?: Maybe<Scalars['String']>;
+  yearlysums?: Maybe<Scalars['String']>;
+};
+
 export type Category = {
   __typename?: 'Category';
   components: Array<Component>;
@@ -289,6 +295,7 @@ export type Municipality = {
 export type Mutation = {
   __typename?: 'Mutation';
   addUserToOrganization: User;
+  cancelUserInvite: Scalars['Boolean'];
   changePassword: UserResolverResponse;
   createDataEntry: DataEntry;
   createEmissionFactor: EmissionFactor;
@@ -305,6 +312,7 @@ export type Mutation = {
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   register: UserResolverResponse;
+  sendInvitationReminder: Scalars['Boolean'];
   updateDataEntry: DataEntry;
   updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
@@ -315,6 +323,11 @@ export type Mutation = {
 export type MutationAddUserToOrganizationArgs = {
   organizationId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type MutationCancelUserInviteArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -421,6 +434,11 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationSendInvitationReminderArgs = {
+  token: Scalars['String'];
+};
+
+
 export type MutationUpdateDataEntryArgs = {
   category?: Maybe<CategoryType>;
   consumptionValue?: Maybe<Scalars['Float']>;
@@ -504,7 +522,7 @@ export type Query = {
   myEmissionFactors: Array<EmissionFactor>;
   myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
-  myOrganizationEmissionsByCategoryAndYear: Array<Return>;
+  myOrganizationEmissionsByCategoryAndYear: Array<CalculationSummary>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
@@ -515,12 +533,6 @@ export type Query = {
 
 export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
-};
-
-export type Return = {
-  __typename?: 'Return';
-  categoryid?: Maybe<Scalars['String']>;
-  yearlysums?: Maybe<Scalars['String']>;
 };
 
 /** User roles */

@@ -1,0 +1,3 @@
+mutation CancelUserInvite($token: String!) {
+  cancelUserInvite(token: $token)
+}
