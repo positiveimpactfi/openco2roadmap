@@ -6,6 +6,7 @@ import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
 import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useUser } from "hooks/useUser";
 import { Organization, User } from "types/generatedTypes";
+import { compareString } from "utils/compareStrings";
 import { isSuperAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
@@ -137,13 +138,16 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   );
 };
 
-const AllOrgsSelect: React.FC<{
+export const AllOrgsSelect: React.FC<{
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }> = ({ setFieldValue }) => {
   const { data } = useAllOrganizationsQuery();
+  const sortedOrganizations = data?.allOrganizations
+    ? [...data.allOrganizations].sort((a, b) => compareString(a.name, b.name))
+    : [];
   return (
     <Select
-      options={data?.allOrganizations ?? []}
+      options={sortedOrganizations}
       showLabel
       label="Liitä yritykseen"
       name="organization"
@@ -152,7 +156,7 @@ const AllOrgsSelect: React.FC<{
   );
 };
 
-const MyOrgSelect: React.FC<{ user: User }> = ({ user }) => {
+export const MyOrgSelect: React.FC<{ user: User }> = ({ user }) => {
   return (
     <div className="space-y-6">
       <label
