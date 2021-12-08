@@ -3,6 +3,7 @@ import { Form, Formik, FormikProps } from "formik";
 import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
 import { useIntiveUserMutation } from "graphql/mutations/user/inviteUser.generated";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
+import { AllInvitedUsersDocument } from "graphql/queries/users/allInvitedUsers.generated";
 import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
 import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useUser } from "hooks/useUser";
@@ -53,6 +54,7 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
           },
           refetchQueries: [
             isSuperAdmin(user) ? AllUsersDocument : MyOrganizationUsersDocument,
+            AllInvitedUsersDocument,
           ],
         });
         if (response.data.inviteUser) {
