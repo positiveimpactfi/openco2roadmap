@@ -15,6 +15,7 @@ import { Organization, User, UserRole } from "../entity";
 import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
+import { userInvitationEmail } from "../utils/templates/email/userInvitation";
 
 @ObjectType()
 class FieldError {
@@ -134,41 +135,46 @@ export class UserResolver {
       60 * 60 * 24 * 30
     ); // 30 days
 
-    const emailContent = `
-    <div>
-    <div>Hei,</div>
-    <br/>
-    <div>${
-      user.organizations[0].name
-    } on ottanut matkailualan avoimen hiilijalanjälkilaskurin käyttöön, ja ${
-      user.firstName && user.lastName
-        ? user.firstName + " " + user.lastName
-        : user.email
-    } on nyt kutsunut sinut osallistumaan työhön.</div>
-    <br/>
-    <div>Voit rekisteröityä laskurin käyttäjäksi seuraavan linkin kautta:</div>
-    <br/>
-    <div><span><a href="${config.CORS_ORIGIN}/register/${
+    const emailContent = userInvitationEmail(
+      user,
       organizationID + ";" + token
-    }">${config.CORS_ORIGIN}/register/${
-      organizationID + ";" + token
-    }</a></span></div>
-    <br/>
-    <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
-      user.email
-    }.</div>
-    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://app.co2roadmap.fi">XXXXXXX.fi</a></span><div>
-    <br />
-    <div>Tervetuloa!<div>
-    <br />
-    <div>Ystävällisin terveisin</div>
-    <div>OpenCO2Roadmap tiimi</div>
-    </div>
-    `;
+    );
 
     const emailObject: EmailProps = {
       htmlBody: emailContent,
       subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
+      textBody: emailContent,
+    };
+
+    await sendEmail(email, emailObject);
+    return true;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => Boolean)
+  async sendInvitationReminder(
+    @Ctx() { redis, req }: MyContext,
+    @Arg("token") token: string
+  ) {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+
+    const inviteContent = await redis.get("INVITE;" + token);
+    if (!inviteContent) return false;
+    const parts = inviteContent.split(";");
+    const email = parts[1];
+
+    const emailContent = userInvitationEmail(user, token);
+
+    const emailObject: EmailProps = {
+      htmlBody: emailContent,
+      subject:
+        "Muistutus: Rekisteröidy matkailualan hiilijalanjälkilaskurin käyttäjäksi",
       textBody: emailContent,
     };
 
