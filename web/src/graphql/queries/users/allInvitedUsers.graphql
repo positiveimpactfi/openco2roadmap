@@ -1,0 +1,10 @@
+query AllInvitedUsers {
+  allInvitedUsers {
+    id
+    email
+    organization {
+      name
+    }
+    role
+  }
+}

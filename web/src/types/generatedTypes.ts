@@ -207,6 +207,14 @@ export enum GhgScope {
   Scope3 = 'Scope3'
 }
 
+export type InvitedUser = {
+  __typename?: 'InvitedUser';
+  email: Scalars['String'];
+  id: Scalars['String'];
+  organization: Organization;
+  role: Role;
+};
+
 export type Kpi = {
   __typename?: 'KPI';
   id: Scalars['ID'];
@@ -482,6 +490,7 @@ export type Query = {
   allEmissionFactorValues: Array<EmissionFactorValue>;
   allEmissionFactors: Array<EmissionFactor>;
   allEmissionSources: Array<EmissionSource>;
+  allInvitedUsers: Array<InvitedUser>;
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;

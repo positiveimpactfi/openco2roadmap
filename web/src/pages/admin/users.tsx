@@ -6,6 +6,7 @@ import InviteUserForm from "components/Forms/User/InviteUserForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import { useAllInvitedUsersQuery } from "graphql/queries/users/allInvitedUsers.generated";
 import { useAllUsersQuery } from "graphql/queries/users/allUsers.generated";
 import { useMeQuery } from "graphql/queries/users/me.generated";
 import { useMyOrganizationUsersQuery } from "graphql/queries/users/myOrganizationUsers.generated";
@@ -77,7 +78,9 @@ const CompanyUsersTable: React.FC<{
   handleFormOpen: (val: Partial<User>) => void;
 }> = ({ handleFormOpen }) => {
   const { data, loading } = useMyOrganizationUsersQuery();
+  const { data: invited } = useAllInvitedUsersQuery();
   const users = data?.myOrganizationUsers;
+  const invitedUsers = invited?.allInvitedUsers;
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -92,16 +95,27 @@ const CompanyUsersTable: React.FC<{
                   "Sukunimi",
                   "Etunimi",
                   "Sähköposti",
-                  "Luotu",
+                  "Status",
                   "Muokkaa",
                 ]}
               >
+                {invitedUsers?.map((user) => (
+                  <tr key={user.id}>
+                    <TableCell value={"--"} />
+                    <TableCell value={"--"} />
+                    <TableCell value={user.email} />
+                    <TableCell value="Kutsuttu" />
+                    <TableCellOpenOptions
+                      fn={() => console.log("invited user clicked")}
+                    />
+                  </tr>
+                ))}
                 {users?.map((user) => (
                   <tr key={user.id}>
                     <TableCell value={user.lastName ?? "--"} />
                     <TableCell value={user.firstName ?? "--"} />
                     <TableCell value={user.email} />
-                    <TableCell value="10.10.2020" />
+                    <TableCell value="Aktiivinen" />
                     <TableCellOpenOptions fn={() => handleFormOpen(user)} />
                   </tr>
                 ))}
@@ -117,7 +131,9 @@ const CompanyUsersTable: React.FC<{
 const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
   ({ handleFormOpen }) => {
     const { data, loading } = useAllUsersQuery();
+    const { data: invited } = useAllInvitedUsersQuery();
     const users = data?.allUsers;
+    const invitedUsers = invited?.allInvitedUsers;
     return (
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -132,17 +148,29 @@ const SuperAdminUserTable: React.FC<{ handleFormOpen: (val: User) => void }> =
                     "Sukunimi",
                     "Etunimi",
                     "Sähköposti",
-                    "Luotu",
+                    "Status",
                     "Yritykset",
                     "Muokkaa",
                   ]}
                 >
-                  {data.allUsers?.map((user) => (
+                  {invitedUsers?.map((user) => (
+                    <tr key={user.id}>
+                      <TableCell value={"--"} />
+                      <TableCell value={"--"} />
+                      <TableCell value={user.email} />
+                      <TableCell value="Kutsuttu" />
+                      <TableCell value={user.organization.name} />
+                      <TableCellOpenOptions
+                        fn={() => console.log("invited user clicked")}
+                      />
+                    </tr>
+                  ))}
+                  {users?.map((user) => (
                     <tr key={user.id}>
                       <TableCell value={user.lastName} />
                       <TableCell value={user.firstName} />
                       <TableCell value={user.email} />
-                      <TableCell value="10.10.2020" />
+                      <TableCell value="Aktiivinen" />
                       <TableCell value={user.organizations[0]?.name} />
                       <TableCellOpenOptions fn={() => handleFormOpen(user)} />
                     </tr>
