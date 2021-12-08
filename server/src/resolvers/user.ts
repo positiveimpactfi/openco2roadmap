@@ -69,7 +69,7 @@ export class UserResolver {
     const token = v4();
     await redis.set(
       "INVITE_" + token,
-      organizationID + "_" + role,
+      organizationID + ";" + email + ";" + role,
       "ex",
       60 * 60 * 24 * 30
     ); // 30 days
@@ -178,8 +178,8 @@ export class UserResolver {
           ],
         };
       }
-      const orgId = orgAndRole.split("_")[0];
-      const roleString = orgAndRole.split("_").slice(1).join("_");
+      const orgId = orgAndRole.split(";")[0];
+      const roleString = orgAndRole.split(";").slice(2).join("_");
       const hashedPassword = await argon2.hash(password);
       const role = await UserRole.create({
         organizationID: orgId,
