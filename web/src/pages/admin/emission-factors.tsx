@@ -2,18 +2,39 @@ import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import LoadingSpinner from "components/LoadingSpinner";
+import ShowEmissionFactor from "components/ShowEmissionFactor";
+import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllEmissionFactorsQuery } from "graphql/queries/emissions/allEmissionFactors.generated";
+import { useState } from "react";
+import { EmissionFactor } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
 const AdminEmissionFactorsPage = () => {
   const { data, loading } = useAllEmissionFactorsQuery();
+  const [open, setOpen] = useState(false);
+  const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
   const emissionFactors = data?.allEmissionFactors;
+
+  const handleShowEf = (ef: EmissionFactor) => {
+    setSelectedEf(ef);
+    setOpen(true);
+  };
+
   return (
     <AdminsOnly
       title="Päästökertoimet"
       description="Tällä sivulla voit tarkastella kaikki järjestelmän päästökertoimet ja määritellä uusia."
     >
+      <div>
+        <SlideOver
+          open={open}
+          setOpen={setOpen}
+          title="Tarkastellaan päästökerrointa"
+        >
+          <ShowEmissionFactor ef={selectedEf} />
+        </SlideOver>
+      </div>
       <div className="mb-4">
         <Button
           variant="success"
@@ -63,7 +84,9 @@ const AdminEmissionFactorsPage = () => {
                 }
               />
               <TableCell value={ef.creator ? ef.creator.name : "-"} />
-              <TableCellOpenOptions fn={() => console.log("opened ef")} />
+              <TableCellOpenOptions
+                fn={() => handleShowEf(ef as EmissionFactor)}
+              />
             </tr>
           ))}
         </Table>
