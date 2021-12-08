@@ -68,7 +68,7 @@ export class UserResolver {
     }
     const token = v4();
     await redis.set(
-      "INVITE_" + token,
+      "INVITE;" + organizationID + ";" + token,
       organizationID + ";" + email + ";" + role,
       "ex",
       60 * 60 * 24 * 30
@@ -86,18 +86,18 @@ export class UserResolver {
         : user.email
     } on nyt kutsunut sinut osallistumaan työhön.</div>
     <br/>
-    <div>Voit rekisteröityä laskurin käyttäjäksi seuraavan linkin kautta:</div> 
+    <div>Voit rekisteröityä laskurin käyttäjäksi seuraavan linkin kautta:</div>
     <br/>
     <div><span><a href="${config.CORS_ORIGIN}/register/${token}">${
       config.CORS_ORIGIN
-    }/register/${token}</a></span></div> 
+    }/register/${token}</a></span></div>
     <br/>
     <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
       user.email
-    }.</div> 
-    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://app.co2roadmap.fi">XXXXXXX.fi</a></span><div> 
-    <br /> 
-    <div>Tervetuloa!<div> 
+    }.</div>
+    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://app.co2roadmap.fi">XXXXXXX.fi</a></span><div>
+    <br />
+    <div>Tervetuloa!<div>
     <br />
     <div>Ystävällisin terveisin</div>
     <div>OpenCO2Roadmap tiimi</div>
