@@ -34,6 +34,21 @@ class UserResolverResponse {
   user?: User;
 }
 
+@ObjectType()
+class InvitedUser {
+  @Field(() => String)
+  id!: string;
+
+  @Field()
+  email!: string;
+
+  @Field(() => Role)
+  role!: Role;
+
+  @Field(() => Organization)
+  organization!: Organization;
+}
+
 @Resolver(User)
 export class UserResolver {
   @Query(() => User, { nullable: true })
@@ -49,6 +64,51 @@ export class UserResolver {
   @Query(() => [User])
   allUsers(): Promise<User[]> {
     return User.find({});
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.COMPANY_ADMIN])
+  @Query(() => [InvitedUser])
+  async allInvitedUsers(
+    @Ctx() { redis, req }: MyContext
+  ): Promise<InvitedUser[] | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      return undefined;
+    }
+    // SuperAdmin can see all invites, CompanyAdmin can only see their organization's invites
+    const matchPattern =
+      user.roles[0].name === Role.SUPERADMIN
+        ? "INVITE;*"
+        : `INVITE;${user.organizations[0].id};*`;
+    // calling redis keys can become slow when there are many invites
+    // TO-DO: refactor using scanStream
+    const resultKeys = await redis.keys(matchPattern);
+    let users: InvitedUser[] = [];
+    const myPromise = Promise.all(
+      resultKeys.map(async (key, i) => {
+        const inviteToken = await redis.get(key);
+        if (inviteToken) {
+          const orgId = inviteToken.split(";")[0];
+          const org = await Organization.findOne(orgId);
+          if (org) {
+            const userEmail = inviteToken.split(";")[1];
+            const roleString = inviteToken.split(";").slice(2).join("_");
+            const roleEnum = Role[roleString as keyof typeof Role];
+            const newUser: InvitedUser = {
+              id: resultKeys[i],
+              email: userEmail,
+              organization: org,
+              role: roleEnum,
+            };
+            users.push(newUser);
+          }
+        }
+      })
+    );
+    await myPromise;
+    return users;
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
