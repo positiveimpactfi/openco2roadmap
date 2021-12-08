@@ -135,18 +135,18 @@ export class UserResolver {
       60 * 60 * 24 * 30
     ); // 30 days
 
-    // const emailContent = userInvitationEmail(
-    //   user,
-    //   organizationID + ";" + token
-    // );
+    const emailContent = userInvitationEmail(
+      user,
+      organizationID + ";" + token
+    );
 
-    // const emailObject: EmailProps = {
-    //   htmlBody: emailContent,
-    //   subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
-    //   textBody: emailContent,
-    // };
+    const emailObject: EmailProps = {
+      htmlBody: emailContent,
+      subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
+      textBody: emailContent,
+    };
 
-    // await sendEmail(email, emailObject);
+    await sendEmail(email, emailObject);
     return true;
   }
 
