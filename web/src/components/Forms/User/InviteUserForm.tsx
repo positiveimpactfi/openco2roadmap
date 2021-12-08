@@ -7,10 +7,12 @@ import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
 import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useUser } from "hooks/useUser";
 import { Organization, Role, User } from "types/generatedTypes";
+import { compareString } from "utils/compareStrings";
 import { isSuperAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
 import Select from "../Common/Select";
+import { AllOrgsSelect, MyOrgSelect } from "./CreateUserForm";
 
 interface FormValues {
   email: string;
@@ -35,7 +37,7 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
   const initialValues = {
     email: "",
     organization: user?.organizations[0],
-    role: null,
+    role: { id: 3, name: "Company Admin" },
   };
 
   return (
@@ -95,6 +97,7 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
               label="Rooli"
               name="role"
               setFieldValue={setFieldValue}
+              selectedValue={{ id: 3, name: "Company Admin" }}
             />
             <div className="pt-5">
               <div className="flex justify-end space-x-2">
@@ -119,40 +122,6 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         </Form>
       )}
     </Formik>
-  );
-};
-
-const AllOrgsSelect: React.FC<{
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
-}> = ({ setFieldValue }) => {
-  const { data } = useAllOrganizationsQuery();
-  return (
-    <Select
-      options={data?.allOrganizations ?? []}
-      showLabel
-      label="Liitä yritykseen"
-      name="organization"
-      setFieldValue={setFieldValue}
-    />
-  );
-};
-
-const MyOrgSelect: React.FC<{ user: User }> = ({ user }) => {
-  return (
-    <div className="space-y-6">
-      <label
-        htmlFor="user-org"
-        className="block text-sm font-medium text-gray-700 mb-2"
-      >
-        Liitä yritykseen
-      </label>
-      <div
-        id="user-org"
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
-      >
-        {user?.organizations[0].name}
-      </div>
-    </div>
   );
 };
 
