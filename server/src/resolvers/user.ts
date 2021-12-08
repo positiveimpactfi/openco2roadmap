@@ -11,9 +11,7 @@ import {
 } from "type-graphql";
 import { v4 } from "uuid";
 import config from "../config";
-import { Organization } from "../entity/Organization";
-import { User } from "../entity/User";
-import { UserRole } from "../entity/UserRole";
+import { Organization, User, UserRole } from "../entity";
 import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
@@ -38,12 +36,6 @@ class UserResolverResponse {
 
 @Resolver(User)
 export class UserResolver {
-  @Authorized(["SUPERADMIN", "ADMIN"])
-  @Query(() => [User])
-  allUsers(): Promise<User[]> {
-    return User.find({});
-  }
-
   @Query(() => User, { nullable: true })
   me(@Ctx() { req }: MyContext) {
     if (!req.session.userId) {
@@ -53,6 +45,13 @@ export class UserResolver {
     return User.findOne(req.session.userId, { relations: ["roles"] });
   }
 
+  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Query(() => [User])
+  allUsers(): Promise<User[]> {
+    return User.find({});
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => Boolean)
   async inviteUser(
     @Ctx() { redis, req }: MyContext,
