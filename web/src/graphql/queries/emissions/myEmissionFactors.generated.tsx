@@ -7,7 +7,7 @@ const defaultOptions =  {}
 export type MyEmissionFactorsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyEmissionFactorsQuery = { __typename?: 'Query', myEmissionFactors: Array<{ __typename?: 'EmissionFactor', id: string, name: string, source?: Types.Maybe<string>, dataSourceType: Types.DataSourceType, values?: Types.Maybe<Array<{ __typename?: 'EmissionFactorValue', id: string, value: number, startDate: number, endDate: number }>>, physicalQuantity: { __typename?: 'PhysicalQuantity', name: string, baseUnit: { __typename?: 'MeasurementUnit', name: string, shorthand: string } }, emissionSources: Array<{ __typename?: 'EmissionSource', id: number, name: string }> }> };
+export type MyEmissionFactorsQuery = { __typename?: 'Query', myEmissionFactors: Array<{ __typename?: 'EmissionFactor', id: string, name: string, source?: Types.Maybe<string>, dataSourceType: Types.DataSourceType, geographicalArea?: Types.Maybe<string>, values?: Types.Maybe<Array<{ __typename?: 'EmissionFactorValue', id: string, value: number, startDate: number, endDate: number }>>, physicalQuantity: { __typename?: 'PhysicalQuantity', name: string, baseUnit: { __typename?: 'MeasurementUnit', name: string, shorthand: string } }, emissionSources: Array<{ __typename?: 'EmissionSource', id: number, name: string }> }> };
 
 
 export const MyEmissionFactorsDocument = gql`

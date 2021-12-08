@@ -7,7 +7,7 @@ const defaultOptions =  {}
 export type AllEmissionFactorsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllEmissionFactorsQuery = { __typename?: 'Query', allEmissionFactors: Array<{ __typename?: 'EmissionFactor', id: string, name: string, source?: Types.Maybe<string>, dataSourceType: Types.DataSourceType, creator?: Types.Maybe<{ __typename?: 'Organization', name: string }>, values?: Types.Maybe<Array<{ __typename?: 'EmissionFactorValue', id: string, value: number, startDate: number, endDate: number }>>, physicalQuantity: { __typename?: 'PhysicalQuantity', name: string, baseUnit: { __typename?: 'MeasurementUnit', name: string, shorthand: string } }, emissionSources: Array<{ __typename?: 'EmissionSource', id: number, name: string }> }> };
+export type AllEmissionFactorsQuery = { __typename?: 'Query', allEmissionFactors: Array<{ __typename?: 'EmissionFactor', id: string, name: string, source?: Types.Maybe<string>, dataSourceType: Types.DataSourceType, geographicalArea?: Types.Maybe<string>, creator?: Types.Maybe<{ __typename?: 'Organization', name: string }>, values?: Types.Maybe<Array<{ __typename?: 'EmissionFactorValue', id: string, value: number, startDate: number, endDate: number }>>, physicalQuantity: { __typename?: 'PhysicalQuantity', name: string, baseUnit: { __typename?: 'MeasurementUnit', name: string, shorthand: string } }, emissionSources: Array<{ __typename?: 'EmissionSource', id: number, name: string }> }> };
 
 
 export const AllEmissionFactorsDocument = gql`
