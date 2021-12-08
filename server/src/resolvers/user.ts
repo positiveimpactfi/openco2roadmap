@@ -135,18 +135,18 @@ export class UserResolver {
       60 * 60 * 24 * 30
     ); // 30 days
 
-    const emailContent = userInvitationEmail(
-      user,
-      organizationID + ";" + token
-    );
+    // const emailContent = userInvitationEmail(
+    //   user,
+    //   organizationID + ";" + token
+    // );
 
-    const emailObject: EmailProps = {
-      htmlBody: emailContent,
-      subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
-      textBody: emailContent,
-    };
+    // const emailObject: EmailProps = {
+    //   htmlBody: emailContent,
+    //   subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
+    //   textBody: emailContent,
+    // };
 
-    await sendEmail(email, emailObject);
+    // await sendEmail(email, emailObject);
     return true;
   }
 
@@ -180,6 +180,17 @@ export class UserResolver {
 
     await sendEmail(email, emailObject);
     return true;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => Boolean)
+  async cancelUserInvite(
+    @Ctx() { redis }: MyContext,
+    @Arg("token") token: string
+  ) {
+    const res = await redis.del("INVITE;" + token);
+    if (res === 1) return true;
+    return false;
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
