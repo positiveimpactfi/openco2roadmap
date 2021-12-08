@@ -148,9 +148,11 @@ export class UserResolver {
     <br/>
     <div>Voit rekisteröityä laskurin käyttäjäksi seuraavan linkin kautta:</div>
     <br/>
-    <div><span><a href="${config.CORS_ORIGIN}/register/${token}">${
-      config.CORS_ORIGIN
-    }/register/${token}</a></span></div>
+    <div><span><a href="${config.CORS_ORIGIN}/register/${
+      organizationID + ";" + token
+    }">${config.CORS_ORIGIN}/register/${
+      organizationID + ";" + token
+    }</a></span></div>
     <br/>
     <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
       user.email
@@ -227,7 +229,7 @@ export class UserResolver {
     @Arg("password") password: string
   ): Promise<UserResolverResponse> {
     try {
-      const orgAndRole = await redis.get("INVITE_" + token);
+      const orgAndRole = await redis.get("INVITE;" + token);
       if (!orgAndRole) {
         return {
           errors: [
@@ -265,7 +267,7 @@ export class UserResolver {
       }).save();
       organization.users.push(user);
       await Organization.save(organization);
-      await redis.del("INVITE_" + token);
+      await redis.del("INVITE;" + token);
       return { user };
     } catch (err) {
       console.log("error: ", err);
