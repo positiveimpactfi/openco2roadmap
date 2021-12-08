@@ -9,7 +9,18 @@ const OptionsMenu: React.FC<{
   onEdit?: () => void;
   onDelete?: () => void;
   variant?: "normal" | "last-element";
-}> = ({ onShow, onEdit, onDelete, variant = "normal" }) => {
+  onShowText?: string;
+  onEditText?: string;
+  onDeleteText?: string;
+}> = ({
+  onShow,
+  onEdit,
+  onDelete,
+  variant = "normal",
+  onShowText = "Näytä",
+  onEditText = "Muokkaa",
+  onDeleteText = "Poista",
+}) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -44,7 +55,7 @@ const OptionsMenu: React.FC<{
                       "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                     )}
                   >
-                    Näytä
+                    {onShowText}
                   </button>
                 )}
               </Menu.Item>
@@ -58,7 +69,7 @@ const OptionsMenu: React.FC<{
                       "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                     )}
                   >
-                    Muokkaa
+                    {onEditText}
                   </button>
                 )}
               </Menu.Item>
@@ -72,7 +83,7 @@ const OptionsMenu: React.FC<{
                       "w-full text-left text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                     )}
                   >
-                    Poista
+                    {onDeleteText}
                   </button>
                 )}
               </Menu.Item>
