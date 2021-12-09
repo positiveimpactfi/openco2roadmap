@@ -1,14 +1,11 @@
 import Button from "components/Button";
 import { Form, Formik, FormikProps } from "formik";
-import { useCreateUserMutation } from "graphql/mutations/user/createUser.generated";
 import { useIntiveUserMutation } from "graphql/mutations/user/inviteUser.generated";
-import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { AllInvitedUsersDocument } from "graphql/queries/users/allInvitedUsers.generated";
 import { AllUsersDocument } from "graphql/queries/users/allUsers.generated";
 import { MyOrganizationUsersDocument } from "graphql/queries/users/myOrganizationUsers.generated";
 import { useUser } from "hooks/useUser";
-import { Organization, Role, User } from "types/generatedTypes";
-import { compareString } from "utils/compareStrings";
+import { Organization, Role } from "types/generatedTypes";
 import { isSuperAdmin } from "utils/isAdmin";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
@@ -30,9 +27,10 @@ const validationSchema = Yup.object().shape({
   role: Yup.object().required("Rooli vaaditaan!"),
 });
 
-const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
-  setOpen,
-}) => {
+const InviteUserForm: React.FC<{
+  setOpen: (val: boolean) => void;
+  onSuccess: () => void;
+}> = ({ setOpen, onSuccess }) => {
   const { user } = useUser();
   const [inviteUser] = useIntiveUserMutation();
   const initialValues = {
@@ -60,6 +58,7 @@ const InviteUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         if (response.data.inviteUser) {
           setSubmitting(false);
           resetForm();
+          onSuccess();
           setOpen(false);
         } else {
           console.error("Failed to invite user");

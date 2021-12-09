@@ -4,9 +4,10 @@ import Button from "components/Button";
 import CreateUserForm from "components/Forms/User/CreateUserForm";
 import InviteUserForm from "components/Forms/User/InviteUserForm";
 import LoadingSpinner from "components/LoadingSpinner";
+import Notification from "components/Notification";
 import OptionsMenu from "components/OptionsMenu";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, { TableCell } from "components/Table";
 import UserView from "components/UserView";
 import { useCancelUserInviteMutation } from "graphql/mutations/user/cancelUserInvite.generated";
 import { useSendInvitationReminderMutation } from "graphql/mutations/user/sendInvitationReminder.generated";
@@ -29,10 +30,22 @@ const UsersPage = () => {
   const [inviteFormOpen, setInviteFormOpen] = useState(false);
   const [addFormOpen, setAddFormOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationText, setNotificationText] = useState<string>(null);
 
   const handleShowUser = (user: User) => {
     setSelectedUser(user);
     setUserViewOpen(true);
+  };
+
+  const handleAddUser = () => {
+    setNotificationText("Käyttäjä lisätty");
+    setShowNotification(true);
+  };
+
+  const handleSendUserInvite = () => {
+    setNotificationText("Kutsu lähetetty");
+    setShowNotification(true);
   };
 
   const handleSendReminder = async (user: InvitedUser) => {
@@ -41,6 +54,9 @@ const UsersPage = () => {
     });
     if (!res?.data?.sendInvitationReminder) {
       console.log("could not send reminder");
+    } else {
+      setNotificationText("Muistutus lähetetty");
+      setShowNotification(true);
     }
   };
 
@@ -53,6 +69,9 @@ const UsersPage = () => {
     });
     if (!res?.data?.cancelUserInvite) {
       console.log("could not cancel invite");
+    } else {
+      setNotificationText("Kutsu peruttu onnistuneesti");
+      setShowNotification(true);
     }
   };
   return (
@@ -61,6 +80,12 @@ const UsersPage = () => {
       description="Tällä sivulla voit kutsua, lisätä, muokata ja poistaa käyttäjiä laskuriin."
     >
       <div>
+        <Notification
+          title="Hienoa!"
+          description={notificationText}
+          show={showNotification}
+          setShow={setShowNotification}
+        />
         <SlideOver
           title="Käyttäjän tiedot"
           open={userViewOpen}
@@ -73,14 +98,17 @@ const UsersPage = () => {
           open={inviteFormOpen}
           setOpen={setInviteFormOpen}
         >
-          <InviteUserForm setOpen={setInviteFormOpen} />
+          <InviteUserForm
+            setOpen={setInviteFormOpen}
+            onSuccess={handleSendUserInvite}
+          />
         </SlideOver>
         <SlideOver
           title="Lisää käyttäjä"
           open={addFormOpen}
           setOpen={setAddFormOpen}
         >
-          <CreateUserForm setOpen={setAddFormOpen} />
+          <CreateUserForm setOpen={setAddFormOpen} onSuccess={handleAddUser} />
         </SlideOver>
         <div className="flex space-x-2 mb-4">
           <Button

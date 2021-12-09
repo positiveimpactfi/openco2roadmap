@@ -32,9 +32,10 @@ const validationSchema = Yup.object().shape({
   role: Yup.object().required("Rooli vaaditaan!"),
 });
 
-const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
-  setOpen,
-}) => {
+const CreateUserForm: React.FC<{
+  setOpen: (val: boolean) => void;
+  onSuccess: () => void;
+}> = ({ setOpen, onSuccess }) => {
   const { user } = useUser();
   const [createUser] = useCreateUserMutation();
   const initialValues = {
@@ -63,6 +64,7 @@ const CreateUserForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
         if (response.data.createUser.user) {
           setSubmitting(false);
           resetForm();
+          onSuccess();
           setOpen(false);
         } else {
           console.error("Failed to create user");
