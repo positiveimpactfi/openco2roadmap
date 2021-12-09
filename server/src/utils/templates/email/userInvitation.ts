@@ -27,12 +27,12 @@ export const userInvitationEmail = (
     <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
       user.email
     }.</div>
-    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://app.co2roadmap.fi">XXXXXXX.fi</a></span><div>
+    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://co2roadmap.fi">https://co2roadmap.fi</a></span><div>
     <br />
     <div>Tervetuloa!<div>
     <br />
     <div>Ystävällisin terveisin</div>
-    <div>OpenCO2Roadmap tiimi</div>
+    <div>Matkailun CO2-laskurin tiimi</div>
     </div>
     `;
 };
