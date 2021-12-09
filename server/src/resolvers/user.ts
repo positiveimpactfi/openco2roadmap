@@ -15,6 +15,7 @@ import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
 import { forgotPasswordEmail } from "../utils/templates/email/forgotPassword";
+import { userCreatedEmail } from "../utils/templates/email/userCreated";
 import { userInvitationEmail } from "../utils/templates/email/userInvitation";
 
 @ObjectType()
@@ -206,11 +207,23 @@ export class UserResolver {
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => UserResolverResponse)
   async createUser(
+    @Ctx() { req }: MyContext,
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Arg("organizationID") organizationID: string,
     @Arg("role") role: Role
   ): Promise<UserResolverResponse> {
+    const inviter = await User.findOne(req.session.userId);
+    if (!inviter) {
+      return {
+        errors: [
+          {
+            field: "user",
+            message: "invalid user request",
+          },
+        ],
+      };
+    }
     const possibleUser = await User.findOne({ where: { email } });
     if (possibleUser) {
       return {
@@ -244,6 +257,16 @@ export class UserResolver {
       organizations: [org],
       roles: [userRole],
     }).save();
+
+    const emailContent = userCreatedEmail(inviter, user, org, password);
+    const emailObject: EmailProps = {
+      htmlBody: emailContent,
+      subject:
+        "Tervetuloa Matkailun CO2-laskurin käyttäjäksi - ohessa käyttäjätunnuksesi",
+      textBody: emailContent,
+    };
+
+    await sendEmail(email, emailObject);
 
     return { user };
   }
