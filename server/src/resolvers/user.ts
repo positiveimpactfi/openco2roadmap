@@ -120,11 +120,14 @@ export class UserResolver {
     @Arg("organizationID") organizationID: string,
     @Arg("role", () => Role) role: Role
   ) {
-    const user = await User.findOne(req.session.userId, {
-      relations: ["organizations"],
-    });
+    const user = await User.findOne(req.session.userId);
     if (!user) {
       console.error("no user");
+      return undefined;
+    }
+    const org = await Organization.findOne(organizationID);
+    if (!org) {
+      console.error("no organization");
       return undefined;
     }
     const token = v4();
@@ -137,6 +140,7 @@ export class UserResolver {
 
     const emailContent = userInvitationEmail(
       user,
+      org,
       organizationID + ";" + token
     );
 
@@ -167,9 +171,15 @@ export class UserResolver {
     const inviteContent = await redis.get("INVITE;" + token);
     if (!inviteContent) return false;
     const parts = inviteContent.split(";");
+    const orgId = parts[0];
     const email = parts[1];
 
-    const emailContent = userInvitationEmail(user, token);
+    const org = await Organization.findOne(orgId);
+    if (!org) {
+      console.error("no organization");
+      return undefined;
+    }
+    const emailContent = userInvitationEmail(user, org, token);
 
     const emailObject: EmailProps = {
       htmlBody: emailContent,

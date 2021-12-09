@@ -1,13 +1,17 @@
 import config from "../../../config";
-import { User } from "../../../entity";
+import { Organization, User } from "../../../entity";
 
-export const userInvitationEmail = (user: User, token: string): string => {
+export const userInvitationEmail = (
+  user: User,
+  org: Organization,
+  token: string
+): string => {
   return `
     <div>
     <div>Hei,</div>
     <br/>
     <div>${
-      user.organizations[0].name
+      org.name
     } on ottanut matkailualan avoimen hiilijalanjälkilaskurin käyttöön, ja ${
     user.firstName && user.lastName
       ? user.firstName + " " + user.lastName
