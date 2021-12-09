@@ -10,11 +10,11 @@ import {
   Resolver,
 } from "type-graphql";
 import { v4 } from "uuid";
-import config from "../config";
 import { Organization, User, UserRole } from "../entity";
 import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
+import { forgotPasswordEmail } from "../utils/templates/email/forgotPassword";
 import { userInvitationEmail } from "../utils/templates/email/userInvitation";
 
 @ObjectType()
@@ -400,31 +400,10 @@ export class UserResolver {
       60 * 60 * 2
     ); // 2 hours
 
-    const emailText = `Hei, saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.
-    Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa: ${config.CORS_ORIGIN}/change-password/${token}.
-    Linkki on voimassa kolme päivää.
-    Pääset kirjautumaan laskuriin osoitteessa https://app.co2roadmap.fi.
-    Ystävällisin terveisin
-    OpenCO2Roadmap tiimi
-    `;
-    const emailHtml = `
-    <div>
-      <div>Hei,</div>
-      <br />
-      <div>saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.</div>
-      <br />
-      <div>Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa:</div>
-      <br />
-      <div><span><a href="${config.CORS_ORIGIN}/change-password/${token}">Nollaa salasanasi</a></span></div>
-      <br />
-      <div>Linkki on voimassa kolme päivää.</div> 
-      <br />
-      <div>Pääset kirjautumaan laskuriin osoitteessa <span><a href="https://app.co2roadmap.fi">https://app.co2roadmap.fi/</a></span></div>
-      <br />
-      <div>Ystävallisin terveisin</div>
-      <div>OpenCO2Roadmap tiimi</div>
-    </div
-    `;
+    const { text: emailText, html: emailHtml } = forgotPasswordEmail(
+      email,
+      token
+    );
     const emailObject: EmailProps = {
       htmlBody: emailHtml,
       subject: "OpenCO2roadmap salasanan vaihto",
