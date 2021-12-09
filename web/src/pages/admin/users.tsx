@@ -7,6 +7,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import OptionsMenu from "components/OptionsMenu";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import UserView from "components/UserView";
 import { useCancelUserInviteMutation } from "graphql/mutations/user/cancelUserInvite.generated";
 import { useSendInvitationReminderMutation } from "graphql/mutations/user/sendInvitationReminder.generated";
 import {
@@ -24,14 +25,14 @@ const UsersPage = () => {
   const { data } = useMeQuery();
   const [sendReminder] = useSendInvitationReminderMutation();
   const [cancelInvite] = useCancelUserInviteMutation();
-  const [editFormOpen, setEditFormOpen] = useState(false);
+  const [userViewOpen, setUserViewOpen] = useState(false);
   const [inviteFormOpen, setInviteFormOpen] = useState(false);
   const [addFormOpen, setAddFormOpen] = useState(false);
-  const [userUnderEdit, setUserUnderEdit] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-  const handleEditUser = (user: User) => {
-    setUserUnderEdit(user);
-    setEditFormOpen(true);
+  const handleShowUser = (user: User) => {
+    setSelectedUser(user);
+    setUserViewOpen(true);
   };
 
   const handleSendReminder = async (user: InvitedUser) => {
@@ -61,11 +62,11 @@ const UsersPage = () => {
     >
       <div>
         <SlideOver
-          title="Muokkaa käyttäjää"
-          open={editFormOpen}
-          setOpen={setEditFormOpen}
+          title="Käyttäjän tiedot"
+          open={userViewOpen}
+          setOpen={setUserViewOpen}
         >
-          Edit user form
+          <UserView user={selectedUser} onClose={setUserViewOpen} />
         </SlideOver>
         <SlideOver
           title="Kutsu käyttäjä"
@@ -95,13 +96,13 @@ const UsersPage = () => {
         </div>
         {isSuperAdmin(data?.me) ? (
           <SuperAdminUserTable
-            handleFormOpen={handleEditUser}
+            handleFormOpen={handleShowUser}
             handleSendReminder={handleSendReminder}
             handleCancelInvite={handleCancelUserInvite}
           />
         ) : (
           <CompanyUsersTable
-            handleFormOpen={handleEditUser}
+            handleFormOpen={handleShowUser}
             handleSendReminder={handleSendReminder}
             handleCancelInvite={handleCancelUserInvite}
           />
@@ -135,7 +136,7 @@ const CompanyUsersTable: React.FC<{
                   "Etunimi",
                   "Sähköposti",
                   "Status",
-                  "Muokkaa",
+                  "Toiminnot",
                 ]}
               >
                 {invitedUsers?.map((user) => (
@@ -160,7 +161,12 @@ const CompanyUsersTable: React.FC<{
                     <TableCell value={user.firstName ?? "--"} />
                     <TableCell value={user.email} />
                     <TableCell value="Aktiivinen" />
-                    <TableCellOpenOptions fn={() => handleFormOpen(user)} />
+                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                      <OptionsMenu
+                        onShow={() => handleFormOpen(user)}
+                        onShowText="Näytä tiedot"
+                      />
+                    </td>
                   </tr>
                 ))}
               </Table>
@@ -197,7 +203,7 @@ const SuperAdminUserTable: React.FC<{
                   "Sähköposti",
                   "Status",
                   "Yritykset",
-                  "Muokkaa",
+                  "Toiminnot",
                 ]}
               >
                 {invitedUsers?.map((user) => (
@@ -207,9 +213,6 @@ const SuperAdminUserTable: React.FC<{
                     <TableCell value={user.email} />
                     <TableCell value="Kutsuttu" />
                     <TableCell value={user.organization.name} />
-                    {/* <TableCellOpenOptions
-                        fn={() => console.log("invited user clicked")}
-                      /> */}
                     <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleSendReminder(user as InvitedUser)}
@@ -227,7 +230,12 @@ const SuperAdminUserTable: React.FC<{
                     <TableCell value={user.email} />
                     <TableCell value="Aktiivinen" />
                     <TableCell value={user.organizations[0]?.name} />
-                    <TableCellOpenOptions fn={() => handleFormOpen(user)} />
+                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                      <OptionsMenu
+                        onShow={() => handleFormOpen(user)}
+                        onShowText="Näytä tiedot"
+                      />
+                    </td>
                   </tr>
                 ))}
               </Table>
