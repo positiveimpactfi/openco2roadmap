@@ -28,7 +28,7 @@ export const userCreatedEmail = (
     <br/>
     <div>Suosittelemme, että käyt vaihtamassa salasanasi <span><a href="${
       config.CORS_ORIGIN
-    }/forgot-password">Uusi salasanasi -sivun </a></span> kautta. Salasanan uusimislinkki löytyy myös kirjautumissivulta. </div> 
+    }/forgot-password">Uusi salasanasi -sivun</a></span> kautta. Salasanan uusimislinkki löytyy myös kirjautumissivulta. </div> 
     <br />
     <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
       inviter.email
