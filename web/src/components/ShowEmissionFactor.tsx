@@ -1,7 +1,11 @@
 import { EmissionFactor } from "types/generatedTypes";
 import { classNames } from "utils/classNames";
+import Button from "./Button";
 
-const EmissionFactorView: React.FC<{ ef: EmissionFactor }> = ({ ef }) => {
+const EmissionFactorView: React.FC<{
+  ef: EmissionFactor;
+  onClose: (val: boolean) => void;
+}> = ({ ef, onClose }) => {
   return (
     <div>
       <h1 className="text-lg font-medium text-gray-900 mb-2">{ef.name}</h1>
@@ -30,6 +34,11 @@ const EmissionFactorView: React.FC<{ ef: EmissionFactor }> = ({ ef }) => {
 
       <br />
       <EmissionFactorValueCards emissionFactor={ef} />
+      <div className="flex mt-8 justify-end">
+        <Button variant="success" onClick={() => onClose(false)}>
+          Sulje
+        </Button>
+      </div>
     </div>
   );
 };

@@ -32,7 +32,7 @@ const AdminEmissionFactorsPage = () => {
           setOpen={setOpen}
           title="Tarkastellaan päästökerrointa"
         >
-          <ShowEmissionFactor ef={selectedEf} />
+          <ShowEmissionFactor ef={selectedEf} onClose={setOpen} />
         </SlideOver>
       </div>
       <div className="mb-4">
