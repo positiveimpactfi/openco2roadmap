@@ -5,16 +5,16 @@ import ShowEmissionFactor from "components/EmissionFactorView";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { useAllEmissionFactorsQuery } from "graphql/queries/emissions/allEmissionFactors.generated";
+import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useState } from "react";
 import { EmissionFactor } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
 const AdminEmissionFactorsPage = () => {
-  const { data, loading } = useAllEmissionFactorsQuery();
+  const { data, loading } = useAllPublicEmissionFactorsQuery();
   const [open, setOpen] = useState(false);
   const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
-  const emissionFactors = data?.allEmissionFactors;
+  const emissionFactors = data?.allPublicEmissionFactors;
 
   const handleShowEf = (ef: EmissionFactor) => {
     setSelectedEf(ef);
@@ -65,25 +65,25 @@ const AdminEmissionFactorsPage = () => {
               <TableCell value={ef.source} />
               <TableCell
                 value={[...ef.values]
-                  .sort((a, b) => a.startDate - b.startDate)[0]
-                  .startDate.toString()}
+                  ?.sort((a, b) => a.startDate - b.startDate)[0]
+                  ?.startDate.toString()}
               />
               <TableCell
                 value={[...ef.values]
                   .sort((a, b) => b.endDate - a.endDate)[0]
-                  .endDate.toString()}
+                  ?.endDate.toString()}
               />
               <TableCell
                 value={
                   numberToString(
                     [...ef.values].sort((a, b) => b.endDate - a.endDate)[0]
-                      .value
+                      ?.value
                   ) +
                   " kg CO2e/" +
                   ef.physicalQuantity.baseUnit.shorthand
                 }
               />
-              <TableCell value={ef.creator ? ef.creator.name : "-"} />
+              <TableCell value="-" />
               <TableCellOpenOptions
                 fn={() => handleShowEf(ef as EmissionFactor)}
               />
