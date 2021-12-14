@@ -13,7 +13,7 @@ export const sendEmail = async (recepient: string, email: EmailProps) => {
   const message: MailDataRequired = {
     to: recepient,
     from: {
-      name: "CO2Roadmap noreply",
+      name: "CO2-laskuri noreply",
       email: config.SENDGRID_EMAIL,
     },
     subject: email.subject,
