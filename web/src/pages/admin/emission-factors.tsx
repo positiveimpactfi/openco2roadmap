@@ -1,8 +1,8 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
+import ShowEmissionFactor from "components/EmissionFactorView";
 import LoadingSpinner from "components/LoadingSpinner";
-import ShowEmissionFactor from "components/ShowEmissionFactor";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllEmissionFactorsQuery } from "graphql/queries/emissions/allEmissionFactors.generated";
