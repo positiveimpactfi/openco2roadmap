@@ -3,16 +3,16 @@ import config from "./config";
 
 export default {
   type: "postgres",
-  host: process.env.NODE_ENV === "migration" ? "localhost" : config.PG_HOST,
+  host: config.PG_HOST,
   port: config.PG_PORT,
   username: config.PG_USERNAME,
   password: config.PG_PW,
   database: config.PG_DB,
-  synchronize: true,
+  synchronize: false,
   logging: config.ENV !== "production",
   entities: [getFolder("entity")],
   migrations: [getFolder("migration")],
-  subscribers: [getFolder("subsciber")],
+  subscribers: [getFolder("subscriber")],
   cli: {
     entitiesDir: `src/entity`,
     migrationsDir: `src/migration`,

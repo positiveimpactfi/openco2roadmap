@@ -3,6 +3,7 @@ fragment EmissionFactorFragment on EmissionFactor {
   name
   source
   dataSourceType
+  geographicalArea
   values {
     id
     value

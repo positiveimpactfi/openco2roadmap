@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type MyOrganizationEmissionsByCategoryAndYearQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyOrganizationEmissionsByCategoryAndYearQuery = { __typename?: 'Query', myOrganizationEmissionsByCategoryAndYear: Array<{ __typename?: 'Return', categoryid?: Types.Maybe<string>, yearlysums?: Types.Maybe<string> }> };
+export type MyOrganizationEmissionsByCategoryAndYearQuery = { __typename?: 'Query', myOrganizationEmissionsByCategoryAndYear: Array<{ __typename?: 'CalculationSummary', categoryid?: Types.Maybe<string>, yearlysums?: Types.Maybe<string> }> };
 
 
 export const MyOrganizationEmissionsByCategoryAndYearDocument = gql`

@@ -40,6 +40,12 @@ export type CalculationResult = {
   startDate: Scalars['DateTime'];
 };
 
+export type CalculationSummary = {
+  __typename?: 'CalculationSummary';
+  categoryid?: Maybe<Scalars['String']>;
+  yearlysums?: Maybe<Scalars['String']>;
+};
+
 export type Category = {
   __typename?: 'Category';
   components: Array<Component>;
@@ -207,6 +213,14 @@ export enum GhgScope {
   Scope3 = 'Scope3'
 }
 
+export type InvitedUser = {
+  __typename?: 'InvitedUser';
+  email: Scalars['String'];
+  id: Scalars['String'];
+  organization: Organization;
+  role: Role;
+};
+
 export type Kpi = {
   __typename?: 'KPI';
   id: Scalars['ID'];
@@ -281,6 +295,7 @@ export type Municipality = {
 export type Mutation = {
   __typename?: 'Mutation';
   addUserToOrganization: User;
+  cancelUserInvite: Scalars['Boolean'];
   changePassword: UserResolverResponse;
   createDataEntry: DataEntry;
   createEmissionFactor: EmissionFactor;
@@ -297,6 +312,7 @@ export type Mutation = {
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
   register: UserResolverResponse;
+  sendInvitationReminder: Scalars['Boolean'];
   updateDataEntry: DataEntry;
   updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
@@ -307,6 +323,11 @@ export type Mutation = {
 export type MutationAddUserToOrganizationArgs = {
   organizationId: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+
+export type MutationCancelUserInviteArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -396,7 +417,7 @@ export type MutationForgotPasswordArgs = {
 export type MutationInviteUserArgs = {
   email: Scalars['String'];
   organizationID: Scalars['String'];
-  role: Scalars['String'];
+  role: Role;
 };
 
 
@@ -409,6 +430,11 @@ export type MutationLoginArgs = {
 export type MutationRegisterArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
+export type MutationSendInvitationReminderArgs = {
   token: Scalars['String'];
 };
 
@@ -482,6 +508,7 @@ export type Query = {
   allEmissionFactorValues: Array<EmissionFactorValue>;
   allEmissionFactors: Array<EmissionFactor>;
   allEmissionSources: Array<EmissionSource>;
+  allInvitedUsers: Array<InvitedUser>;
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;
@@ -495,7 +522,7 @@ export type Query = {
   myEmissionFactors: Array<EmissionFactor>;
   myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
-  myOrganizationEmissionsByCategoryAndYear: Array<Return>;
+  myOrganizationEmissionsByCategoryAndYear: Array<CalculationSummary>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
@@ -508,11 +535,14 @@ export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
 };
 
-export type Return = {
-  __typename?: 'Return';
-  categoryid?: Maybe<Scalars['String']>;
-  yearlysums?: Maybe<Scalars['String']>;
-};
+/** User roles */
+export enum Role {
+  Admin = 'ADMIN',
+  CompanyAdmin = 'COMPANY_ADMIN',
+  CompanyUser = 'COMPANY_USER',
+  DestinationManager = 'DESTINATION_MANAGER',
+  Superadmin = 'SUPERADMIN'
+}
 
 export type Site = {
   __typename?: 'Site';
@@ -546,6 +576,7 @@ export type SiteUnitInput = {
 
 export type User = {
   __typename?: 'User';
+  createdDate: Scalars['DateTime'];
   dataEntries?: Maybe<Array<DataEntry>>;
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
@@ -553,6 +584,7 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   organizations?: Maybe<Array<Organization>>;
   roles: Array<UserRole>;
+  updatedDate: Scalars['DateTime'];
 };
 
 export type UserResolverResponse = {

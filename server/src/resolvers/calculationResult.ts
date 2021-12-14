@@ -21,14 +21,13 @@ const schema = z
   .array();
 
 @ObjectType()
-class Return {
+class CalculationSummary {
   @Field({ nullable: true })
   categoryid: string;
 
   @Field(() => String, { nullable: true })
   yearlysums: string;
 }
-console.log(Return);
 
 @Resolver(CalculationResult)
 export class CalculationResultResolver {
@@ -39,10 +38,10 @@ export class CalculationResultResolver {
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN, Role.COMPANY_USER])
-  @Query(() => [Return])
+  @Query(() => [CalculationSummary])
   async myOrganizationEmissionsByCategoryAndYear(
     @Ctx() { req }: MyContext
-  ): Promise<Return[] | undefined> {
+  ): Promise<CalculationSummary[] | undefined> {
     const user = await User.findOne(req.session.userId);
     if (!user) return undefined;
     const conn = getConnection();

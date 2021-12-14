@@ -9,7 +9,7 @@ export type LoginMutationVariables = Types.Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResolverResponse', errors?: Types.Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Types.Maybe<{ __typename?: 'User', id: string, email: string, roles: Array<{ __typename?: 'UserRole', id: number, name: string, organizationID: string }> }> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResolverResponse', errors?: Types.Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Types.Maybe<{ __typename?: 'User', id: string, email: string, createdDate: any, updatedDate: any, roles: Array<{ __typename?: 'UserRole', id: number, name: string, organizationID: string }> }> } };
 
 
 export const LoginDocument = gql`
@@ -27,6 +27,8 @@ export const LoginDocument = gql`
         name
         organizationID
       }
+      createdDate
+      updatedDate
     }
   }
 }

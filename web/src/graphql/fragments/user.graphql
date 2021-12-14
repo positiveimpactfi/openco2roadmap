@@ -11,4 +11,6 @@ fragment UserFragment on User {
   organizations {
     ...OrganizationFragment
   }
+  createdDate
+  updatedDate
 }

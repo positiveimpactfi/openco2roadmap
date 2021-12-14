@@ -10,13 +10,13 @@ import {
   Resolver,
 } from "type-graphql";
 import { v4 } from "uuid";
-import config from "../config";
-import { Organization } from "../entity/Organization";
-import { User } from "../entity/User";
-import { UserRole } from "../entity/UserRole";
+import { Organization, User, UserRole } from "../entity";
 import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
 import { EmailProps, sendEmail } from "../utils/sendEmail";
+import { forgotPasswordEmail } from "../utils/templates/email/forgotPassword";
+import { userCreatedEmail } from "../utils/templates/email/userCreated";
+import { userInvitationEmail } from "../utils/templates/email/userInvitation";
 
 @ObjectType()
 class FieldError {
@@ -36,14 +36,23 @@ class UserResolverResponse {
   user?: User;
 }
 
+@ObjectType()
+class InvitedUser {
+  @Field(() => String)
+  id!: string;
+
+  @Field()
+  email!: string;
+
+  @Field(() => Role)
+  role!: Role;
+
+  @Field(() => Organization)
+  organization!: Organization;
+}
+
 @Resolver(User)
 export class UserResolver {
-  @Authorized(["SUPERADMIN", "ADMIN"])
-  @Query(() => [User])
-  allUsers(): Promise<User[]> {
-    return User.find({});
-  }
-
   @Query(() => User, { nullable: true })
   me(@Ctx() { req }: MyContext) {
     if (!req.session.userId) {
@@ -53,33 +62,168 @@ export class UserResolver {
     return User.findOne(req.session.userId, { relations: ["roles"] });
   }
 
+  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Query(() => [User])
+  allUsers(): Promise<User[]> {
+    return User.find({});
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.COMPANY_ADMIN])
+  @Query(() => [InvitedUser])
+  async allInvitedUsers(
+    @Ctx() { redis, req }: MyContext
+  ): Promise<InvitedUser[] | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      return undefined;
+    }
+    // SuperAdmin can see all invites, CompanyAdmin can only see their organization's invites
+    const matchPattern =
+      user.roles[0].name === Role.SUPERADMIN
+        ? "INVITE;*"
+        : `INVITE;${user.organizations[0].id};*`;
+    // calling redis keys can become slow when there are many invites
+    // TO-DO: refactor using scanStream
+    const resultKeys = await redis.keys(matchPattern);
+    let users: InvitedUser[] = [];
+    const myPromise = Promise.all(
+      resultKeys.map(async (key, i) => {
+        const inviteToken = await redis.get(key);
+        if (inviteToken) {
+          const orgId = inviteToken.split(";")[0];
+          const org = await Organization.findOne(orgId);
+          if (org) {
+            const userEmail = inviteToken.split(";")[1];
+            const roleString = inviteToken.split(";").slice(2).join("_");
+            const roleEnum = Role[roleString as keyof typeof Role];
+            const newUser: InvitedUser = {
+              id: resultKeys[i],
+              email: userEmail,
+              organization: org,
+              role: roleEnum,
+            };
+            users.push(newUser);
+          }
+        }
+      })
+    );
+    await myPromise;
+    return users;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => Boolean)
   async inviteUser(
-    @Ctx() { redis }: MyContext,
+    @Ctx() { redis, req }: MyContext,
     @Arg("email") email: string,
     @Arg("organizationID") organizationID: string,
-    @Arg("role") role: string
+    @Arg("role", () => Role) role: Role
   ) {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+    const org = await Organization.findOne(organizationID);
+    if (!org) {
+      console.error("no organization");
+      return undefined;
+    }
     const token = v4();
-    await redis.set("INVITE_" + token, organizationID + "_" + role);
-    const emailText = `<p>You have been invited to join OpenCO2Roadmap. Follow <span><a href=${config.CORS_ORIGIN}/register/${token} >this<a/></span> link to join! </p>`;
+    await redis.set(
+      "INVITE;" + organizationID + ";" + token,
+      organizationID + ";" + email + ";" + role,
+      "ex",
+      60 * 60 * 24 * 30
+    ); // 30 days
+
+    const emailContent = userInvitationEmail(
+      user,
+      org,
+      organizationID + ";" + token
+    );
+
     const emailObject: EmailProps = {
-      htmlBody: emailText,
-      subject: "OpenCO2Roadmap invite",
-      textBody: emailText,
+      htmlBody: emailContent,
+      subject: "Tervetuloa matkailualan hiilijalanjälkilaskurin käyttäjäksi!",
+      textBody: emailContent,
     };
+
     await sendEmail(email, emailObject);
     return true;
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => Boolean)
+  async sendInvitationReminder(
+    @Ctx() { redis, req }: MyContext,
+    @Arg("token") token: string
+  ) {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      console.error("no user");
+      return undefined;
+    }
+
+    const inviteContent = await redis.get("INVITE;" + token);
+    if (!inviteContent) return false;
+    const parts = inviteContent.split(";");
+    const orgId = parts[0];
+    const email = parts[1];
+
+    const org = await Organization.findOne(orgId);
+    if (!org) {
+      console.error("no organization");
+      return undefined;
+    }
+    const emailContent = userInvitationEmail(user, org, token);
+
+    const emailObject: EmailProps = {
+      htmlBody: emailContent,
+      subject:
+        "Muistutus: Rekisteröidy matkailualan hiilijalanjälkilaskurin käyttäjäksi",
+      textBody: emailContent,
+    };
+
+    await sendEmail(email, emailObject);
+    return true;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => Boolean)
+  async cancelUserInvite(
+    @Ctx() { redis }: MyContext,
+    @Arg("token") token: string
+  ) {
+    const res = await redis.del("INVITE;" + token);
+    if (res === 1) return true;
+    return false;
+  }
+
+  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => UserResolverResponse)
   async createUser(
+    @Ctx() { req }: MyContext,
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Arg("organizationID") organizationID: string,
     @Arg("role") role: Role
   ): Promise<UserResolverResponse> {
+    const inviter = await User.findOne(req.session.userId);
+    if (!inviter) {
+      return {
+        errors: [
+          {
+            field: "user",
+            message: "invalid user request",
+          },
+        ],
+      };
+    }
     const possibleUser = await User.findOne({ where: { email } });
     if (possibleUser) {
       return {
@@ -114,6 +258,16 @@ export class UserResolver {
       roles: [userRole],
     }).save();
 
+    const emailContent = userCreatedEmail(inviter, user, org, password);
+    const emailObject: EmailProps = {
+      htmlBody: emailContent,
+      subject:
+        "Tervetuloa Matkailun CO2-laskurin käyttäjäksi - ohessa käyttäjätunnuksesi",
+      textBody: emailContent,
+    };
+
+    await sendEmail(email, emailObject);
+
     return { user };
   }
 
@@ -125,7 +279,7 @@ export class UserResolver {
     @Arg("password") password: string
   ): Promise<UserResolverResponse> {
     try {
-      const orgAndRole = await redis.get("INVITE_" + token);
+      const orgAndRole = await redis.get("INVITE;" + token);
       if (!orgAndRole) {
         return {
           errors: [
@@ -136,8 +290,8 @@ export class UserResolver {
           ],
         };
       }
-      const orgId = orgAndRole.split("_")[0];
-      const roleString = orgAndRole.split("_")[1];
+      const orgId = orgAndRole.split(";")[0];
+      const roleString = orgAndRole.split(";").slice(2).join("_");
       const hashedPassword = await argon2.hash(password);
       const role = await UserRole.create({
         organizationID: orgId,
@@ -163,7 +317,7 @@ export class UserResolver {
       }).save();
       organization.users.push(user);
       await Organization.save(organization);
-      await redis.del("INVITE_" + token);
+      await redis.del("INVITE;" + token);
       return { user };
     } catch (err) {
       console.log("error: ", err);
@@ -266,34 +420,13 @@ export class UserResolver {
       "PASSWORD_RESET_REQUEST_" + token,
       user.id,
       "ex",
-      1000 * 60 * 60 * 24 * 3
-    ); // 3 days
+      60 * 60 * 2
+    ); // 2 hours
 
-    const emailText = `Hei, saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.
-    Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa: ${config.CORS_ORIGIN}/change-password/${token}.
-    Linkki on voimassa kolme päivää.
-    Pääset kirjautumaan laskuriin osoitteessa https://app.co2roadmap.fi.
-    Ystävällisin terveisin
-    OpenCO2Roadmap tiimi
-    `;
-    const emailHtml = `
-    <div>
-      <div>Hei,</div>
-      <br />
-      <div>saimme pyynnön asettaa uusi salasana käyttäjätilillesi ${email}. Jos pyyntö oli tarpeeton tai et itse edes lähettänyt sitä, voit vain unohtaa tämän viestin. Mitään ei tule tapahtumaan.</div>
-      <br />
-      <div>Jos haluat asettaa uuden salasanan, piipahda seuraavassa osoitteessa:</div>
-      <br />
-      <div><span><a href="${config.CORS_ORIGIN}/change-password/${token}">Nollaa salasanasi</a></span></div>
-      <br />
-      <div>Linkki on voimassa kolme päivää.</div> 
-      <br />
-      <div>Pääset kirjautumaan laskuriin osoitteessa <span><a href="https://app.co2roadmap.fi">https://app.co2roadmap.fi/</a></span></div>
-      <br />
-      <div>Ystävallisin terveisin</div>
-      <div>OpenCO2Roadmap tiimi</div>
-    </div
-    `;
+    const { text: emailText, html: emailHtml } = forgotPasswordEmail(
+      email,
+      token
+    );
     const emailObject: EmailProps = {
       htmlBody: emailHtml,
       subject: "OpenCO2roadmap salasanan vaihto",

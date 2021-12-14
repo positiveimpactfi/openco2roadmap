@@ -1,0 +1,3 @@
+mutation SendInvitationReminder($token: String!) {
+  sendInvitationReminder(token: $token)
+}

@@ -51,7 +51,6 @@ export const authChecker: AuthChecker<MyContext> = async (
   const data = result.data;
 
   if (data[0].role_name === Role.SUPERADMIN) return true;
-  console.log("roles", roles);
 
   /**
    * currently we assume user only has one organization
