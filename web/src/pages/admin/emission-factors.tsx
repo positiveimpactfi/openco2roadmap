@@ -54,7 +54,6 @@ const AdminEmissionFactorsPage = () => {
             "Alkaen",
             "Päättyen",
             "Uusin arvo",
-            "Luonut",
             "Tiedot",
           ]}
           alignLastRight
@@ -83,7 +82,6 @@ const AdminEmissionFactorsPage = () => {
                   ef.physicalQuantity.baseUnit.shorthand
                 }
               />
-              <TableCell value="-" />
               <TableCellOpenOptions
                 fn={() => handleShowEf(ef as EmissionFactor)}
               />

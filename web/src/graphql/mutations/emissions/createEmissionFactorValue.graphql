@@ -1,0 +1,21 @@
+mutation CreateEmissionFactorValue(
+  $emissionFactorID: String!
+  $value: Float!
+  $startDate: Float!
+  $endDate: Float!
+) {
+  createEmissionFactorValue(
+    emissionFactorID: $emissionFactorID
+    startDate: $startDate
+    endDate: $endDate
+    value: $value
+  ) {
+    id
+    value
+    startDate
+    endDate
+    creator {
+      name
+    }
+  }
+}
