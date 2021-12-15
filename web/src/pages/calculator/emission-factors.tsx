@@ -86,7 +86,7 @@ const CalculatorEmissionFactorsPage = () => {
                       value={
                         numberToString(
                           [...ef.values].sort(
-                            (a, b) => b.endDate - a.endDate
+                            (a, b) => b.startDate - a.startDate
                           )[0].value
                         ) +
                         " kg CO2e/" +
