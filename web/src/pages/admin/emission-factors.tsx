@@ -8,13 +8,18 @@ import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useState } from "react";
 import { EmissionFactor } from "types/generatedTypes";
+import { compareString } from "utils/compareStrings";
 import { numberToString } from "utils/numberToString";
 
 const AdminEmissionFactorsPage = () => {
   const { data, loading } = useAllPublicEmissionFactorsQuery();
   const [open, setOpen] = useState(false);
   const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
-  const emissionFactors = data?.allPublicEmissionFactors;
+  const emissionFactors = data?.allPublicEmissionFactors
+    ? [...data.allPublicEmissionFactors].sort((a, b) =>
+        compareString(a.name, b.name)
+      )
+    : [];
 
   const handleShowEf = (ef: EmissionFactor) => {
     setSelectedEf(ef);
