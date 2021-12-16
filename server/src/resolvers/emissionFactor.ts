@@ -153,6 +153,7 @@ export class EmissionFactorResolver {
         ];
         return copiedPrev;
       }
+
       return [
         ...prev,
         {
@@ -173,7 +174,7 @@ export class EmissionFactorResolver {
     return reducedEmissionFactors;
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => EmissionFactor)
   async createEmissionFactor(
     @Ctx() { req }: MyContext,
@@ -182,7 +183,10 @@ export class EmissionFactorResolver {
     @Arg("physicalQuantityID") physicalQuantityID: number,
     @Arg("source", { nullable: true }) source: string,
     @Arg("dataSourceType", () => DataSourceType, { nullable: true })
-    dataSourceType: DataSourceType
+    dataSourceType: DataSourceType,
+    @Arg("startDate") startDate: number,
+    @Arg("endDate") endDate: number,
+    @Arg("value") value: number
   ): Promise<EmissionFactor | undefined> {
     const user = await User.findOne(req.session.userId, {
       relations: ["organizations"],
@@ -198,18 +202,38 @@ export class EmissionFactorResolver {
       return undefined;
     }
     const physicalQuantity = await PhysicalQuantity.findOne(physicalQuantityID);
-    const newEF = await EmissionFactor.create({
+
+    const efBase: Partial<EmissionFactor> = {
       name,
       physicalQuantity,
       source,
       dataSourceType,
-      creator: org,
-    }).save();
+    };
+
+    // SuperAdmin only creates public emission factors
+    if (user.roles[0].name !== Role.SUPERADMIN) {
+      efBase.creator = org;
+    }
+
+    const newEF = await EmissionFactor.create(efBase).save();
     for (let emissionSource of emissionSources) {
       (await emissionSource.emissionFactors).push(newEF);
       await emissionSource.save();
     }
-    console.log("created EF", newEF);
+
+    const evBase: Partial<EmissionFactorValue> = {
+      value,
+      startDate,
+      endDate,
+      emissionFactor: newEF,
+    };
+    if (user.roles[0].name !== Role.SUPERADMIN) {
+      evBase.creator = org;
+    }
+
+    const newEfV = await EmissionFactorValue.create(evBase).save();
+
+    console.log("created EF", newEF, "\n with values", newEfV);
 
     return newEF;
   }
