@@ -184,6 +184,8 @@ export class EmissionFactorResolver {
     @Arg("source", { nullable: true }) source: string,
     @Arg("dataSourceType", () => DataSourceType, { nullable: true })
     dataSourceType: DataSourceType,
+    @Arg("geographicalCoverage", { nullable: true })
+    geographicalCoverage: string,
     @Arg("startDate") startDate: number,
     @Arg("endDate") endDate: number,
     @Arg("value") value: number
@@ -208,6 +210,8 @@ export class EmissionFactorResolver {
       physicalQuantity,
       source,
       dataSourceType,
+      geographicalArea: geographicalCoverage,
+      values: [],
     };
 
     // SuperAdmin only creates public emission factors
@@ -234,7 +238,7 @@ export class EmissionFactorResolver {
     const newEfV = await EmissionFactorValue.create(evBase).save();
 
     console.log("created EF", newEF, "\n with values", newEfV);
-
+    newEF.values = [...newEF.values, newEfV];
     return newEF;
   }
 }
