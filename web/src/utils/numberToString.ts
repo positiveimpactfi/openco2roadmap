@@ -1,8 +1,9 @@
 export const numberToString = (x: number, precision: number = 2): string => {
-  if (!x) return "-";
+  if (!x && x !== 0) return "-";
   if (Math.abs(x) < 1.0) {
-    if (x === 0) return "0";
-
+    if (x === 0) {
+      return x.toLocaleString(undefined, { minimumFractionDigits: precision });
+    }
     const numToExp = x.toExponential(2);
     const exp = parseInt(numToExp.toString().split("e-")[1]);
     if (exp > 3 && exp <= 5) return numToExp;

@@ -31,11 +31,11 @@ export class InitDB1637920489086 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "component" ("id" integer NOT NULL, "name" character varying NOT NULL, "categoryId" integer, CONSTRAINT "PK_c084eba2d3b157314de79135f09" PRIMARY KEY ("id"))`
     );
+    // await queryRunner.query(
+    //   `CREATE TYPE "emission_source_scope_enum" AS ENUM('Scope 1', 'Scope 2', 'Scope 3')`
+    // );
     await queryRunner.query(
-      `CREATE TYPE "emission_source_scope_enum" AS ENUM('Scope 1', 'Scope 2', 'Scope 3')`
-    );
-    await queryRunner.query(
-      `CREATE TABLE IF NOT EXISTS "emission_source" ("id" integer NOT NULL, "name" character varying NOT NULL, "scope" "emission_source_scope_enum" NOT NULL DEFAULT 'Scope 3', CONSTRAINT "PK_519ffc6f377bca49760dcd8ba8a" PRIMARY KEY ("id"))`
+      `CREATE TABLE IF NOT EXISTS "emission_source" ("id" integer NOT NULL, "name" character varying NOT NULL, "scope" text NOT NULL DEFAULT 'Scope 3', CONSTRAINT "PK_519ffc6f377bca49760dcd8ba8a" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE TABLE IF NOT EXISTS "measurement_unit" ("id" integer NOT NULL, "name" character varying NOT NULL, "shorthand" character varying NOT NULL, "conversionFactor" double precision NOT NULL, "physicalQuantityId" integer, CONSTRAINT "PK_fc57e5fd5adea5a7009f99e140a" PRIMARY KEY ("id"))`

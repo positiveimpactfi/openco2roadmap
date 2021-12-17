@@ -1,0 +1,12 @@
+query BaseMeasurementUnits {
+  physicalQuantities {
+    name
+    id
+    baseUnit {
+      id
+      name
+      shorthand
+      conversionFactor
+    }
+  }
+}

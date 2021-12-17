@@ -8,16 +8,16 @@ import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateDataEntryMutation } from "graphql/mutations/data/updateDataEntry.generated";
 import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
-import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
+import { useEmissionSourceOptions } from "hooks/useEmissionSourceOptions";
 import { DataEntry, MeasurementUnitType, SiteUnit } from "types/generatedTypes";
 import { compareString } from "utils/compareStrings";
 import { getMonthStartAndEndDays } from "utils/getMonthStartAndEndDays";
 import FormField from "../Common/FormField";
 import MultiLevelSelect from "../Common/MultiLevelSelect";
-import { FormValues, SourceOption } from "./CreateDataEntryForm";
+import { FormValues } from "./CreateDataEntryForm";
 
 const EditDataEntryForm: React.FC<{
   setOpen: (arg: boolean) => void;
@@ -28,22 +28,8 @@ const EditDataEntryForm: React.FC<{
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
-  const { data: sources } = useAllCategoriesQuery();
+  const { sources, sourceOptions } = useEmissionSourceOptions();
 
-  const sourceOptions: SourceOption[] = sources?.allCategories.map((cat) => {
-    return {
-      ...cat,
-      children: cat.components.map((comp) => {
-        return {
-          ...comp,
-          children: comp.emissionSources.map((es) => {
-            return { ...es, categoryID: cat.id };
-          }),
-          categoryID: cat.id,
-        };
-      }),
-    };
-  });
   if (!sourceOptions) return null;
   const allSources = sources?.allCategories.flatMap((cat) =>
     cat.components.flatMap((comp) =>
