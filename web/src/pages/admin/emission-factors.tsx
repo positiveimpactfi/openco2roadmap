@@ -2,6 +2,7 @@ import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import ShowEmissionFactor from "components/EmissionFactorView";
+import CreateEmissionFactorForm from "components/Forms/Emissions/CreateEmissionFactor";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
@@ -14,6 +15,7 @@ import { numberToString } from "utils/numberToString";
 const AdminEmissionFactorsPage = () => {
   const { data, loading } = useAllPublicEmissionFactorsQuery();
   const [open, setOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
   const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
   const emissionFactors = data?.allPublicEmissionFactors
     ? [...data.allPublicEmissionFactors].sort((a, b) =>
@@ -39,13 +41,16 @@ const AdminEmissionFactorsPage = () => {
         >
           <ShowEmissionFactor ef={selectedEf} onClose={setOpen} />
         </SlideOver>
+        <SlideOver
+          open={formOpen}
+          setOpen={setFormOpen}
+          title="Lisätään uusi päästökerroin"
+        >
+          <CreateEmissionFactorForm onClose={setFormOpen} />
+        </SlideOver>
       </div>
       <div className="mb-4">
-        <Button
-          variant="success"
-          disabled
-          onClick={() => console.log("clicked create new ef button")}
-        >
+        <Button variant="success" onClick={() => setFormOpen(true)}>
           Lisää uusi kerroin
         </Button>
       </div>

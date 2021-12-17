@@ -1,0 +1,42 @@
+mutation CreateEmissionFactor(
+  $value: Float!
+  $endDate: Float!
+  $startDate: Float!
+  $dataSourceType: DataSourceType
+  $source: String
+  $physicalQuantityID: Float!
+  $name: String!
+  $emissionSourceIDs: [Int!]!
+  $geographicalCoverage: String
+) {
+  createEmissionFactor(
+    source: $source
+    physicalQuantityID: $physicalQuantityID
+    name: $name
+    emissionSourceIDs: $emissionSourceIDs
+    value: $value
+    startDate: $startDate
+    endDate: $endDate
+    geographicalCoverage: $geographicalCoverage
+    dataSourceType: $dataSourceType
+  ) {
+    id
+    name
+    source
+    dataSourceType
+    geographicalArea
+    values {
+      id
+      value
+      startDate
+      endDate
+    }
+    physicalQuantity {
+      name
+      baseUnit {
+        name
+        shorthand
+      }
+    }
+  }
+}

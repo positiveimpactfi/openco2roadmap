@@ -6,13 +6,14 @@ const defaultOptions =  {}
 export type BaseMeasurementUnitsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type BaseMeasurementUnitsQuery = { __typename?: 'Query', physicalQuantities: Array<{ __typename?: 'PhysicalQuantity', name: string, baseUnit: { __typename?: 'MeasurementUnit', id: number, name: string, shorthand: string, conversionFactor: number } }> };
+export type BaseMeasurementUnitsQuery = { __typename?: 'Query', physicalQuantities: Array<{ __typename?: 'PhysicalQuantity', name: string, id: number, baseUnit: { __typename?: 'MeasurementUnit', id: number, name: string, shorthand: string, conversionFactor: number } }> };
 
 
 export const BaseMeasurementUnitsDocument = gql`
     query BaseMeasurementUnits {
   physicalQuantities {
     name
+    id
     baseUnit {
       id
       name
