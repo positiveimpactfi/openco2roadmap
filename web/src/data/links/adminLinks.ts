@@ -13,7 +13,6 @@ export const adminLinks: PageLink[] = linksWithDefaultIcons([
     description:
       "Luettelo kaikista laskurin yleisistä päästökertoimista. Voit lisätä, muokata päästökertoimia vapaasti. Muutokset tulevat käyttöön välittömästi kaikille laskurin yrityksille ja käyttäjille. ",
     href: "/admin/emission-factors",
-    disabled: true,
   },
   {
     name: "Käyttäjät",
@@ -56,3 +55,5 @@ export const adminLinks: PageLink[] = linksWithDefaultIcons([
     disabled: true,
   },
 ]);
+
+export const companyAdminLinks = ["/admin/users"];

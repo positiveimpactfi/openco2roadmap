@@ -1,5 +1,5 @@
 import PageWithTabs from "components/Layout/PageWithTabs";
-import { adminLinks } from "data/links/adminLinks";
+import { adminLinks, companyAdminLinks } from "data/links/adminLinks";
 import { useUser } from "hooks/useUser";
 import { useRouter } from "next/router";
 import { Headings } from "types/Headings";
@@ -19,7 +19,7 @@ const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
     ? adminLinks
     : adminLinks
         .filter((link) => !link.disabled)
-        .filter((link) => link.href !== "/admin/organizations");
+        .filter((link) => companyAdminLinks.includes(link.href));
   const links = [currentTab, ...activeLinks];
   return (
     <PageWithTabs title={title} description={description} links={links}>

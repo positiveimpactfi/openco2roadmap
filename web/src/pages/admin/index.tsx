@@ -1,13 +1,14 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import LinksGrid from "components/LinksGrid";
-import { adminLinks } from "data/links/adminLinks";
+import { adminLinks, companyAdminLinks } from "data/links/adminLinks";
 import { useUser } from "hooks/useUser";
 import { isSuperAdmin } from "utils/isAdmin";
 
 const AdminHome = () => {
   const { user } = useUser();
   const activeLinks = adminLinks.filter((link) => !link.disabled);
+
   return (
     <AdminsOnly
       title="Hallintapaneeli"
@@ -18,8 +19,8 @@ const AdminHome = () => {
           links={
             isSuperAdmin(user)
               ? adminLinks
-              : activeLinks.filter(
-                  (link) => link.href !== "/admin/organizations"
+              : activeLinks.filter((link) =>
+                  companyAdminLinks.includes(link.href)
                 )
           }
         />
