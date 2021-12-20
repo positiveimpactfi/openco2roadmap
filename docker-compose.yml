@@ -11,6 +11,8 @@ services:
       - "4000:4000"
     networks:
       - default
+    volumes:
+      - ./server/logs:/usr/src/app/server/logs
     links:
       - "redis:redis"
     depends_on:

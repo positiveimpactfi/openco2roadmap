@@ -15,6 +15,7 @@ services:
       - ./server:/usr/src/app/server
       - ./shared:/usr/src/app/shared
       - node_modules:/usr/src/app/server/node_modules
+      - ./server/logs:/usr/src/app/server/logs
     links:
       - "redis:redis"
     depends_on:
