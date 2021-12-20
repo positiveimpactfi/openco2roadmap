@@ -12,7 +12,9 @@
     "migration:revert": "yarn typeorm migration:revert",
     "db:seed": "ts-node src/seed/seedAll.ts",
     "db:drop": "ts-node src/dropDb.ts",
-    "db:reset": "yarn db:drop && yarn db:seed"
+    "db:reset": "yarn db:drop && yarn db:seed",
+    "print:log:errors": "cat logs/error.log | pino-pretty -c -t",
+    "print:log:info": "cat logs/info.log | pino-pretty -c -t"
   },
   "devDependencies": {
     "@types/connect-redis": "^0.0.16",
@@ -41,6 +43,7 @@
     "graphql": "^15.5.3",
     "ioredis": "^4.27.3",
     "pg": "^8.4.0",
+    "pino": "^7.5.1",
     "pino-http": "^6.4.0",
     "pino-tee": "^0.3.0",
     "reflect-metadata": "^0.1.10",
