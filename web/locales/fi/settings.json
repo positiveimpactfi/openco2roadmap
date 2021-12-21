@@ -1,0 +1,75 @@
+{
+  "pages": {
+    "home": {
+      "title": "Asetukset",
+      "description": "Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
+    },
+    "org_settings": {
+      "title": "Yritysasetukset",
+      "description": "Yrityksen perustietoja voi muokata tällä sivulla.",
+      "description_long": "Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.",
+      "company_info": {
+        "title": "Yrityksen tiedot",
+        "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
+      },
+      "kpis": {
+        "title": "Tunnusluvut",
+        "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
+      }
+    },
+    "sites": {
+      "title": "Toimipaikat",
+      "description": "Ennen laskennan aloittamista luo yrityksellesi toimipaikkarakenne.",
+      "description_long": "Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla voit määritellä yrityksesi toimipaikkarakenteen. Luo ensin tarvitsemasi toimipaikkatyypit (esim. Yritys, Ravintola, Hotelli tai Toimisto).",
+      "actions": {
+        "add_site_type": "Uusi toimipaikan tyyppi",
+        "add_site": "Lisää toimipaikka",
+        "edit_site": "Muokkaa toimipaikkaa"
+      },
+      "table": {
+        "headers": [
+          "Toimipaikan nimi",
+          "Toimipaikan tyyppi",
+          "Sijaintikunta",
+          "Yksiköt",
+          "Muokkaa"
+        ]
+      }
+    },
+    "emission_sources": {
+      "title": "Päästölähteet",
+      "description": "Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla.",
+      "description_long": "Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla. Jos muutat oletuskerrointa, aiemmin lisäämäsi kulutustiedot pysyvät ennallaan.",
+      "table": {
+        "headers": [
+          "Kategoria",
+          "Komponentti",
+          "Päästölähde",
+          "Sovellusala (oletus)",
+          "Muokkaa"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Päästökertoimet",
+      "description": "Voit lisätä omia päästökertoimia tai päivittää yleisen tietokannan kertoimien arvoja.",
+      "description_long": "Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön.",
+      "actions": {
+        "new_ef": {
+          "title": "Lisää uusi päästökerroin",
+          "description": "Lisätään uusi päästökerroin"
+        }
+      },
+      "table": {
+        "headers": [
+          "Nimi",
+          "Lähde",
+          "Alkaen",
+          "Päättyen",
+          "Uusin arvo",
+          "Tiedot"
+        ]
+      }
+    }
+  }
+}

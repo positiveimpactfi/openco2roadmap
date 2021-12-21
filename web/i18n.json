@@ -4,6 +4,8 @@
   "pages": {
     "*": ["common"],
     "/": ["home"],
-    "rgx:/calculator/*": ["calculator"]
+    "rgx:/calculator/*": ["calculator"],
+    "rgx:/settings/*": ["settings"],
+    "rgx:/admin/*": ["admin"]
   }
 }

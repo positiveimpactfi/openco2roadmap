@@ -1,0 +1,69 @@
+{
+  "pages": {
+    "home": {
+      "title": "Settings home",
+      "description": "Settings description"
+    },
+    "org_settings": {
+      "title": "Organization",
+      "description": "Organization settings description",
+      "description_long": "",
+      "company_info": {
+        "title": "Organization info",
+        "description": "Fill in your organization info based on the last fiscal year"
+      },
+      "kpis": {
+        "title": "KPIs",
+        "description": "KPI section"
+      }
+    },
+    "sites": {
+      "title": "Sites",
+      "description": "Site settings description",
+      "description_long": "",
+      "actions": {
+        "add_site_type": "Add new site type",
+        "add_site": "Add new site",
+        "edit_site": "Edit site"
+      },
+      "table": {
+        "headers": ["Site name", "Site type", "Location", "Units", "Edit"]
+      }
+    },
+    "emission_sources": {
+      "title": "Emission sources",
+      "description": "Emission sources description",
+      "description_long": "",
+      "table": {
+        "headers": [
+          "Category",
+          "Component",
+          "Emission source",
+          "Emission scope (default)",
+          "Edit"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Emission factors",
+      "description": "Emission factors settings description",
+      "description_long": "",
+      "actions": {
+        "new_ef": {
+          "title": "Add new emission factor",
+          "description": "Adding new emission factor"
+        }
+      },
+      "table": {
+        "headers": [
+          "Name",
+          "Source",
+          "Start date",
+          "End date",
+          "Latest value",
+          "Info"
+        ]
+      }
+    }
+  }
+}
