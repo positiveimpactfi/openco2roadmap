@@ -10,14 +10,19 @@ const CalculatorPanel: React.FC<Headings> = ({
 }) => {
   const router = useRouter();
   const currentTab = {
-    name: "Etusivu",
+    name: "home",
     description: "Laskuri - Esusivu",
     href: "/calculator",
     current: router.pathname === "/calculator",
   };
   const links = [currentTab, ...calculatorLinks];
   return (
-    <PageWithTabs title={title} description={description} links={links}>
+    <PageWithTabs
+      title={title}
+      description={description}
+      links={links}
+      namespace="calculator"
+    >
       {children}
     </PageWithTabs>
   );

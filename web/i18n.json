@@ -3,6 +3,7 @@
   "defaultLocale": "fi",
   "pages": {
     "*": ["common"],
-    "/": ["home"]
+    "/": ["home"],
+    "rgx:/calculator/*": ["calculator"]
   }
 }

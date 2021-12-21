@@ -3,14 +3,16 @@ import CalculatorPanel from "components/CalculatorPanel";
 import LoadingSpinner from "components/LoadingSpinner";
 import Table, { TableCell } from "components/Table";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
+import useTranslation from "next-translate/useTranslation";
 
 const CalculatorEmissionSourcesPage = () => {
+  const { t } = useTranslation("calculator");
   const { data, loading } = useAllEmissionSourcesQuery();
   const emissionSources = data?.allEmissionSources;
   return (
     <CalculatorPanel
-      title="Päästölähteet"
-      description="Tällä sivulla näet, mitä päästölähteitä yrityksesi laskentaan sisältyy, ja mitä päästökertoimia eri kulutustiedoissa käytetään. Oletuskertoimia pääsee muokkaamaan Asetukset-osion kautta."
+      title={t("pages.emission_sources.title")}
+      description={t("pages.emission_sources.description")}
     >
       {loading ? (
         <LoadingSpinner />
@@ -20,13 +22,11 @@ const CalculatorEmissionSourcesPage = () => {
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table
-                  headers={[
-                    "Kategoria",
-                    "Komponentti",
-                    "Päästölähde",
-                    "Sovellusala (oletus)",
-                    "Päästökerroin (oletus)",
-                  ]}
+                  headers={t(
+                    "pages.emission_sources.table.headers",
+                    {},
+                    { returnObjects: true }
+                  )}
                 >
                   {emissionSources.map((es) => (
                     <tr key={es.id}>

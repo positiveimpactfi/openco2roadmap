@@ -1,0 +1,76 @@
+{
+  "pages": {
+    "home": {
+      "title": "Home",
+      "description": "Calculator home page"
+    },
+    "sites": {
+      "title": "Sites",
+      "description": "Sites description",
+      "table": {
+        "headers": ["Site name", "Site type", "Location", "Units"]
+      }
+    },
+    "emission_sources": {
+      "title": "Emission sources",
+      "description": "Emission sources description",
+      "table": {
+        "headers": [
+          "Category",
+          "Component",
+          "Emission source",
+          "Emission scope",
+          "Emission factor (default)"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Emission factors",
+      "description": "Emission factors description",
+      "table": {
+        "headers": [
+          "Name",
+          "Source",
+          "Start date",
+          "End date",
+          "Latest value",
+          "Info"
+        ]
+      }
+    },
+    "consumption_data": {
+      "title": "Consumption data",
+      "description": "Consumption data description",
+      "actions": {
+        "add_data": "Add entry",
+        "show_data": "Showing entry",
+        "edit_data": "Editing entry",
+        "delete_data": {
+          "warning": {
+            "title": "Delete entry?",
+            "description": "Are you sure you want to delete this entry? This action cannot be undone."
+          }
+        }
+      },
+      "table": {
+        "headers": [
+          "Category",
+          "Emission source",
+          "Emission factor",
+          "Site",
+          "MM/YY",
+          "Amount",
+          "kg CO2e",
+          "Actions"
+        ]
+      }
+    },
+    "footprints": {
+      "title": "Footprints",
+      "description": "Footprints description",
+      "table": {
+        "headers": ["Footprint summary"]
+      }
+    }
+  }
+}
