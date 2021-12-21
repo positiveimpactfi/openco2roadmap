@@ -5,28 +5,31 @@ import { Fragment } from "react";
 import logoImg from "../../../public/logo.svg";
 import Link from "next/link";
 import { classNames } from "../../utils/classNames";
+import ChangeLanguage from "components/ChangeLanguage";
+import useTranslation from "next-translate/useTranslation";
 
 interface MenuItem {
   href: string;
-  description: string;
+  name: string;
 }
 
 const menuItems: MenuItem[] = [
   {
     href: "/profile",
-    description: "Katso profiili",
+    name: "profile",
   },
   {
     href: "/settings",
-    description: "Asetukset",
+    name: "settings",
   },
   {
     href: "/notifications",
-    description: "Ilmoitukset",
+    name: "notifications",
   },
 ];
 
 export const UserProfileDropdown = () => {
+  const { t } = useTranslation("common");
   const [logout] = useLogout();
   return (
     <div className="flex items-center">
@@ -60,12 +63,15 @@ export const UserProfileDropdown = () => {
                     <MenuItem
                       key={`menuItem-${i}`}
                       href={menuItem.href}
-                      description={menuItem.description}
+                      name={t(`user_menu.${menuItem.name}`)}
                     />
                   ))}
                 </div>
+                <div className="py-1 flex justify-center">
+                  <ChangeLanguage />
+                </div>
                 <div className="py-1">
-                  <MenuItem href="/help" description="Tuki" />
+                  <MenuItem href="/help" name={t("user_menu.support")} />
                 </div>
                 <div className="py-1">
                   <Menu.Item>
@@ -79,7 +85,7 @@ export const UserProfileDropdown = () => {
                           "block px-4 py-2 text-sm w-full text-left"
                         )}
                       >
-                        Kirjaudu ulos
+                        {t("user_menu.logout")}
                       </button>
                     )}
                   </Menu.Item>
@@ -93,7 +99,7 @@ export const UserProfileDropdown = () => {
   );
 };
 
-const MenuItem: React.FC<MenuItem> = ({ href, description }) => {
+const MenuItem: React.FC<MenuItem> = ({ href, name }) => {
   return (
     <Menu.Item>
       {({ active }) => (
@@ -104,7 +110,7 @@ const MenuItem: React.FC<MenuItem> = ({ href, description }) => {
               "block px-4 py-2 text-sm"
             )}
           >
-            {description}
+            {name}
           </a>
         </Link>
       )}

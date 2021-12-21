@@ -1,20 +1,15 @@
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  CalculatorIcon,
-  CogIcon,
-  HomeIcon,
-  ServerIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { XIcon } from "@heroicons/react/outline";
+import { sidebarLinks } from "data/links/sidebarLinks";
+import useTranslation from "next-translate/useTranslation";
 import NextImage from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dispatch, Fragment, SetStateAction } from "react";
 import { classNames } from "utils/classNames";
-import logoImg from "../../../public/logo.svg";
 import EUlogo from "../../../public/EU_flag.svg";
+import logoImg from "../../../public/logo.svg";
 import VipuVoimaaImg from "../../../public/vipuvoimaaEU.svg";
-import { sidebarLinks } from "data/links/sidebarLinks";
 
 export interface SidebarProps {
   sidebarOpen?: boolean;
@@ -27,6 +22,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
   setSidebarOpen,
   hidden = false,
 }) => {
+  const { t } = useTranslation("common");
   const { pathname } = useRouter();
   const currentPath = "/" + pathname.split("/")[1];
   if (hidden) return null;
@@ -117,7 +113,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
                           )}
                           aria-hidden="true"
                         />
-                        {item.name}
+                        {t(`pages.${item.name}.title`)}
                       </a>
                     </Link>
                   ))}
@@ -137,6 +133,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
 export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
   hidden = false,
 }) => {
+  const { t } = useTranslation("common");
   const { pathname } = useRouter();
   const currentPath = "/" + pathname.split("/")[1];
   if (hidden) return null;
@@ -174,7 +171,9 @@ export const DesktopSidebar: React.FC<{ hidden?: boolean }> = ({
                         )}
                         aria-hidden="true"
                       />
-                      <span className="mt-2">{item.name}</span>
+                      <span className="mt-2">
+                        {t(`pages.${item.name}.title`)}
+                      </span>
                     </a>
                   </Link>
                 ))}

@@ -1,4 +1,5 @@
 const { resolve } = require("path");
+const nextTranslate = require("next-translate");
 
 const aliasPathsToResolve = [
   { name: "shared", path: resolve(__dirname, "../shared/") },
@@ -15,6 +16,9 @@ const securityHeaders = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  i18n: {
+    localeDetection: false,
+  },
   async headers() {
     return [
       {
@@ -38,4 +42,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = nextTranslate(nextConfig);

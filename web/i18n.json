@@ -1,0 +1,10 @@
+{
+  "locales": ["en", "fi"],
+  "defaultLocale": "fi",
+  "pages": {
+    "*": ["common"],
+    "/404": ["error"],
+    "/": ["home"],
+    "/dashboard": ["home"]
+  }
+}
