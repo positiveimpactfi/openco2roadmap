@@ -1,0 +1,30 @@
+{
+  "title": "My profile",
+  "contact": {
+    "title": "Contact info",
+    "description": "You can change view and change your contact info here",
+    "last_name": "Last name",
+    "first_name": "First name",
+    "email": "Email",
+    "org": "Organizations",
+    "actions": {
+      "edit_info": {
+        "title": "Edit info"
+      }
+    }
+  },
+  "actions": {
+    "title": "Actions",
+    "description": "Actions description",
+    "actions": {
+      "delete_user": {
+        "title": "Delete accoount",
+        "description": "Account deletion deletes all account-related data from the system. This action cannot be undone."
+      },
+      "request_data": {
+        "title": "Request data",
+        "description": "After requesting data, in a few days you will receive an email containing all the data the system has collected about you."
+      }
+    }
+  }
+}
