@@ -1,0 +1,87 @@
+{
+  "pages": {
+    "home": {
+      "title": "Hallintapaneeli",
+      "description": "Näillä sivuilla voit muokata CO2-laskurin asetuksia."
+    },
+    "orgs": {
+      "title": "Yritykset",
+      "description": "Luettelo kaikista laskuria käyttävistä yrityksistä. Voit lisätä uusia yrityksiä, ja muokata yritysten tietoja. Yritysten poistaminen laskurista ei ole tätä kautta mahdollista.",
+      "description_long": "Tällä sivulla voit tarkastella ja muokata kaikkia laskurista löytyviä yrityksiä.",
+      "actions": {
+        "add_org": "Lisää yritys",
+        "edit_org": "Muokkaa yritystä"
+      },
+      "table": {
+        "headers": [
+          "Yrityksen nimi",
+          "Y-tunnus",
+          "Kotikunta",
+          "Toimiala",
+          "Luotu",
+          "Kirjautunut",
+          "Muokkaa"
+        ]
+      }
+    },
+    "users": {
+      "title": "Käyttäjät",
+      "description": "Luettelo kaikista laskurin käyttäjistä. Voit lisätä, muokata ja poistaa käyttäjiä, sekä antaa näille käyttöoikeuden laskurin eri yrityksiin.",
+      "description_long": "Tällä sivulla voit kutsua, lisätä, muokata ja poistaa käyttäjiä laskuriin.",
+      "actions": {
+        "invite_user": {
+          "title": "Kutsu käyttäjä",
+          "success": "Kutsu lähetetty"
+        },
+        "add_user": {
+          "title": "Lisää käyttäjä",
+          "success": "Käyttäjä lisätty"
+        },
+        "show_user": {
+          "title": "Käyttäjän tiedot"
+        },
+        "send_reminder": {
+          "title": "Lähetä muistutus",
+          "success": "Muistutus lähetetty"
+        },
+        "cancel_invite": {
+          "title": "Peru kutsu",
+          "success": "Kutsu peruttu onnistuneesti"
+        }
+      },
+      "table": {
+        "headers": ["Sukunimi", "Etunimi", "Sähköposti", "Status", "Toiminnot"],
+        "headers_super": [
+          "Sukunimi",
+          "Etunimi",
+          "Sähköposti",
+          "Status",
+          "Yritykset",
+          "Toiminnot"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Päästökertoimet",
+      "description": "Luettelo kaikista laskurin yleisistä päästökertoimista. Voit lisätä, muokata päästökertoimia vapaasti. Muutokset tulevat käyttöön välittömästi kaikille laskurin yrityksille ja käyttäjille.",
+      "description_long": "Tällä sivulla voit tarkastella kaikki järjestelmän päästökertoimet ja määritellä uusia.",
+      "actions": {
+        "add_ef": {
+          "title": "Lisää uusi päästökerroin",
+          "description": "Lisätään uusi päästökerroin"
+        },
+        "show_ef": "Tarkastellaan päästökerrointa"
+      },
+      "table": {
+        "headers": [
+          "Nimi",
+          "Lähde",
+          "Alkaen",
+          "Päättyen",
+          "Uusin arvo",
+          "Tiedot"
+        ]
+      }
+    }
+  }
+}
