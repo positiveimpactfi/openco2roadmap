@@ -10,14 +10,19 @@ const SettingsPanel: React.FC<Headings> = ({
 }) => {
   const router = useRouter();
   const currentTab = {
-    name: "Etusivu",
+    name: "home",
     description: "Asetukset - etusivu",
     href: "/settings",
     current: router.pathname === "/settings",
   };
   const links = [currentTab, ...settingsLinks];
   return (
-    <PageWithTabs title={title} description={description} links={links}>
+    <PageWithTabs
+      title={title}
+      description={description}
+      links={links}
+      namespace="settings"
+    >
       {children}
     </PageWithTabs>
   );

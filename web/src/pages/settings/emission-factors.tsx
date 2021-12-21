@@ -8,8 +8,10 @@ import Button from "components/Button";
 import SlideOver from "components/SlideOver";
 import { useState } from "react";
 import LoadingSpinner from "components/LoadingSpinner";
+import useTranslation from "next-translate/useTranslation";
 
 const SettingsEmissionFactorsPage = () => {
+  const { t } = useTranslation("settings");
   const { data: myEFs, loading: myLoading } = useMyEmissionFactorsQuery();
   const { data: publicEFs, loading: publicLoading } =
     useAllPublicEmissionFactorsQuery();
@@ -17,11 +19,11 @@ const SettingsEmissionFactorsPage = () => {
 
   return (
     <SettingsPanel
-      title="Päästökertoimet"
-      description="Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. "
+      title={t("pages.emission_factors.title")}
+      description={t("pages.emission_factors.description_long")}
     >
       <SlideOver
-        title="Lisätään uusi päästökerroin"
+        title={t("pages.emission_factors.actions.new_ef.description")}
         open={formOpen}
         setOpen={setFormOpen}
       >
@@ -30,7 +32,7 @@ const SettingsEmissionFactorsPage = () => {
 
       <div className="mb-4">
         <Button variant="success" onClick={() => setFormOpen(true)}>
-          Lisää uusi päästökerroin
+          {t("pages.emission_factors.actions.new_ef.title")}
         </Button>
       </div>
       {myLoading || publicLoading ? (
@@ -40,14 +42,12 @@ const SettingsEmissionFactorsPage = () => {
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <Table
-                headers={[
-                  "Nimi",
-                  "Lähde",
-                  "Alkaen",
-                  "Päättyen",
-                  "Uusin arvo",
-                  "Tiedot",
-                ]}
+                headers={t(
+                  "pages.emission_factors.table.headers",
+                  {},
+                  { returnObjects: true }
+                )}
+                alignLastRight
               >
                 {myEFs?.myEmissionFactors.map((ef) => (
                   <tr key={ef.id}>

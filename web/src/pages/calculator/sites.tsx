@@ -3,14 +3,16 @@ import CalculatorPanel from "components/CalculatorPanel";
 import LoadingSpinner from "components/LoadingSpinner";
 import Table, { TableCell } from "components/Table";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
+import useTranslation from "next-translate/useTranslation";
 
 const CalculatorSitesPage = () => {
+  const { t } = useTranslation("calculator");
   const { data, loading } = useMyOrganizationSitesQuery();
   const sites = data?.allSitesInMyOrganization;
   return (
     <CalculatorPanel
-      title="Toimipaikat"
-      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla näet yrityksesi hiilijalanjälkilaskennassa käytetyn toimipaikkarakenteen."
+      title={t("pages.sites.title")}
+      description={t("pages.sites.description")}
     >
       {loading ? (
         <LoadingSpinner />
@@ -20,12 +22,11 @@ const CalculatorSitesPage = () => {
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table
-                  headers={[
-                    "Toimipaikan nimi",
-                    "Toimipaikan tyyppi",
-                    "Sijaintikunta",
-                    "Yksiköt",
-                  ]}
+                  headers={t(
+                    "pages.sites.table.headers",
+                    {},
+                    { returnObjects: true }
+                  )}
                 >
                   {sites.map((site) => (
                     <tr key={site.id}>

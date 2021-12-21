@@ -3,15 +3,17 @@ import LinksGrid from "components/LinksGrid";
 import SettingsPanel from "components/SettingsPanel";
 import { settingsLinks } from "data/links/settingsLinks";
 import { NextPage } from "next";
+import useTranslation from "next-translate/useTranslation";
 
 const SettingsHomePage: NextPage = () => {
+  const { t } = useTranslation("settings");
   return (
     <SettingsPanel
-      title="Asetukset"
-      description="Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
+      title={t("pages.home.title")}
+      description={t("pages.home.description")}
     >
       <div className="flex flex-col items-start">
-        <LinksGrid links={settingsLinks} />
+        <LinksGrid links={settingsLinks} namespace="settings" />
       </div>
     </SettingsPanel>
   );

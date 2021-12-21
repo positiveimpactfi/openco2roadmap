@@ -1,0 +1,28 @@
+{
+  "title": "Travel CO2-calculator",
+  "pages": {
+    "home": {
+      "title": "Home",
+      "description": "This is our home page"
+    },
+    "calculator": {
+      "title": "Calculator",
+      "description": "You can enter and edit your organization's consumption data in the calculator"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "You can enter and edit your organization's consumption data in the calculator"
+    },
+    "admin": {
+      "title": "Admin",
+      "description": "You can change the settings here"
+    }
+  },
+  "user_menu": {
+    "profile": "My profile",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "support": "Support",
+    "logout": "Log out"
+  }
+}
