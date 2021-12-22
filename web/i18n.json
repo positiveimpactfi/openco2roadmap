@@ -2,7 +2,7 @@
   "locales": ["en", "fi"],
   "defaultLocale": "fi",
   "pages": {
-    "*": ["common"],
+    "*": ["common", "auth", "errors"],
     "/": ["home"],
     "rgx:/calculator/*": ["calculator"],
     "rgx:/settings/*": ["settings"],
