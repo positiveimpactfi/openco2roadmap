@@ -1,3 +1,4 @@
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
@@ -10,14 +11,15 @@ import { createConnection } from "typeorm";
 import config from "./config";
 import typeormConfig from "./ormconfig";
 import { resolvers } from "./resolvers";
-// import { requestLogger } from "./utils/requestLogger";
 import { authChecker } from "./utils/authChecker";
-import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { pinoInstance } from "./utils/logger";
 
 const main = async () => {
   await createConnection(typeormConfig);
   // await conn.runMigrations();
   const app = express();
+
+  app.use(pinoInstance);
   app.use(express.json());
 
   const RedisStore = connectRedis(session);
@@ -34,8 +36,6 @@ const main = async () => {
       credentials: true,
     })
   );
-
-  // app.use(requestLogger);
 
   app.use(
     session({

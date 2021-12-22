@@ -20,6 +20,7 @@ export const authChecker: AuthChecker<MyContext> = async (
 ) => {
   const userId = req.session.userId;
   if (!userId) {
+    req.log.error({ query: req.body.query }, "Not authenticated");
     return false;
   }
 
@@ -43,9 +44,7 @@ export const authChecker: AuthChecker<MyContext> = async (
 
   // validation failed
   if (!result.success) {
-    console.error(
-      "SQL statement failed when fetching user foles inside authChecker"
-    );
+    req.log.error(result, "SQL statement failed");
     return false;
   }
   const data = result.data;
