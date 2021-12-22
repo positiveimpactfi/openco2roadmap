@@ -22,10 +22,10 @@ const menuItems: MenuItem[] = [
     href: "/settings",
     name: "settings",
   },
-  {
-    href: "/notifications",
-    name: "notifications",
-  },
+  // {
+  //   href: "/notifications",
+  //   name: "notifications",
+  // },
 ];
 
 export const UserProfileDropdown = () => {
@@ -67,12 +67,14 @@ export const UserProfileDropdown = () => {
                     />
                   ))}
                 </div>
-                <div className="py-1 flex justify-center">
-                  <ChangeLanguage />
+                <div className="py-1 flex justify-start">
+                  <Menu.Item>
+                    <ChangeLanguage />
+                  </Menu.Item>
                 </div>
-                <div className="py-1">
+                {/* <div className="py-1">
                   <MenuItem href="/help" name={t("user_menu.support")} />
-                </div>
+                </div> */}
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
