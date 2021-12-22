@@ -4,9 +4,11 @@ import CalculatorPanel from "components/CalculatorPanel";
 import LoadingBar from "components/LoadingBar";
 import Table, { TableCell } from "components/Table";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
+import useTranslation from "next-translate/useTranslation";
 import { numberToString } from "utils/numberToString";
 
 const CalculatorFootprintsPage = () => {
+  const { t } = useTranslation("calculator");
   const { data, loading } = useMyOrganizationEmissionsByCategoryAndYearQuery({
     fetchPolicy: "network-only",
   });
@@ -32,8 +34,8 @@ const CalculatorFootprintsPage = () => {
   const allParsedString = allYearsParsed?.map((y) => y.toString());
   return (
     <CalculatorPanel
-      title="Hiilijalanjäljet"
-      description="Tällä sivulla voit tarkastella yrityksesi päästötietojen yhteenvetoja ja hiilijalanjälkilaskelmia. Luvut on ilmoitettu tonneina CO2e."
+      title={t("pages.footprints.title")}
+      description={t("pages.footprints.description")}
     >
       {loading ? (
         <LoadingBar />
@@ -42,9 +44,13 @@ const CalculatorFootprintsPage = () => {
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <Table
-                headers={["Hiilijalanjäljen Yhteenveto"].concat(
-                  allParsedString
-                )}
+                headers={(
+                  t(
+                    "pages.footprints.table.headers",
+                    {},
+                    { returnObjects: true }
+                  ) as string[]
+                ).concat(allParsedString)}
               >
                 {components?.map((c, i) => (
                   <tr key={c.categoryid}>

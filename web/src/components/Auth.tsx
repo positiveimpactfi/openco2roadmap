@@ -1,6 +1,6 @@
 import { useUser } from "hooks/useUser";
+import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
-import React from "react";
 import Container from "./Layout/Container";
 import LoadingBar from "./LoadingBar";
 
@@ -20,13 +20,14 @@ export const Auth: React.FC = ({ children }) => {
 };
 
 const UserNotLoggedIn = () => {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col h-screen items-center justify-center">
-      <div>Et ole kirjautunut!</div>
+      <div>{t("errors:auth.not_logged_in")}</div>
       <div>
         <Link href="/login" passHref>
           <a className="font-medium text-teal-600 hover:text-teal-500">
-            Kirjautumaan
+            {t("auth:actions.to_login")}
           </a>
         </Link>
       </div>

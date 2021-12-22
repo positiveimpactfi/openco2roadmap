@@ -5,10 +5,10 @@ export class EnhancedEntity1638432476769 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "user" ADD "createdDate" TIMESTAMP NOT NULL DEFAULT now()`
+      `ALTER TABLE "user" ADD IF NOT EXISTS "createdDate" TIMESTAMP NOT NULL DEFAULT now()`
     );
     await queryRunner.query(
-      `ALTER TABLE "user" ADD "updatedDate" TIMESTAMP NOT NULL DEFAULT now()`
+      `ALTER TABLE "user" ADD IF NOT EXISTS "updatedDate" TIMESTAMP NOT NULL DEFAULT now()`
     );
   }
 

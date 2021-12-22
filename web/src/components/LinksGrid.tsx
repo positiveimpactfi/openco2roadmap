@@ -1,8 +1,13 @@
 import { PageLink } from "types/PageLink";
 import { classNames } from "utils/classNames";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
-const LinksGrid: React.FC<{ links: PageLink[] }> = ({ links }) => {
+const LinksGrid: React.FC<{ links: PageLink[]; namespace?: string }> = ({
+  links,
+  namespace = "common",
+}) => {
+  const { t } = useTranslation(namespace);
   return (
     <div className="bg-gray-100">
       <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-12 lg:px-8 bg-white">
@@ -26,7 +31,7 @@ const LinksGrid: React.FC<{ links: PageLink[] }> = ({ links }) => {
                     )}
                   >
                     <Link href={link.href} passHref>
-                      {link.name}
+                      {t(`pages.${link.name}.title`)}
                     </Link>
                   </h3>
                   <p
@@ -35,7 +40,7 @@ const LinksGrid: React.FC<{ links: PageLink[] }> = ({ links }) => {
                       "mt-2 text-base"
                     )}
                   >
-                    {link.description}
+                    {t(`pages.${link.name}.description`)}
                   </p>
                 </div>
               </div>

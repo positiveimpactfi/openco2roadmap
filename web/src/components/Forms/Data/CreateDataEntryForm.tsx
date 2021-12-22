@@ -14,6 +14,7 @@ import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.g
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
+import { useEmissionSourceOptions } from "hooks/useEmissionSourceOptions";
 import {
   EmissionFactor,
   MeasurementUnit,
@@ -33,39 +34,6 @@ export interface FormValues {
   siteUnit: SiteUnit;
   month: { id: number; name: string };
   year: number;
-}
-
-export interface SourceOption {
-  children: {
-    children: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-      categoryID: number;
-    }[];
-    categoryID: number;
-    __typename?: "Component";
-    name: string;
-    id: number;
-    emissionSources?: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-    }[];
-  }[];
-  __typename?: "Category";
-  name: string;
-  id: number;
-  components: {
-    __typename?: "Component";
-    name: string;
-    id: number;
-    emissionSources?: {
-      __typename?: "EmissionSource";
-      name: string;
-      id: number;
-    }[];
-  }[];
 }
 
 const CreateDataEntryForm: React.FC<{
@@ -88,22 +56,7 @@ const CreateDataEntryForm: React.FC<{
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
-  const { data: sources } = useAllCategoriesQuery();
-
-  const sourceOptions: SourceOption[] = sources?.allCategories.map((cat) => {
-    return {
-      ...cat,
-      children: cat.components.map((comp) => {
-        return {
-          ...comp,
-          children: comp.emissionSources.map((es) => {
-            return { ...es, categoryID: cat.id };
-          }),
-          categoryID: cat.id,
-        };
-      }),
-    };
-  });
+  const { sourceOptions } = useEmissionSourceOptions();
 
   const allEmissionFactors = myEFs?.myEmissionFactors.concat(
     publicEFs?.allPublicEmissionFactors

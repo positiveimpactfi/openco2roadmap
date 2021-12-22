@@ -352,9 +352,13 @@ export type MutationCreateDataEntryArgs = {
 export type MutationCreateEmissionFactorArgs = {
   dataSourceType?: Maybe<DataSourceType>;
   emissionSourceIDs: Array<Scalars['Int']>;
+  endDate: Scalars['Float'];
+  geographicalCoverage?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   physicalQuantityID: Scalars['Float'];
   source?: Maybe<Scalars['String']>;
+  startDate: Scalars['Float'];
+  value: Scalars['Float'];
 };
 
 

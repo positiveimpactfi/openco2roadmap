@@ -20,11 +20,13 @@ import {
   MyDataEntriesDocument,
   useMyDataEntriesQuery,
 } from "graphql/queries/data/dataEntry.generated";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { DataEntry } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
 const CalculatorConsumptionDataPage = () => {
+  const { t } = useTranslation("calculator");
   const [createFormOpen, setCreateFormOpen] = useState(false);
   const [showEntryOpen, setShowEntryOpen] = useState(false);
   const [editFormOpen, setEditFormOpen] = useState(false);
@@ -61,21 +63,21 @@ const CalculatorConsumptionDataPage = () => {
 
   return (
     <CalculatorPanel
-      title="Kulutustiedot"
-      description="Hiilijalanjälkilaskelmat muodostuvat kulutustietoja yhdistelemällä. Tällä sivulla pääset syöttämään ja muokkaamaan yrityksesi kulutustietoja."
+      title={t("pages.consumption_data.title")}
+      description={t("pages.consumption_data.description")}
     >
       <Button variant="success" onClick={() => setCreateFormOpen(true)}>
-        Lisää tietoja
+        {t("pages.consumption_data.actions.add_data")}
       </Button>
       <SlideOver
-        title="Lisää kulutustietoja"
+        title={t("pages.consumption_data.actions.add_data")}
         open={createFormOpen}
         setOpen={setCreateFormOpen}
       >
         <CreateDataEntryForm setOpen={setCreateFormOpen} />
       </SlideOver>
       <SlideOver
-        title="Näytetään kulutustietoja"
+        title={t("pages.consumption_data.actions.show_data")}
         open={showEntryOpen}
         setOpen={setShowEntryOpen}
       >
@@ -85,15 +87,17 @@ const CalculatorConsumptionDataPage = () => {
         />
       </SlideOver>
       <SlideOver
-        title="Muokataan kulutustietoja"
+        title={t("pages.consumption_data.actions.edit_data")}
         open={editFormOpen}
         setOpen={setEditFormOpen}
       >
         <EditDataEntryForm setOpen={setEditFormOpen} dataEntry={dataEntry} />
       </SlideOver>
       <WarningModal
-        title="Poistetaanko kulutustiedot?"
-        description="Haluatko varmasti poistaa alla olevat kulutustiedot? Tätä toimipidettä ei voi perua."
+        title={t("pages.consumption_data.actions.delete_data.warning.title")}
+        description={t(
+          "pages.consumption_data.actions.delete_data.warning.description"
+        )}
         onConfirm={() => handleConfirmDelete(dataEntry.id)}
         open={warningOpen}
         setOpen={setWarningOpen}
@@ -104,20 +108,15 @@ const CalculatorConsumptionDataPage = () => {
         <LoadingSpinner />
       ) : (
         <div className="flex flex-col">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="-my-2 sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <div className="mt-4 shadow border-b border-gray-200 sm:rounded-lg">
                 <Table
-                  headers={[
-                    "Kategoria",
-                    "Päästölähde",
-                    "Päästökerroin",
-                    "Toimipaikka",
-                    "kk/vuosi",
-                    "Määrä",
-                    "kg CO2e",
-                    "Toiminnot",
-                  ]}
+                  headers={t(
+                    "pages.consumption_data.table.headers",
+                    {},
+                    { returnObjects: true }
+                  )}
                   alignLastRight
                 >
                   {dataEntries.map((entry, index) => (

@@ -1,0 +1,30 @@
+{
+  "title": "Profiili",
+  "contact": {
+    "title": "Yhteystiedot",
+    "description": "Yhteystiedot kuvaus",
+    "last_name": "Sukunimi",
+    "first_name": "Etunimi",
+    "email": "Sähköpostiosoite",
+    "org": "Yritys",
+    "actions": {
+      "edit_info": {
+        "title": "Muokkaa tietoja"
+      }
+    }
+  },
+  "actions": {
+    "title": "Toiminnot",
+    "description": "Toiminnot kuvaus",
+    "actions": {
+      "delete_user": {
+        "title": "Poista käyttäjätunnus",
+        "description": "Käyttäjätunnuksen poistaaminen poistaa kaikki tietosi järjestelmästä. Käyttäjätunnuksen poistamista ei voi peruuttaa."
+      },
+      "request_data": {
+        "title": "Pyydä käyttäjädata",
+        "description": "Pyytämällä käyttäjädatasi saat muutaman päivän kuluessa sähköpostiisi tiedon kaikesta järjestelmän sinusta keräämästä datasta."
+      }
+    }
+  }
+}

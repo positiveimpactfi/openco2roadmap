@@ -1,0 +1,87 @@
+{
+  "pages": {
+    "home": {
+      "title": "Admin panel",
+      "description": "Admin panel description"
+    },
+    "orgs": {
+      "title": "Organizations",
+      "description": "Description",
+      "description_long": "Page description",
+      "actions": {
+        "add_org": "Add organization",
+        "edit_org": "Edit organization"
+      },
+      "table": {
+        "headers": [
+          "Name",
+          "Y-tunnus",
+          "County",
+          "Area",
+          "Created",
+          "Logged in",
+          "Edit"
+        ]
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "Descriptions",
+      "description_long": "Page description",
+      "actions": {
+        "invite_user": {
+          "title": "Invite user",
+          "success": "Invite sent"
+        },
+        "add_user": {
+          "title": "Add user",
+          "success": "User added"
+        },
+        "show_user": {
+          "title": "User info"
+        },
+        "send_reminder": {
+          "title": "Send reminder",
+          "success": "Reminder sent"
+        },
+        "cancel_invite": {
+          "title": "Cancel invite",
+          "success": "Invite canceled successfully"
+        }
+      },
+      "table": {
+        "headers": ["Last name", "First name", "Email", "Status", "Actions"],
+        "headers_super": [
+          "Last name",
+          "First name",
+          "Email",
+          "Status",
+          "Organizations",
+          "Actions"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Emission factors",
+      "description": "Description",
+      "description_long": "Page description",
+      "actions": {
+        "add_ef": {
+          "title": "Add new emission factor",
+          "description": "Adding new emission factor"
+        },
+        "show_ef": "Showing emission factor"
+      },
+      "table": {
+        "headers": [
+          "Name",
+          "Source",
+          "Start date",
+          "End date",
+          "Latest valuu",
+          "Info"
+        ]
+      }
+    }
+  }
+}

@@ -8,28 +8,28 @@ import { PageLink } from "types/PageLink";
 
 export const sidebarLinks: PageLink[] = [
   {
-    name: "Etusivu",
+    name: "home",
     href: "/",
     icon: HomeIcon,
     description:
       "Tervetuloa käyttämään matkailualan yritysten hiilijalanjälkilaskuria!",
   },
   {
-    name: "Laskuri",
+    name: "calculator",
     href: "/calculator",
     icon: CalculatorIcon,
     description:
       "Laskuri-osiossa voit syöttää ja muokata yrityksesi kulutustietoja.",
   },
   {
-    name: "Asetukset",
+    name: "settings",
     href: "/settings",
     icon: CogIcon,
     description:
       "Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja.",
   },
   {
-    name: "Hallintapaneeli",
+    name: "admin",
     href: "/admin",
     icon: ServerIcon,
     description: "Näillä sivuilla voit muokata CO2-laskurin asetuksia.",

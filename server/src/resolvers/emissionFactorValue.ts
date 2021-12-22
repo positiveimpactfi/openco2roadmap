@@ -41,13 +41,19 @@ export class EmissionFactorValueResolver {
       return undefined;
     }
 
-    const newEFValue = await EmissionFactorValue.create({
-      value,
-      startDate,
-      endDate,
+    const efBase: Partial<EmissionFactorValue> = {
+      value: value,
+      startDate: startDate,
+      endDate: endDate,
       emissionFactor: EF,
-      creator: org,
-    }).save();
+    };
+
+    // creator is null if SuperAdmin creates a new EF Value, this way it's public to all users
+    if (user.roles[0].name !== Role.SUPERADMIN) {
+      efBase.creator = org;
+    }
+
+    const newEFValue = await EmissionFactorValue.create(efBase).save();
 
     EF.values.push(newEFValue);
     await EmissionFactor.save(EF);

@@ -1,0 +1,12 @@
+{
+  "locales": ["en", "fi"],
+  "defaultLocale": "fi",
+  "pages": {
+    "*": ["common", "auth", "errors"],
+    "/": ["home"],
+    "rgx:/calculator/*": ["calculator"],
+    "rgx:/settings/*": ["settings"],
+    "rgx:/admin/*": ["admin"],
+    "/profile": ["profile"]
+  }
+}

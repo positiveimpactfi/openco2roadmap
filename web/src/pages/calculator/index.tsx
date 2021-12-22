@@ -7,7 +7,7 @@ const CalculatorHomePage: React.FC = () => {
   return (
     <CalculatorPanel>
       <div className="flex flex-col items-start">
-        <LinksGrid links={calculatorLinks} />
+        <LinksGrid links={calculatorLinks} namespace="calculator" />
       </div>
     </CalculatorPanel>
   );

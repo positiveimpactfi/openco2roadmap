@@ -77,6 +77,7 @@ export class UserResolver {
       relations: ["organizations"],
     });
     if (!user) {
+      req.log.error("ERROR", "Not authenticated");
       return undefined;
     }
     // SuperAdmin can see all invites, CompanyAdmin can only see their organization's invites
@@ -360,6 +361,7 @@ export class UserResolver {
         ],
       };
     }
+    req.log.info(user, "User logged in");
     req.session.userId = user.id;
     return { user };
   }
@@ -390,9 +392,13 @@ export class UserResolver {
       relations: ["organizations"],
     });
     if (!user) {
-      console.error("no user to edit");
+      req.log.error(user, "Could not update user's name");
       return false;
     }
+    const oldName = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
     if (newFirstName) {
       user.firstName = newFirstName;
     }
@@ -400,17 +406,33 @@ export class UserResolver {
       user.lastName = newLastName;
     }
     await user.save();
+    req.log.info(
+      {
+        context: "User",
+        id: user.id,
+        oldName: oldName,
+        updatedName: { firstName: user.firstName, lastName: user.lastName },
+      },
+      "Updated users's name"
+    );
     return true;
   }
 
   @Mutation(() => Boolean)
   async forgotPassword(
     @Arg("email") email: string,
-    @Ctx() { redis }: MyContext
+    @Ctx() { redis, req }: MyContext
   ) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      console.error(`invalid user requested password reset: ${email}`);
+      req.log.error(
+        {
+          context: "User",
+          id: req.session.userId,
+          email,
+        },
+        "Could not request password change, reason: user with given email does not exist"
+      );
       return true;
     }
 
@@ -433,6 +455,14 @@ export class UserResolver {
       textBody: emailText,
     };
     await sendEmail(email, emailObject);
+    req.log.info(
+      {
+        context: "User",
+        id: req.session.userId,
+        email,
+      },
+      "Successfully sent password change email to user"
+    );
 
     return true;
   }

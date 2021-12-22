@@ -1,0 +1,28 @@
+{
+  "title": "Matkailun CO2-laskuri",
+  "pages": {
+    "home": {
+      "title": "Etusivu",
+      "description": "Tervetuloa käyttämään matkailualan yritysten hiilijalanjälkilaskuria!"
+    },
+    "calculator": {
+      "title": "Laskuri",
+      "description": "Laskuri-osiossa voit syöttää ja muokata yrityksesi kulutustietoja."
+    },
+    "settings": {
+      "title": "Asetukset",
+      "description": "Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
+    },
+    "admin": {
+      "title": "Hallintapaneeli",
+      "description": "Näillä sivuilla voit muokata CO2-laskurin asetuksia."
+    }
+  },
+  "user_menu": {
+    "profile": "Profiili",
+    "settings": "Asetukset",
+    "notifications": "Ilmoitukset",
+    "support": "Tuki",
+    "logout": "Kirjaudu ulos"
+  }
+}

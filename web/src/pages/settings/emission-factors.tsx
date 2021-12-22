@@ -8,29 +8,48 @@ import Button from "components/Button";
 import SlideOver from "components/SlideOver";
 import { useState } from "react";
 import LoadingSpinner from "components/LoadingSpinner";
+import useTranslation from "next-translate/useTranslation";
+import CreateEmissionFactorForm from "components/Forms/Emissions/CreateEmissionFactor";
+import { EmissionFactor } from "types/generatedTypes";
+import ShowEmissionFactor from "components/EmissionFactorView";
 
 const SettingsEmissionFactorsPage = () => {
+  const { t } = useTranslation("settings");
   const { data: myEFs, loading: myLoading } = useMyEmissionFactorsQuery();
   const { data: publicEFs, loading: publicLoading } =
     useAllPublicEmissionFactorsQuery();
   const [formOpen, setFormOpen] = useState(false);
+  const [showOpen, setShowOpen] = useState(false);
+  const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
+
+  const handleShowEf = (ef: EmissionFactor) => {
+    setSelectedEf(ef);
+    setShowOpen(true);
+  };
 
   return (
     <SettingsPanel
-      title="Päästökertoimet"
-      description="Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. "
+      title={t("pages.emission_factors.title")}
+      description={t("pages.emission_factors.description_long")}
     >
       <SlideOver
-        title="Lisätään uusi päästökerroin"
+        open={showOpen}
+        setOpen={setShowOpen}
+        title={t("pages.emission_factors.actions.show_ef")}
+      >
+        <ShowEmissionFactor ef={selectedEf} onClose={setShowOpen} />
+      </SlideOver>
+      <SlideOver
+        title={t("pages.emission_factors.actions.new_ef.description")}
         open={formOpen}
         setOpen={setFormOpen}
       >
-        Uusi kerroin lomake
+        <CreateEmissionFactorForm onClose={setFormOpen} />
       </SlideOver>
 
       <div className="mb-4">
         <Button variant="success" onClick={() => setFormOpen(true)}>
-          Lisää uusi päästökerroin
+          {t("pages.emission_factors.actions.new_ef.title")}
         </Button>
       </div>
       {myLoading || publicLoading ? (
@@ -40,14 +59,12 @@ const SettingsEmissionFactorsPage = () => {
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <Table
-                headers={[
-                  "Nimi",
-                  "Lähde",
-                  "Alkaen",
-                  "Päättyen",
-                  "Uusin arvo",
-                  "Tiedot",
-                ]}
+                headers={t(
+                  "pages.emission_factors.table.headers",
+                  {},
+                  { returnObjects: true }
+                )}
+                alignLastRight
               >
                 {myEFs?.myEmissionFactors.map((ef) => (
                   <tr key={ef.id}>
@@ -74,7 +91,9 @@ const SettingsEmissionFactorsPage = () => {
                         ef.physicalQuantity.baseUnit.shorthand
                       }
                     />
-                    <TableCellOpenOptions fn={() => console.log("opened ef")} />
+                    <TableCellOpenOptions
+                      fn={() => handleShowEf(ef as EmissionFactor)}
+                    />
                   </tr>
                 ))}
                 <tr className="h-6 bg-gray-100">
@@ -110,7 +129,9 @@ const SettingsEmissionFactorsPage = () => {
                         ef.physicalQuantity.baseUnit.shorthand
                       }
                     />
-                    <TableCellOpenOptions fn={() => console.log("opened ef")} />
+                    <TableCellOpenOptions
+                      fn={() => handleShowEf(ef as EmissionFactor)}
+                    />
                   </tr>
                 ))}
               </Table>

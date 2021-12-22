@@ -7,10 +7,13 @@ import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
+import { Translate } from "next-translate";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { Organization } from "types/generatedTypes";
 
 const Organizations = () => {
+  const { t } = useTranslation("admin");
   const { data, loading } = useAllOrganizationsQuery();
   const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
@@ -25,22 +28,22 @@ const Organizations = () => {
 
   return (
     <AdminsOnly
-      title="Yritykset"
-      description="Tällä sivulla voit tarkastella ja muokata kaikkia laskurista löytyviä yrityksiä."
+      title={t("pages.orgs.title")}
+      description={t("pages.orgs.description_long")}
     >
       {loading ? (
         <LoadingSpinner />
       ) : (
         <>
           <SlideOver
-            title="Lisää yritys"
+            title={t("pages.orgs.actions.add_org")}
             open={newOrgFormOpen}
             setOpen={setNewOrgFormOpen}
           >
             <NewOrganizationForm setSlideoverOpen={setNewOrgFormOpen} />
           </SlideOver>
           <SlideOver
-            title="Muokkaa yritystä"
+            title={t("pages.org.actions.edit_org")}
             open={editOrgFormOpen}
             setOpen={setEditOrgFormOpen}
           >
@@ -51,12 +54,13 @@ const Organizations = () => {
           </SlideOver>
           <div className="mb-4">
             <Button onClick={() => setNewOrgFormOpen(true)} variant="success">
-              Uusi yritys
+              {t("pages.orgs.actions.add_org")}
             </Button>
           </div>
           <OrganizationsTable
             handleFormOpen={handleEditOrg}
             organizations={organizations}
+            t={t}
           />
         </>
       )}
@@ -69,11 +73,13 @@ export type MyOrganization = Partial<Organization>;
 interface OrgTableProps {
   handleFormOpen: (org: MyOrganization) => void;
   organizations: Organization[];
+  t: Translate;
 }
 
 const OrganizationsTable: React.FC<OrgTableProps> = ({
   handleFormOpen,
   organizations,
+  t,
 }) => {
   return (
     <div className="flex flex-col">
@@ -81,15 +87,11 @@ const OrganizationsTable: React.FC<OrgTableProps> = ({
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
             <Table
-              headers={[
-                "Yrityksen nimi",
-                "Y-tunnus",
-                "Kotikunta",
-                "Toimiala",
-                "Luotu",
-                "Kirjautunut",
-                "Muokkaa",
-              ]}
+              headers={t(
+                "pages.orgs.table.headers",
+                {},
+                { returnObjects: true }
+              )}
             >
               {organizations?.map((org) => (
                 <tr key={org.id}>
