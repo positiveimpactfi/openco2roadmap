@@ -33,7 +33,7 @@
     "emission_sources": {
       "title": "Emission sources",
       "description": "Emission sources description",
-      "description_long": "",
+      "description_long": "Here you can check the emission sources used.",
       "table": {
         "headers": [
           "Category",

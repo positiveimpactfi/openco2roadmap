@@ -39,7 +39,7 @@
     "emission_sources": {
       "title": "Päästölähteet",
       "description": "Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla.",
-      "description_long": "Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla. Jos muutat oletuskerrointa, aiemmin lisäämäsi kulutustiedot pysyvät ennallaan.",
+      "description_long": "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy.",
       "table": {
         "headers": [
           "Kategoria",
@@ -52,7 +52,7 @@
     "emission_factors": {
       "title": "Päästökertoimet",
       "description": "Voit lisätä omia päästökertoimia tai päivittää yleisen tietokannan kertoimien arvoja.",
-      "description_long": "Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön.",
+      "description_long": "Tällä sivulla voit tarkastella yleisiä päästökertoimia ja määritellä uusia. Lisäämäsi kertoimet tulevat vain oman organisaatiosi käyttöön. HUOM: laskuri tukee toistaiseksi vain yhtä päästökertoimen arvoa (eli samaa kerrointa käytetään kaikkina vuosina).",
       "actions": {
         "new_ef": {
           "title": "Lisää uusi päästökerroin",
