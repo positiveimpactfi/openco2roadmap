@@ -27,7 +27,6 @@ const EmissionSourcesSettingsPage = () => {
                     {},
                     { returnObjects: true }
                   )}
-                  alignLastRight
                 >
                   {emissionSources.map((es) => (
                     <tr key={es.id}>
@@ -35,7 +34,7 @@ const EmissionSourcesSettingsPage = () => {
                       <TableCell value={es.components[0].name} />
                       <TableCell value={es.name} />
                       <TableCell value={es.scope} />
-                      <TableCellOpenOptions fn={() => console.log("hello")} />
+                      {/* <TableCellOpenOptions fn={() => console.log("hello")} /> */}
                     </tr>
                   ))}
                 </Table>
