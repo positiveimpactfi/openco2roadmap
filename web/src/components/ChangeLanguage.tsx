@@ -1,23 +1,17 @@
 import setLanguage from "next-translate/setLanguage";
+import { useRouter } from "next/router";
 
 export default function ChangeLanguage() {
+  const { locale } = useRouter();
   return (
-    <span className="relative z-0 inline-flex shadow-sm rounded-md">
+    <span className="relative z-0 inline-flex shadow-sm rounded-md w-full">
       <button
         type="button"
-        className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-teal-500 focus:border-teal-500"
-        onClick={async () => await setLanguage("en")}
+        className="relative inline-flex items-left px-4 py-2 rounded-l-md bg-white text-sm text-gray-700 hover:bg-gray-50 w-full"
+        onClick={async () => await setLanguage(locale === "fi" ? "en" : "fi")}
       >
-        <span className="sr-only">English</span>
-        🇺🇸
-      </button>
-      <button
-        type="button"
-        className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-teal-500 focus:border-teal-500"
-        onClick={async () => await setLanguage("fi")}
-      >
-        <span className="sr-only">Suomi</span>
-        🇫🇮
+        <span className="sr-only">{locale === "fi" ? "English" : "Suomi"}</span>
+        {locale === "fi" ? "In English" : "Suomeksi"}
       </button>
     </span>
   );

@@ -1,7 +1,9 @@
 import { withAuth } from "components/Auth";
+import ChangeLanguage from "components/ChangeLanguage";
 import { Formik, FormikProps } from "formik";
 import { useLoginMutation } from "graphql/mutations/auth/login.generated";
 import { MeDocument, MeQuery } from "graphql/queries/users/me.generated";
+import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { errorArrayToObject } from "utils/errorArrayToObject";
 import * as Yup from "yup";
@@ -21,6 +23,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const { t } = useTranslation("auth");
   const [login] = useLoginMutation();
   const router = useRouter();
   return (
@@ -50,10 +53,13 @@ const LoginPage = () => {
     >
       {({ isSubmitting }: FormikProps<LoginFormProps>) => (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+          <div className="absolute right-4 top-4">
+            <ChangeLanguage />
+          </div>
           <div className="max-w-md w-full space-y-8">
             <div>
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Kirjaudu CO2-laskuriin
+                {t("pages.login.title")}
               </h2>
               {/* <p className="mt-2 text-center text-sm text-gray-600">
                 Tai{" "}

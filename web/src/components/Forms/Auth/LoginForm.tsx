@@ -2,26 +2,28 @@ import FormField from "components/Forms/Common/FormField";
 import { Form } from "formik";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
   isSubmitting,
 }) => {
+  const { t } = useTranslation("auth");
   return (
     <Form className="mt-8 space-y-6">
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="rounded-md shadow-sm -space-y-px">
         <FormField
-          label="Sähköpostiosoite"
+          label={t("common.email")}
           name="email"
-          placeholder="Sähköpostiosoite"
+          placeholder={t("common.email")}
           autoComplete="email"
           roundedTop
           required
         />
         <FormField
-          label="Salasana"
+          label={t("common.password")}
           name="password"
-          placeholder="Salasana"
+          placeholder={t("common.password")}
           type="password"
           roundedBottom
           required
@@ -47,7 +49,7 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
         <div className="text-sm">
           <Link href="/forgot-password" passHref>
             <a className="font-medium text-teal-600 hover:text-teal-500">
-              Salasana hukassa?
+              {t("pages.login.actions.forgot_password")}
             </a>
           </Link>
         </div>
@@ -65,7 +67,7 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
               aria-hidden="true"
             />
           </span>
-          Kirjaudu
+          {t("pages.login.actions.login")}
         </button>
       </div>
     </Form>
