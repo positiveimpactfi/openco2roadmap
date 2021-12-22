@@ -48,9 +48,9 @@ const ForgotPasswordForm: React.FC = () => {
             </div>
             <Form className="mt-8 space-y-6">
               <FormField
-                label={t("pages.forgot_password.form.email")}
+                label={t("common.email")}
                 name="email"
-                placeholder={t("pages.forgot_password.form.email")}
+                placeholder={t("common.email")}
                 required
                 roundedBottom
                 roundedTop

@@ -13,17 +13,17 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
       <input type="hidden" name="remember" defaultValue="true" />
       <div className="rounded-md shadow-sm -space-y-px">
         <FormField
-          label={t("pages.login.form.email")}
+          label={t("common.email")}
           name="email"
-          placeholder={t("pages.login.form.email")}
+          placeholder={t("common.email")}
           autoComplete="email"
           roundedTop
           required
         />
         <FormField
-          label={t("pages.login.form.password")}
+          label={t("common.password")}
           name="password"
-          placeholder={t("pages.login.form.password")}
+          placeholder={t("common.password")}
           type="password"
           roundedBottom
           required

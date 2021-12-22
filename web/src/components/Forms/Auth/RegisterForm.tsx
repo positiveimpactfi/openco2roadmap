@@ -10,19 +10,19 @@ export const RegisterForm: React.FC<{ isSubmitting: boolean }> = ({
     <Form className="mt-8 space-y-6">
       <div className="rounded-md shadow-sm -space-y-px">
         <FormField
-          label={t("pages.register.form.email")}
+          label={t("common.email")}
           name="email"
           autoComplete="email"
           required
-          placeholder={t("pages.register.form.email")}
+          placeholder={t("common.email")}
           roundedTop
         />
         <FormField
-          label={t("pages.register.form.password")}
+          label={t("common.password")}
           name="password"
           required
           type="password"
-          placeholder={t("pages.register.form.password")}
+          placeholder={t("common.password")}
           roundedBottom
         />
       </div>

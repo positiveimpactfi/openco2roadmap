@@ -49,7 +49,7 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
             </div>
             <Form className="mt-8 space-y-6">
               <FormField
-                label={t("pages.change_password.form.email")}
+                label={t("common.email")}
                 name="newPassword"
                 placeholder={t("pages.change_password.form.placeholder")}
                 required
