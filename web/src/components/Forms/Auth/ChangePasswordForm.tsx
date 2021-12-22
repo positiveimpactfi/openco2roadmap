@@ -5,6 +5,8 @@ import { useState } from "react";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
 import Link from "next/link";
+import ChangeLanguage from "components/ChangeLanguage";
+import useTranslation from "next-translate/useTranslation";
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string()
@@ -13,6 +15,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
+  const { t } = useTranslation("auth");
   const [changePassword] = useChangePasswordMutation();
   const [complete, setComplete] = useState(false);
   const [tokenError, setTokenError] = useState("");
@@ -35,21 +38,20 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
     >
       {({ isSubmitting, errors, values }) => (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+          <div className="absolute right-4 top-4">
+            <ChangeLanguage />
+          </div>
           <div className="max-w-md w-full space-y-8">
             <div>
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Vaihda salasana
+                {t("pages.change_password.title")}
               </h2>
-              {/* <p className="text-sm font-medium text-gray-700 text-center">
-                Uusiaksesi salasanan syötä alle sähköpostiosoite. Linkki ja
-                ohjeet salasanan uusimiseksi lähetetään sähköpostiisi.
-              </p> */}
             </div>
             <Form className="mt-8 space-y-6">
               <FormField
-                label="Salasana"
+                label={t("pages.change_password.form.email")}
                 name="newPassword"
-                placeholder="Uusi salasana"
+                placeholder={t("pages.change_password.form.placeholder")}
                 required
                 roundedBottom
                 roundedTop
@@ -65,17 +67,17 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
                     Object.keys(errors).length !== 0
                   }
                 >
-                  Vaihda salasana
+                  {t("pages.change_password.title")}
                 </Button>
               </div>
               {complete && (
                 <div className="flex flex-col justify-center items-center">
                   <p className="text-center font-medium text-md text-gray-700">
-                    Salasana päivitetty!
+                    {t("pages.change_password.form.success")}
                   </p>
                   <Link href="/login" passHref>
                     <a className="text-center font-medium text-teal-600 hover:text-teal-500">
-                      Kirjautumaan
+                      {t("actions.to_login.")}
                     </a>
                   </Link>
                 </div>
