@@ -9,6 +9,9 @@ import SlideOver from "components/SlideOver";
 import { useState } from "react";
 import LoadingSpinner from "components/LoadingSpinner";
 import useTranslation from "next-translate/useTranslation";
+import CreateEmissionFactorForm from "components/Forms/Emissions/CreateEmissionFactor";
+import { EmissionFactor } from "types/generatedTypes";
+import ShowEmissionFactor from "components/EmissionFactorView";
 
 const SettingsEmissionFactorsPage = () => {
   const { t } = useTranslation("settings");
@@ -16,6 +19,13 @@ const SettingsEmissionFactorsPage = () => {
   const { data: publicEFs, loading: publicLoading } =
     useAllPublicEmissionFactorsQuery();
   const [formOpen, setFormOpen] = useState(false);
+  const [showOpen, setShowOpen] = useState(false);
+  const [selectedEf, setSelectedEf] = useState<EmissionFactor>(null);
+
+  const handleShowEf = (ef: EmissionFactor) => {
+    setSelectedEf(ef);
+    setShowOpen(true);
+  };
 
   return (
     <SettingsPanel
@@ -23,11 +33,18 @@ const SettingsEmissionFactorsPage = () => {
       description={t("pages.emission_factors.description_long")}
     >
       <SlideOver
+        open={showOpen}
+        setOpen={setShowOpen}
+        title={t("pages.emission_factors.actions.show_ef")}
+      >
+        <ShowEmissionFactor ef={selectedEf} onClose={setShowOpen} />
+      </SlideOver>
+      <SlideOver
         title={t("pages.emission_factors.actions.new_ef.description")}
         open={formOpen}
         setOpen={setFormOpen}
       >
-        Uusi kerroin lomake
+        <CreateEmissionFactorForm onClose={setFormOpen} />
       </SlideOver>
 
       <div className="mb-4">
@@ -74,7 +91,9 @@ const SettingsEmissionFactorsPage = () => {
                         ef.physicalQuantity.baseUnit.shorthand
                       }
                     />
-                    <TableCellOpenOptions fn={() => console.log("opened ef")} />
+                    <TableCellOpenOptions
+                      fn={() => handleShowEf(ef as EmissionFactor)}
+                    />
                   </tr>
                 ))}
                 <tr className="h-6 bg-gray-100">
@@ -110,7 +129,9 @@ const SettingsEmissionFactorsPage = () => {
                         ef.physicalQuantity.baseUnit.shorthand
                       }
                     />
-                    <TableCellOpenOptions fn={() => console.log("opened ef")} />
+                    <TableCellOpenOptions
+                      fn={() => handleShowEf(ef as EmissionFactor)}
+                    />
                   </tr>
                 ))}
               </Table>

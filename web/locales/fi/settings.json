@@ -58,7 +58,8 @@
         "new_ef": {
           "title": "Lisää uusi päästökerroin",
           "description": "Lisätään uusi päästökerroin"
-        }
+        },
+        "show_ef": "Tarkastellaan päästökerrointa"
       },
       "table": {
         "headers": [

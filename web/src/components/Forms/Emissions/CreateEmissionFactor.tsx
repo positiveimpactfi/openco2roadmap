@@ -6,6 +6,7 @@ import {
 } from "graphql/mutations/emissions/createEmissionFactor.generated";
 import { useBaseMeasurementUnitsQuery } from "graphql/queries/calculation/baseUnits.generated";
 import { AllPublicEmissionFactorsDocument } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
+import { MyEmissionFactorsDocument } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useEmissionSourceOptions } from "hooks/useEmissionSourceOptions";
 import {
   DataSourceType,
@@ -67,7 +68,10 @@ const CreateEmissionFactorForm: React.FC<{
         };
         const response = await createEmissionFactor({
           variables,
-          refetchQueries: [AllPublicEmissionFactorsDocument],
+          refetchQueries: [
+            AllPublicEmissionFactorsDocument,
+            MyEmissionFactorsDocument,
+          ],
         });
         console.log("response", response);
         if (response.data.createEmissionFactor.id) {
