@@ -7,7 +7,7 @@ import SelectNumber from "components/Forms/Common/SelectNumber";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateDataEntryMutation } from "graphql/mutations/data/updateDataEntry.generated";
-import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
+import { MyDataEntriesDocument } from "graphql/queries/data/myDataEntries.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";

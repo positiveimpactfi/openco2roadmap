@@ -19,7 +19,7 @@ import { useDeleteEntryMutation } from "graphql/mutations/data/deleteDataEntry.g
 import {
   MyDataEntriesDocument,
   useMyDataEntriesQuery,
-} from "graphql/queries/data/dataEntry.generated";
+} from "graphql/queries/data/myDataEntries.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { DataEntry } from "types/generatedTypes";
