@@ -32,7 +32,11 @@ const TabMenu: React.FC<TabMenuProps> = ({ links, namespace = "common" }) => {
           value={tabs.find((tab) => tab.current)?.href}
         >
           {tabs.map((tab) => (
-            <option key={tab.name} label={tab.name} value={tab.href}>
+            <option
+              key={tab.name}
+              label={t(`pages.${tab.name}.title`)}
+              value={tab.href}
+            >
               {t(`pages.${tab.name}.title`)}
             </option>
           ))}
