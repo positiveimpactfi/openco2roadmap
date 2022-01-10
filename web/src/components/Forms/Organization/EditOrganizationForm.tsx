@@ -118,7 +118,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 selectedValue={org.municipality}
               />
               <Select
-                name="Toimiala"
+                name="businessField"
                 showLabel
                 label="Toimiala"
                 setFieldValue={setFieldValue}
