@@ -10,6 +10,7 @@ import { Form, Formik, FormikProps } from "formik";
 import { EmissionFactorFragmentFragment } from "graphql/fragments/emissionFactor.generated";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
 import { MyDataEntriesDocument } from "graphql/queries/data/myDataEntries.generated";
+import { MyOrganizationDataEntriesDocument } from "graphql/queries/data/myOrganizationDataEntries.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
@@ -99,7 +100,10 @@ const CreateDataEntryForm: React.FC<{
         };
         const response = await createDataEntry({
           variables: vars as any,
-          refetchQueries: [MyDataEntriesDocument],
+          refetchQueries: [
+            MyDataEntriesDocument,
+            MyOrganizationDataEntriesDocument,
+          ],
         });
         if (response.data.createDataEntry.id) {
           setSubmitting(false);

@@ -20,6 +20,7 @@ import {
   MyDataEntriesDocument,
   useMyDataEntriesQuery,
 } from "graphql/queries/data/myDataEntries.generated";
+import { useMyOrganizationDataEntriesQuery } from "graphql/queries/data/myOrganizationDataEntries.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { DataEntry } from "types/generatedTypes";
@@ -32,9 +33,9 @@ const CalculatorConsumptionDataPage = () => {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [dataEntry, setDataEntry] = useState(null);
-  const { data, loading } = useMyDataEntriesQuery();
+  const { data, loading } = useMyOrganizationDataEntriesQuery();
   const [deleteEntry] = useDeleteEntryMutation();
-  const dataEntries = data?.myDataEntries;
+  const dataEntries = data?.myOrganizationDataEntries;
 
   const handleShowEntry = (entry: DataEntry) => {
     setDataEntry(entry);
