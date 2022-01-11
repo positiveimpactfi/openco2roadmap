@@ -682,7 +682,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "SYKE / Julia 2030 Project, 2011",
   },
   {
-    emissionSource: EmissionSourceType.HenkiloautoKA,
+    emissionSource: EmissionSourceType.Henkiloautot,
     name: "Henkilöautot keskimäärin",
     unit: MeasurementUnitType.km,
     region: "Suomi",
@@ -693,7 +693,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.BensiiniHenkiloauto,
+    emissionSource: EmissionSourceType.Henkiloautot,
     name: "Bensiinikäyttöinen henkilöauto",
     unit: MeasurementUnitType.km,
     region: "Suomi",
@@ -704,7 +704,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.DieselHenkiloauto,
+    emissionSource: EmissionSourceType.Henkiloautot,
     name: "Dieselkäyttöinen henkilöauto",
     unit: MeasurementUnitType.km,
     region: "Suomi",
@@ -715,7 +715,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.KaasuHenkiloauto,
+    emissionSource: EmissionSourceType.Henkiloautot,
     name: "Kaasukäyttöinen (CNG) henkilöauto",
     unit: MeasurementUnitType.km,
     region: "Suomi",
@@ -726,7 +726,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.SahkoHenkiloauto,
+    emissionSource: EmissionSourceType.Henkiloautot,
     name: "Sähköhenkilöauto (BEV)",
     unit: MeasurementUnitType.km,
     region: "Suomi",
@@ -737,7 +737,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.LyhyetLennotKotimaa,
+    emissionSource: EmissionSourceType.Lentomatkat,
     name: "Kotimaa, lyhyet lennot ≤ 463 km",
     unit: MeasurementUnitType.pkm,
     region: "Suomi",
@@ -748,7 +748,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "Vähimat-laskurin päästökerroinluettelo",
   },
   {
-    emissionSource: EmissionSourceType.PitkatLennotKotimaa,
+    emissionSource: EmissionSourceType.Lentomatkat,
     name: "Kotimaa, pitkät lennot > 463 km",
     unit: MeasurementUnitType.pkm,
     region: "Suomi",
@@ -759,7 +759,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "Vähimat-laskurin päästökerroinluettelo",
   },
   {
-    emissionSource: EmissionSourceType.LyhytLennotEurooppa,
+    emissionSource: EmissionSourceType.Lentomatkat,
     name: "Eurooppa, lyhyet lennot  ≤ 463 km",
     unit: MeasurementUnitType.pkm,
     region: "Suomi",
@@ -770,7 +770,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "Vähimat-laskurin päästökerroinluettelo",
   },
   {
-    emissionSource: EmissionSourceType.PitkatLennotEurooppa,
+    emissionSource: EmissionSourceType.Lentomatkat,
     name: "Eurooppa, pitkät lennot > 463 km",
     unit: MeasurementUnitType.pkm,
     region: "Suomi",
@@ -781,7 +781,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "Vähimat-laskurin päästökerroinluettelo",
   },
   {
-    emissionSource: EmissionSourceType.Pakettiauto,
+    emissionSource: EmissionSourceType.Tiekuljetukset,
     name: "Pakettiauto",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -792,7 +792,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Jakelukuormaauto6t,
+    emissionSource: EmissionSourceType.Tiekuljetukset,
     name: "Jakelukuorma-auto (6t) (maantieajo, täysi kuorma)",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -803,7 +803,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Jakelukuormaauto15t,
+    emissionSource: EmissionSourceType.Tiekuljetukset,
     name: "Jakelukuorma-auto (15t) (maantieajo, täysi kuorma)",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -814,7 +814,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Puoliperavaunu,
+    emissionSource: EmissionSourceType.Tiekuljetukset,
     name: "Puoliperävaunuyhdistelmät (maantieajo, täysi kuorma)",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -825,7 +825,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Peravaunu,
+    emissionSource: EmissionSourceType.Tiekuljetukset,
     name: "Perävaunullinen yhdistelmä (maantieajo, täysi kuorma)",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -836,7 +836,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Konttialus,
+    emissionSource: EmissionSourceType.Laivakuljetukset,
     name: "Konttialus (mallia 1000 TEU, täyttöaste 65 %)",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -847,7 +847,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.TavarajunaDiesel,
+    emissionSource: EmissionSourceType.Raidekuljetukset,
     name: "Tavarajunat keskimäärin, diesel",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -858,7 +858,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.TavarajunaSahko,
+    emissionSource: EmissionSourceType.Raidekuljetukset,
     name: "Tavarajunat keskimäärin, sähkö",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -869,7 +869,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Kotimaanlennot,
+    emissionSource: EmissionSourceType.Lentokuljetukset,
     name: "Kotimaanlennot",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -880,7 +880,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.LyhyetUlkomaatlennot,
+    emissionSource: EmissionSourceType.Lentokuljetukset,
     name: "Lyhyet ulkomaanlennot",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
@@ -891,7 +891,7 @@ export const emissionFactors: EmissionFactor[] = [
     source: "VTT Lipasto",
   },
   {
-    emissionSource: EmissionSourceType.Kaukolennot,
+    emissionSource: EmissionSourceType.Lentokuljetukset,
     name: "Kaukolennot",
     unit: MeasurementUnitType.tkm,
     region: "Suomi",
