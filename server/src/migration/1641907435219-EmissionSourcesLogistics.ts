@@ -225,7 +225,7 @@ export class EmissionSourcesLogistics1641907435219
     );
     await queryRunner.query(
       `DELETE FROM "public"."emission_source" WHERE "id" > 13 AND "id" < 45;`
-    ); // delete newly added emission sources
+    ); // delete old overly specific emission sources
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
