@@ -1,0 +1,81 @@
+{
+  "pages": {
+    "home": {
+      "title": "Etusivu",
+      "description": "Etusivu"
+    },
+    "sites": {
+      "title": "Toimipaikat",
+      "description": "Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla näet yrityksesi hiilijalanjälkilaskennassa käytetyn toimipaikkarakenteen.",
+      "table": {
+        "headers": [
+          "Toimipaikan nimi",
+          "Toimipaikan tyyppi",
+          "Sijaintikunta",
+          "Yksiköt"
+        ]
+      }
+    },
+    "emission_sources": {
+      "title": "Päästolähteet",
+      "description": "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy.",
+      "table": {
+        "headers": [
+          "Kategoria",
+          "Komponentti",
+          "Päästölähde",
+          "Sovellusala (oletus)",
+          "Päästökerroin (oletus)"
+        ]
+      }
+    },
+    "emission_factors": {
+      "title": "Päästökertoimet",
+      "description": "Tutki mitä päästökertoimia yrityksesi laskentaan on käytettävissä.",
+      "table": {
+        "headers": [
+          "Nimi",
+          "Lähde",
+          "Alkaen",
+          "Päättyen",
+          "Uusin arvo",
+          "Tiedot"
+        ]
+      }
+    },
+    "consumption_data": {
+      "title": "Kulutustiedot",
+      "description": "Hiilijalanjäljen laskeminen perustuu yrityksesi todellisiin kulutustietoihin. Saat nämä mm. energiayhtiöiltä, ajopäiväkirjoista ja kirjanpidosta. sivun kautta syötät energian, jätteiden, hankintojen ja hallinnon eri kulutustiedot, kuukausi- tai vuositasolla.",
+      "actions": {
+        "add_data": "Lisää tietoja",
+        "show_data": "Näytetään kulutustietoja",
+        "edit_data": "Muokataan kulutustietoja",
+        "delete_data": {
+          "warning": {
+            "title": "Poistetaanko kulutustiedot?",
+            "description": "Haluatko varmasti poistaa alla olevat kulutustiedot? Tätä toimipidettä ei voi perua."
+          }
+        }
+      },
+      "table": {
+        "headers": [
+          "Kategoria",
+          "Päästölähde",
+          "Päästökerroin",
+          "Toimipaikka",
+          "kk/vuosi",
+          "Määrä",
+          "kg CO2e",
+          "Toiminnot"
+        ]
+      }
+    },
+    "footprints": {
+      "title": "Hiilijalanjäljet",
+      "description": "Päästölaskennan yhteenvedot muodostetaan hiilijalanjäljet-sivulla.",
+      "table": {
+        "headers": ["Hiilijalanjäljen Yhteenveto"]
+      }
+    }
+  }
+}

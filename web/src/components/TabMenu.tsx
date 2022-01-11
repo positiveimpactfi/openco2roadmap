@@ -2,12 +2,15 @@ import { PageLink } from "types/PageLink";
 import { useRouter } from "next/router";
 import { classNames } from "utils/classNames";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 interface TabMenuProps {
   links: Partial<PageLink & { current?: boolean }>[];
+  namespace?: string;
 }
 
-const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
+const TabMenu: React.FC<TabMenuProps> = ({ links, namespace = "common" }) => {
+  const { t } = useTranslation(namespace);
   const router = useRouter();
   const tabs = links.map((link) => {
     return {
@@ -29,8 +32,12 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
           value={tabs.find((tab) => tab.current)?.href}
         >
           {tabs.map((tab) => (
-            <option key={tab.name} label={tab.name} value={tab.href}>
-              {tab.name}
+            <option
+              key={tab.name}
+              label={t(`pages.${tab.name}.title`)}
+              value={tab.href}
+            >
+              {t(`pages.${tab.name}.title`)}
             </option>
           ))}
         </select>
@@ -53,7 +60,7 @@ const TabMenu: React.FC<TabMenuProps> = ({ links }) => {
                   )}
                   aria-current={tab.current ? "page" : undefined}
                 >
-                  {tab.name}
+                  {t(`pages.${tab.name}.title`)}
                 </a>
               </Link>
             ))}

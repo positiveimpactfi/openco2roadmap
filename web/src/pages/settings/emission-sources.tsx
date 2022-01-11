@@ -3,14 +3,16 @@ import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
+import useTranslation from "next-translate/useTranslation";
 
 const EmissionSourcesSettingsPage = () => {
+  const { t } = useTranslation("settings");
   const { data, loading } = useAllEmissionSourcesQuery();
   const emissionSources = data?.allEmissionSources || [];
   return (
     <SettingsPanel
-      title="Päästölähteet"
-      description="Hiilijalanjälkilaskennan eri päästölähteiden kanssa käytettävät oletuskertoimet voi määrittää tällä asetussivulla. Jos muutat oletuskerrointa, aiemmin lisäämäsi kulutustiedot pysyvät ennallaan."
+      title={t("pages.emission_sources.title")}
+      description={t("pages.emission_sources.description_long")}
     >
       {loading ? (
         <LoadingSpinner />
@@ -20,15 +22,11 @@ const EmissionSourcesSettingsPage = () => {
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table
-                  headers={[
-                    "Kategoria",
-                    "Komponentti",
-                    "Päästölähde",
-                    "Sovellusala (oletus)",
-                    // "Päästökerroin (oletus)",
-                    "Muokkaa",
-                  ]}
-                  alignLastRight
+                  headers={t(
+                    "pages.emission_sources.table.headers",
+                    {},
+                    { returnObjects: true }
+                  )}
                 >
                   {emissionSources.map((es) => (
                     <tr key={es.id}>
@@ -36,8 +34,7 @@ const EmissionSourcesSettingsPage = () => {
                       <TableCell value={es.components[0].name} />
                       <TableCell value={es.name} />
                       <TableCell value={es.scope} />
-                      {/* <TableCell value={"--"} /> */}
-                      <TableCellOpenOptions fn={() => console.log("hello")} />
+                      {/* <TableCellOpenOptions fn={() => console.log("hello")} /> */}
                     </tr>
                   ))}
                 </Table>

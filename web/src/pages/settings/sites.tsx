@@ -8,10 +8,12 @@ import SettingsPanel from "components/SettingsPanel";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { Site } from "types/generatedTypes";
 
 const SiteSettingsPage = () => {
+  const { t } = useTranslation("settings");
   const [newSiteTypeOpen, setNewSiteTypeOpen] = useState(false);
   const [createSiteOpen, setCreateSiteOpen] = useState(false);
   const [editSiteOpen, setEditSiteOpen] = useState(false);
@@ -26,25 +28,25 @@ const SiteSettingsPage = () => {
 
   return (
     <SettingsPanel
-      title="Toimipaikat"
-      description="Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla voit määritellä yrityksesi toimipaikkarakenteen. Luo ensin tarvitsemasi toimipaikkatyypit (esim. Yritys, Ravintola, Hotelli tai Toimisto)."
+      title={t("pages.sites.title")}
+      description={t("pages.sites.description_long")}
     >
       <SlideOver
-        title="Uusi toimipaikan tyyppi"
+        title={t("pages.sites.actions.add_site_type")}
         open={newSiteTypeOpen}
         setOpen={setNewSiteTypeOpen}
       >
         <CreateSiteTypeForm setOpen={setNewSiteTypeOpen} />
       </SlideOver>
       <SlideOver
-        title="Uusi toimipaikka"
+        title={t("pages.sites.actions.add_site")}
         open={createSiteOpen}
         setOpen={setCreateSiteOpen}
       >
         <CreateSiteForm setOpen={setCreateSiteOpen} />
       </SlideOver>
       <SlideOver
-        title="Muokkaa toimipaikkaa"
+        title={t("pages.sites.actions.edit_site")}
         open={editSiteOpen}
         setOpen={setEditSiteOpen}
       >
@@ -52,10 +54,10 @@ const SiteSettingsPage = () => {
       </SlideOver>
       <div className="flex space-x-2 mb-4">
         <Button variant="success" onClick={() => setNewSiteTypeOpen(true)}>
-          Uusi toimipaikan tyyppi
+          {t("pages.sites.actions.add_site_type")}
         </Button>
         <Button variant="success" onClick={() => setCreateSiteOpen(true)}>
-          Lisää toimipaikka
+          {t("pages.sites.actions.add_site")}
         </Button>
       </div>
       {loading ? (
@@ -66,13 +68,11 @@ const SiteSettingsPage = () => {
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <Table
-                  headers={[
-                    "Toimipaikan nimi",
-                    "Toimipaikan tyyppi",
-                    "Sijaintikunta",
-                    "Yksiköt",
-                    "Muokkaa",
-                  ]}
+                  headers={t(
+                    "pages.sites.table.headers",
+                    {},
+                    { returnObjects: true }
+                  )}
                   alignLastRight
                 >
                   {sites.map((site) => (

@@ -10,7 +10,7 @@ const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
   const { user } = useUser();
   const router = useRouter();
   const currentTab: PageLink = {
-    name: "Hallintapaneeli",
+    name: "home",
     description: "Hallintapaneeli - Etusivu",
     href: "/admin",
     current: router.pathname === "/admin",
@@ -22,7 +22,12 @@ const AdminPanel: React.FC<Headings> = ({ title, description, children }) => {
         .filter((link) => companyAdminLinks.includes(link.href));
   const links = [currentTab, ...activeLinks];
   return (
-    <PageWithTabs title={title} description={description} links={links}>
+    <PageWithTabs
+      title={title}
+      description={description}
+      links={links}
+      namespace="admin"
+    >
       {children}
     </PageWithTabs>
   );

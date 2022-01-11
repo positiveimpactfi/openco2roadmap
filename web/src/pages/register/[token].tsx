@@ -1,7 +1,9 @@
 import { withAuth } from "components/Auth";
+import ChangeLanguage from "components/ChangeLanguage";
 import { RegisterForm } from "components/Forms/Auth/RegisterForm";
 import { Formik, FormikProps } from "formik";
 import { useRegisterMutation } from "graphql/mutations/auth/register.generated";
+import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { errorArrayToObject } from "utils/errorArrayToObject";
@@ -18,6 +20,7 @@ const RegisterSchema = yup.object().shape({
 });
 
 const RegisterPage = () => {
+  const { t } = useTranslation("auth");
   const [registerMutation] = useRegisterMutation();
   const [tokenError, setTokenError] = useState("");
   const router = useRouter();
@@ -49,9 +52,12 @@ const RegisterPage = () => {
     >
       {({ isSubmitting }: FormikProps<RegisterFormProps>) => (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+          <div className="absolute right-4 top-4">
+            <ChangeLanguage />
+          </div>
           <div className="max-w-md w-full space-y-8">
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Luo uusi käyttäjä
+              {t("pages.register.title")}
             </h2>
             {tokenError && <p className="text-red-400">{tokenError}</p>}
             <RegisterForm isSubmitting={isSubmitting} />

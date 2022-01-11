@@ -69,9 +69,13 @@ export class DataEntryResolver {
     }
     const org = user.organizations[0];
     const res = await DataEntry.createQueryBuilder("data")
-      .select(["data", "createdBy", "org"])
+      .select(["data", "createdBy", "org", "siteUnit", "site", "ev", "ef"])
       .leftJoin("data.createdBy", "createdBy")
       .leftJoin("createdBy.organizations", "org")
+      .leftJoin("data.siteUnit", "siteUnit")
+      .leftJoin("siteUnit.site", "site")
+      .leftJoin("data.emissionFactorValue", "ev")
+      .leftJoin("ev.emissionFactor", "ef")
       .where("org.id = :id", { id: org.id })
       .getMany();
     return res;
@@ -149,6 +153,7 @@ export class DataEntryResolver {
 
     newDataEntry.calculationResults.push(calculationResult);
     await newDataEntry.save();
+    // req.log.info(newDataEntry, "Created new DataEntry");
     console.log("created data entry", newDataEntry);
     console.log("created new calculation result", calculationResult);
     return newDataEntry;
@@ -292,12 +297,14 @@ export class DataEntryResolver {
       dataEntry.calculationResults
     );
     console.log("deleted calculation results", deletedCalculationResults);
+    // req.log.info(deletedCalculationResults, "Deleted calculation results");
     user.dataEntries = user.dataEntries?.filter(
       (entry) => entry.id !== dataEntry.id
     );
     await user.save();
 
     const deletedEntry = await dataEntry.remove();
+    // req.log.info(deletedEntry, "Deleted DataEntry");
     console.log("deleted data entry", { ...deletedEntry, id: dataEntry.id });
     return deletedEntry;
   }

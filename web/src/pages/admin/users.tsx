@@ -18,11 +18,14 @@ import {
 import { useAllUsersQuery } from "graphql/queries/users/allUsers.generated";
 import { useMeQuery } from "graphql/queries/users/me.generated";
 import { useMyOrganizationUsersQuery } from "graphql/queries/users/myOrganizationUsers.generated";
+import { Translate } from "next-translate";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { InvitedUser, User } from "types/generatedTypes";
 import { isSuperAdmin } from "utils/isAdmin";
 
 const UsersPage = () => {
+  const { t } = useTranslation("admin");
   const { data } = useMeQuery();
   const [sendReminder] = useSendInvitationReminderMutation();
   const [cancelInvite] = useCancelUserInviteMutation();
@@ -39,12 +42,12 @@ const UsersPage = () => {
   };
 
   const handleAddUser = () => {
-    setNotificationText("Käyttäjä lisätty");
+    setNotificationText(t("pages.users.actions.add_user.success"));
     setShowNotification(true);
   };
 
   const handleSendUserInvite = () => {
-    setNotificationText("Kutsu lähetetty");
+    setNotificationText(t("pages.users.actions.invite_user.success"));
     setShowNotification(true);
   };
 
@@ -55,7 +58,7 @@ const UsersPage = () => {
     if (!res?.data?.sendInvitationReminder) {
       console.log("could not send reminder");
     } else {
-      setNotificationText("Muistutus lähetetty");
+      setNotificationText(t("pages.users.actions.send_reminder.success"));
       setShowNotification(true);
     }
   };
@@ -70,14 +73,14 @@ const UsersPage = () => {
     if (!res?.data?.cancelUserInvite) {
       console.log("could not cancel invite");
     } else {
-      setNotificationText("Kutsu peruttu onnistuneesti");
+      setNotificationText(t("pages.users.actions.cancel_invite.success"));
       setShowNotification(true);
     }
   };
   return (
     <AdminsOnly
-      title="Käyttäjät"
-      description="Tällä sivulla voit kutsua, lisätä, muokata ja poistaa käyttäjiä laskuriin."
+      title={t("pages.users.title")}
+      description={t("pages.users.description_long")}
     >
       <div>
         <Notification
@@ -87,14 +90,14 @@ const UsersPage = () => {
           setShow={setShowNotification}
         />
         <SlideOver
-          title="Käyttäjän tiedot"
+          title={t("pages.users.actions.show_user.title")}
           open={userViewOpen}
           setOpen={setUserViewOpen}
         >
           <UserView user={selectedUser} onClose={setUserViewOpen} />
         </SlideOver>
         <SlideOver
-          title="Kutsu käyttäjä"
+          title={t("pages.users.actions.invite_user.title")}
           open={inviteFormOpen}
           setOpen={setInviteFormOpen}
         >
@@ -104,7 +107,7 @@ const UsersPage = () => {
           />
         </SlideOver>
         <SlideOver
-          title="Lisää käyttäjä"
+          title={t("pages.users.actions.add_user.title")}
           open={addFormOpen}
           setOpen={setAddFormOpen}
         >
@@ -116,10 +119,10 @@ const UsersPage = () => {
             onClick={() => setInviteFormOpen(true)}
             // disabled
           >
-            Kutsu käyttäjä
+            {t("pages.users.actions.invite_user.title")}
           </Button>
           <Button variant="success" onClick={() => setAddFormOpen(true)}>
-            Lisää käyttäjä
+            {t("pages.users.actions.add_user.title")}
           </Button>
         </div>
         {isSuperAdmin(data?.me) ? (
@@ -127,12 +130,14 @@ const UsersPage = () => {
             handleFormOpen={handleShowUser}
             handleSendReminder={handleSendReminder}
             handleCancelInvite={handleCancelUserInvite}
+            t={t}
           />
         ) : (
           <CompanyUsersTable
             handleFormOpen={handleShowUser}
             handleSendReminder={handleSendReminder}
             handleCancelInvite={handleCancelUserInvite}
+            t={t}
           />
         )}
       </div>
@@ -144,7 +149,8 @@ const CompanyUsersTable: React.FC<{
   handleFormOpen: (val: Partial<User>) => void;
   handleSendReminder: (val: InvitedUser) => void;
   handleCancelInvite: (val: InvitedUser) => void;
-}> = ({ handleFormOpen, handleSendReminder, handleCancelInvite }) => {
+  t: Translate;
+}> = ({ handleFormOpen, handleSendReminder, handleCancelInvite, t }) => {
   const { data, loading } = useMyOrganizationUsersQuery();
   const { data: invited } = useAllInvitedUsersQuery();
   const users = data?.myOrganizationUsers;
@@ -159,13 +165,11 @@ const CompanyUsersTable: React.FC<{
             <div className="shadow border-b border-gray-200 sm:rounded-lg">
               <Table
                 alignLastRight
-                headers={[
-                  "Sukunimi",
-                  "Etunimi",
-                  "Sähköposti",
-                  "Status",
-                  "Toiminnot",
-                ]}
+                headers={t(
+                  "pages.users.table.headers",
+                  {},
+                  { returnObjects: true }
+                )}
               >
                 {invitedUsers?.map((user) => (
                   <tr key={user.id}>
@@ -176,9 +180,13 @@ const CompanyUsersTable: React.FC<{
                     <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleSendReminder(user as InvitedUser)}
-                        onShowText="Lähetä muistutus"
+                        onShowText={t(
+                          "pages.users.actions.send_reminder.title"
+                        )}
                         onDelete={() => handleCancelInvite(user as InvitedUser)}
-                        onDeleteText="Peru kutsu"
+                        onDeleteText={t(
+                          "pages.users.actions.cancel_invite.title"
+                        )}
                       />
                     </td>
                   </tr>
@@ -210,7 +218,8 @@ const SuperAdminUserTable: React.FC<{
   handleFormOpen: (val: User) => void;
   handleSendReminder: (val: InvitedUser) => void;
   handleCancelInvite: (val: InvitedUser) => void;
-}> = ({ handleFormOpen, handleSendReminder, handleCancelInvite }) => {
+  t: Translate;
+}> = ({ handleFormOpen, handleSendReminder, handleCancelInvite, t }) => {
   const { data, loading } = useAllUsersQuery();
   const { data: invited } = useAllInvitedUsersQuery();
   const users = data?.allUsers;
@@ -225,14 +234,11 @@ const SuperAdminUserTable: React.FC<{
             <div className="shadow border-b border-gray-200 sm:rounded-lg">
               <Table
                 alignLastRight
-                headers={[
-                  "Sukunimi",
-                  "Etunimi",
-                  "Sähköposti",
-                  "Status",
-                  "Yritykset",
-                  "Toiminnot",
-                ]}
+                headers={t(
+                  "pages.users.table.headers_super",
+                  {},
+                  { returnObjects: true }
+                )}
               >
                 {invitedUsers?.map((user) => (
                   <tr key={user.id}>
@@ -244,9 +250,13 @@ const SuperAdminUserTable: React.FC<{
                     <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleSendReminder(user as InvitedUser)}
-                        onShowText="Lähetä muistutus"
+                        onShowText={t(
+                          "pages.users.actions.send_reminder.title"
+                        )}
                         onDelete={() => handleCancelInvite(user as InvitedUser)}
-                        onDeleteText="Peru kutsu"
+                        onDeleteText={t(
+                          "pages.users.actions.cancel_invite.title"
+                        )}
                       />
                     </td>
                   </tr>

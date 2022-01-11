@@ -7,12 +7,14 @@ import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { EmissionFactor } from "types/generatedTypes";
 import { compareString } from "utils/compareStrings";
 import { numberToString } from "utils/numberToString";
 
 const AdminEmissionFactorsPage = () => {
+  const { t } = useTranslation("admin");
   const { data, loading } = useAllPublicEmissionFactorsQuery();
   const [open, setOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
@@ -30,28 +32,28 @@ const AdminEmissionFactorsPage = () => {
 
   return (
     <AdminsOnly
-      title="Päästökertoimet"
-      description="Tällä sivulla voit tarkastella kaikki järjestelmän päästökertoimet ja määritellä uusia."
+      title={t("pages.emission_factors.title")}
+      description={t("pages.emission_factors.description_long")}
     >
       <div>
         <SlideOver
           open={open}
           setOpen={setOpen}
-          title="Tarkastellaan päästökerrointa"
+          title={t("pages.emission_factors.actions.show_ef")}
         >
           <ShowEmissionFactor ef={selectedEf} onClose={setOpen} />
         </SlideOver>
         <SlideOver
           open={formOpen}
           setOpen={setFormOpen}
-          title="Lisätään uusi päästökerroin"
+          title={t("pages.emission_factors.actions.add_ef.description")}
         >
           <CreateEmissionFactorForm onClose={setFormOpen} />
         </SlideOver>
       </div>
       <div className="mb-4">
         <Button variant="success" onClick={() => setFormOpen(true)}>
-          Lisää uusi kerroin
+          {t("pages.emission_factors.actions.add_ef.title")}
         </Button>
       </div>
       {loading ? (

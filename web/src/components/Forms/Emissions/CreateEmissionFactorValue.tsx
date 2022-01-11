@@ -2,6 +2,7 @@ import Button from "components/Button";
 import { Form, Formik } from "formik";
 import { useCreateEmissionFactorValueMutation } from "graphql/mutations/emissions/createEmissionFactorValue.generated";
 import { AllPublicEmissionFactorsDocument } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
+import { MyEmissionFactorsDocument } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { EmissionFactor, EmissionFactorValue } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 import FormField from "../Common/FormField";
@@ -34,7 +35,10 @@ const CreateEmissionFactorValueForm: React.FC<{
             endDate: Number(values.endDate),
             value: Number(values.value),
           },
-          refetchQueries: [AllPublicEmissionFactorsDocument],
+          refetchQueries: [
+            AllPublicEmissionFactorsDocument,
+            MyEmissionFactorsDocument,
+          ],
         });
         if (response.data.createEmissionFactorValue.id) {
           setSubmitting(false);

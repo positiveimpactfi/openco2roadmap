@@ -4,17 +4,19 @@ import LoadingSpinner from "components/LoadingSpinner";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
+import useTranslation from "next-translate/useTranslation";
 import { numberToString } from "utils/numberToString";
 
 const CalculatorEmissionFactorsPage = () => {
+  const { t } = useTranslation("calculator");
   const { data: myEFs, loading: myLoading } = useMyEmissionFactorsQuery();
   const { data: publicEFs, loading: publicLoading } =
     useAllPublicEmissionFactorsQuery();
 
   return (
     <CalculatorPanel
-      title="Päästökertoimet"
-      description="Tällä sivulla voit tarkastella yrityksesi laskennassa käytettäviä päästökertoimia. Kertoimia pääsee lisäämään ja muokkaamaan Asetukset-osion kautta."
+      title={t("pages.emission_factors.title")}
+      description={t("pages.emission_factors.description")}
     >
       {myLoading || publicLoading ? (
         <LoadingSpinner />
@@ -23,14 +25,11 @@ const CalculatorEmissionFactorsPage = () => {
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <Table
-                headers={[
-                  "Nimi",
-                  "Lähde",
-                  "Alkaen",
-                  "Päättyen",
-                  "Uusin arvo",
-                  "Tiedot",
-                ]}
+                headers={t(
+                  "pages.emission_factors.table.headers",
+                  {},
+                  { returnObjects: true }
+                )}
               >
                 {myEFs?.myEmissionFactors.map((ef) => (
                   <tr key={ef.id}>

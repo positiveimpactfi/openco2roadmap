@@ -1,0 +1,5 @@
+{
+  "auth": {
+    "not_logged_in": "You are not logged in"
+  }
+}
