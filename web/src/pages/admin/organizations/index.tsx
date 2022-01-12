@@ -43,7 +43,7 @@ const Organizations = () => {
             <NewOrganizationForm setSlideoverOpen={setNewOrgFormOpen} />
           </SlideOver>
           <SlideOver
-            title={t("pages.org.actions.edit_org")}
+            title={t("pages.orgs.actions.edit_org")}
             open={editOrgFormOpen}
             setOpen={setEditOrgFormOpen}
           >
