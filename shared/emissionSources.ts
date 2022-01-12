@@ -25,7 +25,10 @@ export const emissionSources: EmissionSource[] = [
     name: "Polttoaineet",
     id: es.Polttoaineet,
     scope: GHGScope.Scope1,
-    componentIDs: [ComponentType.Lammitys],
+    componentIDs: [
+      ComponentType.Lammitys,
+      ComponentType.KiinteistoPolttoaineet,
+    ],
   },
   {
     name: "Sähkö",
