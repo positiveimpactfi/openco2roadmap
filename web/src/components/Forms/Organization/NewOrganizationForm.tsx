@@ -8,6 +8,7 @@ import { AllOrganizationsDocument } from "graphql/queries/organization/allOrgani
 import { BusinessField, Municipality } from "types/generatedTypes";
 import { Dispatch, SetStateAction } from "react";
 import { compareString } from "utils/compareStrings";
+import useTranslation from "next-translate/useTranslation";
 
 interface FormValues {
   name: string;
@@ -19,6 +20,8 @@ interface FormValues {
 const NewOrganizationForm: React.FC<{
   setSlideoverOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({ setSlideoverOpen }) => {
+  const { t } = useTranslation("settings");
+
   const initialValues: FormValues = {
     name: "",
     businessID: "",
@@ -55,9 +58,9 @@ const NewOrganizationForm: React.FC<{
           <div className="rounded-md space-y-4">
             <FormField
               showLabel
-              label="Yrityksen nimi"
+              label={t("pages.org_settings.form.name")}
               name="name"
-              placeholder="Yrityksen nimi"
+              placeholder={t("pages.org_settings.form.name")}
               autoComplete="email"
               roundedTop
               roundedBottom
@@ -65,9 +68,9 @@ const NewOrganizationForm: React.FC<{
             />
             <FormField
               showLabel
-              label="Y-tunnus"
+              label={t("pages.org_settings.form.id")}
               name="businessID"
-              placeholder="Y-tunnus"
+              placeholder={t("pages.org_settings.form.id")}
               roundedTop
               roundedBottom
               required
@@ -75,7 +78,7 @@ const NewOrganizationForm: React.FC<{
             <Select
               options={municipalities}
               showLabel
-              label="Kotikunta"
+              label={t("pages.org_settings.form.location")}
               name="municipality"
               setFieldValue={setFieldValue}
             />
@@ -84,7 +87,7 @@ const NewOrganizationForm: React.FC<{
                 compareString(a.name, b.name)
               )}
               showLabel
-              label="Toimiala"
+              label={t("pages.org_settings.form.business_field")}
               name="businessField"
               setFieldValue={setFieldValue}
             />

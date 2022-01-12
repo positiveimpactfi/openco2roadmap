@@ -16,7 +16,7 @@
         "headers": [
           "Yrityksen nimi",
           "Y-tunnus",
-          "Kotikunta",
+          "Kotipaikka",
           "Toimiala",
           "Luotu",
           "Kirjautunut",

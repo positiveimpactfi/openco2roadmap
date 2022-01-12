@@ -6,7 +6,7 @@
     "/": ["home"],
     "rgx:/calculator/*": ["calculator"],
     "rgx:/settings/*": ["settings"],
-    "rgx:/admin/*": ["admin"],
+    "rgx:/admin/*": ["admin", "settings"],
     "/profile": ["profile"]
   }
 }

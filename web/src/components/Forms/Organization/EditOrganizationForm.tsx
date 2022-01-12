@@ -7,6 +7,7 @@ import Notification from "components/Notification";
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
+import useTranslation from "next-translate/useTranslation";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
 import { Municipality, Organization } from "types/generatedTypes";
@@ -22,6 +23,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
   org,
   setSlideoverOpen,
 }) => {
+  const { t } = useTranslation("settings");
   const [updateOrganization] = useUpdateOrganizationMutation();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [initialValues, setInitialValues] = useState<Partial<Organization>>({
@@ -92,19 +94,18 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
             <div className="rounded-md space-y-4">
               <FormField
                 showLabel
-                label="Yrityksen nimi"
+                label={t("pages.org_settings.form.name")}
                 name="name"
-                placeholder="Yrityksen nimi"
-                autoComplete="email"
+                placeholder={t("pages.org_settings.form.name")}
                 roundedTop
                 roundedBottom
                 required
               />
               <FormField
                 showLabel
-                label="Y-tunnus"
+                label={t("pages.org_settings.form.id")}
                 name="businessID"
-                placeholder="Y-tunnus"
+                placeholder={t("pages.org_settings.form.id")}
                 roundedTop
                 roundedBottom
                 required
@@ -112,7 +113,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
               <Select
                 name="municipality"
                 showLabel
-                label="Kotikunta"
+                label={t("pages.org_settings.form.location")}
                 setFieldValue={setFieldValue}
                 options={municipalities}
                 selectedValue={org.municipality}
@@ -120,7 +121,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
               <Select
                 name="businessField"
                 showLabel
-                label="Toimiala"
+                label={t("pages.org_settings.form.business_field")}
                 setFieldValue={setFieldValue}
                 options={[...businessFields].sort((a, b) =>
                   compareString(a.name, b.name)
