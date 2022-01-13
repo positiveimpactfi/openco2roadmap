@@ -1,13 +1,24 @@
 import { withAuth } from "components/Auth";
 import ChangePasswordForm from "components/Forms/Auth/ChangePasswordForm";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const ChangePasswordPage: React.FC = ({}) => {
   const router = useRouter();
   const token =
     typeof router.query.token === "string" ? router.query.token : "";
 
-  return <ChangePasswordForm token={token} />;
+  return (
+    <>
+      <Head>
+        <title>
+          {router.locale === "fi" ? "Vaihda salasana" : "Change password"} |
+          Open CO2 Roadmap
+        </title>
+      </Head>
+      <ChangePasswordForm token={token} />
+    </>
+  );
 };
 
 export default withAuth(ChangePasswordPage, false);
