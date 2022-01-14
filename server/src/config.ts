@@ -18,4 +18,6 @@ export default {
   SENDGRID_EMAIL: process.env.SENDGRID_EMAIL as string,
   SUPERADMIN_EMAIL: process.env.SUPERADMIN_EMAIL as string,
   SUPERADMIN_PW: process.env.SUPERADMIN_PW as string,
+  NOTIFICATIONS_URI: process.env.NOTIFICATIONS_URI,
+  NOTIFICATIONS_REFRESH_PASS: process.env.NOTIFICATIONS_REFRESH_PASS,
 };

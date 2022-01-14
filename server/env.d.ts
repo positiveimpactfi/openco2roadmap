@@ -15,5 +15,7 @@ declare namespace NodeJS {
     SENDGRID_EMAIL: string;
     SUPERADMIN_EMAIL: string;
     SUPERADMIN_PW: string;
+    NOTIFICATIONS_URI: string;
+    NOTIFICATIONS_REFRESH_PASS: string;
   }
 }

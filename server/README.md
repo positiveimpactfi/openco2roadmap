@@ -11,24 +11,26 @@ Docker compose file that creates a PostgreSQL database and a Redis instance, as 
 
 ## Environment variables
 
-| Variable         | Purpose                                         |
-| ---------------- | ----------------------------------------------- |
-| PORT             | Port on which the server runs, defaults to 4000 |
-| PG_HOST          | PostgreSQL host, defaults to "db"               |
-| PG_PORT          | PostgreSQL port, defaults to 5432               |
-| PG_USERNAME      | PostgreSQL database username                    |
-| PG_DB            | PostgreSQL database name                        |
-| PG_PW            | PostgreSQL database password                    |
-| REDIS_PW         | Redis instance password                         |
-| REDIS_HOST       | Redis host, defaults to "redis"                 |
-| REDIS_PORT       | Redis port, defaults to 6379                    |
-| SESSION_SECRET   | Session secret                                  |
-| COOKIE_NAME      | Name for the auth cookie sent to client         |
-| CORS_ORIGIN      | CORS origin                                     |
-| SENDGRID_API_KEY | SendGrid API key                                |
-| SENDGRID_EMAIL   | SendGrid sender email                           |
-| SUPERADMIN_EMAIL | Email for the initial SuperAdmin user           |
-| SUPERADMIN_PW    | Password for the initial SuperAdmin user        |
+| Variable                   | Purpose                                         |
+| -------------------------- | ----------------------------------------------- |
+| PORT                       | Port on which the server runs, defaults to 4000 |
+| PG_HOST                    | PostgreSQL host, defaults to "db"               |
+| PG_PORT                    | PostgreSQL port, defaults to 5432               |
+| PG_USERNAME                | PostgreSQL database username                    |
+| PG_DB                      | PostgreSQL database name                        |
+| PG_PW                      | PostgreSQL database password                    |
+| REDIS_PW                   | Redis instance password                         |
+| REDIS_HOST                 | Redis host, defaults to "redis"                 |
+| REDIS_PORT                 | Redis port, defaults to 6379                    |
+| SESSION_SECRET             | Session secret                                  |
+| COOKIE_NAME                | Name for the auth cookie sent to client         |
+| CORS_ORIGIN                | CORS origin                                     |
+| SENDGRID_API_KEY           | SendGrid API key                                |
+| SENDGRID_EMAIL             | SendGrid sender email                           |
+| SUPERADMIN_EMAIL           | Email for the initial SuperAdmin user           |
+| SUPERADMIN_PW              | Password for the initial SuperAdmin user        |
+| NOTIFICATIONS_URI          | URI of the notification server                  |
+| NOTIFICATIONS_REFRESH_PASS | pass phrase to refresh notifications            |
 
 ## Available scripts
 
