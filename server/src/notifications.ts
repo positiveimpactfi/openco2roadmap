@@ -9,12 +9,17 @@ const fetchQuery = `query getAnnoucements {
   announcements(orderBy: publishedAt_DESC, stage: PUBLISHED) {
     stage
     id
+    publishedAt
+    updatedAt
     localizations(locales: [fi, en], includeCurrent: true) {
       description {
         html
       }
       title
       locale
+    }
+    createdBy {
+      name
     }
   }
 }
