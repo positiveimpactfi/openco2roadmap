@@ -19,6 +19,9 @@ const nextConfig = {
   i18n: {
     localeDetection: false,
   },
+  images: {
+    domains: ["s.gravatar.com", "media.graphcms.com"],
+  },
   async headers() {
     return [
       {
