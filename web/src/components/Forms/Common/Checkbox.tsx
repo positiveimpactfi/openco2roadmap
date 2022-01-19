@@ -1,16 +1,20 @@
 import { useField } from "formik";
 import { InputHTMLAttributes } from "react";
 import { classNames } from "utils/classNames";
+import Link from "next/link";
+import { ExternalLinkIcon } from "@heroicons/react/outline";
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   description: string;
+  href?: string;
 };
 
 const Checkbox: React.FC<CheckboxProps> = ({
   label,
   description,
+  href,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -28,20 +32,43 @@ const Checkbox: React.FC<CheckboxProps> = ({
           type="checkbox"
           value={field.value}
           className={classNames(
-            meta.error
-              ? "text-red-500 ring-red-500"
+            meta.touched && meta.error
+              ? " focus:ring-red-500 text-red-500"
               : "focus:ring-teal-500 text-teal-600",
             "h-4 w-4  border-gray-300 rounded"
           )}
         />
       </div>
       <div className="ml-3 text-sm">
-        <label htmlFor={id} className="font-medium text-gray-700">
+        <label
+          htmlFor={id}
+          className={classNames(
+            meta.touched && meta.error ? "text-red-500" : "text-gray-700",
+            "font-medium"
+          )}
+        >
           {label}
         </label>
-        <p id={describedBy} className="text-gray-500">
-          {description}
-        </p>
+        {href ? (
+          <div>
+            <span className="flex items-center group space-x-1">
+              <Link href={href} passHref>
+                <a
+                  className="text-gray-500 group-hover:text-gray-700 group-hover:cursor-pointer"
+                  target="_blank"
+                  rel="no-referrer"
+                >
+                  {description}
+                </a>
+              </Link>
+              <ExternalLinkIcon className="h-4 text-gray-500 group-hover:text-gray-700 group-hover:cursor-pointer" />
+            </span>
+          </div>
+        ) : (
+          <p id={describedBy} className="text-gray-500">
+            {description}
+          </p>
+        )}
       </div>
     </div>
   );
