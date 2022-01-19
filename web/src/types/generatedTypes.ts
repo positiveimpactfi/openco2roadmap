@@ -133,70 +133,50 @@ export type EmissionSource = {
 
 /** Emission sources */
 export enum EmissionSourceType {
-  BensiiniHenkiloauto = 'BensiiniHenkiloauto',
   Biojate = 'Biojate',
-  DieselHenkiloauto = 'DieselHenkiloauto',
   ElintarvikkeetEur = 'ElintarvikkeetEUR',
   Energiajate = 'Energiajate',
   HedelmatJaVihannekset = 'HedelmatJaVihannekset',
-  HenkiloautoKa = 'HenkiloautoKA',
+  Henkiloautot = 'Henkiloautot',
   Herkut = 'Herkut',
-  Jakelukuormaauto6t = 'Jakelukuormaauto6t',
-  Jakelukuormaauto15t = 'Jakelukuormaauto15t',
-  Junaliput = 'Junaliput',
+  JulkisetKulkuneuvot = 'JulkisetKulkuneuvot',
   Juomat = 'Juomat',
-  KaasuHenkiloauto = 'KaasuHenkiloauto',
   KalaJaMerenlevat = 'KalaJaMerenlevat',
   Kananmunat = 'Kananmunat',
   KasvimaidotJaProteiinit = 'KasvimaidotJaProteiinit',
   Kaukojaahdytys = 'Kaukojaahdytys',
   Kaukolampo = 'Kaukolampo',
-  Kaukolennot = 'Kaukolennot',
   Kiinteistohoito = 'Kiinteistohoito',
-  Konttialus = 'Konttialus',
-  Kotimaanlennot = 'Kotimaanlennot',
   Laitehankinnat = 'Laitehankinnat',
-  Laivaliput = 'Laivaliput',
+  Laivakuljetukset = 'Laivakuljetukset',
+  Laivamatkat = 'Laivamatkat',
   Lasijate = 'Lasijate',
-  Lentoliput = 'Lentoliput',
+  Lentokuljetukset = 'Lentokuljetukset',
+  Lentomatkat = 'Lentomatkat',
   Liha = 'Liha',
-  LinjaRaitioMetro = 'LinjaRaitioMetro',
-  LyhyetLennotKotimaa = 'LyhyetLennotKotimaa',
-  LyhyetUlkomaatlennot = 'LyhyetUlkomaatlennot',
-  LyhytLennotEurooppa = 'LyhytLennotEurooppa',
   Maitotuotteet = 'Maitotuotteet',
-  Majoituspalveluhankinnat = 'Majoituspalveluhankinnat',
-  MatkailumenotUlkomailla = 'MatkailumenotUlkomailla',
-  Matkakorvaukset = 'Matkakorvaukset',
   Metallijate = 'Metallijate',
+  MuutHenkilokuljetukset = 'MuutHenkilokuljetukset',
   MuutHyodykkeet = 'MuutHyodykkeet',
-  MuutKuljetuspalveluHankinnat = 'MuutKuljetuspalveluHankinnat',
+  MuutKuljetukset = 'MuutKuljetukset',
   MuutProteiinit = 'MuutProteiinit',
   MuutTuotteet = 'MuutTuotteet',
   PahviJaKartonki = 'PahviJaKartonki',
-  Pakettiauto = 'Pakettiauto',
   PalveluHankinnat = 'PalveluHankinnat',
   Paperijate = 'Paperijate',
   Paristot = 'Paristot',
-  Peravaunu = 'Peravaunu',
-  PitkatLennotEurooppa = 'PitkatLennotEurooppa',
-  PitkatLennotKotimaa = 'PitkatLennotKotimaa',
   Polttoaineet = 'Polttoaineet',
-  Puoliperavaunu = 'Puoliperavaunu',
+  Raidekuljetukset = 'Raidekuljetukset',
   Rasvat = 'Rasvat',
   Ser = 'SER',
   Sahko = 'Sahko',
-  SahkoHenkiloauto = 'SahkoHenkiloauto',
   Sekajate = 'Sekajate',
-  Taksikulut = 'Taksikulut',
   TavaraHankinnat = 'TavaraHankinnat',
-  TavarajunaDiesel = 'TavarajunaDiesel',
-  TavarajunaSahko = 'TavarajunaSahko',
   Terveydenhoito = 'Terveydenhoito',
+  Tiekuljetukset = 'Tiekuljetukset',
   Tietoliikenne = 'Tietoliikenne',
   Toimistotarvikkeet = 'Toimistotarvikkeet',
   Toimitilat = 'Toimitilat',
-  Valmismatkahankinnat = 'Valmismatkahankinnat',
   Viljatuotteet = 'Viljatuotteet'
 }
 
@@ -302,6 +282,7 @@ export type Mutation = {
   createEmissionFactorValue: EmissionFactorValue;
   createEmissionSource: EmissionSource;
   createOrganization: Organization;
+  createRegistrationRequest: RegistrationRequest;
   createSite: Site;
   createSiteType: SiteType;
   createSiteUnit: SiteUnit;
@@ -378,6 +359,11 @@ export type MutationCreateEmissionSourceArgs = {
 
 export type MutationCreateOrganizationArgs = {
   data: OrganizationInput;
+};
+
+
+export type MutationCreateRegistrationRequestArgs = {
+  data: RegistrationRequestInput;
 };
 
 
@@ -516,6 +502,7 @@ export type Query = {
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;
+  allRegistrationRequests: Array<RegistrationRequest>;
   allSiteUnits: Array<SiteUnit>;
   allSites: Array<Site>;
   allSitesInMyOrganization: Array<Site>;
@@ -537,6 +524,26 @@ export type Query = {
 
 export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
+};
+
+export type RegistrationRequest = {
+  __typename?: 'RegistrationRequest';
+  businessField: BusinessField;
+  businessID: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName: Scalars['String'];
+  municipality: Municipality;
+};
+
+export type RegistrationRequestInput = {
+  businessFieldID?: Maybe<Scalars['Int']>;
+  businessID: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  municipalityID?: Maybe<Scalars['Int']>;
 };
 
 /** User roles */

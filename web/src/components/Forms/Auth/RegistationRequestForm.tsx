@@ -1,11 +1,15 @@
+import { businessFields } from "@/shared/businessFields";
+import { municipalities } from "@/shared/municipalities";
 import FormField from "components/Forms/Common/FormField";
 import { Form } from "formik";
 import useTranslation from "next-translate/useTranslation";
 import Checkbox from "../Common/Checkbox";
+import Select from "../Common/Select";
 
-export const RegistrationRequestForm: React.FC<{ isSubmitting: boolean }> = ({
-  isSubmitting,
-}) => {
+export const RegistrationRequestForm: React.FC<{
+  isSubmitting: boolean;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+}> = ({ isSubmitting, setFieldValue }) => {
   const { t } = useTranslation("auth");
   return (
     <Form className="mt-8 space-y-6">
@@ -61,25 +65,21 @@ export const RegistrationRequestForm: React.FC<{ isSubmitting: boolean }> = ({
           showLabel
           variant="tight"
         />
-        <FormField
+        <Select
+          options={businessFields}
+          showLabel
           label={t("pages.reg_request.main_field")}
           name="businessField"
+          setFieldValue={setFieldValue}
           required
-          placeholder={t("pages.reg_request.main_field")}
-          roundedBottom
-          roundedTop
-          showLabel
-          variant="tight"
         />
-        <FormField
-          label={t("pages.reg_request.business_location")}
-          name="location"
-          required
-          placeholder={t("pages.reg_request.business_location")}
-          roundedBottom
-          roundedTop
+        <Select
+          options={municipalities}
           showLabel
-          variant="tight"
+          label={t("pages.reg_request.business_location")}
+          name="municipality"
+          setFieldValue={setFieldValue}
+          required
         />
         <Checkbox
           name="TOSUserData"
@@ -87,6 +87,8 @@ export const RegistrationRequestForm: React.FC<{ isSubmitting: boolean }> = ({
           description={t(
             "pages.reg_request.user_agreements.user_data.description"
           )}
+          required
+          href="https://co2laskuri.fi/toc"
         />
         <Checkbox
           name="TOSRights"
@@ -94,6 +96,7 @@ export const RegistrationRequestForm: React.FC<{ isSubmitting: boolean }> = ({
           description={t(
             "pages.reg_request.user_agreements.user_rights.description"
           )}
+          required
         />
         <Checkbox
           name="TOSStats"
@@ -101,6 +104,7 @@ export const RegistrationRequestForm: React.FC<{ isSubmitting: boolean }> = ({
           description={t(
             "pages.reg_request.user_agreements.user_stats.description"
           )}
+          required
         />
       </div>
       <div>

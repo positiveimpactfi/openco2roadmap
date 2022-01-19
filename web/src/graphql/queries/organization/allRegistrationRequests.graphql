@@ -1,0 +1,14 @@
+query AllRegistrationRequests {
+  allRegistrationRequests {
+    firstName
+    lastName
+    email
+    businessID
+    municipality {
+      name
+    }
+    businessField {
+      name
+    }
+  }
+}
