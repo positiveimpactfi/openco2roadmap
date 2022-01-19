@@ -47,6 +47,7 @@ const fetchAnnoucements = async () => {
   }
 };
 
-fetchAnnoucements();
+// only run in production
+if (config.ENV === "production") fetchAnnoucements();
 
 export { announcements, fetchAnnoucements };
