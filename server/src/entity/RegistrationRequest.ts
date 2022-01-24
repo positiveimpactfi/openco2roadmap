@@ -31,6 +31,10 @@ export class RegistrationRequest extends BaseEntity {
 
   @Field()
   @Column()
+  orgName: string;
+
+  @Field()
+  @Column()
   businessID: string;
 
   @Field(() => Municipality)

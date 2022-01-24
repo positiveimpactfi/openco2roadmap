@@ -23,6 +23,9 @@ class RegistrationRequestInput implements Partial<RegistrationRequest> {
   email: string;
 
   @Field()
+  orgName: string;
+
+  @Field()
   businessID: string;
 
   @Field(() => Int, { nullable: true })
@@ -49,6 +52,7 @@ export class RegistrationRequestResolver {
       lastName,
       firstName,
       email,
+      orgName,
       businessID,
       businessFieldID,
       municipalityID,
@@ -64,6 +68,7 @@ export class RegistrationRequestResolver {
       lastName,
       firstName,
       email,
+      orgName,
       businessID,
       businessField,
       municipality,
