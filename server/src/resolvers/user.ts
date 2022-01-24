@@ -451,7 +451,7 @@ export class UserResolver {
     );
     const emailObject: EmailProps = {
       htmlBody: emailHtml,
-      subject: "OpenCO2roadmap salasanan vaihto",
+      subject: "Matkailun CO2-laskurin salasanan vaihto",
       textBody: emailText,
     };
     await sendEmail(email, emailObject);
