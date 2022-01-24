@@ -22,10 +22,10 @@ const menuItems: MenuItem[] = [
     href: "/settings",
     name: "settings",
   },
-  // {
-  //   href: "/notifications",
-  //   name: "notifications",
-  // },
+  {
+    href: "/notifications",
+    name: "notifications",
+  },
 ];
 
 export const UserProfileDropdown = () => {
