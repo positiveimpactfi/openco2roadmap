@@ -1,12 +1,14 @@
 import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
+import Collapsible from "components/Collapsible";
 import EditOrganizationForm from "components/Forms/Organization/EditOrganizationForm";
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import Table, { TableCell, TableCellOpenOptions } from "components/Table";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
+import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/allRegistrationRequests.generated";
 import { Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
@@ -15,6 +17,7 @@ import { Organization } from "types/generatedTypes";
 const Organizations = () => {
   const { t } = useTranslation("admin");
   const { data, loading } = useAllOrganizationsQuery();
+  const { data: allRegistrationRequests } = useAllRegistrationRequestsQuery();
   const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
   const [orgUnderEdit, setOrgUnderEdit] = useState(null);
@@ -25,6 +28,7 @@ const Organizations = () => {
   };
 
   const organizations = data?.allOrganizations;
+  const requests = allRegistrationRequests?.allRegistrationRequests;
 
   return (
     <AdminsOnly
@@ -57,11 +61,28 @@ const Organizations = () => {
               {t("pages.orgs.actions.add_org")}
             </Button>
           </div>
-          <OrganizationsTable
-            handleFormOpen={handleEditOrg}
-            organizations={organizations}
-            t={t}
-          />
+          <Collapsible title="Rekisteröitymispyynnöt" defaultOpen>
+            {requests?.length === 0 ? (
+              <p>Ei rekisteröitymispyyntöjä</p>
+            ) : (
+              <ul>
+                {requests?.map((r) => (
+                  <li key={r.id} className="list-disc ml-10">
+                    {r.lastName} {r.firstName} {r.email} | {r.orgName} |{" "}
+                    {r.municipality.name} | {r.businessField.name} |{" "}
+                    {r.businessID}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Collapsible>
+          <Collapsible title="Yritykset">
+            <OrganizationsTable
+              handleFormOpen={handleEditOrg}
+              organizations={organizations}
+              t={t}
+            />
+          </Collapsible>
         </>
       )}
     </AdminsOnly>

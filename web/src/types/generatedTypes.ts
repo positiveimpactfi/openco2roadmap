@@ -535,6 +535,7 @@ export type RegistrationRequest = {
   id: Scalars['ID'];
   lastName: Scalars['String'];
   municipality: Municipality;
+  orgName: Scalars['String'];
 };
 
 export type RegistrationRequestInput = {
@@ -544,6 +545,7 @@ export type RegistrationRequestInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   municipalityID?: Maybe<Scalars['Int']>;
+  orgName: Scalars['String'];
 };
 
 /** User roles */

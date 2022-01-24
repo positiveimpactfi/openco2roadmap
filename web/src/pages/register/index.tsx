@@ -90,6 +90,7 @@ const Form: React.FC<{ t: Translate; onSuccess: () => void }> = ({
               lastName: values.lastName,
               firstName: values.firstName,
               email: values.email,
+              orgName: values.orgName,
               businessID: values.vatNumber,
               businessFieldID: values.businessField.id,
               municipalityID: values.municipality.id,
