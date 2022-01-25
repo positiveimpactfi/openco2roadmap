@@ -15,20 +15,20 @@ export const RegistrationRequestForm: React.FC<{
     <Form className="mt-8 space-y-6">
       <div className="rounded-md space-y-6">
         <FormField
-          label={t("profile:contact.last_name")}
-          name="lastName"
+          label={t("profile:contact.first_name")}
+          name="firstName"
           required
-          placeholder={t("profile:contact.last_name")}
+          placeholder={t("profile:contact.first_name")}
           roundedBottom
           roundedTop
           showLabel
           variant="tight"
         />
         <FormField
-          label={t("profile:contact.first_name")}
-          name="firstName"
+          label={t("profile:contact.last_name")}
+          name="lastName"
           required
-          placeholder={t("profile:contact.first_name")}
+          placeholder={t("profile:contact.last_name")}
           roundedBottom
           roundedTop
           showLabel
