@@ -4,45 +4,6 @@
       "title": "Etusivu",
       "description": "Etusivu"
     },
-    "sites": {
-      "title": "Toimipaikat",
-      "description": "Hiilijalanjälkilaskentaan tarvittavat kulutustiedot liittyvät aina konkreettisesti johonkin yrityksesi toimipaikkaan. Tällä sivulla näet yrityksesi hiilijalanjälkilaskennassa käytetyn toimipaikkarakenteen.",
-      "table": {
-        "headers": [
-          "Toimipaikan nimi",
-          "Toimipaikan tyyppi",
-          "Sijaintikunta",
-          "Yksiköt"
-        ]
-      }
-    },
-    "emission_sources": {
-      "title": "Päästolähteet",
-      "description": "Tutki mitä päästölähteitä yrityksesi laskentaan sisältyy.",
-      "table": {
-        "headers": [
-          "Kategoria",
-          "Komponentti",
-          "Päästölähde",
-          "Sovellusala (oletus)",
-          "Päästökerroin (oletus)"
-        ]
-      }
-    },
-    "emission_factors": {
-      "title": "Päästökertoimet",
-      "description": "Tutki mitä päästökertoimia yrityksesi laskentaan on käytettävissä.",
-      "table": {
-        "headers": [
-          "Nimi",
-          "Lähde",
-          "Alkaen",
-          "Päättyen",
-          "Uusin arvo",
-          "Tiedot"
-        ]
-      }
-    },
     "consumption_data": {
       "title": "Kulutustiedot",
       "description": "Hiilijalanjäljen laskeminen perustuu yrityksesi todellisiin kulutustietoihin. Saat nämä mm. energiayhtiöiltä, ajopäiväkirjoista ja kirjanpidosta. sivun kautta syötät energian, jätteiden, hankintojen ja hallinnon eri kulutustiedot, kuukausi- tai vuositasolla.",
