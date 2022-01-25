@@ -1,7 +1,7 @@
 import { withAuth } from "components/Auth";
 import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, { TableCell } from "components/Table";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
 import useTranslation from "next-translate/useTranslation";
 
@@ -28,15 +28,20 @@ const EmissionSourcesSettingsPage = () => {
                     { returnObjects: true }
                   )}
                 >
-                  {emissionSources.map((es) => (
-                    <tr key={es.id}>
-                      <TableCell value={es.components[0].category.name} />
-                      <TableCell value={es.components[0].name} />
-                      <TableCell value={es.name} />
-                      <TableCell value={es.scope} />
-                      {/* <TableCellOpenOptions fn={() => console.log("hello")} /> */}
-                    </tr>
-                  ))}
+                  {emissionSources.map((es) => {
+                    const components = es.components
+                      .map((c) => c.name)
+                      .sort()
+                      .join(", ");
+                    return (
+                      <tr key={es.id}>
+                        <TableCell value={es.components[0].category.name} />
+                        <TableCell value={components} />
+                        <TableCell value={es.name} />
+                        <TableCell value={es.scope} />
+                      </tr>
+                    );
+                  })}
                 </Table>
               </div>
             </div>
