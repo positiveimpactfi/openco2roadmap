@@ -200,7 +200,11 @@ const EditDataEntryForm: React.FC<{
                   roundedBottom
                   roundedTop
                   variant="tight"
-                  value={values.consumptionValue || ""}
+                  value={
+                    values.consumptionValue === null
+                      ? ""
+                      : values.consumptionValue
+                  }
                 />
               </div>
               <div className="w-2/3 ml-2">
