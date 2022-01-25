@@ -38,7 +38,11 @@ const EmissionSourcesSettingsPage = () => {
                         <TableCell value={es.components[0].category.name} />
                         <TableCell value={components} />
                         <TableCell value={es.name} />
-                        <TableCell value={es.scope} />
+                        <TableCell
+                          value={
+                            es.scope.slice(0, 5) + " " + es.scope.charAt(5)
+                          }
+                        />
                       </tr>
                     );
                   })}
