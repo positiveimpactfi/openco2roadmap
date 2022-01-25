@@ -42,7 +42,7 @@ const CreateUserForm: React.FC<{
     email: "",
     password: "",
     organization: user?.organizations[0],
-    role: null,
+    role: { id: 3, name: "Company Admin" },
   };
 
   return (
@@ -113,6 +113,7 @@ const CreateUserForm: React.FC<{
               label="Rooli"
               name="role"
               setFieldValue={setFieldValue}
+              selectedValue={{ id: 3, name: "Company Admin" }}
             />
             <div className="pt-5">
               <div className="flex justify-end space-x-2">
