@@ -51,8 +51,8 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 149,
-    name: "Ingå",
-    city: "149 Ingå",
+    name: "Inkoo",
+    city: "149 Inkoo",
     stateCode: 1,
     state: "Uusimaa",
   },
@@ -219,8 +219,8 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 322,
-    name: "Kimitoön",
-    city: "322 Kimitoön",
+    name: "Kemiönsaari",
+    city: "322 Kemiönsaari",
     stateCode: 2,
     state: "Southwest Finland",
   },
@@ -247,8 +247,8 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 445,
-    name: "Pargas",
-    city: "445 Pargas",
+    name: "Parainen",
+    city: "445 Parainen",
     stateCode: 2,
     state: "Southwest Finland",
   },
@@ -1514,15 +1514,15 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 287,
-    name: "Kristinestad",
-    city: "287 Kristinestad",
+    name: "Kristiinakaupunki",
+    city: "287 Kristiinakaupunki",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 288,
-    name: "Kronoby",
-    city: "288 Kronoby",
+    name: "Kruunupyy",
+    city: "288 Kruunupyy",
     stateCode: 15,
     state: "Ostrobothnia",
   },
@@ -1535,50 +1535,50 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 440,
-    name: "Larsmo",
-    city: "440 Larsmo",
+    name: "Luoto",
+    city: "440 Luoto",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 475,
-    name: "Malax",
-    city: "475 Malax",
+    name: "Maalahti",
+    city: "475 Maalahti",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 499,
-    name: "Korsholm",
-    city: "499 Korsholm",
+    name: "Mustasaari",
+    city: "499 Mustasaari",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 545,
-    name: "Närpes",
-    city: "545 Närpes",
+    name: "Närpiö",
+    city: "545 Närpiö",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 598,
-    name: "Jakobstad",
-    city: "598 Jakobstad",
+    name: "Pietarsaari",
+    city: "598 Pietarsaari",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 599,
-    name: "Pedersöre",
-    city: "599 Pedersöre",
+    name: "Pedersören kunta",
+    city: "599 Pedersören kunta",
     stateCode: 15,
     state: "Ostrobothnia",
   },
   {
     id: 893,
-    name: "Nykarleby",
-    city: "893 Nykarleby",
+    name: "Uusikaarlepyy",
+    city: "893 Uusikaarlepyy",
     stateCode: 15,
     state: "Ostrobothnia",
   },
@@ -2144,8 +2144,8 @@ const municipalitiesUnsorted: Municipality[] = [
   },
   {
     id: 478,
-    name: "Mariehamn",
-    city: "478 Mariehamn",
+    name: "Maarianhamina - Mariehamn",
+    city: "478 Maarianhamina - Mariehamn",
     stateCode: 21,
     state: "Åland",
   },
@@ -2179,6 +2179,6 @@ const municipalitiesUnsorted: Municipality[] = [
   },
 ];
 
-export const municipalities = municipalitiesUnsorted.sort(
-  (a, b) => a.id - b.id
+export const municipalities = municipalitiesUnsorted.sort((a, b) =>
+  a.name.localeCompare(b.name)
 );
