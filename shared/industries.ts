@@ -33,7 +33,7 @@ interface SubIndustry {
   };
 }
 
-const unsortedIndustries: Industry[] = [
+export const unsortedIndustries: Industry[] = [
   {
     code: 55,
     parentNames: {
@@ -443,11 +443,11 @@ const unsortedIndustries: Industry[] = [
   {
     code: "X",
     parentNames: {
-      fi: "Muu toimialat",
+      fi: "Muut toimialat",
       en: "Other industries",
     },
     names: {
-      fi: "Muu toimialat",
+      fi: "Muut toimialat",
       en: "Other industries",
     },
     subIndustries: [
