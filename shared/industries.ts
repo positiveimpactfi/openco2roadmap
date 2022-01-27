@@ -469,7 +469,7 @@ export const unsortedIndustries: Industry[] = [
         code: "H",
         names: {
           fi: "Kuljetus ja varastointi",
-          en: "Construction",
+          en: "Transportation and storage",
         },
       },
       {
