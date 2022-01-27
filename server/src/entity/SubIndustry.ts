@@ -1,12 +1,18 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Industry } from "./Industry";
 
 @ObjectType()
 @Entity()
 export class SubIndustry extends BaseEntity {
   @Field(() => Int)
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Field()

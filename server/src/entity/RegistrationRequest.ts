@@ -3,12 +3,11 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { BusinessField } from "./BusinessField";
 import { Municipality } from "./Municipality";
+import { SubIndustry } from "./SubIndustry";
 
 @ObjectType()
 @Entity()
@@ -41,11 +40,7 @@ export class RegistrationRequest extends BaseEntity {
   @ManyToOne(() => Municipality)
   municipality: Municipality;
 
-  @Field(() => BusinessField)
-  @ManyToOne(
-    () => BusinessField,
-    (businessField) => businessField.organizations
-  )
-  @JoinTable()
-  businessField: BusinessField;
+  @Field(() => SubIndustry)
+  @ManyToOne(() => SubIndustry)
+  industry: SubIndustry;
 }

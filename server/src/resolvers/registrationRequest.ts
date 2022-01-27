@@ -8,8 +8,9 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { BusinessField, Municipality } from "../entity";
+import { Municipality } from "../entity";
 import { RegistrationRequest } from "../entity/RegistrationRequest";
+import { SubIndustry } from "../entity/SubIndustry";
 
 @InputType()
 class RegistrationRequestInput implements Partial<RegistrationRequest> {
@@ -28,8 +29,8 @@ class RegistrationRequestInput implements Partial<RegistrationRequest> {
   @Field()
   businessID: string;
 
-  @Field(() => Int, { nullable: true })
-  businessFieldID: number;
+  @Field()
+  industryCode: string;
 
   @Field(() => Int, { nullable: true })
   municipalityID: number;
@@ -41,7 +42,7 @@ export class RegistrationRequestResolver {
   @Query(() => [RegistrationRequest])
   allRegistrationRequests() {
     return RegistrationRequest.find({
-      relations: ["municipality", "businessField"],
+      relations: ["municipality", "industry"],
     });
   }
 
@@ -54,12 +55,12 @@ export class RegistrationRequestResolver {
       email,
       orgName,
       businessID,
-      businessFieldID,
+      industryCode,
       municipalityID,
     }: RegistrationRequestInput
   ): Promise<RegistrationRequest | undefined> {
-    const businessField = await BusinessField.findOne(businessFieldID);
-    if (!businessField) return undefined;
+    const industry = await SubIndustry.findOne({ code: industryCode });
+    if (!industry) return undefined;
 
     const municipality = await Municipality.findOne(municipalityID);
     if (!municipality) return undefined;
@@ -70,7 +71,7 @@ export class RegistrationRequestResolver {
       email,
       orgName,
       businessID,
-      businessField,
+      industry,
       municipality,
     }).save();
     console.log("new request created", newRequest);
