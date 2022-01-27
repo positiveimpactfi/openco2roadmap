@@ -34,6 +34,7 @@ const AdminEmissionFactorsPage = () => {
     <AdminsOnly
       title={t("pages.emission_factors.title")}
       description={t("pages.emission_factors.description_long")}
+      onlySuperAdmin
     >
       <div>
         <SlideOver

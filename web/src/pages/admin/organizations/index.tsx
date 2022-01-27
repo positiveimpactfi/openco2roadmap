@@ -34,6 +34,7 @@ const Organizations = () => {
     <AdminsOnly
       title={t("pages.orgs.title")}
       description={t("pages.orgs.description_long")}
+      onlySuperAdmin
     >
       {loading ? (
         <LoadingSpinner />
