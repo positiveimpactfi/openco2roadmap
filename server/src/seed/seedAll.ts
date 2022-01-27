@@ -8,11 +8,11 @@ import { seedUnits } from "./seedUnits";
 import { seedMunicipalities } from "./seedMunicipalities";
 import { seedEmissionSources } from "./seedEmissionSources";
 import { seedEmissionFactors } from "./seedEmissionFactors";
+import { seedIndustries } from "./seedIndustries";
 
 const seedAll = async () => {
   const conn = await createConnection({
     ...typeormConfig,
-    // host: "localhost",
   });
   await seedBusinessFields(conn);
   await seedMunicipalities(conn);
@@ -22,6 +22,7 @@ const seedAll = async () => {
   await seedEmissionSources(conn);
   await seedUnits(conn);
   await seedEmissionFactors(conn);
+  await seedIndustries(conn);
 };
 
 seedAll();
