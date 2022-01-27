@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type AllRegistrationRequestsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllRegistrationRequestsQuery = { __typename?: 'Query', allRegistrationRequests: Array<{ __typename?: 'RegistrationRequest', id: string, firstName: string, lastName: string, email: string, orgName: string, businessID: string, municipality: { __typename?: 'Municipality', name: string }, businessField: { __typename?: 'BusinessField', name: string } }> };
+export type AllRegistrationRequestsQuery = { __typename?: 'Query', allRegistrationRequests: Array<{ __typename?: 'RegistrationRequest', id: string, firstName: string, lastName: string, email: string, orgName: string, businessID: string, municipality: { __typename?: 'Municipality', name: string }, industry: { __typename?: 'SubIndustry', nameEn: string, nameFi: string } }> };
 
 
 export const AllRegistrationRequestsDocument = gql`
@@ -21,8 +21,9 @@ export const AllRegistrationRequestsDocument = gql`
     municipality {
       name
     }
-    businessField {
-      name
+    industry {
+      nameEn
+      nameFi
     }
   }
 }

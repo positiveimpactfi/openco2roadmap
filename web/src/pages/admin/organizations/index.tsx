@@ -67,10 +67,9 @@ const Organizations = () => {
             ) : (
               <ul>
                 {requests?.map((r) => (
-                  <li key={r.id} className="list-disc ml-10">
+                  <li key={r.id} className="ml-10 list-disc">
                     {r.lastName} {r.firstName} {r.email} | {r.orgName} |{" "}
-                    {r.municipality.name} | {r.businessField.name} |{" "}
-                    {r.businessID}
+                    {r.municipality.name} | {r.industry.nameFi} | {r.businessID}
                   </li>
                 ))}
               </ul>
@@ -105,8 +104,8 @@ const OrganizationsTable: React.FC<OrgTableProps> = ({
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
+        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <div className="mb-4 overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
             <Table
               headers={t(
                 "pages.orgs.table.headers",

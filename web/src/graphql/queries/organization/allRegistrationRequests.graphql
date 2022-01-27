@@ -9,8 +9,9 @@ query AllRegistrationRequests {
     municipality {
       name
     }
-    businessField {
-      name
+    industry {
+      nameEn
+      nameFi
     }
   }
 }

@@ -193,6 +193,15 @@ export enum GhgScope {
   Scope3 = 'Scope3'
 }
 
+export type Industry = {
+  __typename?: 'Industry';
+  code: Scalars['String'];
+  id: Scalars['Int'];
+  nameEn: Scalars['String'];
+  nameFi: Scalars['String'];
+  subIndustries: Array<SubIndustry>;
+};
+
 export type InvitedUser = {
   __typename?: 'InvitedUser';
   email: Scalars['String'];
@@ -528,21 +537,21 @@ export type QueryUsersInOrganizationArgs = {
 
 export type RegistrationRequest = {
   __typename?: 'RegistrationRequest';
-  businessField: BusinessField;
   businessID: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
+  industry: SubIndustry;
   lastName: Scalars['String'];
   municipality: Municipality;
   orgName: Scalars['String'];
 };
 
 export type RegistrationRequestInput = {
-  businessFieldID?: Maybe<Scalars['Int']>;
   businessID: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
+  industryCode: Scalars['String'];
   lastName: Scalars['String'];
   municipalityID?: Maybe<Scalars['Int']>;
   orgName: Scalars['String'];
@@ -585,6 +594,15 @@ export type SiteUnit = {
 export type SiteUnitInput = {
   id: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type SubIndustry = {
+  __typename?: 'SubIndustry';
+  code: Scalars['String'];
+  id: Scalars['Int'];
+  industry: Industry;
+  nameEn: Scalars['String'];
+  nameFi: Scalars['String'];
 };
 
 export type User = {

@@ -5,15 +5,33 @@ import { Form } from "formik";
 import useTranslation from "next-translate/useTranslation";
 import Checkbox from "../Common/Checkbox";
 import Select from "../Common/Select";
+import { unsortedIndustries } from "@/shared/industries";
+import MultiLevelSelect from "../Common/MultiLevelSelect";
+import { useRouter } from "next/router";
+
+const localizedIndustries = (lang: "fi" | "en") => {
+  return unsortedIndustries.map((i) => {
+    return {
+      ...i,
+      id: i.code,
+      name: i.names[lang] + " (" + i.code + ")",
+      children: i.subIndustries.map((s) => {
+        return { ...s, id: s.code, name: s.names[lang] + " (" + s.code + ")" };
+      }),
+    };
+  });
+};
 
 export const RegistrationRequestForm: React.FC<{
   isSubmitting: boolean;
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }> = ({ isSubmitting, setFieldValue }) => {
+  const { locale } = useRouter();
   const { t } = useTranslation("auth");
+
   return (
     <Form className="mt-8 space-y-6">
-      <div className="rounded-md space-y-6">
+      <div className="space-y-6 rounded-md">
         <FormField
           label={t("profile:contact.first_name")}
           name="firstName"
@@ -65,11 +83,16 @@ export const RegistrationRequestForm: React.FC<{
           showLabel
           variant="tight"
         />
-        <Select
-          options={businessFields}
+        <MultiLevelSelect
+          levels="two"
+          options={
+            locale === "fi"
+              ? localizedIndustries("fi")
+              : localizedIndustries("en")
+          }
           showLabel
           label={t("pages.reg_request.main_field")}
-          name="businessField"
+          name="industry"
           setFieldValue={setFieldValue}
           required
         />
@@ -111,9 +134,9 @@ export const RegistrationRequestForm: React.FC<{
         <button
           type="submit"
           disabled={isSubmitting}
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-teal-600 border border-transparent rounded-md group hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
         >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3"></span>
           {t("pages.reg_request.actions.send_request")}
         </button>
       </div>
