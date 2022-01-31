@@ -3,7 +3,7 @@ import { EmissionSourceType } from "../../types/EmissionSourceType";
 import { GHGScope } from "../../types/GHGScope";
 import { MeasurementUnitType } from "../../types/MeasurementUnitType";
 
-interface EmissionFactor {
+export interface EmissionFactor {
   name: string;
   value: number;
   emissionSource: EmissionSourceType;
