@@ -25,6 +25,11 @@ export const emissionComponents: EmissionComponent[] = [
     categoryID: CategoryType.Toimitilat,
   },
   {
+    name: "Kiinteistönhuollon polttoaineet",
+    id: ComponentType.KiinteistoPolttoaineet,
+    categoryID: CategoryType.Toimitilat,
+  },
+  {
     name: "Jäte",
     id: ComponentType.Jate,
     categoryID: CategoryType.Toimitilat,

@@ -13,10 +13,10 @@ import typeormConfig from "./ormconfig";
 import { resolvers } from "./resolvers";
 import { authChecker } from "./utils/authChecker";
 import { pinoInstance } from "./utils/logger";
+import { announcements, fetchAnnoucements } from "./notifications";
 
 const main = async () => {
   await createConnection(typeormConfig);
-  // await conn.runMigrations();
   const app = express();
 
   app.use(pinoInstance);
@@ -36,6 +36,19 @@ const main = async () => {
       credentials: true,
     })
   );
+
+  app.get("/notifications", (_req, res) => {
+    res.json(announcements);
+  });
+
+  app.get("/refreshNotifications", async (req, res) => {
+    const passPhrase = req.query?.pass;
+    if (passPhrase && passPhrase === config.NOTIFICATIONS_REFRESH_PASS) {
+      await fetchAnnoucements();
+      return res.status(200).send("ok");
+    }
+    return res.status(403).send("forbidden: wrong passphrase");
+  });
 
   app.use(
     session({

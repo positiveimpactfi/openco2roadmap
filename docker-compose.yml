@@ -12,7 +12,7 @@ services:
     networks:
       - default
     volumes:
-      - ./server/logs:/home/openco2roadmap/server/logs
+      - logs:/home/openco2roadmap/server/logs
     links:
       - "redis:redis"
     depends_on:
@@ -70,3 +70,4 @@ networks:
 volumes:
   database:
   redis:
+  logs: 

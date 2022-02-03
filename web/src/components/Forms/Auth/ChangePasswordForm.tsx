@@ -77,7 +77,7 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
                   </p>
                   <Link href="/login" passHref>
                     <a className="text-center font-medium text-teal-600 hover:text-teal-500">
-                      {t("actions.to_login.")}
+                      {t("actions.to_login")}
                     </a>
                   </Link>
                 </div>

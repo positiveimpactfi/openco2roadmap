@@ -9,14 +9,13 @@ import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { EmissionFactorFragmentFragment } from "graphql/fragments/emissionFactor.generated";
 import { useCreateDataEntryMutation } from "graphql/mutations/data/createDataEntry.generated";
-import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
-import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
+import { MyDataEntriesDocument } from "graphql/queries/data/myDataEntries.generated";
+import { MyOrganizationDataEntriesDocument } from "graphql/queries/data/myOrganizationDataEntries.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import { useEmissionSourceOptions } from "hooks/useEmissionSourceOptions";
 import {
-  EmissionFactor,
   MeasurementUnit,
   MeasurementUnitType,
   SiteUnit,
@@ -101,7 +100,10 @@ const CreateDataEntryForm: React.FC<{
         };
         const response = await createDataEntry({
           variables: vars as any,
-          refetchQueries: [MyDataEntriesDocument],
+          refetchQueries: [
+            MyDataEntriesDocument,
+            MyOrganizationDataEntriesDocument,
+          ],
         });
         if (response.data.createDataEntry.id) {
           setSubmitting(false);
@@ -197,7 +199,11 @@ const CreateDataEntryForm: React.FC<{
                   roundedBottom
                   roundedTop
                   variant="tight"
-                  value={values.consumptionValue || ""}
+                  value={
+                    values.consumptionValue === null
+                      ? ""
+                      : values.consumptionValue
+                  }
                 />
               </div>
               <div className="w-2/3 ml-2">

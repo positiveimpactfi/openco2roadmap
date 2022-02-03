@@ -25,7 +25,10 @@ export const emissionSources: EmissionSource[] = [
     name: "Polttoaineet",
     id: es.Polttoaineet,
     scope: GHGScope.Scope1,
-    componentIDs: [ComponentType.Lammitys],
+    componentIDs: [
+      ComponentType.Lammitys,
+      ComponentType.KiinteistoPolttoaineet,
+    ],
   },
   {
     name: "Sähkö",
@@ -88,8 +91,8 @@ export const emissionSources: EmissionSource[] = [
     componentIDs: [ComponentType.Jate],
   },
   {
-    name: "Valmismatkahankinnat",
-    id: es.Valmismatkahankinnat,
+    name: "Henkilöautot",
+    id: es.Henkiloautot,
     scope: GHGScope.Scope3,
     componentIDs: [
       ComponentType.AsiakkaidenKuljetukset,
@@ -98,8 +101,8 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
   {
-    name: "Majoituspalveluhankinnat",
-    id: es.Majoituspalveluhankinnat,
+    name: "Julkiset kulkuneuvot",
+    id: es.JulkisetKulkuneuvot,
     scope: GHGScope.Scope3,
     componentIDs: [
       ComponentType.AsiakkaidenKuljetukset,
@@ -108,8 +111,8 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
   {
-    name: "Matkailumenot ulkomailla",
-    id: es.MatkailumenotUlkomailla,
+    name: "Laivamatkat",
+    id: es.Laivamatkat,
     scope: GHGScope.Scope3,
     componentIDs: [
       ComponentType.AsiakkaidenKuljetukset,
@@ -118,8 +121,8 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
   {
-    name: "Matkakorvaukset",
-    id: es.Matkakorvaukset,
+    name: "Lentomatkat",
+    id: es.Lentomatkat,
     scope: GHGScope.Scope3,
     componentIDs: [
       ComponentType.AsiakkaidenKuljetukset,
@@ -128,8 +131,8 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
   {
-    name: "Junaliput",
-    id: es.Junaliput,
+    name: "Muut henkilökuljetukset",
+    id: es.MuutHenkilokuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [
       ComponentType.AsiakkaidenKuljetukset,
@@ -138,204 +141,32 @@ export const emissionSources: EmissionSource[] = [
     ],
   },
   {
-    name: "Linja-auto-, raitiovaunu- ja metroliput",
-    id: es.LinjaRaitioMetro,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Taksikulut",
-    id: es.Taksikulut,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Lentoliput",
-    id: es.Lentoliput,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Laivaliput",
-    id: es.Laivaliput,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Henkilöauto, keskiarvo",
-    id: es.HenkiloautoKA,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Bensiinikäyttöinen henkilöauto, keskiarvo",
-    id: es.BensiiniHenkiloauto,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Dieselkäyttöinen henkilöauto, keskiarvo",
-    id: es.DieselHenkiloauto,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Kaasukäyttöinen henkilöauto, keskiarvo",
-    id: es.KaasuHenkiloauto,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Sähkökäyttöinen henkilöauto, keskiarvo",
-    id: es.SahkoHenkiloauto,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Kotimaan lyhyet lennot",
-    id: es.LyhyetLennotKotimaa,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Kotimaan pitkät lennot ",
-    id: es.PitkatLennotKotimaa,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Euroopan lyhyet lennot",
-    id: es.LyhytLennotEurooppa,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Euroopan pitkät lennot",
-    id: es.PitkatLennotEurooppa,
-    scope: GHGScope.Scope3,
-    componentIDs: [
-      ComponentType.AsiakkaidenKuljetukset,
-      ComponentType.Tyomatkat,
-      ComponentType.Tyossakayntimatkat,
-    ],
-  },
-  {
-    name: "Pakettiauto",
-    id: es.Pakettiauto,
+    name: "Laivakuljetukset",
+    id: es.Laivakuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.Tavarakuljetukset],
   },
   {
-    name: "Jakelukuorma-auto 6 t",
-    id: es.Jakelukuormaauto6t,
+    name: "Lentokuljetukset",
+    id: es.Lentokuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.Tavarakuljetukset],
   },
   {
-    name: "Jakelukuorma-auto 15 t",
-    id: es.Jakelukuormaauto15t,
+    name: "Muut kuljetukset",
+    id: es.MuutKuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.Tavarakuljetukset],
   },
   {
-    name: "Puoliperävaunuyhdistelmä",
-    id: es.Puoliperavaunu,
+    name: "Raidekuljetukset",
+    id: es.Raidekuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.Tavarakuljetukset],
   },
   {
-    name: "Perävaunullinen yhdistelmä",
-    id: es.Peravaunu,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Konttialus (mallia 1000 TEU, täyttöaste 65 %)",
-    id: es.Konttialus,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Tavarajuna, diesel",
-    id: es.TavarajunaDiesel,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Tavarajuna, sähkö",
-    id: es.TavarajunaSahko,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Kotimaanlennot",
-    id: es.Kotimaanlennot,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Lyhyet ulkomaanlennot",
-    id: es.LyhyetUlkomaatlennot,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Kaukolennot",
-    id: es.Kaukolennot,
-    scope: GHGScope.Scope3,
-    componentIDs: [ComponentType.Tavarakuljetukset],
-  },
-  {
-    name: "Muut kuljetuspalveluhankinnat",
-    id: es.MuutKuljetuspalveluHankinnat,
+    name: "Tiekuljetukset",
+    id: es.Tiekuljetukset,
     scope: GHGScope.Scope3,
     componentIDs: [ComponentType.Tavarakuljetukset],
   },

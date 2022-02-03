@@ -56,17 +56,17 @@ const UpdateMyNameForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
           <div className="rounded-md space-y-4">
             <FormField
               showLabel
-              label="Sukunimi"
-              name="lastName"
-              placeholder="Sukunimi"
+              label="Etunimi"
+              name="firstName"
+              placeholder="Etunimi"
               roundedTop
               roundedBottom
             />
             <FormField
               showLabel
-              label="Etunimi"
-              name="firstName"
-              placeholder="Etunimi"
+              label="Sukunimi"
+              name="lastName"
+              placeholder="Sukunimi"
               roundedTop
               roundedBottom
             />

@@ -1,0 +1,5 @@
+mutation CreateRegistrationRequest($data: RegistrationRequestInput!) {
+  createRegistrationRequest(data: $data) {
+    id
+  }
+}

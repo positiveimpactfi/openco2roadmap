@@ -11,4 +11,5 @@ export enum ComponentType {
   YleisetHankinnat = 10,
   MuutHankinnat = 11,
   PalveluHankinnat = 12,
+  KiinteistoPolttoaineet = 13,
 }

@@ -133,70 +133,50 @@ export type EmissionSource = {
 
 /** Emission sources */
 export enum EmissionSourceType {
-  BensiiniHenkiloauto = 'BensiiniHenkiloauto',
   Biojate = 'Biojate',
-  DieselHenkiloauto = 'DieselHenkiloauto',
   ElintarvikkeetEur = 'ElintarvikkeetEUR',
   Energiajate = 'Energiajate',
   HedelmatJaVihannekset = 'HedelmatJaVihannekset',
-  HenkiloautoKa = 'HenkiloautoKA',
+  Henkiloautot = 'Henkiloautot',
   Herkut = 'Herkut',
-  Jakelukuormaauto6t = 'Jakelukuormaauto6t',
-  Jakelukuormaauto15t = 'Jakelukuormaauto15t',
-  Junaliput = 'Junaliput',
+  JulkisetKulkuneuvot = 'JulkisetKulkuneuvot',
   Juomat = 'Juomat',
-  KaasuHenkiloauto = 'KaasuHenkiloauto',
   KalaJaMerenlevat = 'KalaJaMerenlevat',
   Kananmunat = 'Kananmunat',
   KasvimaidotJaProteiinit = 'KasvimaidotJaProteiinit',
   Kaukojaahdytys = 'Kaukojaahdytys',
   Kaukolampo = 'Kaukolampo',
-  Kaukolennot = 'Kaukolennot',
   Kiinteistohoito = 'Kiinteistohoito',
-  Konttialus = 'Konttialus',
-  Kotimaanlennot = 'Kotimaanlennot',
   Laitehankinnat = 'Laitehankinnat',
-  Laivaliput = 'Laivaliput',
+  Laivakuljetukset = 'Laivakuljetukset',
+  Laivamatkat = 'Laivamatkat',
   Lasijate = 'Lasijate',
-  Lentoliput = 'Lentoliput',
+  Lentokuljetukset = 'Lentokuljetukset',
+  Lentomatkat = 'Lentomatkat',
   Liha = 'Liha',
-  LinjaRaitioMetro = 'LinjaRaitioMetro',
-  LyhyetLennotKotimaa = 'LyhyetLennotKotimaa',
-  LyhyetUlkomaatlennot = 'LyhyetUlkomaatlennot',
-  LyhytLennotEurooppa = 'LyhytLennotEurooppa',
   Maitotuotteet = 'Maitotuotteet',
-  Majoituspalveluhankinnat = 'Majoituspalveluhankinnat',
-  MatkailumenotUlkomailla = 'MatkailumenotUlkomailla',
-  Matkakorvaukset = 'Matkakorvaukset',
   Metallijate = 'Metallijate',
+  MuutHenkilokuljetukset = 'MuutHenkilokuljetukset',
   MuutHyodykkeet = 'MuutHyodykkeet',
-  MuutKuljetuspalveluHankinnat = 'MuutKuljetuspalveluHankinnat',
+  MuutKuljetukset = 'MuutKuljetukset',
   MuutProteiinit = 'MuutProteiinit',
   MuutTuotteet = 'MuutTuotteet',
   PahviJaKartonki = 'PahviJaKartonki',
-  Pakettiauto = 'Pakettiauto',
   PalveluHankinnat = 'PalveluHankinnat',
   Paperijate = 'Paperijate',
   Paristot = 'Paristot',
-  Peravaunu = 'Peravaunu',
-  PitkatLennotEurooppa = 'PitkatLennotEurooppa',
-  PitkatLennotKotimaa = 'PitkatLennotKotimaa',
   Polttoaineet = 'Polttoaineet',
-  Puoliperavaunu = 'Puoliperavaunu',
+  Raidekuljetukset = 'Raidekuljetukset',
   Rasvat = 'Rasvat',
   Ser = 'SER',
   Sahko = 'Sahko',
-  SahkoHenkiloauto = 'SahkoHenkiloauto',
   Sekajate = 'Sekajate',
-  Taksikulut = 'Taksikulut',
   TavaraHankinnat = 'TavaraHankinnat',
-  TavarajunaDiesel = 'TavarajunaDiesel',
-  TavarajunaSahko = 'TavarajunaSahko',
   Terveydenhoito = 'Terveydenhoito',
+  Tiekuljetukset = 'Tiekuljetukset',
   Tietoliikenne = 'Tietoliikenne',
   Toimistotarvikkeet = 'Toimistotarvikkeet',
   Toimitilat = 'Toimitilat',
-  Valmismatkahankinnat = 'Valmismatkahankinnat',
   Viljatuotteet = 'Viljatuotteet'
 }
 
@@ -212,6 +192,15 @@ export enum GhgScope {
   Scope2 = 'Scope2',
   Scope3 = 'Scope3'
 }
+
+export type Industry = {
+  __typename?: 'Industry';
+  code: Scalars['String'];
+  id: Scalars['Int'];
+  nameEn: Scalars['String'];
+  nameFi: Scalars['String'];
+  subIndustries: Array<SubIndustry>;
+};
 
 export type InvitedUser = {
   __typename?: 'InvitedUser';
@@ -302,6 +291,7 @@ export type Mutation = {
   createEmissionFactorValue: EmissionFactorValue;
   createEmissionSource: EmissionSource;
   createOrganization: Organization;
+  createRegistrationRequest: RegistrationRequest;
   createSite: Site;
   createSiteType: SiteType;
   createSiteUnit: SiteUnit;
@@ -378,6 +368,11 @@ export type MutationCreateEmissionSourceArgs = {
 
 export type MutationCreateOrganizationArgs = {
   data: OrganizationInput;
+};
+
+
+export type MutationCreateRegistrationRequestArgs = {
+  data: RegistrationRequestInput;
 };
 
 
@@ -516,6 +511,7 @@ export type Query = {
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;
+  allRegistrationRequests: Array<RegistrationRequest>;
   allSiteUnits: Array<SiteUnit>;
   allSites: Array<Site>;
   allSitesInMyOrganization: Array<Site>;
@@ -537,6 +533,28 @@ export type Query = {
 
 export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
+};
+
+export type RegistrationRequest = {
+  __typename?: 'RegistrationRequest';
+  businessID: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  industry: SubIndustry;
+  lastName: Scalars['String'];
+  municipality: Municipality;
+  orgName: Scalars['String'];
+};
+
+export type RegistrationRequestInput = {
+  businessID: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  industryCode: Scalars['String'];
+  lastName: Scalars['String'];
+  municipalityID?: Maybe<Scalars['Int']>;
+  orgName: Scalars['String'];
 };
 
 /** User roles */
@@ -576,6 +594,15 @@ export type SiteUnit = {
 export type SiteUnitInput = {
   id: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type SubIndustry = {
+  __typename?: 'SubIndustry';
+  code: Scalars['String'];
+  id: Scalars['Int'];
+  industry: Industry;
+  nameEn: Scalars['String'];
+  nameFi: Scalars['String'];
 };
 
 export type User = {

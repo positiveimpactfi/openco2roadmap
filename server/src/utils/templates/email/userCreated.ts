@@ -33,7 +33,7 @@ export const userCreatedEmail = (
     <div>Jos sinulla on kysyttävää asiasta, voit olla yhteydessä kutsun lähettäjään sähköpostiosoitteella ${
       inviter.email
     }.</div>
-    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://co2roadmap.fi">https://co2roadmap.fi</a></span><div>
+    <div>Saat lisätietoja laskurista osoitteesta <span><a href="https://co2laskuri.fi">https://co2laskuri.fi</a></span><div>
     <br />
     <div>Tervetuloa!<div>
     <br />

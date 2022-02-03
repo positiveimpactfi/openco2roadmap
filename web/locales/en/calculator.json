@@ -4,40 +4,6 @@
       "title": "Home",
       "description": "Calculator home page"
     },
-    "sites": {
-      "title": "Sites",
-      "description": "Sites description",
-      "table": {
-        "headers": ["Site name", "Site type", "Location", "Units"]
-      }
-    },
-    "emission_sources": {
-      "title": "Emission sources",
-      "description": "Emission sources description",
-      "table": {
-        "headers": [
-          "Category",
-          "Component",
-          "Emission source",
-          "Emission scope",
-          "Emission factor (default)"
-        ]
-      }
-    },
-    "emission_factors": {
-      "title": "Emission factors",
-      "description": "Emission factors description",
-      "table": {
-        "headers": [
-          "Name",
-          "Source",
-          "Start date",
-          "End date",
-          "Latest value",
-          "Info"
-        ]
-      }
-    },
     "consumption_data": {
       "title": "Consumption data",
       "description": "Consumption data description",

@@ -15,6 +15,12 @@
       "kpis": {
         "title": "KPIs",
         "description": "KPI section"
+      },
+      "form": {
+        "name": "Organization name",
+        "id": "VAT-number",
+        "location": "Municipality",
+        "business_field": "Business field"
       }
     },
     "sites": {

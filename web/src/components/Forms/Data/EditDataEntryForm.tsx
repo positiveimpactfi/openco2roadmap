@@ -7,7 +7,8 @@ import SelectNumber from "components/Forms/Common/SelectNumber";
 import { months } from "data/months";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateDataEntryMutation } from "graphql/mutations/data/updateDataEntry.generated";
-import { MyDataEntriesDocument } from "graphql/queries/data/dataEntry.generated";
+import { MyDataEntriesDocument } from "graphql/queries/data/myDataEntries.generated";
+import { MyOrganizationDataEntriesDocument } from "graphql/queries/data/myOrganizationDataEntries.generated";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
@@ -100,7 +101,10 @@ const EditDataEntryForm: React.FC<{
         };
         const response = await updateDataEntry({
           variables: vars as any,
-          refetchQueries: [MyDataEntriesDocument],
+          refetchQueries: [
+            MyDataEntriesDocument,
+            MyOrganizationDataEntriesDocument,
+          ],
         });
         if (response.data.updateDataEntry.id) {
           setSubmitting(false);
@@ -196,7 +200,11 @@ const EditDataEntryForm: React.FC<{
                   roundedBottom
                   roundedTop
                   variant="tight"
-                  value={values.consumptionValue || ""}
+                  value={
+                    values.consumptionValue === null
+                      ? ""
+                      : values.consumptionValue
+                  }
                 />
               </div>
               <div className="w-2/3 ml-2">

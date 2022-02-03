@@ -1,5 +1,6 @@
 import { useUser } from "hooks/useUser";
 import useTranslation from "next-translate/useTranslation";
+import Head from "next/head";
 import Link from "next/link";
 import Container from "./Layout/Container";
 import LoadingBar from "./LoadingBar";
@@ -22,16 +23,21 @@ export const Auth: React.FC = ({ children }) => {
 const UserNotLoggedIn = () => {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
-      <div>{t("errors:auth.not_logged_in")}</div>
-      <div>
-        <Link href="/login" passHref>
-          <a className="font-medium text-teal-600 hover:text-teal-500">
-            {t("auth:actions.to_login")}
-          </a>
-        </Link>
+    <>
+      <Head>
+        <title>Open CO2 Roadmap</title>
+      </Head>
+      <div className="flex flex-col h-screen items-center justify-center">
+        <div>{t("errors:auth.not_logged_in")}</div>
+        <div>
+          <Link href="/login" passHref>
+            <a className="font-medium text-teal-600 hover:text-teal-500">
+              {t("auth:actions.to_login")}
+            </a>
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
