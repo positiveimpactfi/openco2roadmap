@@ -109,12 +109,12 @@ const Form: React.FC<{ t: Translate; onSuccess: () => void }> = ({
       }}
     >
       {({ isSubmitting, setFieldValue }: FormikProps<RegisterFormProps>) => (
-        <div className="flex items-center justify-center w-screen min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
           <div className="absolute right-4 top-4">
             <ChangeLanguage />
           </div>
           <div className="w-full max-w-xl space-y-8">
-            <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               {t("pages.reg_request.title")}
             </h2>
             <RegistrationRequestForm
@@ -133,15 +133,15 @@ const FormSent: React.FC<{ t: Translate; handleToLogin: () => void }> = ({
   handleToLogin,
 }) => {
   return (
-    <div className="flex items-center justify-center w-screen min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="absolute right-4 top-4">
         <ChangeLanguage />
       </div>
       <div className="w-full max-w-xl space-y-8">
-        <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {t("pages.reg_request.success.title")}
         </h2>
-        <p className="font-medium text-center text-gray-700 text-md">
+        <p className="text-md text-center font-medium text-gray-700">
           {t("pages.reg_request.success.description")}
         </p>
         <div className="flex justify-center">

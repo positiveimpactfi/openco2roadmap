@@ -22,7 +22,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const describedBy = `${field.name}-describedBy`;
   return (
     <div className="relative flex items-start">
-      <div className="flex items-center h-5">
+      <div className="flex h-5 items-center">
         <input
           {...field}
           {...props}
@@ -33,9 +33,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
           value={field.value}
           className={classNames(
             meta.touched && meta.error
-              ? " focus:ring-red-500 text-red-500"
-              : "focus:ring-teal-500 text-teal-600",
-            "h-4 w-4  border-gray-300 rounded"
+              ? " text-red-500 focus:ring-red-500"
+              : "text-teal-600 focus:ring-teal-500",
+            "h-4 w-4  rounded border-gray-300"
           )}
         />
       </div>
@@ -51,17 +51,17 @@ const Checkbox: React.FC<CheckboxProps> = ({
         </label>
         {href ? (
           <div>
-            <span className="flex items-center group space-x-1">
+            <span className="group flex items-center space-x-1">
               <Link href={href} passHref>
                 <a
-                  className="text-gray-500 group-hover:text-gray-700 group-hover:cursor-pointer"
+                  className="text-gray-500 group-hover:cursor-pointer group-hover:text-gray-700"
                   target="_blank"
                   rel="no-referrer"
                 >
                   {description}
                 </a>
               </Link>
-              <ExternalLinkIcon className="h-4 text-gray-500 group-hover:text-gray-700 group-hover:cursor-pointer" />
+              <ExternalLinkIcon className="h-4 text-gray-500 group-hover:cursor-pointer group-hover:text-gray-700" />
             </span>
           </div>
         ) : (

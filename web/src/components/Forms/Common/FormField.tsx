@@ -33,7 +33,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <label
         htmlFor={id}
         className={classNames(
-          showLabel ? "block text-sm font-medium text-gray-700 mb-2" : "sr-only"
+          showLabel ? "mb-2 block text-sm font-medium text-gray-700" : "sr-only"
         )}
       >
         {label}
@@ -45,13 +45,13 @@ const FormField: React.FC<FormFieldProps> = ({
         id={id}
         required={required}
         className={classNames(
-          "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm " +
+          "relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm " +
             (roundedTop ? "rounded-t-md " : null) +
             (roundedBottom ? "rounded-b-md " : null)
         )}
       />
       {meta.touched && meta.error ? (
-        <div className="flex flex-row ml-auto text-red-400">{meta.error}</div>
+        <div className="ml-auto flex flex-row text-red-400">{meta.error}</div>
       ) : null}
     </div>
   );

@@ -122,7 +122,7 @@ const EditDataEntryForm: React.FC<{
         values,
       }: FormikProps<FormValues>) => (
         <Form>
-          <div className="rounded-md space-y-4">
+          <div className="space-y-4 rounded-md">
             <Select
               options={allSiteUnits.flat()}
               setFieldValue={setFieldValue}
@@ -157,7 +157,7 @@ const EditDataEntryForm: React.FC<{
                   setFieldValue={setFieldValue}
                 />
               </div>
-              <div className="w-2/3 ml-2">
+              <div className="ml-2 w-2/3">
                 <Select
                   className="w-full"
                   label="Kuukausi"
@@ -207,7 +207,7 @@ const EditDataEntryForm: React.FC<{
                   }
                 />
               </div>
-              <div className="w-2/3 ml-2">
+              <div className="ml-2 w-2/3">
                 <Select
                   name="measurementUnit"
                   label="Mittayksikkö"

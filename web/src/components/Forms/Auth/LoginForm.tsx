@@ -11,7 +11,7 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
   return (
     <Form className="mt-8 space-y-6">
       <input type="hidden" name="remember" defaultValue="true" />
-      <div className="rounded-md shadow-sm -space-y-px">
+      <div className="-space-y-px rounded-md shadow-sm">
         <FormField
           label={t("common.email")}
           name="email"
@@ -59,9 +59,9 @@ export const LoginForm: React.FC<{ isSubmitting: boolean }> = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          className="group relative flex w-full justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
         >
-          <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3">
             <LockClosedIcon
               className="h-5 w-5 text-teal-500 group-hover:text-teal-400"
               aria-hidden="true"

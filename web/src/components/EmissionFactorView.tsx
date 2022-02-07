@@ -18,26 +18,26 @@ const EmissionFactorView: React.FC<{
 
   return (
     <div>
-      <h1 className="text-lg font-medium text-gray-900 mb-2">{ef.name}</h1>
+      <h1 className="mb-2 text-lg font-medium text-gray-900">{ef.name}</h1>
       <div className="mt-4">
-        <p className="text-sm font-medium text-gray-700 mb-2">
+        <p className="mb-2 text-sm font-medium text-gray-700">
           Päästökertoimen nimi:
         </p>
-        <p className="px-3 py-1 text-gray-900 text-sm">{ef.name}</p>
+        <p className="px-3 py-1 text-sm text-gray-900">{ef.name}</p>
       </div>
       <div className="mt-2">
-        <p className="text-sm font-medium text-gray-700 mb-2">
+        <p className="mb-2 text-sm font-medium text-gray-700">
           Alueellinen kattavuus:
         </p>
-        <p className="px-3 py-1 text-gray-900 text-sm">{ef.geographicalArea}</p>
+        <p className="px-3 py-1 text-sm text-gray-900">{ef.geographicalArea}</p>
       </div>
       <div className="mt-2">
-        <p className="text-sm font-medium text-gray-700 mb-2">Lähde:</p>
-        <p className="px-3 py-1 text-gray-900 text-sm">{ef.source}</p>
+        <p className="mb-2 text-sm font-medium text-gray-700">Lähde:</p>
+        <p className="px-3 py-1 text-sm text-gray-900">{ef.source}</p>
       </div>
       <div className="mt-2">
-        <p className="text-sm font-medium text-gray-700 mb-2">Mittayksikkö:</p>
-        <p className="px-3 py-1 text-gray-900 text-sm">
+        <p className="mb-2 text-sm font-medium text-gray-700">Mittayksikkö:</p>
+        <p className="px-3 py-1 text-sm text-gray-900">
           kg CO2e / {ef.physicalQuantity.baseUnit.shorthand}
         </p>
       </div>
@@ -45,7 +45,7 @@ const EmissionFactorView: React.FC<{
       <br />
       <EmissionFactorValueCards emissionFactor={ef} newValues={newValues} />
       {!showForm && (
-        <div className="flex mt-8 justify-end gap-x-2">
+        <div className="mt-8 flex justify-end gap-x-2">
           <Button onClick={() => setShowForm(true)}>Lisää uusi arvo</Button>
           <Button variant="success" onClick={() => onClose(false)}>
             Sulje
@@ -79,19 +79,19 @@ const EmissionFactorValueCards: React.FC<{
         {allValues.map((ev) => (
           <li
             key={ev.id}
-            className="col-span-1 flex shadow-sm rounded-md w-full"
+            className="col-span-1 flex w-full rounded-md shadow-sm"
           >
             <div
               className={classNames(
                 "bg-gray-500",
-                "flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"
+                "flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white"
               )}
             >
               {ev.startDate}
             </div>
-            <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-              <div className="flex-1 px-4 py-2 text-sm truncate">
-                <p className="text-gray-900 font-medium hover:text-gray-600">
+            <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
+              <div className="flex-1 truncate px-4 py-2 text-sm">
+                <p className="font-medium text-gray-900 hover:text-gray-600">
                   {ev.value.toLocaleString("fi")} kg CO2e /{" "}
                   {emissionFactor.physicalQuantity.baseUnit.shorthand}
                 </p>

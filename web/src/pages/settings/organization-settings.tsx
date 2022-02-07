@@ -34,7 +34,7 @@ const CompanyInfo: React.FC<{ t: Translate }> = ({ t }) => {
   return (
     <div className="mt-10">
       <h2 className="text-xl">{t("pages.org_settings.company_info.title")}</h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="mb-4 text-sm text-gray-500">
         {t("pages.org_settings.company_info.description")}
       </p>
       <div className="max-w-2xl">
@@ -52,7 +52,7 @@ const CompanyKPIs: React.FC<{ t: Translate }> = ({ t }) => {
   return (
     <div className="mt-4">
       <h2 className="text-xl">{t("pages.org_settings.kpis.title")}</h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="mb-4 text-sm text-gray-500">
         {t("pages.org_settings.kpis.description")}
       </p>
       <div className="max-w-2xl">

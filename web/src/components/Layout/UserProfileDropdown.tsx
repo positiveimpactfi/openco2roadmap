@@ -33,11 +33,11 @@ export const UserProfileDropdown = () => {
   const [logout] = useLogout();
   return (
     <div className="flex items-center">
-      <Menu as="div" className="ml-3 relative">
+      <Menu as="div" className="relative ml-3">
         {({ open }) => (
           <>
             <div>
-              <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+              <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                 <span className="sr-only">Avaa menu</span>
                 <div className="h-8 w-8 rounded-full">
                   <Image src={logoImg} alt="Positive Impact Logo" />
@@ -56,7 +56,7 @@ export const UserProfileDropdown = () => {
             >
               <Menu.Items
                 static
-                className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none z-10"
+                className="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <div className="py-1">
                   {menuItems.map((menuItem, i) => (
@@ -67,7 +67,7 @@ export const UserProfileDropdown = () => {
                     />
                   ))}
                 </div>
-                <div className="py-1 flex justify-start">
+                <div className="flex justify-start py-1">
                   <Menu.Item>
                     <ChangeLanguage />
                   </Menu.Item>
@@ -84,7 +84,7 @@ export const UserProfileDropdown = () => {
                           active
                             ? "bg-gray-100 text-gray-900"
                             : "text-gray-700",
-                          "block px-4 py-2 text-sm w-full text-left"
+                          "block w-full px-4 py-2 text-left text-sm"
                         )}
                       >
                         {t("user_menu.logout")}
@@ -109,7 +109,7 @@ const MenuItem: React.FC<MenuItem> = ({ href, name }) => {
           <a
             className={classNames(
               active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-              "block px-4 py-2 text-sm w-full text-left hover:bg-gray-50"
+              "block w-full px-4 py-2 text-left text-sm hover:bg-gray-50"
             )}
           >
             {name}

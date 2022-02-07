@@ -22,14 +22,14 @@ const Banner: React.FC<{ announcement: Announcement }> = ({ announcement }) => {
     <>
       {visible && (
         <div className="relative bg-teal-600">
-          <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-            <div className="pr-16 sm:text-center sm:px-16">
+          <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
+            <div className="pr-16 sm:px-16 sm:text-center">
               <p className="font-medium text-white">
                 <span>{localization.title}</span>
                 <span className="block sm:ml-2 sm:inline-block">
                   <Link href="/notifications" passHref>
                     <a
-                      className="text-white font-bold underline"
+                      className="font-bold text-white underline"
                       onClick={handleSetLatestAnnouncement}
                     >
                       {" "}
@@ -40,10 +40,10 @@ const Banner: React.FC<{ announcement: Announcement }> = ({ announcement }) => {
                 </span>
               </p>
             </div>
-            <div className="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
+            <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
               <button
                 type="button"
-                className="flex p-2 rounded-md hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-white"
+                className="flex rounded-md p-2 hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-white"
                 onClick={handleSetLatestAnnouncement}
               >
                 <span className="sr-only">

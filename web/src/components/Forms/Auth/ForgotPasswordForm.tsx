@@ -33,16 +33,16 @@ const ForgotPasswordForm: React.FC = () => {
       validationSchema={validationSchema}
     >
       {({ isSubmitting, errors, values }) => (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
           <div className="absolute right-4 top-4">
             <ChangeLanguage />
           </div>
-          <div className="max-w-md w-full space-y-8">
+          <div className="w-full max-w-md space-y-8">
             <div>
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 {t("pages.forgot_password.title")}
               </h2>
-              <p className="text-sm font-medium text-gray-700 text-center">
+              <p className="text-center text-sm font-medium text-gray-700">
                 {t("pages.forgot_password.description")}
               </p>
             </div>
@@ -72,7 +72,7 @@ const ForgotPasswordForm: React.FC = () => {
               </div>
               {complete && (
                 <div>
-                  <p className="text-center font-medium text-md text-gray-700">
+                  <p className="text-md text-center font-medium text-gray-700">
                     {t("pages.forgot_password.form.success")}
                   </p>
                 </div>

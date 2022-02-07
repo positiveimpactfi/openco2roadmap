@@ -110,8 +110,8 @@ const CalculatorConsumptionDataPage = () => {
       ) : (
         <div className="flex flex-col">
           <div className="-my-2 sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="mt-4 shadow border-b border-gray-200 sm:rounded-lg">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div className="mt-4 border-b border-gray-200 shadow sm:rounded-lg">
                 <Table
                   headers={t(
                     "pages.consumption_data.table.headers",
@@ -177,7 +177,7 @@ const CalculatorConsumptionDataPage = () => {
                           ).toLocaleString() + " kg CO2e"
                         }
                       />
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                         <OptionsMenu
                           onShow={() => handleShowEntry(entry as DataEntry)}
                           onEdit={() => handleEditEntry(entry as DataEntry)}

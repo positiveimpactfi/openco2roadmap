@@ -72,7 +72,7 @@ const EditSiteForm: React.FC<{
     >
       {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (
         <Form>
-          <div className="rounded-md space-y-4">
+          <div className="space-y-4 rounded-md">
             <FormField
               showLabel
               label="Toimipaikan nimi"
@@ -185,10 +185,10 @@ const NewUnitInputField: React.FC<{
 }> = ({ units, setUnits, setOpen, site }) => {
   const [unit, setUnit] = useState("");
   return (
-    <div className="bg-gray-200 px-2 py-2 rounded-md">
+    <div className="rounded-md bg-gray-200 px-2 py-2">
       <label
         htmlFor="newUnitField"
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="mb-1 block text-sm font-medium text-gray-700"
       >
         Uuden yksikön nimi
       </label>
@@ -196,23 +196,23 @@ const NewUnitInputField: React.FC<{
         <input
           id="newUnitField"
           placeholder="Uusi yksikkö"
-          className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-md"
+          className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
           value={unit}
           onChange={(e) => setUnit(e.currentTarget.value)}
         />
         <button
           type="submit"
-          className="w-8 h-8 bg-white inline-flex items-center justify-center text-red-500 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white bg-transparent text-red-500 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
           onClick={() => {
             setUnit(null);
             setOpen(false);
           }}
         >
-          <XIcon className="w-5 h-5" aria-hidden="true" />
+          <XIcon className="h-5 w-5" aria-hidden="true" />
         </button>
         <button
           type="button"
-          className="w-8 h-8 bg-teal-500 inline-flex items-center justify-center text-teal-500 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 bg-transparent text-teal-500 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
           onClick={() => {
             setUnits([
               ...units,
@@ -226,7 +226,7 @@ const NewUnitInputField: React.FC<{
             setUnit("");
           }}
         >
-          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+          <CheckIcon className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
     </div>

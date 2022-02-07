@@ -45,14 +45,14 @@ export const ContentArea: React.FC<{
 }> = ({ setMobileMenuOpen, hidden = false, children }) => {
   if (hidden) return null;
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="flex flex-1 flex-col overflow-hidden">
       <Header setMobileMenuOpen={setMobileMenuOpen} />
-      <div className="flex-1 flex items-stretch overflow-hidden">
-        <main className="px-4 pt-4 flex-1 overflow-y-auto">
+      <div className="flex flex-1 items-stretch overflow-hidden">
+        <main className="flex-1 overflow-y-auto px-4 pt-4">
           {/* Primary column */}
           <section
             aria-labelledby="primary-heading"
-            className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
+            className="flex h-full min-w-0 flex-1 flex-col overflow-hidden lg:order-last"
           >
             <h1 id="primary-heading" className="sr-only">
               Open CO2 Roadmap

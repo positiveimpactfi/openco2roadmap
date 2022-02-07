@@ -21,12 +21,12 @@ const GiveFeedback = () => {
         show={showNotification}
         setShow={setShowNotification}
       />
-      <div className="fixed right-8 bottom-8 w-10 h-10 border border-gray-600 px-2 py-2 hover:text-white hover:bg-teal-500 rounded-md bg-white group">
+      <div className="group fixed right-8 bottom-8 h-10 w-10 rounded-md border border-gray-600 bg-white px-2 py-2 hover:bg-teal-500 hover:text-white">
         <span className="sr-only">Avaa anna palautetta lomake</span>
-        <div className="opacity-0 w-28 bg-black text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -right-3/4 ml-5 mb-2 px-3 pointer-events-none">
+        <div className="pointer-events-none absolute bottom-full -right-3/4 z-10 ml-5 mb-2 w-28 rounded-lg bg-black py-2 px-3 text-center text-xs text-white opacity-0 group-hover:opacity-100">
           Anna palautetta
           <svg
-            className="absolute text-black h-2 w-full left-0 top-full"
+            className="absolute left-0 top-full h-2 w-full text-black"
             x="0px"
             y="0px"
             viewBox="0 0 255 255"
@@ -35,7 +35,7 @@ const GiveFeedback = () => {
             <polygon className="fill-current" points="0,0 127.5,127.5 255,0" />
           </svg>
         </div>
-        <button onClick={() => setModalOpen(true)} className="w-full h-full">
+        <button onClick={() => setModalOpen(true)} className="h-full w-full">
           <ReplyIcon />
         </button>
       </div>

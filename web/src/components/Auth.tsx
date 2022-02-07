@@ -10,7 +10,7 @@ export const Auth: React.FC = ({ children }) => {
   if (loading) {
     return (
       <Container hideElements={true}>
-        <div className="flex h-screen justify-center items-center">
+        <div className="flex h-screen items-center justify-center">
           <LoadingBar />
         </div>
       </Container>
@@ -27,7 +27,7 @@ const UserNotLoggedIn = () => {
       <Head>
         <title>Open CO2 Roadmap</title>
       </Head>
-      <div className="flex flex-col h-screen items-center justify-center">
+      <div className="flex h-screen flex-col items-center justify-center">
         <div>{t("errors:auth.not_logged_in")}</div>
         <div>
           <Link href="/login" passHref>

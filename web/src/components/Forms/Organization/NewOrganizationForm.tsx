@@ -55,7 +55,7 @@ const NewOrganizationForm: React.FC<{
     >
       {({ isSubmitting, handleReset, setFieldValue }: FormikProps<{}>) => (
         <Form>
-          <div className="rounded-md space-y-4">
+          <div className="space-y-4 rounded-md">
             <FormField
               showLabel
               label={t("pages.org_settings.form.name")}
@@ -99,14 +99,14 @@ const NewOrganizationForm: React.FC<{
                     handleReset();
                     setSlideoverOpen(false);
                   }}
-                  className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                  className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                 >
                   Peruuta
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                 >
                   Tallenna
                 </button>

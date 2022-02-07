@@ -17,9 +17,9 @@ const Collapsible: React.FC<CollapsibleProps> = ({
       {({ open }) => (
         <>
           <dt className="text-lg">
-            <Disclosure.Button className="text-left max-w-lg flex justify-between items-start text-gray-400">
+            <Disclosure.Button className="flex max-w-lg items-start justify-between text-left text-gray-400">
               <span className="font-medium text-gray-900">{title}</span>
-              <span className="ml-6 h-7 flex items-center">
+              <span className="ml-6 flex h-7 items-center">
                 <ChevronDownIcon
                   className={classNames(
                     open ? "-rotate-180" : "rotate-0",

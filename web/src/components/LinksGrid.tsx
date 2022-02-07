@@ -10,20 +10,20 @@ const LinksGrid: React.FC<{ links: PageLink[]; namespace?: string }> = ({
   const { t } = useTranslation(namespace);
   return (
     <div className="bg-gray-100">
-      <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-12 lg:px-8 bg-white">
+      <div className="mx-auto max-w-4xl bg-white px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:px-8 lg:pt-12">
         <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-2 ">
           {links.map((link) => (
             <div key={link.name}>
-              <div className="flex flex-row group">
+              <div className="group flex flex-row">
                 <Link href={link.href} passHref>
-                  <span className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-md bg-teal-500 group-hover:bg-teal-600">
+                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md bg-teal-500 group-hover:bg-teal-600">
                     <link.icon
                       className="h-6 w-6 text-white"
                       aria-hidden="true"
                     />
                   </span>
                 </Link>
-                <div className="flex flex-col ml-4">
+                <div className="ml-4 flex flex-col">
                   <h3
                     className={classNames(
                       link.disabled ? "text-gray-300" : "text-black",

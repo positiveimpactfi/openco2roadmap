@@ -78,7 +78,7 @@ const CreateUserForm: React.FC<{
         errors,
       }: FormikProps<{}>) => (
         <Form>
-          <div className="rounded-md space-y-4">
+          <div className="space-y-4 rounded-md">
             <FormField
               showLabel
               label="Sähköposti"
@@ -164,13 +164,13 @@ export const MyOrgSelect: React.FC<{ user: User }> = ({ user }) => {
     <div className="space-y-6">
       <label
         htmlFor="user-org"
-        className="block text-sm font-medium text-gray-700 mb-2"
+        className="mb-2 block text-sm font-medium text-gray-700"
       >
         Liitä yritykseen
       </label>
       <div
         id="user-org"
-        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+        className="relative block w-full appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
       >
         {user?.organizations[0].name}
       </div>

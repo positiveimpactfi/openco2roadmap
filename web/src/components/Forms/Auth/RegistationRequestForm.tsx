@@ -134,7 +134,7 @@ export const RegistrationRequestForm: React.FC<{
         <button
           type="submit"
           disabled={isSubmitting}
-          className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-teal-600 border border-transparent rounded-md group hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          className="group relative flex w-full justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-3"></span>
           {t("pages.reg_request.actions.send_request")}

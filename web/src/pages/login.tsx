@@ -60,11 +60,11 @@ const LoginPage = () => {
         }}
       >
         {({ isSubmitting }: FormikProps<LoginFormProps>) => (
-          <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+          <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="absolute right-4 top-4">
               <ChangeLanguage />
             </div>
-            <div className="max-w-md w-full space-y-8">
+            <div className="w-full max-w-md space-y-8">
               <div>
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                   {t("pages.login.title")}

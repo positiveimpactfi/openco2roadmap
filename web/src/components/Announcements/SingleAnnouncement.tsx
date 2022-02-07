@@ -11,7 +11,7 @@ const SingleAnnouncement: React.FC<{ announcement: Announcement }> = ({
     (l) => l.locale === locale
   )[0];
   return (
-    <div className="bg-white px-4 py-5 sm:px-6 rounded-lg">
+    <div className="rounded-lg bg-white px-4 py-5 sm:px-6">
       <div className="flex space-x-3">
         <div className="flex-shrink-0">
           <Image
@@ -32,7 +32,7 @@ const SingleAnnouncement: React.FC<{ announcement: Announcement }> = ({
         </div>
       </div>
       <div className="mt-2">
-        <h2 className="font-medium text-gray-700 text-lg">
+        <h2 className="text-lg font-medium text-gray-700">
           {localization.title}
         </h2>
         <div

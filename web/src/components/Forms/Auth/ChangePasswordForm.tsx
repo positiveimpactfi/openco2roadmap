@@ -37,11 +37,11 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
       validationSchema={validationSchema}
     >
       {({ isSubmitting, errors, values }) => (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-screen">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
           <div className="absolute right-4 top-4">
             <ChangeLanguage />
           </div>
-          <div className="max-w-md w-full space-y-8">
+          <div className="w-full max-w-md space-y-8">
             <div>
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 {t("pages.change_password.title")}
@@ -71,8 +71,8 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
                 </Button>
               </div>
               {complete && (
-                <div className="flex flex-col justify-center items-center">
-                  <p className="text-center font-medium text-md text-gray-700">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-md text-center font-medium text-gray-700">
                     {t("pages.change_password.form.success")}
                   </p>
                   <Link href="/login" passHref>
@@ -84,7 +84,7 @@ const ChangePasswordForm: React.FC<{ token: string }> = ({ token }) => {
               )}
               {tokenError !== "" && (
                 <div>
-                  <p className="font-medium text-red-500 text-center text-md">
+                  <p className="text-md text-center font-medium text-red-500">
                     {tokenError}
                   </p>
                 </div>

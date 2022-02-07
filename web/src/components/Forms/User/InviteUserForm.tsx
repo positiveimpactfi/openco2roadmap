@@ -72,7 +72,7 @@ const InviteUserForm: React.FC<{
         errors,
       }: FormikProps<{}>) => (
         <Form>
-          <div className="rounded-md space-y-4">
+          <div className="space-y-4 rounded-md">
             <FormField
               showLabel
               label="Sähköposti"

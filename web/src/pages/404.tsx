@@ -27,11 +27,11 @@ const PageNotFound = () => {
       <Head>
         <title>404 | Open CO2 Roadmap</title>
       </Head>
-      <div className="flex justify-center items-center space-x-4 py-6 pb-8 px-6">
-        <div className="w-24 text-gray-600 font-extralight">
+      <div className="flex items-center justify-center space-x-4 py-6 px-6 pb-8">
+        <div className="w-24 font-extralight text-gray-600">
           <SparklesIcon />
         </div>
-        <div className="flex flex-col space-y-4 max-w-[35ch]">
+        <div className="flex max-w-[35ch] flex-col space-y-4">
           <h3 className="text-lg  text-gray-600">Sivua ei löytynyt!</h3>
           <p className="text-gray-600">
             Siirry etusivulle{" "}

@@ -31,8 +31,8 @@ const UserLoggedIn: React.FC<{ user: Partial<User> }> = ({ user }) => {
         (!latestAnnouncement || latestAnnouncement !== announcements[0].id) && (
           <Banner announcement={announcements[0]} />
         )}
-      <div className="px-4 sm:px-6 lg:px-8 pb-4">
-        <h2 className="text-xl mb-4">{`${t("home:greeting")}, ${
+      <div className="px-4 pb-4 sm:px-6 lg:px-8">
+        <h2 className="mb-4 text-xl">{`${t("home:greeting")}, ${
           user.firstName ?? user.email
         }`}</h2>
         <div className="flex flex-col items-start">

@@ -86,7 +86,7 @@ const CreateEmissionFactorForm: React.FC<{
     >
       {({ values, isSubmitting, handleReset, setFieldValue }) => (
         <Form>
-          <div className="flex flex-col align-baseline justify-items-start space-y-2">
+          <div className="flex flex-col justify-items-start space-y-2 align-baseline">
             <div className="my-4 text-lg font-medium text-gray-600">
               {values.emissionFactorName === ""
                 ? "Uusi päästökerroin"
@@ -137,8 +137,8 @@ const CreateEmissionFactorForm: React.FC<{
               <label className="block text-sm font-medium text-gray-700">
                 Mittayksikkö
               </label>
-              <div className="flex space-x-1 items-center">
-                <p className="font-medium text-gray-500 pt-1 italic w-24">
+              <div className="flex items-center space-x-1">
+                <p className="w-24 pt-1 font-medium italic text-gray-500">
                   kg CO2e /{" "}
                 </p>
                 <div className="w-full">
@@ -207,7 +207,7 @@ const CreateEmissionFactorForm: React.FC<{
                 type="number"
                 required
               />
-              <div className="ml-4 text-sm font-medium text-gray-600 py-2">
+              <div className="ml-4 py-2 text-sm font-medium text-gray-600">
                 {" "}
                 kg CO2e / {values.measurementUnit?.shorthand}
               </div>

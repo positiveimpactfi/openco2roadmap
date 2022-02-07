@@ -10,14 +10,14 @@ const ShowDataEntry: React.FC<{
 }> = ({ dataEntry: entry, setOpen }) => {
   return (
     <>
-      <div className="rounded-md space-y-4">
+      <div className="space-y-4 rounded-md">
         <div className="">
-          <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+          <label className={"mb-2 block text-sm font-medium text-gray-700"}>
             Toimipaikka
           </label>
           <span
             className={
-              "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+              "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
             }
           >
             {entry.siteUnit.name.startsWith("default_")
@@ -27,12 +27,12 @@ const ShowDataEntry: React.FC<{
         </div>
         <div>
           <div className="">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Päästölähde
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {
@@ -45,24 +45,24 @@ const ShowDataEntry: React.FC<{
         </div>
         <div className="flex">
           <div className="w-1/3">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Vuosi
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {new Date(entry.startDate).getFullYear()}
             </span>
           </div>
-          <div className="w-2/3 ml-2">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+          <div className="ml-2 w-2/3">
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Kuukausi
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {
@@ -76,12 +76,12 @@ const ShowDataEntry: React.FC<{
 
         <div>
           <div className="">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Käytettävä päästökerroin
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {entry.emissionFactorValue.emissionFactor.name}
@@ -90,24 +90,24 @@ const ShowDataEntry: React.FC<{
         </div>
         <div className="flex">
           <div className="w-1/3">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Kulutus
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {entry.consumptionValue.toLocaleString()}
             </span>
           </div>
-          <div className="w-2/3 ml-2">
-            <label className={"block text-sm font-medium text-gray-700 mb-2"}>
+          <div className="ml-2 w-2/3">
+            <label className={"mb-2 block text-sm font-medium text-gray-700"}>
               Mittayksikkö
             </label>
             <span
               className={
-                "appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm rounded-t-md rounded-b-md"
+                "relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-teal-500 focus:outline-none focus:ring-teal-500 sm:text-sm"
               }
             >
               {entry.measurementUnit}

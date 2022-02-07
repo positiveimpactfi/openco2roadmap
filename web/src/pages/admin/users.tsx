@@ -113,7 +113,7 @@ const UsersPage = () => {
         >
           <CreateUserForm setOpen={setAddFormOpen} onSuccess={handleAddUser} />
         </SlideOver>
-        <div className="flex space-x-2 mb-4">
+        <div className="mb-4 flex space-x-2">
           <Button
             variant="success"
             onClick={() => setInviteFormOpen(true)}
@@ -158,11 +158,11 @@ const CompanyUsersTable: React.FC<{
   return (
     <div className="flex flex-col">
       <div className="-my-2  sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="shadow border-b border-gray-200 sm:rounded-lg">
+            <div className="border-b border-gray-200 shadow sm:rounded-lg">
               <Table
                 alignLastRight
                 headers={t(
@@ -177,7 +177,7 @@ const CompanyUsersTable: React.FC<{
                     <TableCell value={"--"} />
                     <TableCell value={user.email} />
                     <TableCell value="Kutsuttu" />
-                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleSendReminder(user as InvitedUser)}
                         onShowText={t(
@@ -197,7 +197,7 @@ const CompanyUsersTable: React.FC<{
                     <TableCell value={user.firstName ?? "--"} />
                     <TableCell value={user.email} />
                     <TableCell value="Aktiivinen" />
-                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleFormOpen(user)}
                         onShowText="Näytä tiedot"
@@ -227,11 +227,11 @@ const SuperAdminUserTable: React.FC<{
   return (
     <div className="flex flex-col">
       <div className="-my-2 sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="shadow border-b border-gray-200 sm:rounded-lg">
+            <div className="border-b border-gray-200 shadow sm:rounded-lg">
               <Table
                 alignLastRight
                 headers={t(
@@ -247,7 +247,7 @@ const SuperAdminUserTable: React.FC<{
                     <TableCell value={user.email} />
                     <TableCell value="Kutsuttu" />
                     <TableCell value={user.organization.name} />
-                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleSendReminder(user as InvitedUser)}
                         onShowText={t(
@@ -268,7 +268,7 @@ const SuperAdminUserTable: React.FC<{
                     <TableCell value={user.email} />
                     <TableCell value="Aktiivinen" />
                     <TableCell value={user.organizations[0]?.name} />
-                    <td className="px-6 py-1 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
                       <OptionsMenu
                         onShow={() => handleFormOpen(user)}
                         onShowText="Näytä tiedot"

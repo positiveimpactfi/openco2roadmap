@@ -26,10 +26,10 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
       </SlideOver>
       <div className="mx-4 mt-4">
         <h1 className="text-2xl">{t("title")}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-7xl">
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
+        <div className="grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
                 {t("contact.title")}
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
@@ -38,35 +38,35 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
               <dl className="sm:divide-y sm:divide-gray-200">
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     {t("contact.first_name")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {user?.firstName ?? "Ei tiedossa"}
                   </dd>
                 </div>
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     {t("contact.last_name")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {user?.lastName ?? "Ei tiedossa"}
                   </dd>
                 </div>
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500 overflow-hidden">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                  <dt className="overflow-hidden text-sm font-medium text-gray-500">
                     {t("contact.email")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {user?.email}
                   </dd>
                 </div>
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     {t("contact.org")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {user?.organizations[0]?.name}
                   </dd>
                 </div>
@@ -78,9 +78,9 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
               </div>
             </div>
           </div>
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-4">
+          <div className="mt-4 overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
                 {t("actions.title")}
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
@@ -89,33 +89,33 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
               <dl className="sm:divide-y sm:divide-gray-200">
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500 overflow-hidden">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                  <dt className="overflow-hidden text-sm font-medium text-gray-500">
                     {t("actions.actions.delete_user.title")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {t("actions.actions.delete_user.description")}
                     <br />
                     <button
                       type="submit"
                       disabled={true}
-                      className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 opacity-50 cursor-not-allowed"
+                      className="mt-2 inline-flex cursor-not-allowed justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white opacity-50 shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                     >
                       {t("actions.actions.delete_user.title")}
                     </button>
                   </dd>
                 </div>
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     {t("actions.actions.request_data.title")}
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     {t("actions.actions.request_data.description")}
                     <br />
                     <button
                       type="submit"
                       disabled={true}
-                      className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 opacity-50 cursor-not-allowed"
+                      className="mt-2 inline-flex cursor-not-allowed justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white opacity-50 shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                     >
                       {t("actions.actions.request_data.title")}
                     </button>

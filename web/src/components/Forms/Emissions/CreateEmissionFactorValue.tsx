@@ -53,11 +53,11 @@ const CreateEmissionFactorValueForm: React.FC<{
     >
       {({ values, isSubmitting, handleReset }) => (
         <Form>
-          <div className="flex flex-col align-baseline justify-items-start">
-            <div className="my-4 text-xs uppercase font-medium text-gray-600">
+          <div className="flex flex-col justify-items-start align-baseline">
+            <div className="my-4 text-xs font-medium uppercase text-gray-600">
               Määritä päästökertoimen arvot
             </div>
-            <div className="flex justify-between mb-4">
+            <div className="mb-4 flex justify-between">
               <FormField
                 showLabel
                 label="Alkaen"
@@ -96,7 +96,7 @@ const CreateEmissionFactorValueForm: React.FC<{
                 type="number"
                 required
               />
-              <div className="ml-4 text-sm font-medium text-gray-600 py-2">
+              <div className="ml-4 py-2 text-sm font-medium text-gray-600">
                 {" "}
                 kg CO2e / {emissionFactor.physicalQuantity.baseUnit.shorthand}
               </div>

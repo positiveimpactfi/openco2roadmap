@@ -43,7 +43,7 @@ const FeedbackForm: React.FC<{
         {() => (
           <Form className="mt-8">
             <div className="rounded-md">
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <div className="mt-1 sm:col-span-2 sm:mt-0">
                 <p className="mt-2 text-sm text-gray-500">
                   Kirjoita tähän kenttään palautteesi:
                 </p>
@@ -51,21 +51,21 @@ const FeedbackForm: React.FC<{
                   id="feedback"
                   name="feedback"
                   rows={10}
-                  className="max-w-lg shadow-sm block w-full focus:ring-teal-500 focus:border-teal-500 sm:text-sm border border-gray-300 rounded-md"
+                  className="block w-full max-w-lg rounded-md border border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                   as="textarea"
                 />
               </div>
 
-              <div className="mt-5 sm:flex space-x-2">
+              <div className="mt-5 space-x-2 sm:flex">
                 <Button variant="success" type="submit">
                   Lähetä
                 </Button>
                 <Button onClick={() => setShowModal(false)}>Peruuta</Button>
               </div>
-              <div className="mt-10 text-xs text-gray-500 max-w-prose">
+              <div className="mt-10 max-w-prose text-xs text-gray-500">
                 Palautteesi yhteyteen tallennetaan automaattisesti seuraavat
                 tiedot:
-                <ul className="list-disc list-inside">
+                <ul className="list-inside list-disc">
                   <li>käyttäjätunnus</li>
                   <li>yrityksen nimi</li>
                   <li>lomakkeen avaussivun osoite (URL)</li>

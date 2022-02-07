@@ -12,12 +12,12 @@ const PageWithTabs: React.FC<PageProps> = ({
   children,
 }) => {
   return (
-    <main className="flex-1 h-full relative z-0 overflow-y-auto focus:outline-none bg-gray-100">
-      <div className="px-4 sm:px-6 lg:px-8 pb-4">
+    <main className="relative z-0 h-full flex-1 overflow-y-auto bg-gray-100 focus:outline-none">
+      <div className="px-4 pb-4 sm:px-6 lg:px-8">
         <TabMenu links={links} namespace={namespace} />
       </div>
-      <div className="px-4 mt-2 sm:px-6 lg:px-8 pb-10">
-        <h1 className="text-2xl mb-4">{title}</h1>
+      <div className="mt-2 px-4 pb-10 sm:px-6 lg:px-8">
+        <h1 className="mb-4 text-2xl">{title}</h1>
         <p className="text-md mb-4">{description}</p>
         {children}
       </div>

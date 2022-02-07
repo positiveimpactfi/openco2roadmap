@@ -46,12 +46,12 @@ const SelectNumber: React.FC<SelectProps> = ({
               {label}
             </Listbox.Label>
           )}
-          <div className="mt-2 relative">
-            <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+          <div className="relative mt-2">
+            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 sm:text-sm">
               <span className="block truncate">
                 {selected ? selected : "Valitse..."}
               </span>
-              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <SelectorIcon
                   className="h-5 w-5 text-gray-400"
                   aria-hidden="true"
@@ -66,16 +66,16 @@ const SelectNumber: React.FC<SelectProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {options.map((option) => (
                   <Listbox.Option
                     key={option}
                     className={({ active }) =>
                       classNames(
                         active
-                          ? "text-white bg-teal-600 rounded-md"
+                          ? "rounded-md bg-teal-600 text-white"
                           : "text-gray-900",
-                        "cursor-default select-none relative py-2 pl-3 pr-9"
+                        "relative cursor-default select-none py-2 pl-3 pr-9"
                       )
                     }
                     value={option}
@@ -86,7 +86,7 @@ const SelectNumber: React.FC<SelectProps> = ({
                           <span
                             className={classNames(
                               active ? "text-white" : "text-teal-600",
-                              "absolute inset-y-0 right-0 flex items-center mr-4"
+                              "absolute inset-y-0 right-0 mr-4 flex items-center"
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
