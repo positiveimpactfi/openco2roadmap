@@ -17,7 +17,7 @@
     "print:log:info": "cat logs/info.log | pino-pretty -c -t"
   },
   "devDependencies": {
-    "@types/connect-redis": "^0.0.18",
+    "@types/connect-redis": "^0.0.16",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/express-serve-static-core": "^4.17.28",
@@ -40,7 +40,7 @@
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
-    "graphql": "^16.3.0",
+    "graphql": "^15.5.3",
     "ioredis": "^4.28.3",
     "node-fetch": "2",
     "pg": "^8.4.0",
