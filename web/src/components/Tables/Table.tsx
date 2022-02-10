@@ -1,6 +1,7 @@
 import { TableCellOpenOptions } from "components/Table";
 import React from "react";
 import { useTable, useSortBy } from "react-table";
+import { SortAscendingIcon, SortDescendingIcon } from "@heroicons/react/solid";
 
 interface TableProps {
   columns: any[];
@@ -39,12 +40,16 @@ const Table = ({ columns, data, actions = null }: TableProps) => {
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                 >
                   {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
+                  <span className="flex h-5">
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <SortDescendingIcon className="h-5" />
+                      ) : (
+                        <SortAscendingIcon className="h-5" />
+                      )
+                    ) : (
+                      ""
+                    )}
                   </span>
                 </th>
               ))}
