@@ -43,4 +43,8 @@ export class RegistrationRequest extends BaseEntity {
   @Field(() => SubIndustry)
   @ManyToOne(() => SubIndustry)
   industry: SubIndustry;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  comment: string;
 }
