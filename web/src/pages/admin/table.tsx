@@ -8,9 +8,10 @@ import { Table } from "components/Tables/Table";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useMemo, useState } from "react";
-import { EmissionFactor } from "types/generatedTypes";
+import { EmissionFactor, PhysicalQuantity } from "types/generatedTypes";
 import { compareString } from "utils/compareStrings";
 import { numberToString } from "utils/numberToString";
+import { Column } from "react-table";
 
 const TestTablePage = () => {
   const { t } = useTranslation("admin");
@@ -33,7 +34,7 @@ const TestTablePage = () => {
     setOpen(true);
   };
 
-  const columns = useMemo(
+  const columns = useMemo<Column[]>(
     () => [
       {
         Header: "Nimi",
@@ -54,6 +55,10 @@ const TestTablePage = () => {
       {
         Header: "Uusin Arvo",
         accessor: "latestValue",
+        Cell: ({ value, row }) =>
+          numberToString(value) +
+          " kg CO2e/" +
+          (row.original as EmissionFactor).physicalQuantity.baseUnit.shorthand,
       },
     ],
     []
@@ -68,12 +73,8 @@ const TestTablePage = () => {
         endDate: [...ef.values]
           .sort((a, b) => b.endDate - a.endDate)[0]
           ?.endDate.toString(),
-        latestValue:
-          numberToString(
-            [...ef.values].sort((a, b) => b.endDate - a.endDate)[0]?.value
-          ) +
-          " kg CO2e/" +
-          ef.physicalQuantity.baseUnit.shorthand,
+        latestValue: [...ef.values].sort((a, b) => b.endDate - a.endDate)[0]
+          ?.value,
       };
     });
   }, [emissionFactors]);
