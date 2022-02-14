@@ -34,6 +34,9 @@ class RegistrationRequestInput implements Partial<RegistrationRequest> {
 
   @Field(() => Int, { nullable: true })
   municipalityID: number;
+
+  @Field({ nullable: true })
+  comment: string;
 }
 
 @Resolver(RegistrationRequest)
@@ -57,6 +60,7 @@ export class RegistrationRequestResolver {
       businessID,
       industryCode,
       municipalityID,
+      comment,
     }: RegistrationRequestInput
   ): Promise<RegistrationRequest | undefined> {
     const industry = await SubIndustry.findOne({ code: industryCode });
@@ -73,6 +77,7 @@ export class RegistrationRequestResolver {
       businessID,
       industry,
       municipality,
+      comment,
     }).save();
     console.log("new request created", newRequest);
 
