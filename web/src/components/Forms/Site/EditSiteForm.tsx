@@ -6,7 +6,7 @@ import Select from "components/Forms/Common/Select";
 import Table, {
   TableCellOpenOptions,
   TableCellWithEdit,
-} from "components/Table";
+} from "components/Tables/SimpleTable";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateSiteMutation } from "graphql/mutations/site/updateSite.generated";
 import { MyOrganizationSitesDocument } from "graphql/queries/site/myOrganizationSites.generated";

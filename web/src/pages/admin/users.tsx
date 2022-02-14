@@ -7,7 +7,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import Notification from "components/Notification";
 import OptionsMenu from "components/OptionsMenu";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell } from "components/Table";
+import Table, { TableCell } from "components/Tables/SimpleTable";
 import UserView from "components/UserView";
 import { useCancelUserInviteMutation } from "graphql/mutations/user/cancelUserInvite.generated";
 import { useSendInvitationReminderMutation } from "graphql/mutations/user/sendInvitationReminder.generated";

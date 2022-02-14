@@ -12,7 +12,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import OptionsMenu from "components/OptionsMenu";
 import ShowDataEntryForm from "components/ShowDataEntry";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell } from "components/Table";
+import Table, { TableCell } from "components/Tables/SimpleTable";
 import WarningModal from "components/Warning";
 import { format } from "date-fns";
 import { useDeleteEntryMutation } from "graphql/mutations/data/deleteDataEntry.generated";

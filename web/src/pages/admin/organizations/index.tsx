@@ -6,7 +6,10 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, {
+  TableCell,
+  TableCellOpenOptions,
+} from "components/Tables/SimpleTable";
 import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
 import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/allRegistrationRequests.generated";
 import { Translate } from "next-translate";

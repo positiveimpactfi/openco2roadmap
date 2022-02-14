@@ -6,7 +6,10 @@ import EditSiteForm from "components/Forms/Site/EditSiteForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, {
+  TableCell,
+  TableCellOpenOptions,
+} from "components/Tables/SimpleTable";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
