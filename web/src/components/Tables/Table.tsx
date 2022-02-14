@@ -1,11 +1,17 @@
 import React from "react";
-import { useTable, useSortBy } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  useAsyncDebounce,
+} from "react-table";
 import {
   DotsVerticalIcon,
   PencilAltIcon,
   SortAscendingIcon,
   SortDescendingIcon,
   TrashIcon,
+  SearchIcon,
 } from "@heroicons/react/solid";
 
 interface TableProps {
@@ -14,19 +20,51 @@ interface TableProps {
 }
 
 const Table = ({ columns, data }: TableProps) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
+  const filterTypes = React.useMemo(
+    () => ({
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id];
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true;
+        });
       },
-      useSortBy
-    );
+    }),
+    []
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state,
+  } = useTable(
+    {
+      columns,
+      data,
+      filterTypes,
+    },
+    useGlobalFilter,
+    useSortBy
+  );
 
   const firstPageRows = rows;
 
   return (
     <>
+      <div className="mb-4 flex justify-end">
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
+      </div>
       <table
         {...getTableProps()}
         className="min-w-full divide-y divide-gray-200"
@@ -108,5 +146,38 @@ export const TableActionButton: React.FC<{
     </div>
   );
 };
+
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = React.useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <div className="w-72">
+      <div className="relative mt-1 rounded-md shadow-sm">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+        </div>
+        <input
+          value={value || ""}
+          onChange={(e) => {
+            setValue(e.target.value);
+            onChange(e.target.value);
+          }}
+          name="table-filter"
+          id="table-filter"
+          className="block w-full rounded-md border-gray-300 py-2 pl-10 focus:border-teal-500 focus:ring-teal-500 focus-visible:outline-teal-500 sm:text-sm"
+          placeholder={`Hae ${count} riviä`}
+        />
+      </div>
+    </div>
+  );
+}
 
 export { Table };
