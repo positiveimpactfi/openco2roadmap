@@ -76,7 +76,7 @@ const Table = ({ columns, data }: TableProps) => {
                 <th
                   key={column.id}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 last:text-right"
                 >
                   {column.render("Header")}
                   <span className="flex h-5">
@@ -108,7 +108,7 @@ const Table = ({ columns, data }: TableProps) => {
                     <td
                       key={cell.value}
                       {...cell.getCellProps()}
-                      className="px-6 py-1  text-sm font-medium text-gray-500"
+                      className="px-6 py-1  text-sm font-medium text-gray-500 last:place-content-end last:text-right"
                     >
                       {cell.render("Cell")}
                     </td>
