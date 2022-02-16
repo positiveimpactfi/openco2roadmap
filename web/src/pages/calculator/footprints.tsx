@@ -71,9 +71,8 @@ const CalculatorFootprintsPage = () => {
                     ))}
                   </tr>
                 ))}
-                <tr className="h-2" />
                 <tr>
-                  <TableCell value="Hiilijalanjälki yhteensä" />
+                  <TableCell value="Yhteensä, t CO2e" bolded />
                   {allYearsParsed.map((y) => (
                     <TableCell
                       key={y + "_total"}
@@ -83,6 +82,7 @@ const CalculatorFootprintsPage = () => {
                         1
                       )}
                       clamped
+                      bolded
                     />
                   ))}
                 </tr>
