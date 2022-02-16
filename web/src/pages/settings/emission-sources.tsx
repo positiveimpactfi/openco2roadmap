@@ -1,7 +1,7 @@
 import { withAuth } from "components/Auth";
 import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
-import Table, { TableCell } from "components/Table";
+import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
 import useTranslation from "next-translate/useTranslation";
 

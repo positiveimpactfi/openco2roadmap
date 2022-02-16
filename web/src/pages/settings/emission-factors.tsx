@@ -1,6 +1,9 @@
 import { withAuth } from "components/Auth";
 import SettingsPanel from "components/SettingsPanel";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
+import Table, {
+  TableCell,
+  TableCellOpenOptions,
+} from "components/Tables/SimpleTable";
 import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { numberToString } from "utils/numberToString";
