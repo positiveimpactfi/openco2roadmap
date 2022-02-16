@@ -100,8 +100,7 @@ const CalculatorConsumptionDataPage = () => {
       {
         Header: "kg CO2e",
         accessor: "footprint",
-        Cell: ({ value }) =>
-          parseFloat((value as number).toLocaleString()) + " kg CO2e",
+        Cell: ({ value }) => numberToString(value as number) + " kg CO2e",
       },
       {
         Header: "Tiedot",
