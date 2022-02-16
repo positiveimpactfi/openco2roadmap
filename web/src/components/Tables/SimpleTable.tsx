@@ -40,13 +40,15 @@ export const TableCell: React.FC<{
   value: string;
   clamped?: boolean;
   hideOnSm?: boolean;
-}> = ({ value, clamped = false, hideOnSm = false }) => {
+  bolded?: boolean;
+}> = ({ value, clamped = false, hideOnSm = false, bolded = false }) => {
   return (
     <td
       className={classNames(
-        "px-6 py-1  text-sm font-medium text-gray-500",
+        "px-6 py-1  text-sm",
         clamped ? `max-w-[40px] truncate md:max-w-[70px]` : null,
-        hideOnSm ? "hidden md:visible" : null
+        hideOnSm ? "hidden md:visible" : null,
+        bolded ? "font-bold text-gray-600" : "font-medium text-gray-500"
       )}
     >
       {value}
