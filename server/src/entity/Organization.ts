@@ -13,6 +13,7 @@ import { BusinessField } from "./BusinessField";
 import { KPI } from "./KPI";
 import { Municipality } from "./Municipality";
 import { SiteType } from "./SiteType";
+import { SubIndustry } from "./SubIndustry";
 import { User } from "./User";
 
 @ObjectType()
@@ -38,14 +39,15 @@ export class Organization extends BaseEntity {
   @ManyToOne(() => Municipality, { eager: true })
   municipality?: Municipality;
 
-  @Field(() => BusinessField, { nullable: true })
-  @ManyToOne(
-    () => BusinessField,
-    (businessField) => businessField.organizations,
-    { eager: true }
-  )
-  @JoinTable()
+  @Field(() => BusinessField, {
+    nullable: true,
+  })
+  @ManyToOne(() => BusinessField, { nullable: true })
   businessField: BusinessField;
+
+  @Field(() => SubIndustry, { nullable: true })
+  @ManyToOne(() => SubIndustry, { nullable: true })
+  industry: SubIndustry;
 
   @Field(() => [SiteType], { nullable: true })
   @OneToMany(() => SiteType, (siteType) => siteType.organization, {
