@@ -26,8 +26,8 @@ class OrganizationInput implements Partial<Organization> {
   @Field()
   businessID: string;
 
-  @Field(() => Int, { nullable: true })
-  industryID: number;
+  @Field({ nullable: true })
+  industryCode: string;
 
   @Field(() => Int, { nullable: true })
   municipalityID: number;
@@ -87,11 +87,11 @@ export class OrganizationResolver {
   @Mutation(() => Organization)
   async createOrganization(
     @Arg("data")
-    { name, municipalityID, industryID, businessID }: OrganizationInput
+    { name, municipalityID, industryCode, businessID }: OrganizationInput
   ): Promise<Organization | undefined> {
     const industry = inverseNullish(
-      industryID,
-      await SubIndustry.findOne(industryID)
+      industryCode,
+      await SubIndustry.findOne({ where: { code: industryCode } })
     );
     if (!industry) {
       console.log("no industry");
@@ -119,7 +119,7 @@ export class OrganizationResolver {
   @Mutation(() => Organization)
   async updateOrganization(
     @Arg("newData")
-    { name, municipalityID, industryID, businessID }: EditOrganizationInput,
+    { name, municipalityID, industryCode, businessID }: EditOrganizationInput,
     @Arg("organizationID") organizationID: string
   ): Promise<Organization | undefined> {
     const org = await Organization.findOne(organizationID);
@@ -130,8 +130,10 @@ export class OrganizationResolver {
 
     if (name) org.name = name;
     if (businessID) org.businessID = businessID;
-    if (industryID) {
-      const industry = await SubIndustry.findOne(industryID);
+    if (industryCode) {
+      const industry = await SubIndustry.findOne({
+        where: { code: industryCode },
+      });
       if (industry) org.industry = industry;
     }
 
