@@ -27,7 +27,6 @@ export class SubIndustry extends BaseEntity {
   @Column()
   nameEn: string;
 
-  @Field(() => Industry)
   @ManyToOne(() => Industry, (i) => i.subIndustries)
   industry: Industry;
 }
