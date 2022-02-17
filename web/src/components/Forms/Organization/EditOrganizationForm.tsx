@@ -52,7 +52,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
     return acc.concat(flatSubIndustries);
   }, []);
   const selectedIndustry = allIndustriesFlat.find((i) => {
-    return String(i.code) === String(org.industry.code);
+    return String(i.code) === String(org.industry?.code);
   });
 
   return (
