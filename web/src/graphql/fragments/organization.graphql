@@ -5,6 +5,12 @@ fragment OrganizationFragment on Organization {
     name
     id
   }
+  industry {
+    id
+    nameEn
+    nameFi
+    code
+  }
   businessID
   municipality {
     ...MunicipalityFragment
