@@ -31,7 +31,6 @@ const Organizations = () => {
     setEditOrgFormOpen(true);
   };
 
-  const organizations = data?.allOrganizations;
   const requests = allRegistrationRequests?.allRegistrationRequests;
 
   return (
@@ -126,7 +125,9 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
         disableSortBy: true,
         Cell: ({ row }) => (
           <TableCellOpenOptions
-            fn={() => handleFormOpen(row.original as Organization)}
+            fn={() => {
+              handleFormOpen(row.original as Organization);
+            }}
           />
         ),
       },
@@ -136,7 +137,6 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
   const tableData = useMemo(() => {
     let orgs = data?.allOrganizations ?? [];
     return orgs.map((org) => {
-      console.log("organization", org);
       return {
         ...org,
         industryName: org.industry
