@@ -46,7 +46,7 @@ export class Organization extends BaseEntity {
   businessField: BusinessField;
 
   @Field(() => SubIndustry, { nullable: true })
-  @ManyToOne(() => SubIndustry, { nullable: true })
+  @ManyToOne(() => SubIndustry, { nullable: true, eager: true })
   industry: SubIndustry;
 
   @Field(() => [SiteType], { nullable: true })

@@ -59,7 +59,9 @@ export class UserResolver {
       return null;
     }
 
-    return User.findOne(req.session.userId, { relations: ["roles"] });
+    return User.findOne(req.session.userId, {
+      relations: ["roles"],
+    });
   }
 
   @Authorized([Role.SUPERADMIN, Role.ADMIN])
