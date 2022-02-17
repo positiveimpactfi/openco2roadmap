@@ -16,7 +16,7 @@ import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/al
 import useTranslation from "next-translate/useTranslation";
 import { useMemo, useState } from "react";
 import { Column } from "react-table";
-import { Organization } from "types/generatedTypes";
+import { Organization, SubIndustry } from "types/generatedTypes";
 
 const Organizations = () => {
   const { t } = useTranslation("admin");
@@ -89,7 +89,9 @@ const Organizations = () => {
   );
 };
 
-export type MyOrganization = Partial<Organization>;
+export type MyOrganization = Partial<Organization> & {
+  industry?: Partial<SubIndustry>;
+};
 
 interface TableProps {
   data: AllOrganizationsQuery;
@@ -117,11 +119,7 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
       },
       {
         Header: "Toimiala",
-        accessor: "businessFieldName",
-        sortType: (rowA, rowB) =>
-          (rowA.original as Organization).businessField.name.localeCompare(
-            (rowB.original as Organization).businessField.name
-          ),
+        accessor: "industryName",
       },
       {
         Header: "Muokkaa",
@@ -138,9 +136,12 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
   const tableData = useMemo(() => {
     let orgs = data?.allOrganizations ?? [];
     return orgs.map((org) => {
+      console.log("organization", org);
       return {
         ...org,
-        businessFieldName: org.businessField.name,
+        industryName: org.industry
+          ? `${org.industry.nameFi} (${org.industry.code})`
+          : "Ei tiedossa",
         municipalityName: org.municipality.name,
       };
     });
