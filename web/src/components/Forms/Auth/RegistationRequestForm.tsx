@@ -1,25 +1,12 @@
-import { unsortedIndustries } from "@/shared/industries";
 import { municipalities } from "@/shared/municipalities";
 import FormField from "components/Forms/Common/FormField";
 import { Field, Form } from "formik";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
+import { localizedIndustries } from "utils/getLocalizedIndustries";
 import Checkbox from "../Common/Checkbox";
 import MultiLevelSelect from "../Common/MultiLevelSelect";
 import Select from "../Common/Select";
-
-const localizedIndustries = (lang: "fi" | "en") => {
-  return unsortedIndustries.map((i) => {
-    return {
-      ...i,
-      id: i.code,
-      name: i.names[lang] + " (" + i.code + ")",
-      children: i.subIndustries.map((s) => {
-        return { ...s, id: s.code, name: s.names[lang] + " (" + s.code + ")" };
-      }),
-    };
-  });
-};
 
 export const RegistrationRequestForm: React.FC<{
   isSubmitting: boolean;
