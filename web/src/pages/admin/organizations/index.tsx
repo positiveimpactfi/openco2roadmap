@@ -6,8 +6,7 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
-import { TableCellOpenOptions } from "components/Tables/SimpleTable";
-import { Table } from "components/Tables/Table";
+import { Table, TableActionButton } from "components/Tables/Table";
 import {
   AllOrganizationsQuery,
   useAllOrganizationsQuery,
@@ -124,7 +123,7 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
         Header: "Muokkaa",
         disableSortBy: true,
         Cell: ({ row }) => (
-          <TableCellOpenOptions
+          <TableActionButton
             fn={() => {
               handleFormOpen(row.original as Organization);
             }}
