@@ -7,7 +7,7 @@ const defaultOptions =  {}
 export type AllOrganizationsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllOrganizationsQuery = { __typename?: 'Query', allOrganizations: Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Types.Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Types.Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }> };
+export type AllOrganizationsQuery = { __typename?: 'Query', allOrganizations: Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Types.Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, industry?: Types.Maybe<{ __typename?: 'SubIndustry', id: number, nameEn: string, nameFi: string, code: string }>, municipality?: Types.Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }> };
 
 
 export const AllOrganizationsDocument = gql`

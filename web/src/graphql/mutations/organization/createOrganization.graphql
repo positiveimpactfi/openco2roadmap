@@ -3,6 +3,9 @@ mutation CreateOrganization($data: OrganizationInput!) {
     id
     name
     businessID
+    industry {
+      id
+    }
     businessField {
       id
       name

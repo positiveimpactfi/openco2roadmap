@@ -76,7 +76,7 @@ const Table = ({ columns, data }: TableProps) => {
                 <th
                   key={column.id}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 last:text-right"
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 last:text-right hover:bg-gray-100 hover:font-extrabold"
                 >
                   {column.render("Header")}
                   <span className="flex h-5">
@@ -173,7 +173,7 @@ function GlobalFilter({
           name="table-filter"
           id="table-filter"
           className="block w-full rounded-md border-gray-300 py-2 pl-10 focus:border-teal-500 focus:ring-teal-500 focus-visible:outline-teal-500 sm:text-sm"
-          placeholder={`Hae ${count} riviä`}
+          placeholder={`Hae ${count} riviltä`}
         />
       </div>
     </div>

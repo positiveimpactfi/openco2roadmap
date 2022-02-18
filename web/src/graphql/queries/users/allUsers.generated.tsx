@@ -7,7 +7,7 @@ const defaultOptions =  {}
 export type AllUsersQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllUsersQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'User', id: string, firstName?: Types.Maybe<string>, lastName?: Types.Maybe<string>, email: string, createdDate: any, updatedDate: any, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }>, organizations?: Types.Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Types.Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, municipality?: Types.Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>> }> };
+export type AllUsersQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'User', id: string, firstName?: Types.Maybe<string>, lastName?: Types.Maybe<string>, email: string, createdDate: any, updatedDate: any, roles: Array<{ __typename?: 'UserRole', name: string, id: number, organizationID: string }>, organizations?: Types.Maybe<Array<{ __typename?: 'Organization', name: string, id: string, businessID: string, businessField?: Types.Maybe<{ __typename?: 'BusinessField', name: string, id: number }>, industry?: Types.Maybe<{ __typename?: 'SubIndustry', id: number, nameEn: string, nameFi: string, code: string }>, municipality?: Types.Maybe<{ __typename?: 'Municipality', id: number, name: string, state: string, stateCode: number }> }>> }> };
 
 
 export const AllUsersDocument = gql`

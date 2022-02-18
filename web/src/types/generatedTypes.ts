@@ -93,8 +93,8 @@ export enum DataSourceType {
 }
 
 export type EditOrganizationInput = {
-  businessFieldID?: Maybe<Scalars['Int']>;
   businessID?: Maybe<Scalars['String']>;
+  industryCode?: Maybe<Scalars['String']>;
   municipalityID?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -192,15 +192,6 @@ export enum GhgScope {
   Scope2 = 'Scope2',
   Scope3 = 'Scope3'
 }
-
-export type Industry = {
-  __typename?: 'Industry';
-  code: Scalars['String'];
-  id: Scalars['Int'];
-  nameEn: Scalars['String'];
-  nameFi: Scalars['String'];
-  subIndustries: Array<SubIndustry>;
-};
 
 export type InvitedUser = {
   __typename?: 'InvitedUser';
@@ -476,6 +467,7 @@ export type Organization = {
   businessField?: Maybe<BusinessField>;
   businessID: Scalars['String'];
   id: Scalars['ID'];
+  industry?: Maybe<SubIndustry>;
   kpis?: Maybe<Array<Kpi>>;
   municipality?: Maybe<Municipality>;
   name: Scalars['String'];
@@ -483,8 +475,8 @@ export type Organization = {
 };
 
 export type OrganizationInput = {
-  businessFieldID?: Maybe<Scalars['Int']>;
   businessID: Scalars['String'];
+  industryCode?: Maybe<Scalars['String']>;
   municipalityID?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
 };
@@ -538,6 +530,7 @@ export type QueryUsersInOrganizationArgs = {
 export type RegistrationRequest = {
   __typename?: 'RegistrationRequest';
   businessID: Scalars['String'];
+  comment?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
@@ -549,6 +542,7 @@ export type RegistrationRequest = {
 
 export type RegistrationRequestInput = {
   businessID: Scalars['String'];
+  comment?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   industryCode: Scalars['String'];
@@ -600,7 +594,6 @@ export type SubIndustry = {
   __typename?: 'SubIndustry';
   code: Scalars['String'];
   id: Scalars['Int'];
-  industry: Industry;
   nameEn: Scalars['String'];
   nameFi: Scalars['String'];
 };

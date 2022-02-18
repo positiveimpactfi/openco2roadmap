@@ -6,8 +6,7 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
-import { TableCellOpenOptions } from "components/Tables/SimpleTable";
-import { Table } from "components/Tables/Table";
+import { Table, TableActionButton } from "components/Tables/Table";
 import {
   AllOrganizationsQuery,
   useAllOrganizationsQuery,
@@ -16,7 +15,7 @@ import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/al
 import useTranslation from "next-translate/useTranslation";
 import { useMemo, useState } from "react";
 import { Column } from "react-table";
-import { Organization } from "types/generatedTypes";
+import { Organization, SubIndustry } from "types/generatedTypes";
 
 const Organizations = () => {
   const { t } = useTranslation("admin");
@@ -31,7 +30,6 @@ const Organizations = () => {
     setEditOrgFormOpen(true);
   };
 
-  const organizations = data?.allOrganizations;
   const requests = allRegistrationRequests?.allRegistrationRequests;
 
   return (
@@ -89,7 +87,9 @@ const Organizations = () => {
   );
 };
 
-export type MyOrganization = Partial<Organization>;
+export type MyOrganization = Partial<Organization> & {
+  industry?: Partial<SubIndustry>;
+};
 
 interface TableProps {
   data: AllOrganizationsQuery;
@@ -117,18 +117,16 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
       },
       {
         Header: "Toimiala",
-        accessor: "businessFieldName",
-        sortType: (rowA, rowB) =>
-          (rowA.original as Organization).businessField.name.localeCompare(
-            (rowB.original as Organization).businessField.name
-          ),
+        accessor: "industryName",
       },
       {
         Header: "Muokkaa",
         disableSortBy: true,
         Cell: ({ row }) => (
-          <TableCellOpenOptions
-            fn={() => handleFormOpen(row.original as Organization)}
+          <TableActionButton
+            fn={() => {
+              handleFormOpen(row.original as Organization);
+            }}
           />
         ),
       },
@@ -140,8 +138,10 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
     return orgs.map((org) => {
       return {
         ...org,
-        businessFieldName: org.businessField.name,
-        municipalityName: org.municipality.name,
+        industryName: org.industry
+          ? `${org.industry.nameFi} (${org.industry.code})`
+          : "Ei tiedossa",
+        municipalityName: org.municipality?.name,
       };
     });
   }, [data]);
