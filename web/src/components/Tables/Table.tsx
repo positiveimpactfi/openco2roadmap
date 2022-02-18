@@ -173,7 +173,7 @@ function GlobalFilter({
           name="table-filter"
           id="table-filter"
           className="block w-full rounded-md border-gray-300 py-2 pl-10 focus:border-teal-500 focus:ring-teal-500 focus-visible:outline-teal-500 sm:text-sm"
-          placeholder={`Hae ${count} riviä`}
+          placeholder={`Hae ${count} riviltä`}
         />
       </div>
     </div>
