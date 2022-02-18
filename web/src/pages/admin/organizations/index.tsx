@@ -141,7 +141,7 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
         industryName: org.industry
           ? `${org.industry.nameFi} (${org.industry.code})`
           : "Ei tiedossa",
-        municipalityName: org.municipality.name,
+        municipalityName: org.municipality?.name,
       };
     });
   }, [data]);
