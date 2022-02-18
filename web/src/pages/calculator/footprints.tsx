@@ -1,7 +1,9 @@
 import { emissionCategories } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
+import ChartGroup from "components/Charts/ChartGroup";
 import PieChart from "components/Charts/Pie";
+import StackedBar from "components/Charts/StackedBar";
 import LoadingBar from "components/LoadingBar";
 import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
@@ -52,15 +54,8 @@ const CalculatorFootprintsPage = () => {
         <LoadingBar />
       ) : allYearsParsed ? (
         <div className="flex flex-col">
-          <div className="mb-10">
-            <PieChart
-              width={450}
-              height={250}
-              data={components}
-              years={allYearsParsed}
-            />
-          </div>
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <ChartGroup data={components} years={allYearsParsed} />
+          <div className="mt-16 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <Table
                 headers={(

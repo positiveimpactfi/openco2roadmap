@@ -26,7 +26,7 @@ export type PieProps = {
   margin?: typeof defaultMargin;
   animate?: boolean;
   data: DataEntry[];
-  years: number[];
+  year: number;
 };
 
 export default function PieChart({
@@ -35,12 +35,11 @@ export default function PieChart({
   margin = defaultMargin,
   animate = true,
   data,
-  years,
+  year,
 }: PieProps) {
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
     null
   );
-  const [year, setYear] = useState(2021);
   const categories = data.map((d) => d.name);
   const total = (year: number) => {
     let filteredData = data;
@@ -60,7 +59,7 @@ export default function PieChart({
   if (width < 10) return null;
 
   const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
+  const innerHeight = height - 28 - margin.top - margin.bottom;
   const radius = Math.min(innerWidth, innerHeight) / 2;
   const centerY = innerHeight / 2;
   const centerX = innerWidth / 2;
@@ -68,18 +67,7 @@ export default function PieChart({
 
   return (
     <div>
-      <select
-        name="yearSelect"
-        value={year}
-        onChange={(e) => setYear(parseInt(e.currentTarget.value))}
-      >
-        {years.map((y) => (
-          <option value={y} key={y}>
-            {y}
-          </option>
-        ))}
-      </select>
-      <h1 className="py-4 text-xl font-semibold">Päästöjen jakauma v.{year}</h1>
+      <h1 className="pb-4 text-xl font-semibold">Päästöjen jakauma v.{year}</h1>
       <div className="flex max-w-lg items-center rounded-md bg-white">
         <svg height={height}>
           <Group top={centerY + margin.top} left={120}>

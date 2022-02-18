@@ -32,6 +32,7 @@ export type BarStackProps = {
   height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
   events?: boolean;
+  year: number;
 };
 
 const background = "white";
@@ -83,6 +84,7 @@ export default function StackedBar({
   height,
   events = false,
   margin = defaultMargin,
+  year,
 }: BarStackProps) {
   const {
     tooltipOpen,
@@ -110,8 +112,8 @@ export default function StackedBar({
 
   return width < 10 ? null : (
     <div>
-      <h1 className="py-4 text-xl font-semibold">Päästöjen kehitys v.</h1>
-      <div style={{ position: "relative" }}>
+      <h1 className="pb-4 text-xl font-semibold">Päästöjen kehitys v.{year}</h1>
+      <div className="relative">
         <svg ref={containerRef} width={width} height={height}>
           <rect
             x={0}
@@ -192,12 +194,9 @@ export default function StackedBar({
           />
         </svg>
         <div
+          className="absolute flex w-full justify-center "
           style={{
-            position: "absolute",
             top: margin.top / 2 - 10,
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
             fontSize: "14px",
           }}
         >
