@@ -6,6 +6,9 @@ mutation UpdateOrganization(
     id
     name
     businessID
+    industry {
+      id
+    }
     businessField {
       id
       name

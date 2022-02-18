@@ -5,30 +5,37 @@ import { municipalities } from "@/shared/municipalities";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateOrganizationMutation } from "graphql/mutations/organization/createOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
-import { BusinessField, Municipality } from "types/generatedTypes";
+import { BusinessField, Municipality, SubIndustry } from "types/generatedTypes";
 import { Dispatch, SetStateAction } from "react";
 import { compareString } from "utils/compareStrings";
 import useTranslation from "next-translate/useTranslation";
+import MultiLevelSelect from "../Common/MultiLevelSelect";
+import { useRouter } from "next/router";
+import { localizedIndustries } from "utils/getLocalizedIndustries";
 
 interface FormValues {
   name: string;
   businessID: string;
   municipality?: Municipality;
-  businessField?: BusinessField;
+  industry?: Partial<SubIndustry>;
 }
 
 const NewOrganizationForm: React.FC<{
   setSlideoverOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({ setSlideoverOpen }) => {
   const { t } = useTranslation("settings");
-
+  const { locale } = useRouter();
   const initialValues: FormValues = {
     name: "",
     businessID: "",
     municipality: null,
-    businessField: null,
+    industry: null,
   };
   const [addOrganization] = useCreateOrganizationMutation();
+
+  const allIndustries =
+    locale === "fi" ? localizedIndustries("fi") : localizedIndustries("en");
+
   return (
     <Formik
       initialValues={initialValues}
@@ -39,7 +46,7 @@ const NewOrganizationForm: React.FC<{
               name: values.name,
               businessID: values.businessID,
               municipalityID: values.municipality?.id,
-              businessFieldID: values.businessField?.id,
+              industryCode: String(values.industry?.code),
             },
           },
           refetchQueries: [AllOrganizationsDocument],
@@ -82,14 +89,15 @@ const NewOrganizationForm: React.FC<{
               name="municipality"
               setFieldValue={setFieldValue}
             />
-            <Select
-              options={[...businessFields].sort((a, b) =>
-                compareString(a.name, b.name)
-              )}
+
+            <MultiLevelSelect
+              levels="two"
+              options={allIndustries}
               showLabel
-              label={t("pages.org_settings.form.business_field")}
-              name="businessField"
+              label="Päätoimiala" //{t("pages.reg_request.main_field")}
+              name="industry"
               setFieldValue={setFieldValue}
+              required
             />
             <div className="pt-5">
               <div className="flex justify-end">

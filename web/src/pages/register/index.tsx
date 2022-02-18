@@ -2,7 +2,6 @@ import { withAuth } from "components/Auth";
 import Button from "components/Button";
 import ChangeLanguage from "components/ChangeLanguage";
 import { RegistrationRequestForm } from "components/Forms/Auth/RegistationRequestForm";
-import { SectionUnderConstruction } from "components/UnderConstruction";
 import { Formik, FormikProps } from "formik";
 import { useCreateRegistrationRequestMutation } from "graphql/mutations/organization/createRegistrationRequest.generated";
 import { Translate } from "next-translate";
@@ -21,6 +20,7 @@ interface RegisterFormProps {
   vatNumber: string;
   industry: SubIndustry;
   municipality: Municipality;
+  comment: "";
   TOSUserData: boolean;
   TOSRights: boolean;
   TOSStats: boolean;
@@ -54,12 +54,11 @@ const RegisterPage = () => {
             " | Open CO2 Roadmap"}
         </title>
       </Head>
-      {/* {success ? (
+      {success ? (
         <FormSent t={t} handleToLogin={handleToLogin} />
       ) : (
         <Form t={t} onSuccess={handleSuccess} />
-      )} */}
-      <SectionUnderConstruction />
+      )}
     </>
   );
 };
@@ -77,6 +76,7 @@ const Form: React.FC<{ t: Translate; onSuccess: () => void }> = ({
     vatNumber: "",
     industry: null,
     municipality: null,
+    comment: "",
     TOSUserData: false,
     TOSRights: false,
     TOSStats: false,

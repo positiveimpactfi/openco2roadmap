@@ -8,14 +8,23 @@ import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useUpdateOrganizationMutation } from "graphql/mutations/organization/updateOrganization.generated";
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/router";
 import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
-import { Municipality, Organization } from "types/generatedTypes";
+import { Municipality, Organization, SubIndustry } from "types/generatedTypes";
 import { compareString } from "utils/compareStrings";
+import { localizedIndustries } from "utils/getLocalizedIndustries";
 import { deepObjectsEqual } from "utils/objectsEqual";
+import MultiLevelSelect from "../Common/MultiLevelSelect";
+
+export type DeepPartial<T> = T extends Function
+  ? T
+  : T extends object
+  ? { [P in keyof T]?: DeepPartial<T[P]> }
+  : T;
 
 interface EditOrganizationProps {
-  org: MyOrganization;
+  org: Organization; //MyOrganization;
   setSlideoverOpen?: (arg: boolean) => void;
 }
 
@@ -24,14 +33,28 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
   setSlideoverOpen,
 }) => {
   const { t } = useTranslation("settings");
+  const { locale } = useRouter();
   const [updateOrganization] = useUpdateOrganizationMutation();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [initialValues, setInitialValues] = useState<Partial<Organization>>({
     name: org.name,
     businessID: org.businessID,
     municipality: org.municipality,
-    businessField: org.businessField,
+    industry: org.industry,
   });
+  const allIndustries =
+    locale === "fi" ? localizedIndustries("fi") : localizedIndustries("en");
+
+  const allIndustriesFlat = allIndustries.reduce((acc, current) => {
+    const flatSubIndustries = current.children.map((s) => {
+      return { ...s, industryID: current.id };
+    });
+    return acc.concat(flatSubIndustries);
+  }, []);
+  const selectedIndustry = allIndustriesFlat.find((i) => {
+    return String(i.code) === String(org.industry?.code);
+  });
+
   return (
     <>
       <Notification
@@ -59,7 +82,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                   name: values.name,
                   businessID: values.businessID,
                   municipalityID: values.municipality?.id,
-                  businessFieldID: values.businessField?.id,
+                  industryCode: String(values.industry?.code),
                 },
               },
               refetchQueries: setSlideoverOpen && [AllOrganizationsDocument],
@@ -76,15 +99,17 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 businessID: updatedOrg.businessID,
                 municipality: updatedOrg.municipality as Municipality,
                 businessField: updatedOrg.businessField,
+                industry: updatedOrg.industry as any,
               });
               setInitialValues({
                 name: updatedOrg.name,
                 businessID: updatedOrg.businessID,
                 municipality: updatedOrg.municipality as Municipality,
                 businessField: updatedOrg.businessField,
+                industry: updatedOrg.industry as any,
               });
             } else {
-              console.error("Failed to add organization");
+              console.error("Failed to edit organization settings");
             }
           }
         }}
@@ -118,15 +143,16 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 options={municipalities}
                 selectedValue={org.municipality}
               />
-              <Select
-                name="businessField"
+
+              <MultiLevelSelect
+                levels="two"
+                options={allIndustries}
                 showLabel
-                label={t("pages.org_settings.form.business_field")}
+                label="Päätoimiala" //{t("pages.reg_request.main_field")}
+                name="industry"
+                selectedValue={selectedIndustry}
                 setFieldValue={setFieldValue}
-                options={[...businessFields].sort((a, b) =>
-                  compareString(a.name, b.name)
-                )}
-                selectedValue={org.businessField}
+                required
               />
               <div className="pt-5">
                 <div className="flex justify-end space-x-4">

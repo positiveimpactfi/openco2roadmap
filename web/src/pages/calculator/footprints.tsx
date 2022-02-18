@@ -2,7 +2,7 @@ import { emissionCategories } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import LoadingBar from "components/LoadingBar";
-import Table, { TableCell } from "components/Table";
+import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
 import useTranslation from "next-translate/useTranslation";
 import { numberToString } from "utils/numberToString";
@@ -71,9 +71,8 @@ const CalculatorFootprintsPage = () => {
                     ))}
                   </tr>
                 ))}
-                <tr className="h-2" />
                 <tr>
-                  <TableCell value="Hiilijalanjälki yhteensä" />
+                  <TableCell value="Yhteensä, t CO2e" bolded />
                   {allYearsParsed.map((y) => (
                     <TableCell
                       key={y + "_total"}
@@ -83,6 +82,7 @@ const CalculatorFootprintsPage = () => {
                         1
                       )}
                       clamped
+                      bolded
                     />
                   ))}
                 </tr>

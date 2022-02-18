@@ -1,26 +1,12 @@
-import { businessFields } from "@/shared/businessFields";
 import { municipalities } from "@/shared/municipalities";
 import FormField from "components/Forms/Common/FormField";
-import { Form } from "formik";
+import { Field, Form } from "formik";
 import useTranslation from "next-translate/useTranslation";
-import Checkbox from "../Common/Checkbox";
-import Select from "../Common/Select";
-import { unsortedIndustries } from "@/shared/industries";
-import MultiLevelSelect from "../Common/MultiLevelSelect";
 import { useRouter } from "next/router";
-
-const localizedIndustries = (lang: "fi" | "en") => {
-  return unsortedIndustries.map((i) => {
-    return {
-      ...i,
-      id: i.code,
-      name: i.names[lang] + " (" + i.code + ")",
-      children: i.subIndustries.map((s) => {
-        return { ...s, id: s.code, name: s.names[lang] + " (" + s.code + ")" };
-      }),
-    };
-  });
-};
+import { localizedIndustries } from "utils/getLocalizedIndustries";
+import Checkbox from "../Common/Checkbox";
+import MultiLevelSelect from "../Common/MultiLevelSelect";
+import Select from "../Common/Select";
 
 export const RegistrationRequestForm: React.FC<{
   isSubmitting: boolean;
@@ -104,6 +90,22 @@ export const RegistrationRequestForm: React.FC<{
           setFieldValue={setFieldValue}
           required
         />
+        <div>
+          <label
+            htmlFor="comment"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            {t("pages.reg_request.comment.title")}
+          </label>
+          <Field
+            id="comment"
+            name="comment"
+            rows={10}
+            className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+            placeholder={t("pages.reg_request.comment.placeholder")}
+            as="textarea"
+          />
+        </div>
         <Checkbox
           name="TOSUserData"
           label={t("pages.reg_request.user_agreements.user_data.label")}

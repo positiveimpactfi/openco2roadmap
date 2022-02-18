@@ -7,7 +7,7 @@ import LoadingSpinner from "components/LoadingSpinner";
 import Notification from "components/Notification";
 import OptionsMenu from "components/OptionsMenu";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell } from "components/Table";
+import { Table } from "components/Tables/Table";
 import UserView from "components/UserView";
 import { useCancelUserInviteMutation } from "graphql/mutations/user/cancelUserInvite.generated";
 import { useSendInvitationReminderMutation } from "graphql/mutations/user/sendInvitationReminder.generated";
@@ -20,9 +20,19 @@ import { useMeQuery } from "graphql/queries/users/me.generated";
 import { useMyOrganizationUsersQuery } from "graphql/queries/users/myOrganizationUsers.generated";
 import { Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { InvitedUser, User } from "types/generatedTypes";
+import { useMemo, useState } from "react";
+import { Column } from "react-table";
 import { isSuperAdmin } from "utils/isAdmin";
+
+export interface GenericUser {
+  id: string;
+  type: "InvitedUser" | "User";
+  lastName: string;
+  firstName: string;
+  email: string;
+  status: "Kutsuttu" | "Aktiivinen";
+  organizationName: string;
+}
 
 const UsersPage = () => {
   const { t } = useTranslation("admin");
@@ -32,11 +42,11 @@ const UsersPage = () => {
   const [userViewOpen, setUserViewOpen] = useState(false);
   const [inviteFormOpen, setInviteFormOpen] = useState(false);
   const [addFormOpen, setAddFormOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<GenericUser | null>(null);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationText, setNotificationText] = useState<string>(null);
 
-  const handleShowUser = (user: User) => {
+  const handleShowUser = (user: GenericUser) => {
     setSelectedUser(user);
     setUserViewOpen(true);
   };
@@ -51,7 +61,7 @@ const UsersPage = () => {
     setShowNotification(true);
   };
 
-  const handleSendReminder = async (user: InvitedUser) => {
+  const handleSendReminder = async (user: GenericUser) => {
     const res = await sendReminder({
       variables: { token: user.id.split(";").slice(1).join(";") },
     });
@@ -63,7 +73,7 @@ const UsersPage = () => {
     }
   };
 
-  const handleCancelUserInvite = async (user: InvitedUser) => {
+  const handleCancelUserInvite = async (user: GenericUser) => {
     const res = await cancelInvite({
       variables: {
         token: user.id.split(";").slice(1).join(";"),
@@ -146,15 +156,85 @@ const UsersPage = () => {
 };
 
 const CompanyUsersTable: React.FC<{
-  handleFormOpen: (val: Partial<User>) => void;
-  handleSendReminder: (val: InvitedUser) => void;
-  handleCancelInvite: (val: InvitedUser) => void;
+  handleFormOpen: (val: GenericUser) => void;
+  handleSendReminder: (val: GenericUser) => void;
+  handleCancelInvite: (val: GenericUser) => void;
   t: Translate;
 }> = ({ handleFormOpen, handleSendReminder, handleCancelInvite, t }) => {
   const { data, loading } = useMyOrganizationUsersQuery();
   const { data: invited } = useAllInvitedUsersQuery();
-  const users = data?.myOrganizationUsers;
-  const invitedUsers = invited?.allInvitedUsers;
+
+  const columns = useMemo<Column[]>(
+    () => [
+      {
+        Header: "Sukunimi",
+        accessor: "lastName",
+      },
+      {
+        Header: "Etunimi",
+        accessor: "firstName",
+      },
+      {
+        Header: "Sähköposti",
+        accessor: "email",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+
+      {
+        Header: "Toiminnot",
+        disableSortBy: true,
+        Cell: ({ row }) => {
+          const user = row.original as GenericUser;
+          if (user.type === "User") {
+            return (
+              <OptionsMenu
+                onShow={() => handleFormOpen(user)}
+                onShowText="Näytä tiedot"
+              />
+            );
+          } else if (user.type === "InvitedUser") {
+            return (
+              <OptionsMenu
+                onShow={() => handleSendReminder(user)}
+                onShowText={t("pages.users.actions.send_reminder.title")}
+                onDelete={() => handleCancelInvite(user)}
+                onDeleteText={t("pages.users.actions.cancel_invite.title")}
+              />
+            );
+          }
+        },
+      },
+    ],
+    [handleFormOpen, handleSendReminder, handleCancelInvite, t]
+  );
+  const tableData = useMemo(() => {
+    const invitedUsers = invited?.allInvitedUsers?.map((u) => {
+      return {
+        id: u.id,
+        type: u.__typename,
+        lastName: "",
+        firstName: "",
+        email: u.email,
+        status: "Kutsuttu",
+        organizationName: u.organization.name,
+      };
+    }) as GenericUser[];
+    const existingUsers = data?.myOrganizationUsers?.map((u) => {
+      return {
+        id: u.id,
+        type: u.__typename,
+        lastName: u.lastName,
+        firstName: u.firstName,
+        email: u.email,
+        status: "Aktiivinen",
+        organizationName: "",
+      };
+    }) as GenericUser[];
+    return invitedUsers?.concat(existingUsers) ?? [];
+  }, [data, invited]);
   return (
     <div className="flex flex-col">
       <div className="-my-2  sm:-mx-6 lg:-mx-8">
@@ -162,51 +242,7 @@ const CompanyUsersTable: React.FC<{
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="border-b border-gray-200 shadow sm:rounded-lg">
-              <Table
-                alignLastRight
-                headers={t(
-                  "pages.users.table.headers",
-                  {},
-                  { returnObjects: true }
-                )}
-              >
-                {invitedUsers?.map((user) => (
-                  <tr key={user.id}>
-                    <TableCell value={"--"} />
-                    <TableCell value={"--"} />
-                    <TableCell value={user.email} />
-                    <TableCell value="Kutsuttu" />
-                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
-                      <OptionsMenu
-                        onShow={() => handleSendReminder(user as InvitedUser)}
-                        onShowText={t(
-                          "pages.users.actions.send_reminder.title"
-                        )}
-                        onDelete={() => handleCancelInvite(user as InvitedUser)}
-                        onDeleteText={t(
-                          "pages.users.actions.cancel_invite.title"
-                        )}
-                      />
-                    </td>
-                  </tr>
-                ))}
-                {users?.map((user) => (
-                  <tr key={user.id}>
-                    <TableCell value={user.lastName ?? "--"} />
-                    <TableCell value={user.firstName ?? "--"} />
-                    <TableCell value={user.email} />
-                    <TableCell value="Aktiivinen" />
-                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
-                      <OptionsMenu
-                        onShow={() => handleFormOpen(user)}
-                        onShowText="Näytä tiedot"
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </Table>
-            </div>
+            <Table columns={columns} data={tableData} />
           )}
         </div>
       </div>
@@ -215,15 +251,87 @@ const CompanyUsersTable: React.FC<{
 };
 
 const SuperAdminUserTable: React.FC<{
-  handleFormOpen: (val: User) => void;
-  handleSendReminder: (val: InvitedUser) => void;
-  handleCancelInvite: (val: InvitedUser) => void;
+  handleFormOpen: (val: GenericUser) => void;
+  handleSendReminder: (val: GenericUser) => void;
+  handleCancelInvite: (val: GenericUser) => void;
   t: Translate;
 }> = ({ handleFormOpen, handleSendReminder, handleCancelInvite, t }) => {
   const { data, loading } = useAllUsersQuery();
   const { data: invited } = useAllInvitedUsersQuery();
-  const users = data?.allUsers;
-  const invitedUsers = invited?.allInvitedUsers;
+  const columns = useMemo<Column[]>(
+    () => [
+      {
+        Header: "Sukunimi",
+        accessor: "lastName",
+      },
+      {
+        Header: "Etunimi",
+        accessor: "firstName",
+      },
+      {
+        Header: "Sähköposti",
+        accessor: "email",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+      {
+        Header: "Yritykset",
+        accessor: "organizationName",
+      },
+      {
+        Header: "Toiminnot",
+        disableSortBy: true,
+        Cell: ({ row }) => {
+          const user = row.original as GenericUser;
+          if (user.type === "User") {
+            return (
+              <OptionsMenu
+                onShow={() => handleFormOpen(user)}
+                onShowText="Näytä tiedot"
+              />
+            );
+          } else if (user.type === "InvitedUser") {
+            return (
+              <OptionsMenu
+                onShow={() => handleSendReminder(user)}
+                onShowText={t("pages.users.actions.send_reminder.title")}
+                onDelete={() => handleCancelInvite(user)}
+                onDeleteText={t("pages.users.actions.cancel_invite.title")}
+              />
+            );
+          }
+        },
+      },
+    ],
+    [handleFormOpen, handleSendReminder, handleCancelInvite, t]
+  );
+  const tableData = useMemo(() => {
+    const invitedUsers = invited?.allInvitedUsers?.map((u) => {
+      return {
+        id: u.id,
+        type: u.__typename,
+        lastName: "",
+        firstName: "",
+        email: u.email,
+        status: "Kutsuttu",
+        organizationName: u.organization.name,
+      };
+    }) as GenericUser[];
+    const existingUsers = data?.allUsers?.map((u) => {
+      return {
+        id: u.id,
+        type: u.__typename,
+        lastName: u.lastName,
+        firstName: u.firstName,
+        email: u.email,
+        status: "Aktiivinen",
+        organizationName: u.organizations[0]?.name,
+      };
+    }) as GenericUser[];
+    return invitedUsers?.concat(existingUsers) ?? [];
+  }, [data, invited]);
   return (
     <div className="flex flex-col">
       <div className="-my-2 sm:-mx-6 lg:-mx-8">
@@ -231,53 +339,7 @@ const SuperAdminUserTable: React.FC<{
           {loading ? (
             <LoadingSpinner />
           ) : (
-            <div className="border-b border-gray-200 shadow sm:rounded-lg">
-              <Table
-                alignLastRight
-                headers={t(
-                  "pages.users.table.headers_super",
-                  {},
-                  { returnObjects: true }
-                )}
-              >
-                {invitedUsers?.map((user) => (
-                  <tr key={user.id}>
-                    <TableCell value={"--"} />
-                    <TableCell value={"--"} />
-                    <TableCell value={user.email} />
-                    <TableCell value="Kutsuttu" />
-                    <TableCell value={user.organization.name} />
-                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
-                      <OptionsMenu
-                        onShow={() => handleSendReminder(user as InvitedUser)}
-                        onShowText={t(
-                          "pages.users.actions.send_reminder.title"
-                        )}
-                        onDelete={() => handleCancelInvite(user as InvitedUser)}
-                        onDeleteText={t(
-                          "pages.users.actions.cancel_invite.title"
-                        )}
-                      />
-                    </td>
-                  </tr>
-                ))}
-                {users?.map((user) => (
-                  <tr key={user.id}>
-                    <TableCell value={user.lastName ?? "--"} />
-                    <TableCell value={user.firstName ?? "--"} />
-                    <TableCell value={user.email} />
-                    <TableCell value="Aktiivinen" />
-                    <TableCell value={user.organizations[0]?.name} />
-                    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
-                      <OptionsMenu
-                        onShow={() => handleFormOpen(user)}
-                        onShowText="Näytä tiedot"
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </Table>
-            </div>
+            <Table columns={columns} data={tableData} />
           )}
         </div>
       </div>

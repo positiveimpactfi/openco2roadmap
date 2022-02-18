@@ -40,13 +40,15 @@ export const TableCell: React.FC<{
   value: string;
   clamped?: boolean;
   hideOnSm?: boolean;
-}> = ({ value, clamped = false, hideOnSm = false }) => {
+  bolded?: boolean;
+}> = ({ value, clamped = false, hideOnSm = false, bolded = false }) => {
   return (
     <td
       className={classNames(
-        "px-6 py-1  text-sm font-medium text-gray-500",
+        "px-6 py-1  text-sm",
         clamped ? `max-w-[40px] truncate md:max-w-[70px]` : null,
-        hideOnSm ? "hidden md:visible" : null
+        hideOnSm ? "hidden md:visible" : null,
+        bolded ? "font-bold text-gray-600" : "font-medium text-gray-500"
       )}
     >
       {value}
@@ -121,7 +123,7 @@ export const TableCellOpenOptions: React.FC<{
   variant?: "edit" | "delete" | "expand";
 }> = ({ fn, variant = "expand" }) => {
   return (
-    <td className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
+    <div className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
       <button
         type="button"
         className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
@@ -136,7 +138,7 @@ export const TableCellOpenOptions: React.FC<{
           <TrashIcon className="h-5 w-5" aria-hidden="true" />
         )}
       </button>
-    </td>
+    </div>
   );
 };
 

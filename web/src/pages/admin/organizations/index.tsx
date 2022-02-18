@@ -6,13 +6,16 @@ import EditOrganizationForm from "components/Forms/Organization/EditOrganization
 import NewOrganizationForm from "components/Forms/Organization/NewOrganizationForm";
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { useAllOrganizationsQuery } from "graphql/queries/organization/allOrganizations.generated";
+import { Table, TableActionButton } from "components/Tables/Table";
+import {
+  AllOrganizationsQuery,
+  useAllOrganizationsQuery,
+} from "graphql/queries/organization/allOrganizations.generated";
 import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/allRegistrationRequests.generated";
-import { Translate } from "next-translate";
 import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { Organization } from "types/generatedTypes";
+import { useMemo, useState } from "react";
+import { Column } from "react-table";
+import { Organization, SubIndustry } from "types/generatedTypes";
 
 const Organizations = () => {
   const { t } = useTranslation("admin");
@@ -27,7 +30,6 @@ const Organizations = () => {
     setEditOrgFormOpen(true);
   };
 
-  const organizations = data?.allOrganizations;
   const requests = allRegistrationRequests?.allRegistrationRequests;
 
   return (
@@ -77,11 +79,7 @@ const Organizations = () => {
             )}
           </Collapsible>
           <Collapsible title="Yritykset">
-            <OrganizationsTable
-              handleFormOpen={handleEditOrg}
-              organizations={organizations}
-              t={t}
-            />
+            <OrganizationsTable data={data} handleFormOpen={handleEditOrg} />
           </Collapsible>
         </>
       )}
@@ -89,48 +87,65 @@ const Organizations = () => {
   );
 };
 
-export type MyOrganization = Partial<Organization>;
+export type MyOrganization = Partial<Organization> & {
+  industry?: Partial<SubIndustry>;
+};
 
-interface OrgTableProps {
+interface TableProps {
+  data: AllOrganizationsQuery;
   handleFormOpen: (org: MyOrganization) => void;
-  organizations: Organization[];
-  t: Translate;
 }
 
-const OrganizationsTable: React.FC<OrgTableProps> = ({
-  handleFormOpen,
-  organizations,
-  t,
-}) => {
-  return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <div className="mb-4 overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-            <Table
-              headers={t(
-                "pages.orgs.table.headers",
-                {},
-                { returnObjects: true }
-              )}
-            >
-              {organizations?.map((org) => (
-                <tr key={org.id}>
-                  <TableCell value={org.name} />
-                  <TableCell value={org.businessID} />
-                  <TableCell value={org.municipality?.name} />
-                  <TableCell value={org.businessField?.name} />
-                  <TableCell value="10.10.2020" />
-                  <TableCell value={Date()} />
-                  <TableCellOpenOptions fn={() => handleFormOpen(org)} />
-                </tr>
-              ))}
-            </Table>
-          </div>
-        </div>
-      </div>
-    </div>
+const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
+  const columns = useMemo<Column[]>(
+    () => [
+      {
+        Header: "Yrityksen nimi",
+        accessor: "name",
+      },
+      {
+        Header: "Y-tunnus",
+        accessor: "businessID",
+      },
+      {
+        Header: "Kotipaikka",
+        accessor: "municipalityName",
+        sortType: (rowA, rowB) =>
+          (rowA.original as Organization).municipality.name.localeCompare(
+            (rowB.original as Organization).municipality.name
+          ),
+      },
+      {
+        Header: "Toimiala",
+        accessor: "industryName",
+      },
+      {
+        Header: "Muokkaa",
+        disableSortBy: true,
+        Cell: ({ row }) => (
+          <TableActionButton
+            fn={() => {
+              handleFormOpen(row.original as Organization);
+            }}
+          />
+        ),
+      },
+    ],
+    [handleFormOpen]
   );
+  const tableData = useMemo(() => {
+    let orgs = data?.allOrganizations ?? [];
+    return orgs.map((org) => {
+      return {
+        ...org,
+        industryName: org.industry
+          ? `${org.industry.nameFi} (${org.industry.code})`
+          : "Ei tiedossa",
+        municipalityName: org.municipality?.name,
+      };
+    });
+  }, [data]);
+  return <Table columns={columns} data={tableData} />;
 };
 
 export default withAuth(Organizations);

@@ -12,17 +12,17 @@ import LoadingSpinner from "components/LoadingSpinner";
 import OptionsMenu from "components/OptionsMenu";
 import ShowDataEntryForm from "components/ShowDataEntry";
 import SlideOver from "components/SlideOver";
-import Table, { TableCell } from "components/Table";
+import { Table } from "components/Tables/Table";
 import WarningModal from "components/Warning";
 import { format } from "date-fns";
 import { useDeleteEntryMutation } from "graphql/mutations/data/deleteDataEntry.generated";
 import {
-  MyDataEntriesDocument,
-  useMyDataEntriesQuery,
-} from "graphql/queries/data/myDataEntries.generated";
-import { useMyOrganizationDataEntriesQuery } from "graphql/queries/data/myOrganizationDataEntries.generated";
+  MyOrganizationDataEntriesDocument,
+  useMyOrganizationDataEntriesQuery,
+} from "graphql/queries/data/myOrganizationDataEntries.generated";
 import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Column } from "react-table";
 import { DataEntry } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
@@ -35,7 +35,6 @@ const CalculatorConsumptionDataPage = () => {
   const [dataEntry, setDataEntry] = useState(null);
   const { data, loading } = useMyOrganizationDataEntriesQuery();
   const [deleteEntry] = useDeleteEntryMutation();
-  const dataEntries = data?.myOrganizationDataEntries;
 
   const handleShowEntry = (entry: DataEntry) => {
     setDataEntry(entry);
@@ -55,12 +54,98 @@ const CalculatorConsumptionDataPage = () => {
   const handleConfirmDelete = async (id: string) => {
     const res = await deleteEntry({
       variables: { dataEntryID: id },
-      refetchQueries: [MyDataEntriesDocument],
+      refetchQueries: [MyOrganizationDataEntriesDocument],
+      awaitRefetchQueries: true,
     });
     if (res.data) {
       setWarningOpen(false);
     }
   };
+
+  const columns = useMemo<Column[]>(
+    () => [
+      {
+        Header: "Kategoria",
+        accessor: "categoryName",
+      },
+      {
+        Header: "Päästölähde",
+        accessor: "emissionSourceName",
+      },
+      {
+        Header: "Päästökerroin",
+        accessor: "efValue",
+        Cell: ({ value, row }) =>
+          `${
+            (row.original as DataEntry).emissionFactorValue.emissionFactor.name
+          } (${numberToString(value)} kg CO2e)`,
+      },
+      {
+        Header: "Toimipaikka",
+        accessor: "site",
+      },
+      {
+        Header: "kk/vuosi",
+        accessor: "date",
+        Cell: ({ value }) => format(new Date(value), "MM/yyyy"),
+      },
+      {
+        Header: "Määrä",
+        accessor: "consumption",
+        Cell: ({ value, row }) =>
+          (value as number).toLocaleString() +
+          " " +
+          (row.original as DataEntry).measurementUnit,
+      },
+      {
+        Header: "kg CO2e",
+        accessor: "footprint",
+        Cell: ({ value }) => numberToString(value as number) + " kg CO2e",
+      },
+      {
+        Header: "Tiedot",
+        disableSortBy: true,
+        Cell: ({ row }) => (
+          <OptionsMenu
+            onShow={() => handleShowEntry(row.original as DataEntry)}
+            onEdit={() => handleEditEntry(row.original as DataEntry)}
+            onDelete={() => handleDeleteDataEntry(row.original as DataEntry)}
+            variant={
+              row.index === data?.myOrganizationDataEntries?.length - 1
+                ? "last-element"
+                : "normal"
+            }
+          />
+        ),
+      },
+    ],
+    [data]
+  );
+  const tableData = useMemo(() => {
+    let dataEntries = data?.myOrganizationDataEntries ?? [];
+    return dataEntries?.map((entry) => {
+      return {
+        ...entry,
+        categoryName: emissionCategories.find(
+          (category) => category.id === CategoryType[entry.category]
+        )?.name,
+        emissionSourceName: emissionSources.find(
+          (es) => es.id === EmissionSourceType[entry.emissionSource]
+        )?.name,
+        efValue: entry.emissionFactorValue.value,
+        site: entry.siteUnit.name.startsWith("default_")
+          ? `${entry.siteUnit.site.name}`
+          : `${entry.siteUnit.name} (${entry.siteUnit.site.name})`,
+        date: entry.startDate,
+        consumption: entry.consumptionValue,
+        footprint:
+          entry.consumptionValue *
+          entry.emissionFactorValue.value *
+          allUnits.find((unit) => unit.shorthand === entry.measurementUnit)
+            ?.conversionFactor,
+      };
+    });
+  }, [data]);
 
   return (
     <CalculatorPanel
@@ -108,96 +193,7 @@ const CalculatorConsumptionDataPage = () => {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="flex flex-col">
-          <div className="-my-2 sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <div className="mt-4 border-b border-gray-200 shadow sm:rounded-lg">
-                <Table
-                  headers={t(
-                    "pages.consumption_data.table.headers",
-                    {},
-                    { returnObjects: true }
-                  )}
-                  alignLastRight
-                >
-                  {dataEntries.map((entry, index) => (
-                    <tr key={entry.id}>
-                      <TableCell
-                        value={
-                          emissionCategories.find(
-                            (category) =>
-                              category.id === CategoryType[entry.category]
-                          ).name
-                        }
-                      />
-                      <TableCell
-                        value={
-                          emissionSources.find(
-                            (es) =>
-                              es.id === EmissionSourceType[entry.emissionSource]
-                          ).name
-                        }
-                      />
-                      <TableCell
-                        value={`${
-                          entry.emissionFactorValue.emissionFactor.name
-                        } (${numberToString(
-                          entry.emissionFactorValue.value
-                        )} kg CO2e)`}
-                      />
-                      <TableCell
-                        value={
-                          entry.siteUnit.name.startsWith("default_")
-                            ? `${entry.siteUnit.site.name}`
-                            : `${entry.siteUnit.name} (${entry.siteUnit.site.name})`
-                        }
-                      />
-                      <TableCell
-                        value={format(new Date(entry.startDate), "MM/yyyy")}
-                      />
-
-                      <TableCell
-                        value={
-                          entry.consumptionValue.toLocaleString() +
-                          " " +
-                          entry.measurementUnit
-                        }
-                      />
-                      <TableCell
-                        value={
-                          parseFloat(
-                            (
-                              entry.consumptionValue *
-                              entry.emissionFactorValue.value *
-                              allUnits.find(
-                                (unit) =>
-                                  unit.shorthand === entry.measurementUnit
-                              )?.conversionFactor
-                            ).toFixed()
-                          ).toLocaleString() + " kg CO2e"
-                        }
-                      />
-                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                        <OptionsMenu
-                          onShow={() => handleShowEntry(entry as DataEntry)}
-                          onEdit={() => handleEditEntry(entry as DataEntry)}
-                          onDelete={() =>
-                            handleDeleteDataEntry(entry as DataEntry)
-                          }
-                          variant={
-                            index === dataEntries.length - 1
-                              ? "last-element"
-                              : "normal"
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </Table>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Table columns={columns} data={tableData} />
       )}
     </CalculatorPanel>
   );

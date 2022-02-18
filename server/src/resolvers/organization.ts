@@ -9,10 +9,10 @@ import {
   Query,
   Resolver,
 } from "type-graphql";
-import { BusinessField } from "../entity/BusinessField";
 import { Municipality } from "../entity/Municipality";
 import { Organization } from "../entity/Organization";
 import { SiteType } from "../entity/SiteType";
+import { SubIndustry } from "../entity/SubIndustry";
 import { User } from "../entity/User";
 import { Role } from "../types";
 import { MyContext } from "../types/MyContext";
@@ -26,8 +26,8 @@ class OrganizationInput implements Partial<Organization> {
   @Field()
   businessID: string;
 
-  @Field(() => Int, { nullable: true })
-  businessFieldID: number;
+  @Field({ nullable: true })
+  industryCode: string;
 
   @Field(() => Int, { nullable: true })
   municipalityID: number;
@@ -83,18 +83,18 @@ export class OrganizationResolver {
     return res;
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN])
+  @Authorized([Role.ADMIN])
   @Mutation(() => Organization)
   async createOrganization(
     @Arg("data")
-    { name, municipalityID, businessFieldID, businessID }: OrganizationInput
+    { name, municipalityID, industryCode, businessID }: OrganizationInput
   ): Promise<Organization | undefined> {
-    const businessField = inverseNullish(
-      businessFieldID,
-      await BusinessField.findOne(businessFieldID)
+    const industry = inverseNullish(
+      industryCode,
+      await SubIndustry.findOne({ where: { code: industryCode } })
     );
-    if (!businessField) {
-      console.log("no business field");
+    if (!industry) {
+      console.log("no industry");
     }
     const municipality = inverseNullish(
       municipalityID,
@@ -107,7 +107,7 @@ export class OrganizationResolver {
     const newOrg = await Organization.create({
       name,
       businessID,
-      businessField,
+      industry,
       municipality,
     }).save();
 
@@ -115,16 +115,11 @@ export class OrganizationResolver {
     return newOrg;
   }
 
-  @Authorized([Role.SUPERADMIN, Role.ADMIN, Role.COMPANY_ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Mutation(() => Organization)
   async updateOrganization(
     @Arg("newData")
-    {
-      name,
-      municipalityID,
-      businessFieldID,
-      businessID,
-    }: EditOrganizationInput,
+    { name, municipalityID, industryCode, businessID }: EditOrganizationInput,
     @Arg("organizationID") organizationID: string
   ): Promise<Organization | undefined> {
     const org = await Organization.findOne(organizationID);
@@ -135,9 +130,11 @@ export class OrganizationResolver {
 
     if (name) org.name = name;
     if (businessID) org.businessID = businessID;
-    if (businessFieldID) {
-      const businessField = await BusinessField.findOne(businessFieldID);
-      if (businessField) org.businessField = businessField;
+    if (industryCode) {
+      const industry = await SubIndustry.findOne({
+        where: { code: industryCode },
+      });
+      if (industry) org.industry = industry;
     }
 
     if (municipalityID) {

@@ -1,17 +1,24 @@
 import { withAuth } from "components/Auth";
-import SettingsPanel from "components/SettingsPanel";
-import Table, { TableCell, TableCellOpenOptions } from "components/Table";
-import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allPublicEmissionFactors.generated";
-import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
-import { numberToString } from "utils/numberToString";
 import Button from "components/Button";
-import SlideOver from "components/SlideOver";
-import { useState } from "react";
-import LoadingSpinner from "components/LoadingSpinner";
-import useTranslation from "next-translate/useTranslation";
-import CreateEmissionFactorForm from "components/Forms/Emissions/CreateEmissionFactor";
-import { EmissionFactor } from "types/generatedTypes";
 import ShowEmissionFactor from "components/EmissionFactorView";
+import CreateEmissionFactorForm from "components/Forms/Emissions/CreateEmissionFactor";
+import LoadingSpinner from "components/LoadingSpinner";
+import SettingsPanel from "components/SettingsPanel";
+import SlideOver from "components/SlideOver";
+import { Table, TableActionButton } from "components/Tables/Table";
+import {
+  AllPublicEmissionFactorsQuery,
+  useAllPublicEmissionFactorsQuery,
+} from "graphql/queries/emissions/allPublicEmissionFactors.generated";
+import {
+  MyEmissionFactorsQuery,
+  useMyEmissionFactorsQuery,
+} from "graphql/queries/emissions/myEmissionFactors.generated";
+import useTranslation from "next-translate/useTranslation";
+import { useMemo, useState } from "react";
+import { Column } from "react-table";
+import { EmissionFactor } from "types/generatedTypes";
+import { numberToString } from "utils/numberToString";
 
 const SettingsEmissionFactorsPage = () => {
   const { t } = useTranslation("settings");
@@ -55,92 +62,100 @@ const SettingsEmissionFactorsPage = () => {
       {myLoading || publicLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="flex flex-col">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <Table
-                headers={t(
-                  "pages.emission_factors.table.headers",
-                  {},
-                  { returnObjects: true }
-                )}
-                alignLastRight
-              >
-                {myEFs?.myEmissionFactors.map((ef) => (
-                  <tr key={ef.id}>
-                    <TableCell value={ef.name} clamped />
-                    <TableCell value={ef.source} clamped />
-                    <TableCell
-                      value={[...ef.values]
-                        .sort((a, b) => a.startDate - b.startDate)[0]
-                        .startDate.toString()}
-                    />
-                    <TableCell
-                      value={[...ef.values]
-                        .sort((a, b) => b.endDate - a.endDate)[0]
-                        .endDate.toString()}
-                    />
-                    <TableCell
-                      value={
-                        numberToString(
-                          [...ef.values].sort(
-                            (a, b) => b.endDate - a.endDate
-                          )[0].value
-                        ) +
-                        " kg CO2e/" +
-                        ef.physicalQuantity.baseUnit.shorthand
-                      }
-                    />
-                    <TableCellOpenOptions
-                      fn={() => handleShowEf(ef as EmissionFactor)}
-                    />
-                  </tr>
-                ))}
-                <tr className="h-6 bg-gray-100">
-                  <td className="p-2">Kaikki julkiset kertoimet</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {publicEFs?.allPublicEmissionFactors.map((ef) => (
-                  <tr key={ef.id}>
-                    <TableCell value={ef.name} clamped />
-                    <TableCell value={ef.source} clamped />
-                    <TableCell
-                      value={[...ef.values]
-                        .sort((a, b) => a.startDate - b.startDate)[0]
-                        .startDate.toString()}
-                    />
-                    <TableCell
-                      value={[...ef.values]
-                        .sort((a, b) => b.endDate - a.endDate)[0]
-                        .endDate.toString()}
-                    />
-                    <TableCell
-                      value={
-                        numberToString(
-                          [...ef.values].sort(
-                            (a, b) => b.endDate - a.endDate
-                          )[0].value
-                        ) +
-                        " kg CO2e/" +
-                        ef.physicalQuantity.baseUnit.shorthand
-                      }
-                    />
-                    <TableCellOpenOptions
-                      fn={() => handleShowEf(ef as EmissionFactor)}
-                    />
-                  </tr>
-                ))}
-              </Table>
-            </div>
-          </div>
-        </div>
+        <UserEmissionFactorsTable
+          handleShowEf={handleShowEf}
+          myEfs={myEFs}
+          publicEfs={publicEFs}
+        />
       )}
     </SettingsPanel>
   );
+};
+
+interface TableProps {
+  myEfs: MyEmissionFactorsQuery;
+  publicEfs: AllPublicEmissionFactorsQuery;
+  handleShowEf: (ef: EmissionFactor) => void;
+}
+
+const mapEmissionFactors = (efs: EmissionFactor[], origin: string) => {
+  return efs.map((ef) => {
+    return {
+      ...ef,
+      origin: origin,
+      startDate: [...ef.values]
+        ?.sort((a, b) => a.startDate - b.startDate)[0]
+        ?.startDate.toString(),
+      endDate: [...ef.values]
+        .sort((a, b) => b.endDate - a.endDate)[0]
+        ?.endDate.toString(),
+      latestValue: [...ef.values].sort((a, b) => b.endDate - a.endDate)[0]
+        ?.value,
+    };
+  });
+};
+
+const UserEmissionFactorsTable = ({
+  handleShowEf,
+  myEfs,
+  publicEfs,
+}: TableProps) => {
+  const columns = useMemo<Column[]>(
+    () => [
+      {
+        Header: "Nimi",
+        accessor: "name",
+      },
+      {
+        Header: "Alkuperä",
+        accessor: "origin",
+      },
+      {
+        Header: "Lähde",
+        accessor: "source",
+      },
+      {
+        Header: "Alkaen",
+        accessor: "startDate",
+      },
+      {
+        Header: "Päättyen",
+        accessor: "endDate",
+      },
+      {
+        Header: "Uusin Arvo",
+        accessor: "latestValue",
+        Cell: ({ value, row }) =>
+          numberToString(value) +
+          " kg CO2e/" +
+          (row.original as EmissionFactor).physicalQuantity.baseUnit.shorthand,
+      },
+      {
+        Header: "Tiedot",
+        disableSortBy: true,
+        Cell: ({ row }) => (
+          <TableActionButton
+            fn={() => handleShowEf(row.original as EmissionFactor)}
+          />
+        ),
+      },
+    ],
+    [handleShowEf]
+  );
+
+  const tableData = useMemo(() => {
+    const myFactors = myEfs?.myEmissionFactors ?? [];
+    const publicFactors = publicEfs?.allPublicEmissionFactors ?? [];
+    const allFactors = mapEmissionFactors(
+      myFactors as EmissionFactor[],
+      "Oma kerroin"
+    ).concat(
+      mapEmissionFactors(publicFactors as EmissionFactor[], "CO2-laskuri")
+    );
+    return allFactors;
+  }, [myEfs, publicEfs]);
+
+  return <Table columns={columns} data={tableData} />;
 };
 
 export default withAuth(SettingsEmissionFactorsPage);
