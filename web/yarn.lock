@@ -1274,6 +1274,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
+"@types/react-dom@*":
+  version "17.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
+  integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-table@^7.7.9":
   version "7.7.9"
   resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.9.tgz#ea82875775fc6ee71a28408dcc039396ae067c92"
@@ -1358,6 +1365,29 @@
     "@typescript-eslint/types" "5.10.1"
     eslint-visitor-keys "^3.0.0"
 
+"@visx/axis@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@visx/axis/-/axis-2.6.0.tgz#33c7713590818705ae4a10bc6ab6d589bdb9ce9c"
+  integrity sha512-Ti8AxclK4m/2SHQPGMMsvotTxZGaLQIMB10C9tyHP9JNBCLWKWtq1XTrGxlySffnfhXML80zLYsEdLPumzxFvw==
+  dependencies:
+    "@types/react" "*"
+    "@visx/group" "2.1.0"
+    "@visx/point" "2.6.0"
+    "@visx/scale" "2.2.2"
+    "@visx/shape" "2.4.0"
+    "@visx/text" "2.3.0"
+    classnames "^2.3.1"
+    prop-types "^15.6.0"
+
+"@visx/bounds@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@visx/bounds/-/bounds-2.1.2.tgz#aa46104d262bc703e73380c69aa5854e5492f77b"
+  integrity sha512-O80K6PkDH//6xVDP3rSdd+9GNtBUMJKgVXh1ZjW8tAj/rtRq+GiyE17sB3uqV+btNkg0oJiVsFpmoLI50beJDQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-dom" "*"
+    prop-types "^15.5.10"
+
 "@visx/curve@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@visx/curve/-/curve-2.1.0.tgz#f614bfe3db66df7db7382db7a75ced1506b94602"
@@ -1366,6 +1396,14 @@
     "@types/d3-shape" "^1.3.1"
     d3-shape "^1.0.6"
 
+"@visx/event@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@visx/event/-/event-2.6.0.tgz#0718eb1efabd5305cf659a153779c94ba4038996"
+  integrity sha512-WGp91g82s727g3NAnENF1ppC3ZAlvWg+Y+GG0WFg34NmmOZbvPI/PTOqTqZE3x6B8EUn8NJiMxRjxIMbi+IvRw==
+  dependencies:
+    "@types/react" "*"
+    "@visx/point" "2.6.0"
+
 "@visx/gradient@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@visx/gradient/-/gradient-2.1.0.tgz#9b65811efc551be991e503f39288208ac3c7e010"
@@ -1373,6 +1411,20 @@
   dependencies:
     "@types/react" "*"
     prop-types "^15.5.7"
+
+"@visx/grid@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@visx/grid/-/grid-2.6.0.tgz#bb24e88dafd3eba3a867a4327dc9dad32bfda2be"
+  integrity sha512-LH4yioffUZRT1ic3KSYqhimF6GPZCs3jzv4Xdz5gNVsSbEY4BOQyulxtq8375Z80DpLwK1VQAMxoNdj1EDkxIg==
+  dependencies:
+    "@types/react" "*"
+    "@visx/curve" "2.1.0"
+    "@visx/group" "2.1.0"
+    "@visx/point" "2.6.0"
+    "@visx/scale" "2.2.2"
+    "@visx/shape" "2.4.0"
+    classnames "^2.3.1"
+    prop-types "^15.6.2"
 
 "@visx/group@2.1.0", "@visx/group@^2.1.0":
   version "2.1.0"
@@ -1402,6 +1454,11 @@
     "@types/d3-random" "^2.2.0"
     d3-random "^2.2.2"
 
+"@visx/point@2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@visx/point/-/point-2.6.0.tgz#c4316ca409b5b829c5455f07118d8c14a92cc633"
+  integrity sha512-amBi7yMz4S2VSchlPdliznN41TuES64506ySI22DeKQ+mc1s1+BudlpnY90sM1EIw4xnqbKmrghTTGfy6SVqvQ==
+
 "@visx/scale@2.2.2", "@visx/scale@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@visx/scale/-/scale-2.2.2.tgz#b8eafabdcf92bb45ab196058fe184772ad80fd25"
@@ -1414,7 +1471,7 @@
     d3-scale "^3.3.0"
     d3-time "^2.1.1"
 
-"@visx/shape@^2.4.0":
+"@visx/shape@2.4.0", "@visx/shape@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@visx/shape/-/shape-2.4.0.tgz#d25d6a319c416258e12947d74773edb83051ba03"
   integrity sha512-D6XdGCgWi0/0ZKJ5iK8W5gILCKdrbDwnR/e7o6n/favLU0o+ntiI4a9PZBZ5bYS0aFNG7r+miGMcWV/AQfODuA==
@@ -1431,6 +1488,29 @@
     d3-shape "^1.2.0"
     lodash "^4.17.21"
     prop-types "^15.5.10"
+
+"@visx/text@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@visx/text/-/text-2.3.0.tgz#34b66a467685cf1db2380a2673e032f2f874919a"
+  integrity sha512-5mEcmzWZqbziz6Azv+H6BWrnUbnpygAw4SNzBqF+YiGik5gR/USaBRAs9aKjnoUg6qFe3NZWFOcGpR3BzDR/bQ==
+  dependencies:
+    "@types/lodash" "^4.14.172"
+    "@types/react" "*"
+    classnames "^2.3.1"
+    lodash "^4.17.21"
+    prop-types "^15.7.2"
+    reduce-css-calc "^1.3.0"
+
+"@visx/tooltip@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@visx/tooltip/-/tooltip-2.8.0.tgz#6318286a5eaf84f868fcf005237edb18121c7b36"
+  integrity sha512-INt5/OSchHr7PphYznTV5jw3YP1X006IwWwmAUacDkHk12hunKjnssdIVskIDQXxlNTho1g44ynl7sc3zGbfQQ==
+  dependencies:
+    "@types/react" "*"
+    "@visx/bounds" "2.1.2"
+    classnames "^2.3.1"
+    prop-types "^15.5.10"
+    react-use-measure "^2.0.4"
 
 "@wry/context@^0.6.0":
   version "0.6.1"
@@ -1736,6 +1816,11 @@ backo2@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
   integrity sha1-MasayLEpNjRj41s+u2n038+6eUc=
+
+balanced-match@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
+  integrity sha1-yz8+PHMtwPAe5wtAPzAuYddwmDg=
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -2246,7 +2331,7 @@ date-fns@^2.28.0:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
-debounce@^1.2.0:
+debounce@^1.2.0, debounce@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
   integrity sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
@@ -3894,6 +3979,11 @@ map-cache@^0.2.0:
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha1-wyq9C9ZSXZsFFkW7TyasXcmKDb8=
 
+math-expression-evaluator@^1.2.14:
+  version "1.3.14"
+  resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.3.14.tgz#0ebeaccf65fea0f6f5a626f88df41814e5fcd9bf"
+  integrity sha512-M6AMrvq9bO8uL42KvQHPA2/SbAobA0R7gviUmPrcTcGfdwpaLitz4q2Euzx2lP9Oy88vxK3HOrsISgSwKsYS4A==
+
 merge2@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
@@ -4442,7 +4532,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4534,6 +4624,13 @@ react-table@^7.7.0:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.7.0.tgz#e2ce14d7fe3a559f7444e9ecfe8231ea8373f912"
   integrity sha512-jBlj70iBwOTvvImsU9t01LjFjy4sXEtclBovl3mTiqjz23Reu0DKnRza4zlLtOPACx6j2/7MrQIthIK1Wi+LIA==
 
+react-use-measure@^2.0.4:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.1.1.tgz#5824537f4ee01c9469c45d5f7a8446177c6cc4ba"
+  integrity sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==
+  dependencies:
+    debounce "^1.2.1"
+
 react@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
@@ -4548,6 +4645,22 @@ readdirp@~3.6.0:
   integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
   dependencies:
     picomatch "^2.2.1"
+
+reduce-css-calc@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/reduce-css-calc/-/reduce-css-calc-1.3.0.tgz#747c914e049614a4c9cfbba629871ad1d2927716"
+  integrity sha1-dHyRTgSWFKTJz7umKYca0dKSdxY=
+  dependencies:
+    balanced-match "^0.4.2"
+    math-expression-evaluator "^1.2.14"
+    reduce-function-call "^1.0.1"
+
+reduce-function-call@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.3.tgz#60350f7fb252c0a67eb10fd4694d16909971300f"
+  integrity sha512-Hl/tuV2VDgWgCSEeWMLwxLZqX7OK59eU1guxXsRKTAyeYimivsKdtcV4fu3r710tpG5GmDKDhQ0HSZLExnNmyQ==
+  dependencies:
+    balanced-match "^1.0.0"
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
