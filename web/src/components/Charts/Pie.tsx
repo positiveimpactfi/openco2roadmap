@@ -1,44 +1,21 @@
 import { Group } from "@visx/group";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
-import { BrowserUsage as Browsers } from "@visx/mock-data/lib/mocks/browserUsage";
 import { scaleOrdinal } from "@visx/scale";
 import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
 import React, { useState } from "react";
-import { animated, interpolate, useTransition } from "react-spring";
+import { animated, to, useTransition } from "react-spring";
 
 // data and types
 
-interface DataEntry {
-  label: string;
-  usage: number;
+export interface DataEntry {
+  name: string;
+  id: string;
+  years: { [key: number]: number };
 }
 
-const categories = [
-  "Hallinto",
-  "Logistiikka",
-  "Toimitilat ja kiinteistöt",
-  "Hankinnat",
-];
-const data: DataEntry[] = categories.map((name) => ({
-  label: name,
-  usage: name.length,
-}));
-
-// accessor functions
-const usage = (d: DataEntry) => d.usage;
+const getValue = (d: DataEntry, year: number) => d.years[year];
 
 // color scales
-const colorScale = scaleOrdinal({
-  domain: categories,
-  range: [
-    "rgb(255,240,150)",
-    "rgb(99,151,138	)",
-    "rgb(209, 220,182)",
-    "#fcd8e3",
-    "#aea8c7",
-    "#9bb1ca",
-  ],
-});
 
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 50 };
 
@@ -47,6 +24,8 @@ export type PieProps = {
   height: number;
   margin?: typeof defaultMargin;
   animate?: boolean;
+  data: DataEntry[];
+  years: number[];
 };
 
 export default function PieChart({
@@ -54,9 +33,36 @@ export default function PieChart({
   height,
   margin = defaultMargin,
   animate = true,
+  data,
+  years,
 }: PieProps) {
-  const [selectedBrowser, setSelectedBrowser] = useState<string | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(
+    null
+  );
+  const [year, setYear] = useState(2021);
+  const categories = data.map((d) => d.name);
+  const total = (year: number) => {
+    let filteredData = data;
+    if (selectedComponent) {
+      filteredData = data.filter((d) => d.name === selectedComponent);
+    }
+    return filteredData.reduce((acc, current) => {
+      if (!current.years[year]) return acc;
+      else return acc + current.years[year];
+    }, 0);
+  };
 
+  const colorScale = scaleOrdinal({
+    domain: categories,
+    range: [
+      "rgb(255,240,150)",
+      "rgb(99,151,138	)",
+      "rgb(209, 220,182)",
+      "#fcd8e3",
+      "#aea8c7",
+      "#9bb1ca",
+    ],
+  });
   if (width < 10) return null;
 
   const innerWidth = width - margin.left - margin.right;
@@ -68,17 +74,30 @@ export default function PieChart({
 
   return (
     <div>
-      <h1 className="py-4 text-xl font-semibold">Päästöjen jakauma v.2020</h1>
+      <select
+        name="yearSelect"
+        value={year}
+        onChange={(e) => setYear(parseInt(e.currentTarget.value))}
+      >
+        {years.map((y) => (
+          <option value={y} key={y}>
+            {y}
+          </option>
+        ))}
+      </select>
+      <h1 className="py-4 text-xl font-semibold">Päästöjen jakauma v.{year}</h1>
       <div className="flex max-w-lg items-center rounded-md bg-white">
         <svg height={height}>
           <Group top={centerY + margin.top} left={120}>
             <Pie
               data={
-                selectedBrowser
-                  ? data.filter(({ label }) => label === selectedBrowser)
+                selectedComponent
+                  ? data.filter(
+                      ({ name: label }) => label === selectedComponent
+                    )
                   : data
               }
-              pieValue={usage}
+              pieValue={(d) => getValue(d, year)}
               outerRadius={radius}
               innerRadius={radius - donutThickness}
               cornerRadius={3}
@@ -88,16 +107,16 @@ export default function PieChart({
                 <AnimatedPie<DataEntry>
                   {...pie}
                   animate={animate}
-                  getKey={(arc) => arc.data.label}
-                  onClickDatum={({ data: { label } }) =>
+                  getKey={(arc) => arc.data.name}
+                  onClickDatum={({ data: { name: label } }) =>
                     animate &&
-                    setSelectedBrowser(
-                      selectedBrowser && selectedBrowser === label
+                    setSelectedComponent(
+                      selectedComponent && selectedComponent === label
                         ? null
                         : label
                     )
                   }
-                  getColor={(arc) => colorScale(arc.data.label)}
+                  getColor={(arc) => colorScale(arc.data.name)}
                 />
               )}
             </Pie>
@@ -113,23 +132,31 @@ export default function PieChart({
                 fontWeight={800}
                 pointerEvents="none"
               >
-                283t
+                {`${
+                  total(year) >= 1000
+                    ? (total(year) / 1000).toFixed(1) + " t"
+                    : total(year).toFixed(0) + " kg"
+                }`}
               </text>
               <text
                 textAnchor="end"
-                x={width / 2 - 70}
+                x={width / 2 - 90}
                 y={height / 2 + 20}
                 fill="black"
                 fontSize={16}
                 fontWeight={400}
                 pointerEvents="none"
               >
-                kg CO2e
+                CO2e
               </text>
             </>
           )}
         </svg>
-        <MyLegend />
+        <MyLegend
+          colorScale={colorScale}
+          selectedComponent={selectedComponent}
+          setSelectedComponent={setSelectedComponent}
+        />
       </div>
     </div>
   );
@@ -178,14 +205,12 @@ function AnimatedPie<Datum>({
       <g key={key}>
         <animated.path
           // compute interpolated path d attribute from intermediate angle values
-          d={interpolate(
-            [props.startAngle, props.endAngle],
-            (startAngle, endAngle) =>
-              path({
-                ...arc,
-                startAngle,
-                endAngle,
-              })
+          d={to([props.startAngle, props.endAngle], (startAngle, endAngle) =>
+            path({
+              ...arc,
+              startAngle,
+              endAngle,
+            })
           )}
           fill={getColor(arc)}
           onClick={() => onClickDatum(arc)}
@@ -196,7 +221,15 @@ function AnimatedPie<Datum>({
   });
 }
 
-const MyLegend = () => {
+const MyLegend = ({
+  colorScale,
+  selectedComponent,
+  setSelectedComponent,
+}: {
+  colorScale: any;
+  selectedComponent: string;
+  setSelectedComponent: (c: string) => void;
+}) => {
   const legendGlyphSize = 15;
   return (
     <LegendOrdinal scale={colorScale}>
@@ -207,7 +240,12 @@ const MyLegend = () => {
               key={`legend-quantile-${i}`}
               margin="0 5px"
               onClick={(e) => {
-                if (e) alert(`clicked: ${JSON.stringify(label)}`);
+                if (e)
+                  setSelectedComponent(
+                    selectedComponent && selectedComponent === label.text
+                      ? null
+                      : label.text
+                  );
               }}
             >
               <svg width={legendGlyphSize} height={legendGlyphSize}>
@@ -217,7 +255,11 @@ const MyLegend = () => {
                   height={legendGlyphSize}
                 />
               </svg>
-              <LegendLabel align="left" margin="0 0 0 4px">
+              <LegendLabel
+                align="left"
+                margin="0 0 0 4px"
+                className="cursor-pointer"
+              >
                 {label.text}
               </LegendLabel>
             </LegendItem>

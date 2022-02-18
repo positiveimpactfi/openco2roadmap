@@ -13,8 +13,18 @@ const CalculatorFootprintsPage = () => {
   const { data, loading } = useMyOrganizationEmissionsByCategoryAndYearQuery({
     fetchPolicy: "network-only",
   });
-  const components = data?.myOrganizationEmissionsByCategoryAndYear;
-  const allYears = components?.map((c) => JSON.parse(c.yearlysums)) as {
+  const components = data?.myOrganizationEmissionsByCategoryAndYear?.map(
+    (c) => {
+      return {
+        id: c.categoryid,
+        name: emissionCategories.find(
+          (category) => category.id === parseInt(c.categoryid)
+        ).name,
+        years: JSON.parse(c.yearlysums),
+      };
+    }
+  );
+  const allYears = components?.map((c) => c.years) as {
     [key: number]: number;
   }[];
   const allYearsParsed = allYears
@@ -28,11 +38,11 @@ const CalculatorFootprintsPage = () => {
           prevCopy.push(k);
         }
       }
-
       return prevCopy;
     }, [])
     .sort();
   const allParsedString = allYearsParsed?.map((y) => y.toString());
+
   return (
     <CalculatorPanel
       title={t("pages.footprints.title")}
@@ -43,7 +53,12 @@ const CalculatorFootprintsPage = () => {
       ) : allYearsParsed ? (
         <div className="flex flex-col">
           <div className="mb-10">
-            <PieChart width={450} height={250} />
+            <PieChart
+              width={450}
+              height={250}
+              data={components}
+              years={allYearsParsed}
+            />
           </div>
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -57,18 +72,14 @@ const CalculatorFootprintsPage = () => {
                 ).concat(allParsedString)}
               >
                 {components?.map((c, i) => (
-                  <tr key={c.categoryid}>
+                  <tr key={c.id}>
                     <TableCell
-                      key={c.categoryid.toString() + i.toString()}
-                      value={
-                        emissionCategories.find(
-                          (category) => category.id === parseInt(c.categoryid)
-                        ).name
-                      }
+                      key={c.id.toString() + i.toString()}
+                      value={c.name}
                     />
                     {allYearsParsed.map((y) => (
                       <TableCell
-                        key={c.categoryid.toString() + y.toString()}
+                        key={c.id.toString() + y.toString()}
                         value={numberToString(allYears[i][y] / 1000, 1)}
                         clamped
                       />
