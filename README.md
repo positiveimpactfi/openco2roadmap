@@ -1,10 +1,9 @@
 # Open CO2 roadmap
 
-This is an open source carbon footprint calculator project created by [Positive Impact](https://www.positiveimpact.fi). The first release of the project in November 2021 was made for the [Regional Council of Lapland](https://www.lapinliitto.fi/en/), and funded by [European Regional Development fund (ERDF)](http://www.rakennerahastot.fi/web/en).
+This is an open source carbon footprint calculator project created by [Positive Impact](https://www.positiveimpact.fi). The latest releases are made for Carbon Neutral Tourism (CNT) project by the cities of Helsinki, Turku and Tampere. The first release of the project in November 2021 was made for the [Regional Council of Lapland](https://www.lapinliitto.fi/en/), and funded by [European Regional Development fund (ERDF)](http://www.rakennerahastot.fi/web/en). 
 
 <div style="display:flex">
-  <img src="https://www.rakennerahastot.fi/documents/10179/54846/EU_EAKR_FI_vertical_20mm_rgb.png" height= "120px" alt="EU-lippulogo">
-  <img src="https://www.rakennerahastot.fi/documents/10179/55439/VipuvoimaaEU_2014_2020_rgb.png" height= "120px" alt="Vipuvoimaa EU:lta">
+  <img src="https://user-images.githubusercontent.com/42574232/147139890-593c7ac5-3d95-472c-aaa3-783586161fab.png" alt="CNT project logos">
 </div>
 The calculator is initially designed to serve small and medium size companies in the travel industry in Finland. This is reflected both in the calculator boundary and emission factor library.
 
