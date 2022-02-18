@@ -4,6 +4,7 @@ import { scaleOrdinal } from "@visx/scale";
 import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
 import React, { useState } from "react";
 import { animated, to, useTransition } from "react-spring";
+import { colors } from "./colors";
 
 // data and types
 
@@ -54,14 +55,7 @@ export default function PieChart({
 
   const colorScale = scaleOrdinal({
     domain: categories,
-    range: [
-      "rgb(255,240,150)",
-      "rgb(99,151,138	)",
-      "rgb(209, 220,182)",
-      "#fcd8e3",
-      "#aea8c7",
-      "#9bb1ca",
-    ],
+    range: colors,
   });
   if (width < 10) return null;
 
