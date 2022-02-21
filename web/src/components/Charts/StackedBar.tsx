@@ -150,6 +150,7 @@ export default function StackedBar({
 
   dateScale.rangeRound([0, xMax]);
   emissionScale.range([yMax, 0]);
+  if (!parsedData) return null;
 
   return width < 10 ? null : (
     <div>
