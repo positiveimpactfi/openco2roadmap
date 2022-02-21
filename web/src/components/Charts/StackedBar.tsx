@@ -86,10 +86,10 @@ export default function StackedBar({
     for (let month of Object.keys(current.months)) {
       if (addedMonths.includes(month)) {
         acc.find((a) => a.month === month)[current.name] =
-          current.months[month];
+          current.months[month] / 1000;
       } else {
         const skeletonCopy = { ...skeleton };
-        skeletonCopy[current.name] = current.months[month];
+        skeletonCopy[current.name] = current.months[month] / 1000;
         let paddedMonth = month.toString().padStart(2, "0");
         skeletonCopy.date = `${year}-${paddedMonth}-01`;
         skeletonCopy.month = month;
@@ -176,7 +176,7 @@ export default function StackedBar({
             <AxisLeft
               hideTicks={true}
               numTicks={5}
-              label="Päästöt, kg CO2e"
+              label="Päästöt, t CO2e"
               labelOffset={45}
               labelProps={{
                 fill: "black",
@@ -276,9 +276,7 @@ export default function StackedBar({
             <div style={{ color: colorScale(tooltipData.key) }}>
               <strong>{tooltipData.key}</strong>
             </div>
-            <div>
-              {tooltipData.bar.data[tooltipData.key].toFixed(0)} kg CO2e
-            </div>
+            <div>{tooltipData.bar.data[tooltipData.key].toFixed(0)} t CO2e</div>
             <div>
               <small>{formatDate(getDate(tooltipData.bar.data))}</small>
             </div>
