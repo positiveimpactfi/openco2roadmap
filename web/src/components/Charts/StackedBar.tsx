@@ -10,6 +10,7 @@ import { defaultStyles, useTooltip, useTooltipInPortal } from "@visx/tooltip";
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
 import React from "react";
+import { numberToString } from "utils/numberToString";
 import { MonthlyDataEntry } from "./ChartGroup";
 import { colors } from "./colors";
 
@@ -186,6 +187,8 @@ export default function StackedBar({
               scale={emissionScale}
               stroke={"black"}
               tickStroke={"black"}
+              hideZero={true}
+              tickFormat={(n) => numberToString(Number(n))}
               tickLabelProps={() => ({
                 fill: "black",
                 fontSize: 11,
@@ -276,7 +279,10 @@ export default function StackedBar({
             <div style={{ color: colorScale(tooltipData.key) }}>
               <strong>{tooltipData.key}</strong>
             </div>
-            <div>{tooltipData.bar.data[tooltipData.key].toFixed(0)} t CO2e</div>
+            <div>
+              {numberToString(tooltipData.bar.data[tooltipData.key], 1) +
+                " t CO2e"}
+            </div>
             <div>
               <small>{formatDate(getDate(tooltipData.bar.data))}</small>
             </div>

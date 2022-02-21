@@ -7,6 +7,7 @@ import { animated, to, useTransition } from "react-spring";
 import { colors } from "./colors";
 import { Text } from "@visx/text";
 import { keys } from "./StackedBar";
+import { numberToString } from "utils/numberToString";
 
 // data and types
 
@@ -106,8 +107,8 @@ export default function PieChart({
             <Text width={70} textAnchor="middle" fontSize={20} fontWeight={800}>
               {`${
                 total(year) >= 1000
-                  ? (total(year) / 1000).toFixed(1) + " t"
-                  : total(year).toFixed(0) + " kg"
+                  ? numberToString(total(year) / 1000, 1) + " t"
+                  : numberToString(total(year), 0) + " kg"
               }`}
             </Text>
             <Text width={70} textAnchor="middle" y={25}>
