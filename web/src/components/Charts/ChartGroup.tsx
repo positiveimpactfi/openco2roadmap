@@ -1,15 +1,25 @@
 import { useState } from "react";
-import PieChart, { DataEntry } from "./Pie";
+import PieChart, { YearlyDataEntry } from "./Pie";
 import StackedBar from "./StackedBar";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 
+export interface MonthlyDataEntry {
+  name: string;
+  id: string;
+  year: number;
+  months: { [key: number]: number };
+}
+
 interface ChartGroupProps {
-  data: DataEntry[];
+  yearlyData: YearlyDataEntry[];
+  monthlyData: MonthlyDataEntry[];
   years: number[];
 }
 
-const ChartGroup = ({ data, years }: ChartGroupProps) => {
+const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
   const [year, setYear] = useState(new Date().getFullYear());
+  const filteredMonthlyData = monthlyData?.filter((m) => m.year === year);
+
   return (
     <div className="my-2 flex flex-col space-y-2">
       <select
@@ -32,13 +42,14 @@ const ChartGroup = ({ data, years }: ChartGroupProps) => {
                 <PieChart
                   width={(width * 3) / 10}
                   height={height}
-                  data={data}
+                  data={yearlyData}
                   year={year}
                 />
                 <StackedBar
                   width={(width * 7) / 10}
                   height={height}
                   year={year}
+                  data={filteredMonthlyData}
                 />
               </div>
             </>

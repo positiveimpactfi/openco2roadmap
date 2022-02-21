@@ -8,13 +8,13 @@ import { colors } from "./colors";
 
 // data and types
 
-export interface DataEntry {
+export interface YearlyDataEntry {
   name: string;
   id: string;
   years: { [key: number]: number };
 }
 
-const getValue = (d: DataEntry, year: number) => d.years[year];
+const getValue = (d: YearlyDataEntry, year: number) => d.years[year];
 
 // color scales
 
@@ -25,7 +25,7 @@ export type PieProps = {
   height: number;
   margin?: typeof defaultMargin;
   animate?: boolean;
-  data: DataEntry[];
+  data: YearlyDataEntry[];
   year: number;
 };
 
@@ -86,7 +86,7 @@ export default function PieChart({
               padAngle={0.005}
             >
               {(pie) => (
-                <AnimatedPie<DataEntry>
+                <AnimatedPie<YearlyDataEntry>
                   {...pie}
                   animate={animate}
                   getKey={(arc) => arc.data.name}
