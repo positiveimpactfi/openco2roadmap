@@ -1,18 +1,17 @@
-import React from "react";
+import { AxisBottom, AxisLeft } from "@visx/axis";
+import { localPoint } from "@visx/event";
+import { GridRows } from "@visx/grid";
+import { Group } from "@visx/group";
+import { LegendOrdinal } from "@visx/legend";
+import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import { BarStack } from "@visx/shape";
 import { SeriesPoint } from "@visx/shape/lib/types";
-import { Group } from "@visx/group";
-import { Grid, GridRows } from "@visx/grid";
-import { AxisBottom, AxisLeft } from "@visx/axis";
-import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
-import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
-import { LegendOrdinal } from "@visx/legend";
-import { localPoint } from "@visx/event";
-import { colors } from "./colors";
-import { MonthlyDataEntry } from "./ChartGroup";
-import { fi } from "date-fns/locale";
+import { defaultStyles, useTooltip, useTooltipInPortal } from "@visx/tooltip";
 import { format } from "date-fns";
-import { number } from "yup";
+import { fi } from "date-fns/locale";
+import React from "react";
+import { MonthlyDataEntry } from "./ChartGroup";
+import { colors } from "./colors";
 
 type CategoryName =
   | "Toimitilat ja kiinteistöt"
