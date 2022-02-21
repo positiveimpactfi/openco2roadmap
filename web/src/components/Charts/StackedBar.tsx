@@ -44,7 +44,7 @@ export type BarStackProps = {
 };
 
 const background = "white";
-const defaultMargin = { top: 40, right: 0, bottom: 0, left: 50 };
+const defaultMargin = { top: 40, right: 0, bottom: 40, left: 80 };
 const tooltipStyles = {
   ...defaultStyles,
   minWidth: 60,
@@ -83,10 +83,8 @@ export default function StackedBar({
     }
     return acc.concat(skeletons);
   }, [] as MonthData[]);
-  const data = parsedData; //cityTemperature.slice(0, 12);
-  // const keys = Object.keys(data?.at[0]).filter(
-  //   (d) => d !== "date"
-  // ) as CategoryName[];
+  const data = parsedData;
+
   const keys = [
     "Toimitilat ja kiinteistöt",
     "Hankinnat",
@@ -96,7 +94,6 @@ export default function StackedBar({
 
   const emissionTotals = data?.reduce((allTotals, currentDate) => {
     const totalEmissions = keys.reduce((dailyTotal, k) => {
-      // console.log("current date", currentDate);
       dailyTotal += Number(currentDate[k]);
       return dailyTotal;
     }, 0);
@@ -114,8 +111,7 @@ export default function StackedBar({
     padding: 0.2,
   });
   const emissionScale = scaleLinear<number>({
-    domain: [0, maxEmission], //Math.max(...emissionTotals)],
-    nice: true,
+    domain: [0, maxEmission],
   });
   const colorScale = scaleOrdinal<CategoryName, string>({
     domain: keys,
@@ -140,8 +136,8 @@ export default function StackedBar({
 
   if (width < 10) return null;
   // bounds
-  const xMax = width;
-  const yMax = height - margin.top - 40;
+  const xMax = width - margin.left - margin.right;
+  const yMax = height - margin.top - margin.bottom;
 
   dateScale.rangeRound([0, xMax]);
   emissionScale.range([yMax, 0]);
@@ -172,6 +168,13 @@ export default function StackedBar({
             <AxisLeft
               hideTicks={true}
               numTicks={5}
+              label="Päästöt, kg CO2e"
+              labelOffset={45}
+              labelProps={{
+                fill: "black",
+                textAnchor: "middle",
+                fontSize: 14,
+              }}
               scale={emissionScale}
               stroke={"black"}
               tickStroke={"black"}
