@@ -34,27 +34,34 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
           </option>
         ))}
       </select>
-      <div className="h-[250px]">
-        <ParentSize>
-          {({ width, height }) => (
-            <>
-              <div className="flex space-x-10">
+
+      <div>
+        <div className="flex flex-wrap items-center  gap-14 text-left">
+          <div className="h-[250px] min-w-[30%]">
+            <ParentSize>
+              {({ width, height }) => (
                 <PieChart
-                  width={(width * 3) / 10}
+                  width={width}
                   height={height}
                   data={yearlyData}
                   year={year}
                 />
+              )}
+            </ParentSize>
+          </div>
+          <div className="h-[250px] min-w-[60%]">
+            <ParentSize>
+              {({ width, height }) => (
                 <StackedBar
-                  width={(width * 7) / 10}
+                  width={width}
                   height={height}
-                  year={year}
                   data={filteredMonthlyData}
+                  year={year}
                 />
-              </div>
-            </>
-          )}
-        </ParentSize>
+              )}
+            </ParentSize>
+          </div>
+        </div>
       </div>
     </div>
   );
