@@ -2,7 +2,7 @@ import React from "react";
 import { BarStack } from "@visx/shape";
 import { SeriesPoint } from "@visx/shape/lib/types";
 import { Group } from "@visx/group";
-import { Grid } from "@visx/grid";
+import { Grid, GridRows } from "@visx/grid";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip";
@@ -156,14 +156,14 @@ export default function StackedBar({
             rx={14}
           />
           <Group left={margin.left} top={margin.top}>
-            <Grid
-              xScale={dateScale}
-              yScale={emissionScale}
+            <GridRows
+              scale={emissionScale}
+              numTicks={5}
               width={xMax}
               height={yMax}
               stroke="black"
+              strokeDasharray="4"
               strokeOpacity={0.1}
-              xOffset={dateScale.bandwidth() / 2}
             />
             <AxisLeft
               hideTicks={true}
