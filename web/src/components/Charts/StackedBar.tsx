@@ -12,6 +12,7 @@ import { colors } from "./colors";
 import { MonthlyDataEntry } from "./ChartGroup";
 import { fi } from "date-fns/locale";
 import { format } from "date-fns";
+import { number } from "yup";
 
 type CategoryName =
   | "Toimitilat ja kiinteistöt"
@@ -21,7 +22,7 @@ type CategoryName =
 
 type MonthData = {
   [key in CategoryName]: number;
-} & { date: string };
+} & { date: string; month?: string };
 
 type TooltipData = {
   bar: SeriesPoint<MonthData>;
@@ -72,18 +73,26 @@ export default function StackedBar({
       Logistiikka: 0,
       Hankinnat: 0,
       date: "",
+      month: "",
     };
     let skeletons = [];
+    const addedMonths = acc.map((a) => a.month);
     for (let month of Object.keys(current.months)) {
-      const skeletonCopy = { ...skeleton };
-      skeletonCopy[current.name] = current.months[month];
-      let paddedMonth = month.toString().padStart(2, "0");
-      skeletonCopy.date = `${year}-${paddedMonth}-01`;
-      skeletons.push(skeletonCopy);
+      if (addedMonths.includes(month)) {
+        acc.find((a) => a.month === month)[current.name] =
+          current.months[month];
+      } else {
+        const skeletonCopy = { ...skeleton };
+        skeletonCopy[current.name] = current.months[month];
+        let paddedMonth = month.toString().padStart(2, "0");
+        skeletonCopy.date = `${year}-${paddedMonth}-01`;
+        skeletonCopy.month = month;
+        skeletons.push(skeletonCopy);
+      }
     }
     return acc.concat(skeletons);
   }, [] as MonthData[]);
-  const data = parsedData;
+  const data = parsedData?.sort((a, b) => Number(a.month) - Number(b.month));
 
   const keys = [
     "Toimitilat ja kiinteistöt",
@@ -92,14 +101,16 @@ export default function StackedBar({
     "Hallinto",
   ] as CategoryName[];
 
+  console.log("data", data);
   const emissionTotals = data?.reduce((allTotals, currentDate) => {
-    const totalEmissions = keys.reduce((dailyTotal, k) => {
-      dailyTotal += Number(currentDate[k]);
-      return dailyTotal;
+    const totalEmissions = keys.reduce((monthlyTotal, k) => {
+      monthlyTotal += Number(currentDate[k]);
+      return monthlyTotal;
     }, 0);
     allTotals.push(totalEmissions);
     return allTotals;
   }, [] as number[]);
+  console.log("emission totals", emissionTotals);
   const maxEmission = emissionTotals ? Math.max(...emissionTotals) : 0;
 
   const formatDate = (date: string) =>
