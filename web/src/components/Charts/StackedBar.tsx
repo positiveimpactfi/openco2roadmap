@@ -57,6 +57,13 @@ let tooltipTimeout: number;
 // accessors
 const getDate = (d: MonthData) => d.date;
 
+export const keys = [
+  "Toimitilat ja kiinteistöt",
+  "Hankinnat",
+  "Logistiikka",
+  "Hallinto",
+] as CategoryName[];
+
 export default function StackedBar({
   width,
   height,
@@ -93,14 +100,6 @@ export default function StackedBar({
   }, [] as MonthData[]);
   const data = parsedData?.sort((a, b) => Number(a.month) - Number(b.month));
 
-  const keys = [
-    "Toimitilat ja kiinteistöt",
-    "Hankinnat",
-    "Logistiikka",
-    "Hallinto",
-  ] as CategoryName[];
-
-  console.log("data", data);
   const emissionTotals = data?.reduce((allTotals, currentDate) => {
     const totalEmissions = keys.reduce((monthlyTotal, k) => {
       monthlyTotal += Number(currentDate[k]);
@@ -109,7 +108,6 @@ export default function StackedBar({
     allTotals.push(totalEmissions);
     return allTotals;
   }, [] as number[]);
-  console.log("emission totals", emissionTotals);
   const maxEmission = emissionTotals ? Math.max(...emissionTotals) : 0;
 
   const formatDate = (date: string) =>

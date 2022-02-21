@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { animated, to, useTransition } from "react-spring";
 import { colors } from "./colors";
 import { Text } from "@visx/text";
+import { keys } from "./StackedBar";
 
 // data and types
 
@@ -41,7 +42,6 @@ export default function PieChart({
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
     null
   );
-  const categories = data.map((d) => d.name);
   const total = (year: number) => {
     let filteredData = data;
     if (selectedComponent) {
@@ -54,7 +54,7 @@ export default function PieChart({
   };
 
   const colorScale = scaleOrdinal({
-    domain: categories,
+    domain: keys as string[],
     range: colors,
   });
   if (width < 10) return null;
