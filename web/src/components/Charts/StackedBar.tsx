@@ -44,7 +44,7 @@ export type BarStackProps = {
 };
 
 const background = "white";
-const defaultMargin = { top: 40, right: 0, bottom: 0, left: 40 };
+const defaultMargin = { top: 40, right: 0, bottom: 0, left: 50 };
 const tooltipStyles = {
   ...defaultStyles,
   minWidth: 60,
@@ -56,18 +56,6 @@ let tooltipTimeout: number;
 
 // accessors
 const getDate = (d: MonthData) => d.date;
-
-const range = (start, end, step = 1) => {
-  let output = [];
-  if (typeof end === "undefined") {
-    end = start;
-    start = 0;
-  }
-  for (let i = start; i < end; i += step) {
-    output.push(i);
-  }
-  return output;
-};
 
 export default function StackedBar({
   width,
@@ -157,11 +145,6 @@ export default function StackedBar({
 
   dateScale.rangeRound([0, xMax]);
   emissionScale.range([yMax, 0]);
-  const testRange = range(
-    0,
-    Math.ceil(maxEmission / 1000) * 1000,
-    (Math.ceil(maxEmission / 1000) * 1000) / 5
-  );
 
   return width < 10 ? null : (
     <div>
@@ -176,18 +159,43 @@ export default function StackedBar({
             fill={background}
             rx={14}
           />
-          <Grid
-            top={margin.top}
-            left={margin.left}
-            xScale={dateScale}
-            yScale={emissionScale}
-            width={xMax}
-            height={yMax}
-            stroke="black"
-            strokeOpacity={0.1}
-            xOffset={dateScale.bandwidth() / 2}
-          />
-          <Group left={100} top={margin.top}>
+          <Group left={margin.left} top={margin.top}>
+            <Grid
+              xScale={dateScale}
+              yScale={emissionScale}
+              width={xMax}
+              height={yMax}
+              stroke="black"
+              strokeOpacity={0.1}
+              xOffset={dateScale.bandwidth() / 2}
+            />
+            <AxisLeft
+              hideTicks={true}
+              numTicks={5}
+              scale={emissionScale}
+              stroke={"black"}
+              tickStroke={"black"}
+              tickLabelProps={() => ({
+                fill: "black",
+                fontSize: 11,
+                textAnchor: "end",
+              })}
+            />
+            <AxisBottom
+              hideTicks={true}
+              hideAxisLine={true}
+              top={yMax}
+              scale={dateScale}
+              tickFormat={formatDate}
+              stroke={"black"}
+              tickStroke={"black"}
+              tickLabelProps={() => ({
+                fill: "black",
+                fontSize: 11,
+                textAnchor: "middle",
+              })}
+            />
+
             <BarStack<MonthData, CategoryName>
               data={data}
               keys={keys}
@@ -233,36 +241,6 @@ export default function StackedBar({
               }
             </BarStack>
           </Group>
-          <AxisBottom
-            hideTicks={true}
-            hideAxisLine={true}
-            left={100}
-            top={yMax + margin.top}
-            scale={dateScale}
-            tickFormat={formatDate}
-            stroke={"black"}
-            tickStroke={"black"}
-            tickLabelProps={() => ({
-              fill: "black",
-              fontSize: 11,
-              textAnchor: "middle",
-            })}
-          />
-          <AxisLeft
-            hideTicks={true}
-            top={yMax + margin.top - 170}
-            tickValues={testRange}
-            left={60}
-            scale={emissionScale}
-            // tickFormat=
-            stroke={"black"}
-            tickStroke={"black"}
-            tickLabelProps={() => ({
-              fill: "black",
-              fontSize: 11,
-              textAnchor: "end",
-            })}
-          />
         </svg>
         <div
           className="absolute flex w-full justify-center "
