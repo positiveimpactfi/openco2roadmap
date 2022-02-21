@@ -5,6 +5,7 @@ import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
 import React, { useState } from "react";
 import { animated, to, useTransition } from "react-spring";
 import { colors } from "./colors";
+import { Text } from "@visx/text";
 
 // data and types
 
@@ -102,37 +103,17 @@ export default function PieChart({
                 />
               )}
             </Pie>
+            <Text width={70} textAnchor="middle" fontSize={20} fontWeight={800}>
+              {`${
+                total(year) >= 1000
+                  ? (total(year) / 1000).toFixed(1) + " t"
+                  : total(year).toFixed(0) + " kg"
+              }`}
+            </Text>
+            <Text width={70} textAnchor="middle" y={25}>
+              CO2e
+            </Text>
           </Group>
-          {animate && (
-            <>
-              <text
-                textAnchor="end"
-                x={width / 2 - 80}
-                y={height / 2}
-                fill="black"
-                fontSize={20}
-                fontWeight={800}
-                pointerEvents="none"
-              >
-                {`${
-                  total(year) >= 1000
-                    ? (total(year) / 1000).toFixed(1) + " t"
-                    : total(year).toFixed(0) + " kg"
-                }`}
-              </text>
-              <text
-                textAnchor="end"
-                x={width / 2 - 90}
-                y={height / 2 + 20}
-                fill="black"
-                fontSize={16}
-                fontWeight={400}
-                pointerEvents="none"
-              >
-                CO2e
-              </text>
-            </>
-          )}
         </svg>
         <MyLegend
           colorScale={colorScale}
