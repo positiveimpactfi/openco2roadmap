@@ -17,7 +17,7 @@ export interface YearlyDataEntry {
 
 const getValue = (d: YearlyDataEntry, year: number) => d.years[year];
 
-const defaultMargin = { top: 20, right: 20, bottom: 20, left: 50 };
+const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 };
 
 export type PieProps = {
   width: number;
@@ -65,7 +65,7 @@ export default function PieChart({
       <h1 className="pb-4 text-xl font-semibold">Päästöjen jakauma v.{year}</h1>
       <div className="flex max-w-lg items-center rounded-md bg-white">
         <svg height={height}>
-          <Group top={centerY + margin.top} left={120}>
+          <Group top={centerY + margin.top} left={centerX + margin.left}>
             <Pie
               data={
                 selectedComponent

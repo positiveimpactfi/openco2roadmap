@@ -61,8 +61,8 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
       </select>
 
       <div>
-        <div className="flex flex-wrap items-center gap-14 text-left">
-          <div className="h-[250px] min-w-[30%]">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-14 text-left">
+          <div className="h-[250px] w-full min-w-[200px] max-w-[300px]">
             <ParentSize>
               {({ width, height }) => (
                 <PieChart
@@ -76,12 +76,14 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
               )}
             </ParentSize>
           </div>
-          <Legend
-            colorScale={colorScale}
-            selectedComponent={selectedComponent}
-            setSelectedComponent={setSelectedComponent}
-          />
-          <div className="h-[250px] min-w-[60%]">
+          <div className="h-[250px]">
+            <Legend
+              colorScale={colorScale}
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+            />
+          </div>
+          <div className="h-[250px] w-full min-w-[400px] max-w-[800px]">
             <ParentSize>
               {({ width, height }) => (
                 <StackedBar
