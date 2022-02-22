@@ -33,7 +33,7 @@
     },
     "footprints": {
       "title": "Hiilijalanjäljet",
-      "description": "Päästölaskennan yhteenvedot muodostetaan hiilijalanjäljet-sivulla.",
+      "description": "Tällä sivulla voit tarkastella yrityksesi hiilijalanjälkeä. Valitse tarkasteluvuosi pudotusvalikosta.",
       "table": {
         "headers": ["Hiilijalanjäljen Yhteenveto"]
       }

@@ -33,7 +33,7 @@
     },
     "footprints": {
       "title": "Footprints",
-      "description": "Footprints description",
+      "description": "You can check your company's footprints on this page. Select the year from the year dropdown menu.",
       "table": {
         "headers": ["Footprint summary"]
       }
