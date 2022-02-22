@@ -2,7 +2,6 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
-import { LegendOrdinal } from "@visx/legend";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { BarStack } from "@visx/shape";
 import { SeriesPoint } from "@visx/shape/lib/types";
@@ -239,19 +238,6 @@ export default function StackedBar({
               </BarStack>
             </Group>
           </svg>
-        </div>
-        <div
-          className="absolute flex w-full justify-center "
-          style={{
-            top: margin.top / 2 - 10,
-            fontSize: "14px",
-          }}
-        >
-          <LegendOrdinal
-            scale={colorScale}
-            direction="row"
-            labelMargin="0 15px 0 0"
-          />
         </div>
 
         {tooltipOpen && tooltipData && (
