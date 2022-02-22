@@ -11,14 +11,8 @@ import { format } from "date-fns";
 import { fi } from "date-fns/locale";
 import React from "react";
 import { numberToString } from "utils/numberToString";
-import { MonthlyDataEntry } from "./ChartGroup";
+import { CategoryName, colorScale, keys, MonthlyDataEntry } from "./ChartGroup";
 import { colors } from "./colors";
-
-type CategoryName =
-  | "Toimitilat ja kiinteistöt"
-  | "Hankinnat"
-  | "Logistiikka"
-  | "Hallinto";
 
 type MonthData = {
   [key in CategoryName]: number;
@@ -57,13 +51,6 @@ let tooltipTimeout: number;
 
 // accessors
 const getDate = (d: MonthData) => d.date;
-
-export const keys = [
-  "Toimitilat ja kiinteistöt",
-  "Hankinnat",
-  "Logistiikka",
-  "Hallinto",
-] as CategoryName[];
 
 export default function StackedBar({
   width,
@@ -122,11 +109,6 @@ export default function StackedBar({
   const emissionScale = scaleLinear<number>({
     domain: [0, maxEmission],
   });
-  const colorScale = scaleOrdinal<CategoryName, string>({
-    domain: keys,
-    range: colors,
-  });
-
   const {
     tooltipOpen,
     tooltipLeft,

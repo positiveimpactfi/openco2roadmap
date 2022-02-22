@@ -2,6 +2,9 @@ import { useState } from "react";
 import PieChart, { YearlyDataEntry } from "./Pie";
 import StackedBar from "./StackedBar";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import Legend from "./Legend";
+import { scaleOrdinal } from "@visx/scale";
+import { colors } from "./colors";
 
 export interface MonthlyDataEntry {
   name: string;
@@ -15,6 +18,24 @@ interface ChartGroupProps {
   monthlyData: MonthlyDataEntry[];
   years: number[];
 }
+
+export type CategoryName =
+  | "Toimitilat ja kiinteistöt"
+  | "Hankinnat"
+  | "Logistiikka"
+  | "Hallinto";
+
+export const keys = [
+  "Toimitilat ja kiinteistöt",
+  "Hankinnat",
+  "Logistiikka",
+  "Hallinto",
+] as CategoryName[];
+
+export const colorScale = scaleOrdinal({
+  domain: keys as string[],
+  range: colors,
+});
 
 const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -36,7 +57,7 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
       </select>
 
       <div>
-        <div className="flex flex-wrap items-center  gap-14 text-left">
+        <div className="flex flex-wrap items-center gap-14 text-left">
           <div className="h-[250px] min-w-[30%]">
             <ParentSize>
               {({ width, height }) => (

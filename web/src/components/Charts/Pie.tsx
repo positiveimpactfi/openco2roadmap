@@ -1,13 +1,11 @@
 import { Group } from "@visx/group";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
-import { scaleOrdinal } from "@visx/scale";
 import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
+import { Text } from "@visx/text";
 import React, { useState } from "react";
 import { animated, to, useTransition } from "react-spring";
-import { colors } from "./colors";
-import { Text } from "@visx/text";
-import { keys } from "./StackedBar";
 import { numberToString } from "utils/numberToString";
+import { colorScale } from "./ChartGroup";
 
 // data and types
 
@@ -18,8 +16,6 @@ export interface YearlyDataEntry {
 }
 
 const getValue = (d: YearlyDataEntry, year: number) => d.years[year];
-
-// color scales
 
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 50 };
 
@@ -54,10 +50,6 @@ export default function PieChart({
     }, 0);
   };
 
-  const colorScale = scaleOrdinal({
-    domain: keys as string[],
-    range: colors,
-  });
   if (width < 10) return null;
 
   const innerWidth = width - margin.left - margin.right;
