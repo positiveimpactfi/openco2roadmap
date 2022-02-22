@@ -89,6 +89,7 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
                   height={height}
                   data={filteredMonthlyData}
                   year={year}
+                  selectedComponent={selectedComponent}
                 />
               )}
             </ParentSize>

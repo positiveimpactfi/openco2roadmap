@@ -35,6 +35,7 @@ export type BarStackProps = {
   events?: boolean;
   year: number;
   data: MonthlyDataEntry[];
+  selectedComponent: string;
 };
 
 const defaultMargin = { top: 40, right: 0, bottom: 40, left: 80 };
@@ -57,8 +58,16 @@ export default function StackedBar({
   margin = defaultMargin,
   year,
   data: filteredData,
+  selectedComponent,
 }: BarStackProps) {
-  const parsedData = filteredData?.reduce((acc, current) => {
+  let filteredFilteredData = filteredData;
+  if (selectedComponent) {
+    filteredFilteredData = filteredData?.filter(
+      (c) => c.name === selectedComponent
+    );
+  }
+
+  const parsedData = filteredFilteredData?.reduce((acc, current) => {
     let skeleton = {
       "Toimitilat ja kiinteistöt": 0,
       Hallinto: 0,
