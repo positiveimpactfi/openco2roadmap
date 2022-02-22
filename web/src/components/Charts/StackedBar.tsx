@@ -3,7 +3,7 @@ import { localPoint } from "@visx/event";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { LegendOrdinal } from "@visx/legend";
-import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
+import { scaleBand, scaleLinear } from "@visx/scale";
 import { BarStack } from "@visx/shape";
 import { SeriesPoint } from "@visx/shape/lib/types";
 import { defaultStyles, useTooltip, useTooltipInPortal } from "@visx/tooltip";
@@ -12,7 +12,6 @@ import { fi } from "date-fns/locale";
 import React from "react";
 import { numberToString } from "utils/numberToString";
 import { CategoryName, colorScale, keys, MonthlyDataEntry } from "./ChartGroup";
-import { colors } from "./colors";
 
 type MonthData = {
   [key in CategoryName]: number;
@@ -38,7 +37,6 @@ export type BarStackProps = {
   data: MonthlyDataEntry[];
 };
 
-const background = "white";
 const defaultMargin = { top: 40, right: 0, bottom: 40, left: 80 };
 const tooltipStyles = {
   ...defaultStyles,

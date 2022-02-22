@@ -26,6 +26,8 @@ export type PieProps = {
   animate?: boolean;
   data: YearlyDataEntry[];
   year: number;
+  selectedComponent: string;
+  setSelectedComponent: (val: string) => void;
 };
 
 export default function PieChart({
@@ -35,10 +37,9 @@ export default function PieChart({
   animate = true,
   data,
   year,
+  selectedComponent,
+  setSelectedComponent,
 }: PieProps) {
-  const [selectedComponent, setSelectedComponent] = useState<string | null>(
-    null
-  );
   const total = (year: number) => {
     let filteredData = data;
     if (selectedComponent) {
@@ -108,11 +109,6 @@ export default function PieChart({
             </Text>
           </Group>
         </svg>
-        <MyLegend
-          colorScale={colorScale}
-          selectedComponent={selectedComponent}
-          setSelectedComponent={setSelectedComponent}
-        />
       </div>
     </div>
   );
@@ -176,52 +172,3 @@ function AnimatedPie<Datum>({
     );
   });
 }
-
-const MyLegend = ({
-  colorScale,
-  selectedComponent,
-  setSelectedComponent,
-}: {
-  colorScale: any;
-  selectedComponent: string;
-  setSelectedComponent: (c: string) => void;
-}) => {
-  const legendGlyphSize = 15;
-  return (
-    <LegendOrdinal scale={colorScale}>
-      {(labels) => (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {labels.map((label, i) => (
-            <LegendItem
-              key={`legend-quantile-${i}`}
-              margin="0 5px"
-              onClick={(e) => {
-                if (e)
-                  setSelectedComponent(
-                    selectedComponent && selectedComponent === label.text
-                      ? null
-                      : label.text
-                  );
-              }}
-            >
-              <svg width={legendGlyphSize} height={legendGlyphSize}>
-                <rect
-                  fill={label.value}
-                  width={legendGlyphSize}
-                  height={legendGlyphSize}
-                />
-              </svg>
-              <LegendLabel
-                align="left"
-                margin="0 0 0 4px"
-                className="cursor-pointer"
-              >
-                {label.text}
-              </LegendLabel>
-            </LegendItem>
-          ))}
-        </div>
-      )}
-    </LegendOrdinal>
-  );
-};

@@ -39,6 +39,10 @@ export const colorScale = scaleOrdinal({
 
 const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
   const [year, setYear] = useState(new Date().getFullYear());
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(
+    null
+  );
+
   const filteredMonthlyData = monthlyData?.filter((m) => m.year === year);
 
   return (
@@ -66,10 +70,17 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
                   height={height}
                   data={yearlyData}
                   year={year}
+                  selectedComponent={selectedComponent}
+                  setSelectedComponent={setSelectedComponent}
                 />
               )}
             </ParentSize>
           </div>
+          <Legend
+            colorScale={colorScale}
+            selectedComponent={selectedComponent}
+            setSelectedComponent={setSelectedComponent}
+          />
           <div className="h-[250px] min-w-[60%]">
             <ParentSize>
               {({ width, height }) => (
