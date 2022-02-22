@@ -1,13 +1,9 @@
 import { Group } from "@visx/group";
-import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
 import { Text } from "@visx/text";
-import React, { useState } from "react";
 import { animated, to, useTransition } from "react-spring";
 import { numberToString } from "utils/numberToString";
 import { colorScale } from "./ChartGroup";
-
-// data and types
 
 export interface YearlyDataEntry {
   name: string;
