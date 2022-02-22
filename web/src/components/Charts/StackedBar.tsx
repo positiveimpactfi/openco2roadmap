@@ -156,107 +156,101 @@ export default function StackedBar({
     <div>
       <h1 className="pb-4 text-xl font-semibold">Päästöjen kehitys v.{year}</h1>
       <div className="relative">
-        <svg ref={containerRef} width={width} height={height}>
-          <rect
-            x={0}
-            y={0}
-            width={width}
-            height={height}
-            fill={background}
-            rx={14}
-          />
-          <Group left={margin.left} top={margin.top}>
-            <GridRows
-              scale={emissionScale}
-              numTicks={5}
-              width={xMax}
-              height={yMax}
-              stroke="black"
-              strokeDasharray="4"
-              strokeOpacity={0.1}
-            />
-            <AxisLeft
-              hideTicks={true}
-              numTicks={5}
-              label="Päästöt, t CO2e"
-              labelOffset={45}
-              labelProps={{
-                fill: "black",
-                textAnchor: "middle",
-                fontSize: 14,
-              }}
-              scale={emissionScale}
-              stroke={"black"}
-              tickStroke={"black"}
-              hideZero={true}
-              tickFormat={(n) => numberToString(Number(n))}
-              tickLabelProps={() => ({
-                fill: "black",
-                fontSize: 11,
-                textAnchor: "end",
-              })}
-            />
-            <AxisBottom
-              hideTicks={true}
-              hideAxisLine={true}
-              top={yMax}
-              scale={dateScale}
-              tickFormat={formatDate}
-              stroke={"black"}
-              tickStroke={"black"}
-              tickLabelProps={() => ({
-                fill: "black",
-                fontSize: 11,
-                textAnchor: "middle",
-              })}
-            />
+        <div className="flex rounded-md bg-white">
+          <svg ref={containerRef} width={width} height={height}>
+            <Group left={margin.left} top={margin.top}>
+              <GridRows
+                scale={emissionScale}
+                numTicks={5}
+                width={xMax}
+                height={yMax}
+                stroke="black"
+                strokeDasharray="4"
+                strokeOpacity={0.1}
+              />
+              <AxisLeft
+                hideTicks={true}
+                numTicks={5}
+                label="Päästöt, t CO2e"
+                labelOffset={45}
+                labelProps={{
+                  fill: "black",
+                  textAnchor: "middle",
+                  fontSize: 14,
+                }}
+                scale={emissionScale}
+                stroke={"black"}
+                tickStroke={"black"}
+                hideZero={true}
+                tickFormat={(n) => numberToString(Number(n))}
+                tickLabelProps={() => ({
+                  fill: "black",
+                  fontSize: 11,
+                  textAnchor: "end",
+                })}
+              />
+              <AxisBottom
+                hideTicks={true}
+                hideAxisLine={true}
+                top={yMax}
+                scale={dateScale}
+                tickFormat={formatDate}
+                stroke={"black"}
+                tickStroke={"black"}
+                tickLabelProps={() => ({
+                  fill: "black",
+                  fontSize: 11,
+                  textAnchor: "middle",
+                })}
+              />
 
-            <BarStack<MonthData, CategoryName>
-              data={data}
-              keys={keys}
-              x={getDate}
-              xScale={dateScale}
-              yScale={emissionScale}
-              color={colorScale}
-            >
-              {(barStacks) =>
-                barStacks.map((barStack) =>
-                  barStack.bars.map((bar) => (
-                    <rect
-                      key={`bar-stack-${barStack.index}-${bar.index}`}
-                      x={bar.x}
-                      y={bar.y}
-                      height={bar.height}
-                      width={bar.width}
-                      fill={bar.color}
-                      onClick={() => {
-                        if (events) alert(`clicked: ${JSON.stringify(bar)}`);
-                      }}
-                      onMouseLeave={() => {
-                        tooltipTimeout = window.setTimeout(() => {
-                          hideTooltip();
-                        }, 300);
-                      }}
-                      onMouseMove={(event) => {
-                        if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                        // TooltipInPortal expects coordinates to be relative to containerRef
-                        // localPoint returns coordinates relative to the nearest SVG, which
-                        // is what containerRef is set to in this example.
-                        const eventSvgCoords = localPoint(event);
-                        const left = bar.x + bar.width / 2;
-                        showTooltip({
-                          tooltipData: bar,
-                          tooltipTop: eventSvgCoords?.y,
-                          tooltipLeft: left,
-                        });
-                      }}
-                    />
-                  ))
-                )
-              }
-            </BarStack>
-          </Group>
-        </svg>
+              <BarStack<MonthData, CategoryName>
+                data={data}
+                keys={keys}
+                x={getDate}
+                xScale={dateScale}
+                yScale={emissionScale}
+                color={colorScale}
+              >
+                {(barStacks) =>
+                  barStacks.map((barStack) =>
+                    barStack.bars.map((bar) => (
+                      <rect
+                        key={`bar-stack-${barStack.index}-${bar.index}`}
+                        x={bar.x}
+                        y={bar.y}
+                        height={bar.height}
+                        width={bar.width}
+                        fill={bar.color}
+                        onClick={() => {
+                          if (events) alert(`clicked: ${JSON.stringify(bar)}`);
+                        }}
+                        onMouseLeave={() => {
+                          tooltipTimeout = window.setTimeout(() => {
+                            hideTooltip();
+                          }, 300);
+                        }}
+                        onMouseMove={(event) => {
+                          if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                          // TooltipInPortal expects coordinates to be relative to containerRef
+                          // localPoint returns coordinates relative to the nearest SVG, which
+                          // is what containerRef is set to in this example.
+                          const eventSvgCoords = localPoint(event);
+                          const left = bar.x + bar.width / 2;
+                          showTooltip({
+                            tooltipData: bar,
+                            tooltipTop: eventSvgCoords?.y,
+                            tooltipLeft: left,
+                          });
+                        }}
+                      />
+                    ))
+                  )
+                }
+              </BarStack>
+            </Group>
+          </svg>
+        </div>
         <div
           className="absolute flex w-full justify-center "
           style={{
