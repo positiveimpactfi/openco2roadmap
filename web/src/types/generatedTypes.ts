@@ -40,12 +40,6 @@ export type CalculationResult = {
   startDate: Scalars['DateTime'];
 };
 
-export type CalculationSummary = {
-  __typename?: 'CalculationSummary';
-  categoryid?: Maybe<Scalars['String']>;
-  yearlysums?: Maybe<Scalars['String']>;
-};
-
 export type Category = {
   __typename?: 'Category';
   components: Array<Component>;
@@ -263,6 +257,13 @@ export enum MeasurementUnitType {
   T = 't',
   Tkm = 'tkm'
 }
+
+export type MonthlyCalculationSummary = {
+  __typename?: 'MonthlyCalculationSummary';
+  categoryid?: Maybe<Scalars['String']>;
+  monthlysums?: Maybe<Scalars['String']>;
+  year?: Maybe<Scalars['Int']>;
+};
 
 export type Municipality = {
   __typename?: 'Municipality';
@@ -514,7 +515,8 @@ export type Query = {
   myEmissionFactors: Array<EmissionFactor>;
   myOrganizationDataEntries: Array<DataEntry>;
   myOrganizationEmissionFactors: Array<EmissionFactor>;
-  myOrganizationEmissionsByCategoryAndYear: Array<CalculationSummary>;
+  myOrganizationEmissionsByCategoryAndMonth: Array<MonthlyCalculationSummary>;
+  myOrganizationEmissionsByCategoryAndYear: Array<YearlyCalculationSummary>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
   siteTypes: Array<SiteType>;
@@ -622,4 +624,10 @@ export type UserRole = {
   id: Scalars['Float'];
   name: Scalars['String'];
   organizationID: Scalars['String'];
+};
+
+export type YearlyCalculationSummary = {
+  __typename?: 'YearlyCalculationSummary';
+  categoryid?: Maybe<Scalars['String']>;
+  yearlysums?: Maybe<Scalars['String']>;
 };

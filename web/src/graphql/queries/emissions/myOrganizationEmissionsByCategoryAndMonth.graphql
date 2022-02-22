@@ -1,0 +1,7 @@
+query MyOrganizationEmissionsByCategoryAndMonth {
+  myOrganizationEmissionsByCategoryAndMonth {
+    categoryid
+    year
+    monthlysums
+  }
+}
