@@ -12,10 +12,6 @@
         "title": "Organization info",
         "description": "Fill in your organization info based on the last fiscal year"
       },
-      "kpis": {
-        "title": "KPIs",
-        "description": "KPI section"
-      },
       "form": {
         "name": "Organization name",
         "id": "VAT-number",

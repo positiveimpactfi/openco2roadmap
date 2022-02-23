@@ -12,10 +12,6 @@
         "title": "Yrityksen tiedot",
         "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
       },
-      "kpis": {
-        "title": "Tunnusluvut",
-        "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
-      },
       "form": {
         "name": "Yrityksen nimi",
         "id": "Y-tunnus",
