@@ -23,6 +23,11 @@
         "business_field": "Toimiala"
       }
     },
+    "kpis": {
+      "title": "Tunnusluvut",
+      "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan.",
+      "description_long": "Hiilijalanjälkeä on hyödyllistä tutkia myös erilaisiin tunnuslukuihin verraten. Kun syötät tälle sivulle yrityksesi toimintaa kuvaavat tunnusluvut, pääset Hiilijalanjäljet-sivulla tarkastelemaan yrityksesi vuosittaista hiilijalanjälkeä näihin suhteutettuna."
+    },
     "sites": {
       "title": "Toimipaikat",
       "description": "Ennen laskennan aloittamista luo yrityksellesi toimipaikkarakenne.",
