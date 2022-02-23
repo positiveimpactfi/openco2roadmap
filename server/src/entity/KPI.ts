@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { KPIValue } from "./KPIValue";
+import { MeasurementUnit } from "./MeasurementUnit";
 import { Organization } from "./Organization";
 
 @ObjectType()
@@ -21,11 +22,17 @@ export class KPI extends BaseEntity {
   @Column()
   name!: string;
 
-  @Field(() => Organization)
-  @ManyToOne(() => Organization, (organization) => organization.kpis)
-  organization: Promise<Organization>;
+  @Field(() => Organization, { nullable: true })
+  @ManyToOne(() => Organization, (organization) => organization.kpis, {
+    nullable: true,
+  })
+  organization: Organization;
 
   @Field(() => [KPIValue])
-  @OneToMany(() => KPIValue, (value) => value.parentKPI)
-  values: Promise<KPIValue[]>;
+  @OneToMany(() => KPIValue, (value) => value.parent)
+  values: KPIValue[];
+
+  @Field(() => MeasurementUnit, { nullable: true })
+  @ManyToOne(() => MeasurementUnit, { nullable: true })
+  unit: MeasurementUnit;
 }

@@ -25,5 +25,5 @@ export class KPIValue extends BaseEntity {
 
   @Field(() => KPI)
   @ManyToOne(() => KPI, (kpi) => kpi.values)
-  parentKPI: Promise<KPI>;
+  parent: KPI;
 }
