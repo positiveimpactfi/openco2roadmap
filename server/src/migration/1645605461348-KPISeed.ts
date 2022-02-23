@@ -14,6 +14,7 @@ export class KPISeed1645605461348 implements MigrationInterface {
           await queryRunner.connection.manager
             .create(KPI, {
               name: kpi.name,
+              organization: undefined,
             })
             .save();
         } else {
@@ -21,6 +22,7 @@ export class KPISeed1645605461348 implements MigrationInterface {
             .create(KPI, {
               name: kpi.name,
               unit: measurementUnit ? measurementUnit : undefined,
+              organization: undefined,
             })
             .save();
         }
@@ -28,6 +30,7 @@ export class KPISeed1645605461348 implements MigrationInterface {
         await queryRunner.connection.manager
           .create(KPI, {
             name: kpi.name,
+            organization: undefined,
           })
           .save();
       }

@@ -10,6 +10,12 @@ export class KPI1645528067443 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "kpi_value" RENAME COLUMN "parentKPIId" TO "parentId"`
     );
+    await queryRunner.query(
+      `ALTER TABLE "kpi_value" ADD "organizationId" uuid`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "kpi_value" ADD CONSTRAINT "FK_4772ae0a0d2f5e200f38c5282de" FOREIGN KEY ("organizationId") REFERENCES "organization"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
     await queryRunner.query(`ALTER TABLE "kpi" ADD "unitId" integer`);
     await queryRunner.query(
       `ALTER TABLE "kpi_value" ADD CONSTRAINT "FK_fd1f1473f16552df22c5f388363" FOREIGN KEY ("parentId") REFERENCES "kpi"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
@@ -25,6 +31,12 @@ export class KPI1645528067443 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "kpi_value" DROP CONSTRAINT "FK_fd1f1473f16552df22c5f388363"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "kpi_value" DROP CONSTRAINT "FK_4772ae0a0d2f5e200f38c5282de"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "kpi_value" DROP COLUMN "organizationId"`
     );
     await queryRunner.query(`ALTER TABLE "kpi" DROP COLUMN "unitId"`);
     await queryRunner.query(

@@ -28,7 +28,7 @@ export class KPI extends BaseEntity {
   })
   organization: Organization;
 
-  @Field(() => [KPIValue])
+  @Field(() => [KPIValue], { defaultValue: [] })
   @OneToMany(() => KPIValue, (value) => value.parent)
   values: KPIValue[];
 
