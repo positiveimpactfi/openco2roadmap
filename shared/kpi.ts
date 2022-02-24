@@ -1,9 +1,7 @@
-import { Organization } from "../server/src/entity";
-import { MeasurementUnitType } from "../server/src/types";
+import { MeasurementUnitType } from "./types/MeasurementUnitType";
 
 interface KPI {
   name: string;
-  owner?: Organization;
   unit?: MeasurementUnitType;
 }
 
