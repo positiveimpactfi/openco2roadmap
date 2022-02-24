@@ -13,14 +13,16 @@ const KPISettingsPage = () => {
   const kpis = publicKPI?.publicKPIs;
   const myKpis = data?.myOrganizationKPIs;
 
-  const allYears = myKpis?.reduce((acc, current) => {
-    let newEntries = [];
-    for (let value of current.values) {
-      if (!acc.includes(value.year.toString()))
-        newEntries.push(value.year.toString());
-    }
-    return acc.concat(newEntries);
-  }, []);
+  const allYears = myKpis
+    ?.reduce((acc, current) => {
+      let newEntries = [];
+      for (let value of current.values) {
+        if (!acc.includes(value.year.toString()))
+          newEntries.push(value.year.toString());
+      }
+      return acc.concat(newEntries);
+    }, [])
+    .sort();
 
   const allKPIs = myKpis?.reduce((acc, current) => {
     if (!acc.map((a) => a.name).includes(current.name)) {
@@ -29,7 +31,6 @@ const KPISettingsPage = () => {
     return acc;
   }, []);
 
-  console.log("myKPI", myKpis);
   return (
     <SettingsPanel
       title={t("pages.kpis.title")}
@@ -48,9 +49,10 @@ const KPISettingsPage = () => {
                   (v) => v.year.toString() === y
                 )?.value;
                 const kpiUnit = foundKpi?.unit?.shorthand;
-                value = kpiUnit
-                  ? numberToString(kpiValue) + " " + kpiUnit
-                  : numberToString(kpiValue);
+                value =
+                  kpiUnit && kpiValue
+                    ? numberToString(kpiValue) + " " + kpiUnit
+                    : numberToString(kpiValue);
               }
               return (
                 <TableCell
