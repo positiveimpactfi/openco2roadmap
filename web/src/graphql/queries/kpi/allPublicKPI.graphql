@@ -1,0 +1,6 @@
+query AllPublicKPI {
+  publicKPIs {
+    id
+    name
+  }
+}

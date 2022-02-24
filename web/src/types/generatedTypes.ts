@@ -199,14 +199,16 @@ export type Kpi = {
   __typename?: 'KPI';
   id: Scalars['ID'];
   name: Scalars['String'];
-  organization: Organization;
-  values: Array<KpiValue>;
+  organization?: Maybe<Organization>;
+  unit?: Maybe<MeasurementUnit>;
+  values?: Maybe<Array<KpiValue>>;
 };
 
 export type KpiValue = {
   __typename?: 'KPIValue';
   id: Scalars['ID'];
-  parentKPI: Kpi;
+  organization?: Maybe<Organization>;
+  parent: Kpi;
   value: Scalars['Float'];
   year: Scalars['Int'];
 };
@@ -282,6 +284,7 @@ export type Mutation = {
   createEmissionFactor: EmissionFactor;
   createEmissionFactorValue: EmissionFactorValue;
   createEmissionSource: EmissionSource;
+  createKPIValue: KpiValue;
   createOrganization: Organization;
   createRegistrationRequest: RegistrationRequest;
   createSite: Site;
@@ -355,6 +358,13 @@ export type MutationCreateEmissionFactorValueArgs = {
 export type MutationCreateEmissionSourceArgs = {
   componentIDs: Array<Scalars['String']>;
   name: Scalars['String'];
+};
+
+
+export type MutationCreateKpiValueArgs = {
+  kpiID: Scalars['String'];
+  value: Scalars['Float'];
+  year: Scalars['Float'];
 };
 
 
@@ -501,6 +511,8 @@ export type Query = {
   allEmissionFactors: Array<EmissionFactor>;
   allEmissionSources: Array<EmissionSource>;
   allInvitedUsers: Array<InvitedUser>;
+  allKPIValues: Array<KpiValue>;
+  allKPIs: Array<Kpi>;
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;
@@ -517,8 +529,10 @@ export type Query = {
   myOrganizationEmissionFactors: Array<EmissionFactor>;
   myOrganizationEmissionsByCategoryAndMonth: Array<MonthlyCalculationSummary>;
   myOrganizationEmissionsByCategoryAndYear: Array<YearlyCalculationSummary>;
+  myOrganizationKPIs: Array<Kpi>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
+  publicKPIs: Array<Kpi>;
   siteTypes: Array<SiteType>;
   units: Array<MeasurementUnit>;
   usersInOrganization: Array<User>;

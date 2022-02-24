@@ -1,0 +1,20 @@
+query MyOrganizationKPIValues {
+  myOrganizationKPIs {
+    id
+    name
+    organization {
+      name
+    }
+    values {
+      value
+      year
+      organization {
+        name
+      }
+    }
+    unit {
+      name
+      shorthand
+    }
+  }
+}
