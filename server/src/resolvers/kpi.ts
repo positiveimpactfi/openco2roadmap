@@ -19,6 +19,15 @@ export class KPIResolver {
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Query(() => [KPI])
+  publicKPIs() {
+    return KPI.createQueryBuilder("kpi")
+      .select(["kpi.id", "kpi.name"])
+      .where("kpi.organization IS NULL")
+      .getMany();
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Query(() => [KPI])
   async myOrganizationKPIs(
     @Ctx() { req }: MyContext
   ): Promise<KPI[] | undefined> {
