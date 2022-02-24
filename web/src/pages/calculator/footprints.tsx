@@ -2,8 +2,6 @@ import { emissionCategories } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import ChartGroup from "components/Charts/ChartGroup";
-import PieChart from "components/Charts/Pie";
-import StackedBar from "components/Charts/StackedBar";
 import LoadingBar from "components/LoadingBar";
 import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useMyOrganizationEmissionsByCategoryAndMonthQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndMonth.generated";
