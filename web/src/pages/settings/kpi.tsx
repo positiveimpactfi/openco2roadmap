@@ -22,25 +22,26 @@ const KPISettingsPage = () => {
     return acc.concat(newEntries);
   }, []);
 
-  const allCategories = myKpis?.reduce((acc, current) => {
-    if (!acc.includes(current.name)) {
-      return acc.concat(current.name);
+  const allKPIs = myKpis?.reduce((acc, current) => {
+    if (!acc.map((a) => a.name).includes(current.name)) {
+      return acc.concat(current);
     }
     return acc;
   }, []);
 
+  console.log("myKPI", myKpis);
   return (
     <SettingsPanel
       title={t("pages.kpis.title")}
       description={t("pages.kpis.description_long")}
     >
       <Table headers={["Tunnusluku"].concat(allYears)}>
-        {kpis?.map((kpi, i) => (
+        {allKPIs?.map((kpi, i) => (
           <tr key={kpi.id.toString() + i.toString()}>
             <TableCell value={kpi.name} />
             {allYears?.map((y) => {
               let value = "-";
-              const hasEntry = allCategories.includes(kpi.name);
+              const hasEntry = allKPIs.map((a) => a.name).includes(kpi.name);
               if (hasEntry) {
                 const foundKpi = myKpis.find((k) => k.name === kpi.name);
                 const kpiValue = foundKpi?.values?.find(
@@ -61,6 +62,22 @@ const KPISettingsPage = () => {
             })}
           </tr>
         ))}
+        {kpis?.map((kpi, i) => {
+          if (!allKPIs?.map((k) => k.id).includes(kpi.id)) {
+            return (
+              <tr key={kpi.id + "-no-data" + i}>
+                <TableCell value={kpi.name} />
+                {allYears?.map((y) => (
+                  <TableCell
+                    key={"no-data-cell-" + kpi.id + "-" + y}
+                    value="-"
+                    clamped
+                  />
+                ))}
+              </tr>
+            );
+          } else return null;
+        })}
       </Table>
     </SettingsPanel>
   );
