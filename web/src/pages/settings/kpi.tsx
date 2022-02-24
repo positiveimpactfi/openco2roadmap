@@ -14,9 +14,10 @@ const KPISettingsPage = () => {
   const myKpis = data?.myOrganizationKPIs;
 
   const allYears = myKpis?.reduce((acc, current) => {
-    const newEntries = [];
+    let newEntries = [];
     for (let value of current.values) {
-      if (!acc.includes(value.year)) newEntries.push(value.year.toString());
+      if (!acc.includes(value.year.toString()))
+        newEntries.push(value.year.toString());
     }
     return acc.concat(newEntries);
   }, []);
@@ -35,11 +36,8 @@ const KPISettingsPage = () => {
     >
       <Table headers={["Tunnusluku"].concat(allYears)}>
         {kpis?.map((kpi, i) => (
-          <tr key={kpi.id}>
-            <TableCell
-              key={kpi.id.toString() + i.toString()}
-              value={kpi.name}
-            />
+          <tr key={kpi.id.toString() + i.toString()}>
+            <TableCell value={kpi.name} />
             {allYears?.map((y) => {
               let value = "-";
               const hasEntry = allCategories.includes(kpi.name);
@@ -49,11 +47,13 @@ const KPISettingsPage = () => {
                   (v) => v.year.toString() === y
                 )?.value;
                 const kpiUnit = foundKpi?.unit?.shorthand;
-                value = numberToString(kpiValue) + " " + kpiUnit;
+                value = kpiUnit
+                  ? numberToString(kpiValue) + " " + kpiUnit
+                  : numberToString(kpiValue);
               }
               return (
                 <TableCell
-                  key={kpi.id.toString() + y.toString()}
+                  key={kpi.id.toString() + "-year-" + y.toString()}
                   value={value}
                   clamped
                 />
