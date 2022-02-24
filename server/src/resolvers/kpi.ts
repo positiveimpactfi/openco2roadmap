@@ -17,7 +17,7 @@ export class KPIResolver {
       .getMany();
   }
 
-  @Authorized([Role.ADMIN])
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
   @Query(() => [KPI])
   async myOrganizationKPIs(
     @Ctx() { req }: MyContext

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { KPI, MeasurementUnit } from "../entity";
-import { kpis } from "../seed/data/kpi";
+import { kpis } from "../../../shared/kpi";
 
 export class KPISeed1645605461348 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -38,6 +38,7 @@ export class KPISeed1645605461348 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query("DELETE FROM kpi_value");
     await queryRunner.query("DELETE FROM kpi");
   }
 }

@@ -1,5 +1,5 @@
-import { Organization } from "../../entity";
-import { MeasurementUnitType } from "../../types";
+import { Organization } from "../server/src/entity";
+import { MeasurementUnitType } from "../server/src/types";
 
 interface KPI {
   name: string;
