@@ -91,4 +91,28 @@ export class KPIValueResolver {
       return savedKPIValue;
     }
   }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => KPIValue)
+  async deleteKPIValue(
+    @Ctx() { req }: MyContext,
+    @Arg("id") id: string
+  ): Promise<KPIValue | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) return undefined;
+    if (!id) return undefined;
+    const kpiValue = await KPIValue.findOne(id, { relations: ["organizaton"] });
+    if (!kpiValue) {
+      console.log("no KPI value");
+      return undefined;
+    }
+    if (user.organizations[0].id !== kpiValue.organization.id) {
+      console.log("access denied");
+      return undefined;
+    }
+    const removedValue = await kpiValue.remove();
+    return removedValue;
+  }
 }
