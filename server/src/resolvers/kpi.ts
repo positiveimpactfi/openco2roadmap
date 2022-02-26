@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { KPI, MeasurementUnit, User } from "../entity";
+import { KPI, KPIValue, MeasurementUnit, User } from "../entity";
 import { MeasurementUnitType, Role } from "../types";
 import { MyContext } from "../types/MyContext";
 
@@ -128,5 +128,36 @@ export class KPIResolver {
       return savedKPI;
     }
     return undefined;
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => KPI)
+  async deleteKPI(
+    @Ctx() { req }: MyContext,
+    @Arg("id") id: string
+  ): Promise<KPI | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      console.log("no user");
+      return undefined;
+    }
+    const kpi = await KPI.findOne(id, {
+      relations: ["organization", "values"],
+    });
+    console.log("kpi", kpi);
+    if (!kpi) {
+      console.log("no KPI");
+      req.log.error("did not find KPI");
+      return undefined;
+    }
+    if (kpi.organization.id !== user.organizations[0].id) {
+      req.log.error(kpi, "access denied");
+      return undefined;
+    }
+    const removedValues = await KPIValue.remove(kpi.values);
+    req.log.info("removed KPI values", removedValues);
+    const removeRes = await kpi.remove();
+    req.log.info("removed KPI", removeRes);
+    return removeRes;
   }
 }
