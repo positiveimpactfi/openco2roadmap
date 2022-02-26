@@ -1,4 +1,12 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { KPI } from "../entity";
 import { KPIValue } from "../entity/KPIValue";
 import { User } from "../entity/User";
@@ -23,7 +31,7 @@ export class KPIValueResolver {
     @Ctx() { req }: MyContext,
     @Arg("kpiID") kpiID: string,
     @Arg("value") value: number,
-    @Arg("year") year: number
+    @Arg("year", () => Int) year: number
   ): Promise<KPIValue | undefined> {
     const user = await User.findOne(req.session.userId, {
       relations: ["organizations"],
@@ -54,5 +62,33 @@ export class KPIValueResolver {
     await KPI.save(kpi);
     console.log("created KPI value", newKPIValue);
     return newKPIValue;
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => KPIValue)
+  async updateKPIValue(
+    @Ctx() { req }: MyContext,
+    @Arg("id") id: string,
+    @Arg("value", { nullable: true }) value: number,
+    @Arg("year", () => Int, { nullable: true }) year: number
+  ): Promise<KPIValue | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) return undefined;
+    const kpiValue = await KPIValue.findOne(id, {
+      relations: ["organization"],
+    });
+    if (!kpiValue) return undefined;
+    if (user.organizations[0].id !== kpiValue.organization.id) {
+      return undefined;
+    }
+    if (!value && !year) return kpiValue;
+    else {
+      if (value) kpiValue.value = value;
+      if (year) kpiValue.year = year;
+      const savedKPIValue = await kpiValue.save();
+      return savedKPIValue;
+    }
   }
 }
