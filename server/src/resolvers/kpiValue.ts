@@ -49,6 +49,14 @@ export class KPIValueResolver {
       return undefined;
     }
 
+    const previousValues = await KPIValue.find({
+      where: { parent: kpi, year: year, organization: user.organizations[0] },
+    });
+    if (previousValues.length > 0) {
+      console.log("value for this year already exists");
+      return undefined;
+    }
+
     const kpiBase: Partial<KPIValue> = {
       value: value,
       year: year,
