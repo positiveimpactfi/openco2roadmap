@@ -66,6 +66,13 @@ export class KPIResolver {
       return undefined;
     }
     const org = user.organizations[0];
+    const previousKPI = await KPI.find({
+      where: { organization: org, name: name },
+    });
+    if (previousKPI.length > 0) {
+      console.log("KPI with this name already exists");
+      return undefined;
+    }
     let kpiBase = KPI.create({ name: name, organization: org });
     if (measurementUnit) {
       const unit = await MeasurementUnit.findOne(measurementUnit);
