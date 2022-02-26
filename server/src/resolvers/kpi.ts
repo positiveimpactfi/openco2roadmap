@@ -1,6 +1,6 @@
-import { Authorized, Ctx, Query, Resolver } from "type-graphql";
-import { KPI, User } from "../entity";
-import { Role } from "../types";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { KPI, MeasurementUnit, User } from "../entity";
+import { MeasurementUnitType, Role } from "../types";
 import { MyContext } from "../types/MyContext";
 
 @Resolver(KPI)
@@ -47,5 +47,33 @@ export class KPIResolver {
       .where("kpi.organizationId = :orgId", { orgId: org.id })
       .orWhere("values.organizationId = :orgId", { orgId: org.id })
       .getMany();
+  }
+
+  @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
+  @Mutation(() => KPI)
+  async createKPI(
+    @Ctx() { req }: MyContext,
+    @Arg("name") name: string,
+    @Arg("measurementUnit", () => MeasurementUnitType, { nullable: true })
+    measurementUnit: MeasurementUnitType
+  ): Promise<KPI | undefined> {
+    const user = await User.findOne(req.session.userId, {
+      relations: ["organizations"],
+    });
+    if (!user) {
+      req.log.error({ error: "no user" }, "no user found!");
+      console.error("no user");
+      return undefined;
+    }
+    const org = user.organizations[0];
+    let kpiBase = KPI.create({ name: name, organization: org });
+    if (measurementUnit) {
+      const unit = await MeasurementUnit.findOne(measurementUnit);
+      if (unit) {
+        kpiBase.unit = unit;
+      }
+    }
+    const savedKpi = await kpiBase.save();
+    return savedKpi;
   }
 }
