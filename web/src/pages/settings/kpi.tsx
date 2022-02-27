@@ -5,6 +5,10 @@ import { useMyOrganizationKpiValuesQuery } from "graphql/queries/kpi/myOrganizat
 import { useAllPublicKpiQuery } from "graphql/queries/kpi/allPublicKPI.generated";
 import Table, { TableCell } from "components/Tables/SimpleTable";
 import { numberToString } from "utils/numberToString";
+import SlideOver from "components/SlideOver";
+import CreateKPIForm from "components/Forms/KPI/CreateKPIForm";
+import { useState } from "react";
+import Button from "components/Button";
 
 const KPISettingsPage = () => {
   const { t } = useTranslation("settings");
@@ -12,6 +16,7 @@ const KPISettingsPage = () => {
   const { data } = useMyOrganizationKpiValuesQuery();
   const kpis = publicKPI?.publicKPIs;
   const myKpis = data?.myOrganizationKPIs;
+  const [formOpen, setFormOpen] = useState(false);
 
   const allYears = myKpis
     ?.reduce((acc, current) => {
@@ -36,6 +41,18 @@ const KPISettingsPage = () => {
       title={t("pages.kpis.title")}
       description={t("pages.kpis.description_long")}
     >
+      <div className="mb-4">
+        <Button variant="success" onClick={() => setFormOpen(true)}>
+          Lisää uusi tunnusluku
+        </Button>
+      </div>
+      <SlideOver
+        title="Lisätään uusi tunnusluku"
+        open={formOpen}
+        setOpen={setFormOpen}
+      >
+        <CreateKPIForm setOpen={setFormOpen} />
+      </SlideOver>
       <Table headers={["Tunnusluku"].concat(allYears)}>
         {allKPIs?.map((kpi, i) => (
           <tr key={kpi.id.toString() + i.toString()}>

@@ -284,6 +284,7 @@ export type Mutation = {
   createEmissionFactor: EmissionFactor;
   createEmissionFactorValue: EmissionFactorValue;
   createEmissionSource: EmissionSource;
+  createKPI: Kpi;
   createKPIValue: KpiValue;
   createOrganization: Organization;
   createRegistrationRequest: RegistrationRequest;
@@ -292,6 +293,8 @@ export type Mutation = {
   createSiteUnit: SiteUnit;
   createUser: UserResolverResponse;
   deleteEntry: DataEntry;
+  deleteKPI: Kpi;
+  deleteKPIValue: KpiValue;
   forgotPassword: Scalars['Boolean'];
   inviteUser: Scalars['Boolean'];
   login: UserResolverResponse;
@@ -299,6 +302,8 @@ export type Mutation = {
   register: UserResolverResponse;
   sendInvitationReminder: Scalars['Boolean'];
   updateDataEntry: DataEntry;
+  updateKPI: Kpi;
+  updateKPIValue: KpiValue;
   updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
   updateSite: Site;
@@ -361,10 +366,16 @@ export type MutationCreateEmissionSourceArgs = {
 };
 
 
+export type MutationCreateKpiArgs = {
+  measurementUnit?: Maybe<MeasurementUnitType>;
+  name: Scalars['String'];
+};
+
+
 export type MutationCreateKpiValueArgs = {
   kpiID: Scalars['String'];
   value: Scalars['Float'];
-  year: Scalars['Float'];
+  year: Scalars['Int'];
 };
 
 
@@ -410,6 +421,16 @@ export type MutationDeleteEntryArgs = {
 };
 
 
+export type MutationDeleteKpiArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteKpiValueArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
@@ -450,6 +471,20 @@ export type MutationUpdateDataEntryArgs = {
   measurementUnit?: Maybe<MeasurementUnitType>;
   siteUnitID?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type MutationUpdateKpiArgs = {
+  id: Scalars['String'];
+  measurementUnit?: Maybe<MeasurementUnitType>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateKpiValueArgs = {
+  id: Scalars['String'];
+  value?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Int']>;
 };
 
 

@@ -1,0 +1,5 @@
+mutation CreateKPI($name: String!, $measurementUnit: MeasurementUnitType) {
+  createKPI(name: $name, measurementUnit: $measurementUnit) {
+    name
+  }
+}
