@@ -9,6 +9,7 @@ import SlideOver from "components/SlideOver";
 import CreateKPIForm from "components/Forms/KPI/CreateKPIForm";
 import { useState } from "react";
 import Button from "components/Button";
+import OptionsMenu from "components/OptionsMenu";
 
 const KPISettingsPage = () => {
   const { t } = useTranslation("settings");
@@ -53,7 +54,10 @@ const KPISettingsPage = () => {
       >
         <CreateKPIForm setOpen={setFormOpen} />
       </SlideOver>
-      <Table headers={["Tunnusluku"].concat(allYears)}>
+      <Table
+        headers={["Tunnusluku"].concat(allYears).concat("Muokkaa")}
+        alignLastRight
+      >
         {allKPIs?.map((kpi, i) => (
           <tr key={kpi.id.toString() + i.toString()}>
             <TableCell value={kpi.name} />
@@ -79,6 +83,16 @@ const KPISettingsPage = () => {
                 />
               );
             })}
+            <div className="flex justify-end px-4">
+              {kpi.organization ? (
+                <OptionsMenu
+                  onEdit={() => console.log("clicked edit")}
+                  onDelete={() => console.log("clicked delete")}
+                />
+              ) : (
+                <OptionsMenu onEdit={() => console.log("clicked edit")} />
+              )}
+            </div>
           </tr>
         ))}
         {kpis?.map((kpi, i) => {
@@ -93,6 +107,15 @@ const KPISettingsPage = () => {
                     clamped
                   />
                 ))}
+                <td className="flex items-center justify-end px-4 py-1">
+                  <OptionsMenu
+                    onEdit={() => console.log("clicked edit")}
+                    // onDelete={() => console.log("clicked delete")}
+                    variant={
+                      i >= allKPIs?.length - 2 ? "last-element" : "normal"
+                    }
+                  />
+                </td>
               </tr>
             );
           } else return null;
