@@ -5,7 +5,10 @@ import { calculatorLinks } from "data/links/calculatorLinks";
 
 const CalculatorHomePage: React.FC = () => {
   return (
-    <CalculatorPanel>
+    <CalculatorPanel
+      title="Laskuri"
+      description="Kulutustiedot -sivun kautta voit syöttää yrityksesi hiilijalanjälkilaskennan tiedot laskuriin. Laskennan tulokset näkyvät Hiilijalanjäljet-sivulla."
+    >
       <div className="flex flex-col items-start">
         <LinksGrid links={calculatorLinks} namespace="calculator" />
       </div>

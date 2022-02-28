@@ -21,7 +21,7 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <SlideOver open={open} setOpen={setOpen} title="Muokataan yhteystietosi">
+      <SlideOver open={open} setOpen={setOpen} title="Muokkaa tietoja">
         <UpdateMyNameForm setOpen={setOpen} />
       </SlideOver>
       <div className="mx-4 mt-4">

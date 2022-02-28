@@ -2,7 +2,7 @@
   "pages": {
     "home": {
       "title": "Hallintapaneeli",
-      "description": "Näillä sivuilla voit muokata CO2-laskurin asetuksia."
+      "description": "Näillä sivuilla voit muokata CO2-laskurin järjestelmäasetuksia."
     },
     "orgs": {
       "title": "Yritykset",

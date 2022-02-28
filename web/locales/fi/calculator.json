@@ -6,7 +6,7 @@
     },
     "consumption_data": {
       "title": "Kulutustiedot",
-      "description": "Hiilijalanjäljen laskeminen perustuu yrityksesi todellisiin kulutustietoihin. Saat nämä mm. energiayhtiöiltä, ajopäiväkirjoista ja kirjanpidosta. sivun kautta syötät energian, jätteiden, hankintojen ja hallinnon eri kulutustiedot, kuukausi- tai vuositasolla.",
+      "description": "Hiilijalanjäljen laskeminen perustuu yrityksesi todellisiin kulutustietoihin. Saat nämä mm. energiayhtiöiltä, ajopäiväkirjoista ja kirjanpidosta. Tämän sivun kautta syötät energian, jätteiden, hankintojen ja hallinnon eri kulutustiedot. Jos haluat syöttää koko vuoden tiedot kerralla, voit merkitä ne kyseisen vuoden joulukuulle.",
       "actions": {
         "add_data": "Lisää tietoja",
         "show_data": "Näytetään kulutustietoja",
