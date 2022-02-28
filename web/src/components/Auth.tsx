@@ -2,6 +2,7 @@ import { useUser } from "hooks/useUser";
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import Link from "next/link";
+import LandingPage from "./LandingPage";
 import Container from "./Layout/Container";
 import LoadingBar from "./LoadingBar";
 
@@ -27,16 +28,7 @@ const UserNotLoggedIn = () => {
       <Head>
         <title>Open CO2 Roadmap</title>
       </Head>
-      <div className="flex h-screen flex-col items-center justify-center">
-        <div>{t("errors:auth.not_logged_in")}</div>
-        <div>
-          <Link href="/login" passHref>
-            <a className="font-medium text-teal-600 hover:text-teal-500">
-              {t("auth:actions.to_login")}
-            </a>
-          </Link>
-        </div>
-      </div>
+      <LandingPage />
     </>
   );
 };
