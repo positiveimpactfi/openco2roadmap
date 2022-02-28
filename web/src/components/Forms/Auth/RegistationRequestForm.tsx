@@ -113,7 +113,7 @@ export const RegistrationRequestForm: React.FC<{
             "pages.reg_request.user_agreements.user_data.description"
           )}
           required
-          href="https://co2laskuri.fi/toc"
+          href="/tos"
         />
         <Checkbox
           name="TOSRights"
