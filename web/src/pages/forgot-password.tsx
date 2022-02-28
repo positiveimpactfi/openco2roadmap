@@ -10,8 +10,8 @@ const ForgotPasswordPage: React.FC = () => {
     <>
       <Head>
         <title>
-          {locale === "fi" ? "Uusi salasana" : "Reset password"} | Open CO2
-          Roadmap
+          {locale === "fi" ? "Uusi salasana" : "Reset password"} | Matkailun
+          CO2-laskuri
         </title>
       </Head>
       <ForgotPasswordForm />

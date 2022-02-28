@@ -32,7 +32,7 @@ const LoginPage = () => {
       <Head>
         <title>
           {(router.locale === "fi" ? "Kirjaudu" : "Login") +
-            " | Open CO2 Roadmap"}
+            " | Matkailun CO2-laskuri"}
         </title>
       </Head>
       <Formik

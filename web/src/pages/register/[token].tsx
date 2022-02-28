@@ -31,7 +31,7 @@ const RegisterPage = () => {
       <Head>
         <title>
           {(router.locale === "fi" ? "Rekisteröidy" : "Register") +
-            " | Open CO2 Roadmap"}
+            " | Matkailun CO2-laskuri"}
         </title>
       </Head>
       <Formik

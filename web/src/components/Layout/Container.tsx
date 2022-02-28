@@ -17,7 +17,7 @@ const Container: React.FC<ContainerProps> = ({
   return (
     <>
       <Head>
-        <title>Open CO2 Roadmap</title>
+        <title>Matkailun CO2-laskuri</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex min-h-screen bg-gray-100">
@@ -55,7 +55,7 @@ export const ContentArea: React.FC<{
             className="flex h-full min-w-0 flex-1 flex-col overflow-hidden lg:order-last"
           >
             <h1 id="primary-heading" className="sr-only">
-              Open CO2 Roadmap
+              Matkailun CO2-laskuri
             </h1>
             {/* Your content */}
             {children}

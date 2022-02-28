@@ -23,7 +23,7 @@ const UserNotLoggedIn = () => {
   return (
     <>
       <Head>
-        <title>Open CO2 Roadmap</title>
+        <title>Matkailun CO2-laskuri</title>
       </Head>
       <LandingPage />
     </>

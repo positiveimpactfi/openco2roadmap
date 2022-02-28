@@ -84,7 +84,7 @@ export const MobileSideBar: React.FC<SidebarProps> = ({
                   priority
                 />
               </div>
-              <div>Open CO2 roadmap</div>
+              <div>Matkailun CO2-laskuri</div>
             </div>
             <div className="mt-5 h-0 flex-1 overflow-y-auto">
               <nav className="px-2">

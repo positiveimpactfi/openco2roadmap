@@ -25,7 +25,7 @@ const PageNotFound = () => {
   return (
     <>
       <Head>
-        <title>404 | Open CO2 Roadmap</title>
+        <title>404 | Matkailun CO2-laskuri</title>
       </Head>
       <div className="flex items-center justify-center space-x-4 py-6 px-6 pb-8">
         <div className="w-24 font-extralight text-gray-600">

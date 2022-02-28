@@ -13,7 +13,7 @@ const ChangePasswordPage: React.FC = ({}) => {
       <Head>
         <title>
           {router.locale === "fi" ? "Vaihda salasana" : "Change password"} |
-          Open CO2 Roadmap
+          Matkailun CO2-laskuri
         </title>
       </Head>
       <ChangePasswordForm token={token} />
