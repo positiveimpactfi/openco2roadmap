@@ -1,7 +1,5 @@
 import { useUser } from "hooks/useUser";
-import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
-import Link from "next/link";
 import LandingPage from "./LandingPage";
 import Container from "./Layout/Container";
 import LoadingBar from "./LoadingBar";
@@ -22,7 +20,6 @@ export const Auth: React.FC = ({ children }) => {
 };
 
 const UserNotLoggedIn = () => {
-  const { t } = useTranslation();
   return (
     <>
       <Head>

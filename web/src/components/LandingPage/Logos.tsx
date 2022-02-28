@@ -1,14 +1,14 @@
 import Image from "next/image";
 import kuusiAika from "../../../public/6aika.png";
-import vipuvoimaa from "../../../public/vipuvoimaa.png";
 import EU from "../../../public/EU.png";
-import uudenmaanLiitto from "../../../public/uudenmaanliitto.png";
-import helsinki from "../../../public/helsinki.png";
 import forumVirium from "../../../public/forum_virium.png";
-import turku from "../../../public/turku.png";
-import visitTampere from "../../../public/visit_tampere.png";
+import helsinki from "../../../public/helsinki.png";
 import lapinLiitto from "../../../public/lapin_liitto.png";
 import positiveImpact from "../../../public/pi.svg";
+import turku from "../../../public/turku.png";
+import uudenmaanLiitto from "../../../public/uudenmaanliitto.png";
+import vipuvoimaa from "../../../public/vipuvoimaa.png";
+import visitTampere from "../../../public/visit_tampere.png";
 
 const LogoView = () => {
   return (
