@@ -124,14 +124,14 @@ const UsersPage = () => {
           <CreateUserForm setOpen={setAddFormOpen} onSuccess={handleAddUser} />
         </SlideOver>
         <div className="mb-4 flex space-x-2">
-          <Button
-            variant="success"
-            onClick={() => setInviteFormOpen(true)}
-            // disabled
-          >
+          <Button variant="success" onClick={() => setInviteFormOpen(true)}>
             {t("pages.users.actions.invite_user.title")}
           </Button>
-          <Button variant="success" onClick={() => setAddFormOpen(true)}>
+          <Button
+            variant="success"
+            onClick={() => setAddFormOpen(true)}
+            disabled
+          >
             {t("pages.users.actions.add_user.title")}
           </Button>
         </div>
