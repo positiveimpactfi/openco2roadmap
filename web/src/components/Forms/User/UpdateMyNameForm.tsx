@@ -2,6 +2,7 @@ import Button from "components/Button";
 import { Form, Formik, FormikProps } from "formik";
 import { useUpdateMyNameMutation } from "graphql/mutations/user/updateMyName.generated";
 import { MeDocument } from "graphql/queries/users/me.generated";
+import { User } from "types/generatedTypes";
 import * as Yup from "yup";
 import FormField from "../Common/FormField";
 
@@ -21,13 +22,14 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const UpdateMyNameForm: React.FC<{ setOpen: (val: boolean) => void }> = ({
-  setOpen,
-}) => {
+const UpdateMyNameForm: React.FC<{
+  user: User;
+  setOpen: (val: boolean) => void;
+}> = ({ setOpen, user }) => {
   const [updateMyName] = useUpdateMyNameMutation();
   const initialValues = {
-    lastName: "",
-    firstName: "",
+    lastName: user?.lastName ?? "",
+    firstName: user?.firstName ?? "",
   };
 
   return (

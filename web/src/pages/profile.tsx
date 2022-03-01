@@ -22,7 +22,7 @@ const Profile: React.FC<{ user: User }> = ({ user }) => {
   return (
     <>
       <SlideOver open={open} setOpen={setOpen} title="Muokkaa tietoja">
-        <UpdateMyNameForm setOpen={setOpen} />
+        <UpdateMyNameForm setOpen={setOpen} user={user} />
       </SlideOver>
       <div className="mx-4 mt-4">
         <h1 className="text-2xl">{t("title")}</h1>
