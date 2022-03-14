@@ -37,7 +37,7 @@ const CreateKPIForm = ({ setOpen }: FormProps) => {
           variables: {
             name: values.name,
             measurementUnit: values.measurementUnit
-              .shorthand as MeasurementUnitType,
+              ?.shorthand as MeasurementUnitType,
           },
           refetchQueries: [MyOrganizationKpiValuesDocument],
         });
