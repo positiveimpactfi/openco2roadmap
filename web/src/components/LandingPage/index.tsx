@@ -62,7 +62,7 @@ const CertificateReaderBox = () => {
       </div>
       <div className="align-center mt-16 flex justify-center">
         <Button
-          href="https://certreader.visifinland.fi"
+          href="https://certreader.visitfinland.fi"
           title="Sirry lukijaan"
         />
       </div>
