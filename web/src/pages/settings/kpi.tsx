@@ -88,73 +88,75 @@ const KPISettingsPage = () => {
       >
         <CreateKPIForm setOpen={setFormOpen} />
       </SlideOver>
-      <Table
-        headers={["Tunnusluku"].concat(allYears).concat("Muokkaa")}
-        alignLastRight
-      >
-        {allKPIs?.map((kpi, i) => (
-          <tr key={kpi.id.toString() + i.toString()}>
-            <TableCell value={kpi.name} />
-            {allYears?.map((y) => {
-              let value = "-";
-              const hasEntry = allKPIs.map((a) => a.name).includes(kpi.name);
-              if (hasEntry) {
-                const foundKpi = myKpis.find((k) => k.name === kpi.name);
-                const kpiValue = foundKpi?.values?.find(
-                  (v) => v.year.toString() === y
-                )?.value;
-                const kpiUnit = foundKpi?.unit?.shorthand;
-                value =
-                  kpiUnit && kpiValue
-                    ? numberToString(kpiValue) + " " + kpiUnit
-                    : numberToString(kpiValue);
-              }
-              return (
-                <TableCell
-                  key={kpi.id.toString() + "-year-" + y.toString()}
-                  value={value}
-                  clamped
-                />
-              );
-            })}
-            <div className="flex justify-end px-4">
-              {kpi.organization ? (
-                <OptionsMenu
-                  onEdit={() => console.log("clicked edit")}
-                  onDelete={() => handleSelectKPI(kpi?.id)}
-                />
-              ) : (
-                <OptionsMenu onEdit={() => console.log("clicked edit")} />
-              )}
-            </div>
-          </tr>
-        ))}
-        {kpis?.map((kpi, i) => {
-          if (!allKPIs?.map((k) => k.id).includes(kpi.id)) {
-            return (
-              <tr key={kpi.id + "-no-data" + i}>
-                <TableCell value={kpi.name} />
-                {allYears?.map((y) => (
+      <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+        <Table
+          headers={["Tunnusluku"].concat(allYears).concat("Muokkaa")}
+          alignLastRight
+        >
+          {allKPIs?.map((kpi, i) => (
+            <tr key={kpi.id.toString() + i.toString()}>
+              <TableCell value={kpi.name} />
+              {allYears?.map((y) => {
+                let value = "-";
+                const hasEntry = allKPIs.map((a) => a.name).includes(kpi.name);
+                if (hasEntry) {
+                  const foundKpi = myKpis.find((k) => k.name === kpi.name);
+                  const kpiValue = foundKpi?.values?.find(
+                    (v) => v.year.toString() === y
+                  )?.value;
+                  const kpiUnit = foundKpi?.unit?.shorthand;
+                  value =
+                    kpiUnit && kpiValue
+                      ? numberToString(kpiValue) + " " + kpiUnit
+                      : numberToString(kpiValue);
+                }
+                return (
                   <TableCell
-                    key={"no-data-cell-" + kpi.id + "-" + y}
-                    value="-"
+                    key={kpi.id.toString() + "-year-" + y.toString()}
+                    value={value}
                     clamped
                   />
-                ))}
-                <td className="flex items-center justify-end px-4 py-1">
+                );
+              })}
+              <div className="flex justify-end px-4">
+                {kpi.organization ? (
                   <OptionsMenu
                     onEdit={() => console.log("clicked edit")}
-                    // onDelete={() => console.log("clicked delete")}
-                    variant={
-                      i >= allKPIs?.length - 2 ? "last-element" : "normal"
-                    }
+                    onDelete={() => handleSelectKPI(kpi?.id)}
                   />
-                </td>
-              </tr>
-            );
-          } else return null;
-        })}
-      </Table>
+                ) : (
+                  <OptionsMenu onEdit={() => console.log("clicked edit")} />
+                )}
+              </div>
+            </tr>
+          ))}
+          {kpis?.map((kpi, i) => {
+            if (!allKPIs?.map((k) => k.id).includes(kpi.id)) {
+              return (
+                <tr key={kpi.id + "-no-data" + i}>
+                  <TableCell value={kpi.name} />
+                  {allYears?.map((y) => (
+                    <TableCell
+                      key={"no-data-cell-" + kpi.id + "-" + y}
+                      value="-"
+                      clamped
+                    />
+                  ))}
+                  <td className="flex items-center justify-end px-4 py-1">
+                    <OptionsMenu
+                      onEdit={() => console.log("clicked edit")}
+                      // onDelete={() => console.log("clicked delete")}
+                      variant={
+                        i >= allKPIs?.length - 2 ? "last-element" : "normal"
+                      }
+                    />
+                  </td>
+                </tr>
+              );
+            } else return null;
+          })}
+        </Table>
+      </div>
     </SettingsPanel>
   );
 };
