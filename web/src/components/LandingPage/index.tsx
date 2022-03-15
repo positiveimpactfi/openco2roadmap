@@ -19,7 +19,7 @@ const Hero = () => {
     <main className="flex w-full  justify-center bg-teal-600 text-center ">
       <div className="flex w-full max-w-7xl flex-col items-center justify-between lg:flex-row">
         <TravelCalculatorBox />
-        <SertificateReaderBox />
+        <CertificateReaderBox />
       </div>
     </main>
   );
@@ -48,7 +48,7 @@ const TravelCalculatorBox = () => {
   );
 };
 
-const SertificateReaderBox = () => {
+const CertificateReaderBox = () => {
   return (
     <div className="mx-auto mt-4 mb-8 flex max-w-sm flex-col items-center justify-center rounded-md bg-teal-900 px-4 pt-12 pb-8 sm:px-6 lg:mr-10 lg:h-96 lg:px-8">
       <div className="text-center">
