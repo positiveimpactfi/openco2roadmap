@@ -1,7 +1,10 @@
 import { withAuth } from "components/Auth";
 import SettingsPanel from "components/SettingsPanel";
 import useTranslation from "next-translate/useTranslation";
-import { useMyOrganizationKpiValuesQuery } from "graphql/queries/kpi/myOrganizationKPIs.generated";
+import {
+  MyOrganizationKpiValuesDocument,
+  useMyOrganizationKpiValuesQuery,
+} from "graphql/queries/kpi/myOrganizationKPIs.generated";
 import { useAllPublicKpiQuery } from "graphql/queries/kpi/allPublicKPI.generated";
 import Table, { TableCell } from "components/Tables/SimpleTable";
 import { numberToString } from "utils/numberToString";
@@ -10,14 +13,38 @@ import CreateKPIForm from "components/Forms/KPI/CreateKPIForm";
 import { useState } from "react";
 import Button from "components/Button";
 import OptionsMenu from "components/OptionsMenu";
+import WarningModal from "components/Warning";
+import { useDeleteKpiMutation } from "graphql/mutations/kpi/deleteKPI.generated";
 
 const KPISettingsPage = () => {
   const { t } = useTranslation("settings");
+  const [deleteKPI] = useDeleteKpiMutation();
   const { data: publicKPI } = useAllPublicKpiQuery();
   const { data } = useMyOrganizationKpiValuesQuery();
   const kpis = publicKPI?.publicKPIs;
   const myKpis = data?.myOrganizationKPIs;
   const [formOpen, setFormOpen] = useState(false);
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [selectedKPI, setSelectedKPI] = useState(null);
+
+  const handleSelectKPI = (id: string) => {
+    setSelectedKPI(id);
+    setWarningOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (id) {
+      const res = await deleteKPI({
+        variables: { id },
+        refetchQueries: [MyOrganizationKpiValuesDocument],
+      });
+      if (res.data?.deleteKPI?.name) {
+        console.log("successfully deleted KPI");
+        setSelectedKPI(null);
+      }
+    }
+    setWarningOpen(false);
+  };
 
   const allYears = myKpis
     ?.reduce((acc, current) => {
@@ -42,6 +69,13 @@ const KPISettingsPage = () => {
       title={t("pages.kpis.title")}
       description={t("pages.kpis.description_long")}
     >
+      <WarningModal
+        open={warningOpen}
+        setOpen={setWarningOpen}
+        title="Oletko varma?"
+        description="Haluatko varmasti poistaa valitsemasi tunnusluvun? Tätä toimenpidettä ei voi perua."
+        onConfirm={async () => await handleDelete(selectedKPI)}
+      />
       <div className="mb-4">
         <Button variant="success" onClick={() => setFormOpen(true)}>
           Lisää uusi tunnusluku
@@ -87,7 +121,7 @@ const KPISettingsPage = () => {
               {kpi.organization ? (
                 <OptionsMenu
                   onEdit={() => console.log("clicked edit")}
-                  onDelete={() => console.log("clicked delete")}
+                  onDelete={() => handleSelectKPI(kpi?.id)}
                 />
               ) : (
                 <OptionsMenu onEdit={() => console.log("clicked edit")} />
