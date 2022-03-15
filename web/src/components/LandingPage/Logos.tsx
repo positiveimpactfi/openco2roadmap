@@ -14,7 +14,7 @@ const LogoView = () => {
   return (
     <div className="mt-10 bg-white">
       <h2 className="text-center text-base font-semibold text-teal-600">
-        Laskurin kehittämisen ovat mahdollistaneet:
+        Laskurin ja sertifikaattilukijan kehittämisen ovat mahdollistaneet:
       </h2>
       <div className="mx-auto max-w-screen-2xl py-12 px-16">
         <div className="grid grid-cols-2 place-items-center items-center justify-center gap-12 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10 xl:gap-6">
