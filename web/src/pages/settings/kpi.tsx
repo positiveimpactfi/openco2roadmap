@@ -1,20 +1,22 @@
 import { withAuth } from "components/Auth";
+import Button from "components/Button";
+import CreateKPIForm from "components/Forms/KPI/CreateKPIForm";
+import EditKPIForm from "components/Forms/KPI/EditKPIForm";
+import OptionsMenu from "components/OptionsMenu";
 import SettingsPanel from "components/SettingsPanel";
-import useTranslation from "next-translate/useTranslation";
+import SlideOver from "components/SlideOver";
+import Table, { TableCell } from "components/Tables/SimpleTable";
+import WarningModal from "components/Warning";
+import { useDeleteKpiMutation } from "graphql/mutations/kpi/deleteKPI.generated";
+import { useAllPublicKpiQuery } from "graphql/queries/kpi/allPublicKPI.generated";
 import {
   MyOrganizationKpiValuesDocument,
   useMyOrganizationKpiValuesQuery,
 } from "graphql/queries/kpi/myOrganizationKPIs.generated";
-import { useAllPublicKpiQuery } from "graphql/queries/kpi/allPublicKPI.generated";
-import Table, { TableCell } from "components/Tables/SimpleTable";
-import { numberToString } from "utils/numberToString";
-import SlideOver from "components/SlideOver";
-import CreateKPIForm from "components/Forms/KPI/CreateKPIForm";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
-import Button from "components/Button";
-import OptionsMenu from "components/OptionsMenu";
-import WarningModal from "components/Warning";
-import { useDeleteKpiMutation } from "graphql/mutations/kpi/deleteKPI.generated";
+import { Kpi } from "types/generatedTypes";
+import { numberToString } from "utils/numberToString";
 
 const KPISettingsPage = () => {
   const { t } = useTranslation("settings");
@@ -23,19 +25,25 @@ const KPISettingsPage = () => {
   const { data } = useMyOrganizationKpiValuesQuery();
   const kpis = publicKPI?.publicKPIs;
   const myKpis = data?.myOrganizationKPIs;
-  const [formOpen, setFormOpen] = useState(false);
+  const [newKPIformOpen, setNewKPIFormOpen] = useState(false);
+  const [editFormOpen, setEditFormOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [selectedKPI, setSelectedKPI] = useState(null);
 
-  const handleSelectKPI = (id: string) => {
-    setSelectedKPI(id);
+  const handleSelectKPI = (kpi: Kpi) => {
+    setSelectedKPI(kpi);
     setWarningOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (id) {
+  const handleEditKPI = (kpi: Kpi) => {
+    setSelectedKPI(kpi);
+    setEditFormOpen(true);
+  };
+
+  const handleDelete = async (kpi: Kpi) => {
+    if (kpi?.id) {
       const res = await deleteKPI({
-        variables: { id },
+        variables: { id: kpi.id },
         refetchQueries: [MyOrganizationKpiValuesDocument],
       });
       if (res.data?.deleteKPI?.name) {
@@ -77,16 +85,23 @@ const KPISettingsPage = () => {
         onConfirm={async () => await handleDelete(selectedKPI)}
       />
       <div className="mb-4">
-        <Button variant="success" onClick={() => setFormOpen(true)}>
+        <Button variant="success" onClick={() => setNewKPIFormOpen(true)}>
           Lisää uusi tunnusluku
         </Button>
       </div>
       <SlideOver
         title="Lisätään uusi tunnusluku"
-        open={formOpen}
-        setOpen={setFormOpen}
+        open={newKPIformOpen}
+        setOpen={setNewKPIFormOpen}
       >
-        <CreateKPIForm setOpen={setFormOpen} />
+        <CreateKPIForm setOpen={setNewKPIFormOpen} />
+      </SlideOver>
+      <SlideOver
+        title="Muokataan tietoja"
+        open={editFormOpen}
+        setOpen={setEditFormOpen}
+      >
+        <EditKPIForm kpi={selectedKPI} setOpen={setEditFormOpen} />
       </SlideOver>
       <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
         <Table
@@ -121,11 +136,11 @@ const KPISettingsPage = () => {
               <div className="flex justify-end px-4">
                 {kpi.organization ? (
                   <OptionsMenu
-                    onEdit={() => console.log("clicked edit")}
-                    onDelete={() => handleSelectKPI(kpi?.id)}
+                    onEdit={() => handleEditKPI(kpi)}
+                    onDelete={() => handleSelectKPI(kpi)}
                   />
                 ) : (
-                  <OptionsMenu onEdit={() => console.log("clicked edit")} />
+                  <OptionsMenu onEdit={() => handleEditKPI(kpi)} />
                 )}
               </div>
             </tr>
@@ -144,7 +159,7 @@ const KPISettingsPage = () => {
                   ))}
                   <td className="flex items-center justify-end px-4 py-1">
                     <OptionsMenu
-                      onEdit={() => console.log("clicked edit")}
+                      onEdit={() => handleEditKPI(kpi)}
                       // onDelete={() => console.log("clicked delete")}
                       variant={
                         i >= allKPIs?.length - 2 ? "last-element" : "normal"
