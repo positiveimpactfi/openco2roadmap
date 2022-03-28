@@ -80,8 +80,8 @@ const KPISettingsPage = () => {
       <WarningModal
         open={warningOpen}
         setOpen={setWarningOpen}
-        title="Oletko varma?"
-        description="Haluatko varmasti poistaa valitsemasi tunnusluvun? Tätä toimenpidettä ei voi perua."
+        title="Poistetaanko tunnusluku?"
+        description="Oletko varma, että valitsemasi tunnusluku ja kaikki sen arvot voi poistaa? Tätä toimenpidettä ei voi perua."
         onConfirm={async () => await handleDelete(selectedKPI)}
       />
       <div className="mb-4">
