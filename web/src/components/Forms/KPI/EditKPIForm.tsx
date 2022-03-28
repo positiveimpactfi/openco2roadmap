@@ -1,5 +1,5 @@
 import Button from "components/Button";
-import { Kpi } from "types/generatedTypes";
+import { Kpi, KpiValue, MeasurementUnit } from "types/generatedTypes";
 import { classNames } from "utils/classNames";
 
 interface FormProps {
@@ -18,30 +18,7 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
           </h2>
           <ul role="list" className="mt-3 flex flex-wrap gap-5 sm:gap-6">
             {kpi.values.map((value) => (
-              <li
-                key={value.id}
-                className="col-span-1 flex w-full rounded-md shadow-sm"
-              >
-                <div
-                  className={classNames(
-                    "bg-gray-500",
-                    "flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white"
-                  )}
-                >
-                  {value.year}
-                </div>
-                <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
-                  <div className="flex-1 truncate px-4 py-2 text-sm">
-                    <p className="font-medium text-gray-900 hover:text-gray-600">
-                      {value.value.toLocaleString("fi")}{" "}
-                      {kpi.unit?.shorthand ?? "yksikkö"}
-                    </p>
-                    <p className="text-gray-500">
-                      1.1.{value.year} - 31.12.{value.year}
-                    </p>
-                  </div>
-                </div>
-              </li>
+              <KPIValue unit={kpi.unit} value={value} key={value.id} />
             ))}
           </ul>
         </>
@@ -54,6 +31,37 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
         </Button>
       </div>
     </div>
+  );
+};
+
+const KPIValue = ({
+  value,
+  unit,
+}: {
+  value: KpiValue;
+  unit: MeasurementUnit;
+}) => {
+  return (
+    <li key={value.id} className="col-span-1 flex w-full rounded-md shadow-sm">
+      <div
+        className={classNames(
+          "bg-gray-500",
+          "flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white"
+        )}
+      >
+        {value.year}
+      </div>
+      <div className="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
+        <div className="flex-1 truncate px-4 py-2 text-sm">
+          <p className="font-medium text-gray-900 hover:text-gray-600">
+            {value.value.toLocaleString("fi")} {unit?.shorthand ?? "yksikkö"}
+          </p>
+          <p className="text-gray-500">
+            1.1.{value.year} - 31.12.{value.year}
+          </p>
+        </div>
+      </div>
+    </li>
   );
 };
 
