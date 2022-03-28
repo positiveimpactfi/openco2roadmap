@@ -111,7 +111,9 @@ export class KPIValueResolver {
     });
     if (!user) return undefined;
     if (!id) return undefined;
-    const kpiValue = await KPIValue.findOne(id, { relations: ["organizaton"] });
+    const kpiValue = await KPIValue.findOne(id, {
+      relations: ["organization"],
+    });
     if (!kpiValue) {
       console.log("no KPI value");
       return undefined;
