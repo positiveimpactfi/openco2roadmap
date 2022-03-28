@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type MyOrganizationKpiValuesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MyOrganizationKpiValuesQuery = { __typename?: 'Query', myOrganizationKPIs: Array<{ __typename?: 'KPI', id: string, name: string, organization?: Types.Maybe<{ __typename?: 'Organization', name: string }>, values?: Types.Maybe<Array<{ __typename?: 'KPIValue', value: number, year: number, organization?: Types.Maybe<{ __typename?: 'Organization', name: string }> }>>, unit?: Types.Maybe<{ __typename?: 'MeasurementUnit', name: string, shorthand: string }> }> };
+export type MyOrganizationKpiValuesQuery = { __typename?: 'Query', myOrganizationKPIs: Array<{ __typename?: 'KPI', id: string, name: string, organization?: Types.Maybe<{ __typename?: 'Organization', name: string }>, values?: Types.Maybe<Array<{ __typename?: 'KPIValue', id: string, value: number, year: number, organization?: Types.Maybe<{ __typename?: 'Organization', name: string }> }>>, unit?: Types.Maybe<{ __typename?: 'MeasurementUnit', name: string, shorthand: string }> }> };
 
 
 export const MyOrganizationKpiValuesDocument = gql`
@@ -18,6 +18,7 @@ export const MyOrganizationKpiValuesDocument = gql`
       name
     }
     values {
+      id
       value
       year
       organization {
