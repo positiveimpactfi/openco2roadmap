@@ -1,11 +1,14 @@
 import { TrashIcon } from "@heroicons/react/outline";
 import Button from "components/Button";
 import WarningModal from "components/Warning";
+import { Form, Formik, FormikProps } from "formik";
+import { useCreateKpiValueMutation } from "graphql/mutations/kpi/createKPIValue.generated";
 import { useDeleteKpiValueMutation } from "graphql/mutations/kpi/deleteKPIValue.generated";
 import { MyOrganizationKpiValuesDocument } from "graphql/queries/kpi/myOrganizationKPIs.generated";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Kpi, KpiValue, MeasurementUnit } from "types/generatedTypes";
 import { classNames } from "utils/classNames";
+import FormField from "../Common/FormField";
 
 interface FormProps {
   kpi: Kpi;
@@ -17,6 +20,16 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
   const [deletedValues, setDeletedValues] = useState<string[]>([]);
   const [selectedValue, setSelectedValue] = useState<string>(null);
   const [warningOpen, setWarningOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [filteredValues, setFilteredValues] = useState(() => kpi?.values);
+
+  useEffect(() => {
+    const currentValues = kpi?.values;
+    const filtered = currentValues?.filter(
+      (val) => !deletedValues.includes(val.id)
+    );
+    setFilteredValues(filtered);
+  }, [kpi, deletedValues]);
 
   const handleDelete = async () => {
     const res = await deleteValue({
@@ -37,10 +50,6 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
     setWarningOpen(true);
     setSelectedValue(id);
   };
-
-  const filteredValues = kpi?.values?.filter(
-    (val) => !deletedValues.includes(val.id)
-  );
 
   return (
     <>
@@ -72,7 +81,15 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
         ) : (
           <div>Ei arvoja</div>
         )}
+        {formOpen && (
+          <div>
+            <CreateKPIValueForm setOpen={setFormOpen} kpi={kpi} />
+          </div>
+        )}
         <div className="mt-8 flex justify-end gap-x-2">
+          <Button variant="neutral" onClick={() => setFormOpen(true)}>
+            Lisää uusi arvo
+          </Button>
           <Button variant="success" onClick={() => setOpen(false)}>
             Sulje
           </Button>
@@ -115,6 +132,93 @@ const KPIValue = ({
         </div>
       </div>
     </li>
+  );
+};
+
+interface FormValues {
+  year: number;
+  value: number;
+}
+
+const CreateKPIValueForm = ({ kpi, setOpen }: FormProps) => {
+  const [createKPIValue] = useCreateKpiValueMutation();
+  const initialValues: FormValues = {
+    year: null,
+    value: null,
+  };
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={async (values: FormValues) => {
+        const res = await createKPIValue({
+          variables: { value: values.value, year: values.year, kpiID: kpi.id },
+          refetchQueries: [MyOrganizationKpiValuesDocument],
+        });
+        if (res.data?.createKPIValue?.id) {
+          console.log("created KPI value");
+          setOpen(false);
+        } else {
+          console.log("failed to create value");
+        }
+      }}
+    >
+      {({ isSubmitting, handleReset, values }: FormikProps<FormValues>) => (
+        <Form>
+          <div className="rounded-md bg-[#F4F5F7] px-2 pt-2 pb-4 [box-shadow:0px_4px_4px_0px_#00000040]">
+            <h3 className="text-xs font-medium uppercase leading-4 tracking-wide text-gray-500">
+              Määritä uusi tunnusluku
+            </h3>
+            <div className="my-2 space-y-2">
+              <FormField
+                name="year"
+                placeholder="Vuosi"
+                label="Tilikauden päättymisvuosi"
+                showLabel
+                roundedBottom
+                roundedTop
+                variant="tight"
+                required
+                min={1990}
+                max={2100}
+                type="number"
+                value={values.year !== null ? values.year : ""}
+              />
+              <div className="flex">
+                <FormField
+                  name="value"
+                  placeholder="Arvo"
+                  label="Tunnusluku"
+                  showLabel
+                  roundedBottom
+                  roundedTop
+                  variant="tight"
+                  required
+                  min={0}
+                  step={0.1}
+                  type="number"
+                  value={values.value !== null ? values.value : ""}
+                />
+                <p className="mt-6 self-center px-2 text-gray-700">
+                  {kpi?.unit?.shorthand}
+                </p>
+              </div>
+            </div>
+            <div className="mt-8 flex justify-end gap-x-2">
+              <Button
+                variant="neutral"
+                onClick={() => setOpen(false)}
+                disabled={isSubmitting}
+              >
+                Peruuta
+              </Button>
+              <Button type="submit" variant="success" disabled={isSubmitting}>
+                Tallenna
+              </Button>
+            </div>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

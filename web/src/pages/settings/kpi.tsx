@@ -14,7 +14,7 @@ import {
   useMyOrganizationKpiValuesQuery,
 } from "graphql/queries/kpi/myOrganizationKPIs.generated";
 import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Kpi } from "types/generatedTypes";
 import { numberToString } from "utils/numberToString";
 
@@ -29,6 +29,18 @@ const KPISettingsPage = () => {
   const [editFormOpen, setEditFormOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [selectedKPI, setSelectedKPI] = useState(null);
+
+  useEffect(() => {
+    if (!selectedKPI) return;
+    else {
+      // check if selectedKPI is in my org KPIs
+      if (myKpis.find((k) => k.id === selectedKPI.id)) {
+        setSelectedKPI(myKpis.find((k) => k.id === selectedKPI.id));
+      } else if (kpis.find((k) => k.id === selectedKPI.id)) {
+        setSelectedKPI(kpis.find((k) => k.id === selectedKPI.id));
+      }
+    }
+  }, [kpis, myKpis, selectedKPI]);
 
   const handleSelectKPI = (kpi: Kpi) => {
     setSelectedKPI(kpi);
@@ -159,8 +171,7 @@ const KPISettingsPage = () => {
                   ))}
                   <td className="flex items-center justify-end px-4 py-1">
                     <OptionsMenu
-                      onEdit={() => handleEditKPI(kpi)}
-                      // onDelete={() => console.log("clicked delete")}
+                      onEdit={() => handleEditKPI(kpi as Kpi)}
                       variant={
                         i >= allKPIs?.length - 2 ? "last-element" : "normal"
                       }
