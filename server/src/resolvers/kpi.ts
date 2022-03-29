@@ -21,7 +21,8 @@ export class KPIResolver {
   @Query(() => [KPI])
   publicKPIs() {
     return KPI.createQueryBuilder("kpi")
-      .select(["kpi.id", "kpi.name"])
+      .select(["kpi.id", "kpi.name", "unit"])
+      .leftJoin("kpi.unit", "unit")
       .where("kpi.organization IS NULL")
       .getMany();
   }
