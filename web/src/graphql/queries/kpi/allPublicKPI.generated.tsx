@@ -6,7 +6,7 @@ const defaultOptions =  {}
 export type AllPublicKpiQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type AllPublicKpiQuery = { __typename?: 'Query', publicKPIs: Array<{ __typename?: 'KPI', id: string, name: string }> };
+export type AllPublicKpiQuery = { __typename?: 'Query', publicKPIs: Array<{ __typename?: 'KPI', id: string, name: string, unit?: Types.Maybe<{ __typename?: 'MeasurementUnit', name: string, shorthand: string }> }> };
 
 
 export const AllPublicKpiDocument = gql`
@@ -14,6 +14,10 @@ export const AllPublicKpiDocument = gql`
   publicKPIs {
     id
     name
+    unit {
+      name
+      shorthand
+    }
   }
 }
     `;
