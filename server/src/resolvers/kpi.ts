@@ -1,7 +1,46 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
+import { getConnection } from "typeorm";
 import { KPI, KPIValue, MeasurementUnit, User } from "../entity";
 import { MeasurementUnitType, Role } from "../types";
 import { MyContext } from "../types/MyContext";
+import { z } from "zod";
+
+@ObjectType()
+class EmissionsByKPI {
+  @Field()
+  year: number;
+
+  @Field()
+  co2_emissions: number;
+
+  @Field()
+  value: number;
+
+  @Field()
+  kpi: string;
+
+  @Field()
+  kpiValue: number;
+}
+
+const kpiSchema = z
+  .object({
+    year: z.number(),
+    co2_emissions: z.number(),
+    value: z.number(),
+    kpi: z.string(),
+    kpi_value: z.number(),
+  })
+  .array();
 
 @Resolver(KPI)
 export class KPIResolver {
@@ -25,6 +64,44 @@ export class KPIResolver {
       .leftJoin("kpi.unit", "unit")
       .where("kpi.organization IS NULL")
       .getMany();
+  }
+
+  @Authorized([Role.COMPANY_ADMIN])
+  @Query(() => [EmissionsByKPI])
+  async emissionsByKPI(
+    @Ctx() { req }: MyContext
+  ): Promise<EmissionsByKPI[] | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) return undefined;
+    const conn = getConnection();
+    const res = await conn.manager.query(
+      `with kpis (myYear, emissions, kvYear, kvValue, kpi) as (select date_part('year', cr."startDate") as myYear,
+        sum(cr."emissionsCalculated") as emissions,
+        kv.year as kvYear,
+        kv.value as value,
+        kpi.name as kpi
+        from kpi_value kv
+          left join kpi on kv."parentId" = kpi.id
+          left join calculation_result cr
+                  on kv."organizationId" = cr."organizationID" ::uuid
+        where cr."organizationID" = $1
+              and cr."isLatest" is true
+        group by myYear, value, kpi, kvYear)
+      select myYear as year, emissions as co2_emissions, kvValue as value, kpi, emissions/kvValue as kpi_value
+        from kpis
+        where myYear = kvYear
+        group by year, emissions, kvYear, kpi, kvValue
+        order by year, kpi;`,
+      [user.organizations[0].id]
+    );
+    const parsed = kpiSchema.safeParse(res);
+    if (!parsed.success) {
+      return undefined;
+    }
+    const mappedData = parsed.data.map((v) => {
+      return { ...v, kpiValue: v.kpi_value };
+    });
+    return mappedData;
   }
 
   @Authorized([Role.ADMIN, Role.COMPANY_ADMIN])
