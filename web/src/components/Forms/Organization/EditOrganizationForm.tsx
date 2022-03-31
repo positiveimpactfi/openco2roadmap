@@ -1,4 +1,3 @@
-import { businessFields } from "@/shared/businessFields";
 import { municipalities } from "@/shared/municipalities";
 import Button from "components/Button";
 import FormField from "components/Forms/Common/FormField";
@@ -9,10 +8,8 @@ import { useUpdateOrganizationMutation } from "graphql/mutations/organization/up
 import { AllOrganizationsDocument } from "graphql/queries/organization/allOrganizations.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { MyOrganization } from "pages/admin/organizations";
 import { useState } from "react";
-import { Municipality, Organization, SubIndustry } from "types/generatedTypes";
-import { compareString } from "utils/compareStrings";
+import { Municipality, Organization } from "types/generatedTypes";
 import { localizedIndustries } from "utils/getLocalizedIndustries";
 import { deepObjectsEqual } from "utils/objectsEqual";
 import MultiLevelSelect from "../Common/MultiLevelSelect";
@@ -125,6 +122,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 roundedTop
                 roundedBottom
                 required
+                variant="tight"
               />
               <FormField
                 showLabel
@@ -134,6 +132,7 @@ const EditOrganizationForm: React.FC<EditOrganizationProps> = ({
                 roundedTop
                 roundedBottom
                 required
+                variant="tight"
               />
               <Select
                 name="municipality"

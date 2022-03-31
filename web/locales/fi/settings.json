@@ -5,9 +5,9 @@
       "description": "Asetukset-osiossa pääset muokkaamaan yrityksesi hiilijalanjälkilaskentaan tarvittavia tietoja."
     },
     "org_settings": {
-      "title": "Yritysasetukset",
+      "title": "Yrityksen tiedot",
       "description": "Yrityksen perustietoja voi muokata tällä sivulla.",
-      "description_long": "Yritysasetukset ja yrityskohtaiset päästökertoimet tällä sivulla.",
+      "description_long": "Täytä yrityksen perustiedot viimeisimmän tilikauden mukaan.",
       "company_info": {
         "title": "Yrityksen tiedot",
         "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
