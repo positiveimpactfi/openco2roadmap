@@ -33,4 +33,7 @@ export enum MeasurementUnitType {
   cm3 = 32,
   l = 33,
   ml = 34,
+  kpl = 35,
+  tuote = 36,
+  suorite = 37,
 }

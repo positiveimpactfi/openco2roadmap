@@ -270,6 +270,30 @@ export const volume: Unit[] = [
   },
 ];
 
+export const quantities: Unit[] = [
+  {
+    name: "kpl",
+    shorthand: "kpl",
+    conversionFactor: 1,
+    id: UnitType.kpl,
+    physicalQuantity: QuantityType.Quantity,
+  },
+  {
+    name: "tuote",
+    shorthand: "tuote",
+    conversionFactor: 1,
+    id: UnitType.tuote,
+    physicalQuantity: QuantityType.Quantity,
+  },
+  {
+    name: "suorite",
+    shorthand: "suorite",
+    conversionFactor: 1,
+    id: UnitType.suorite,
+    physicalQuantity: QuantityType.Quantity,
+  },
+];
+
 export const allUnits = area.concat(
   currency,
   energy,
@@ -277,7 +301,8 @@ export const allUnits = area.concat(
   mass,
   time,
   transport,
-  volume
+  volume,
+  quantities
 );
 
 export const allUnitsObject = {
@@ -289,4 +314,5 @@ export const allUnitsObject = {
   Time: time,
   Transport: transport,
   Volume: volume,
+  Quantity: quantities,
 };
