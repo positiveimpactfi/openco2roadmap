@@ -174,6 +174,15 @@ export enum EmissionSourceType {
   Viljatuotteet = 'Viljatuotteet'
 }
 
+export type EmissionsByKpi = {
+  __typename?: 'EmissionsByKPI';
+  co2_emissions: Scalars['Float'];
+  kpi: Scalars['String'];
+  kpiValue: Scalars['Float'];
+  value: Scalars['Float'];
+  year: Scalars['Float'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -199,14 +208,16 @@ export type Kpi = {
   __typename?: 'KPI';
   id: Scalars['ID'];
   name: Scalars['String'];
-  organization: Organization;
-  values: Array<KpiValue>;
+  organization?: Maybe<Organization>;
+  unit?: Maybe<MeasurementUnit>;
+  values?: Maybe<Array<KpiValue>>;
 };
 
 export type KpiValue = {
   __typename?: 'KPIValue';
   id: Scalars['ID'];
-  parentKPI: Kpi;
+  organization?: Maybe<Organization>;
+  parent: Kpi;
   value: Scalars['Float'];
   year: Scalars['Int'];
 };
@@ -282,6 +293,8 @@ export type Mutation = {
   createEmissionFactor: EmissionFactor;
   createEmissionFactorValue: EmissionFactorValue;
   createEmissionSource: EmissionSource;
+  createKPI: Kpi;
+  createKPIValue: KpiValue;
   createOrganization: Organization;
   createRegistrationRequest: RegistrationRequest;
   createSite: Site;
@@ -289,6 +302,8 @@ export type Mutation = {
   createSiteUnit: SiteUnit;
   createUser: UserResolverResponse;
   deleteEntry: DataEntry;
+  deleteKPI: Kpi;
+  deleteKPIValue: KpiValue;
   forgotPassword: Scalars['Boolean'];
   inviteUser: Scalars['Boolean'];
   login: UserResolverResponse;
@@ -296,6 +311,8 @@ export type Mutation = {
   register: UserResolverResponse;
   sendInvitationReminder: Scalars['Boolean'];
   updateDataEntry: DataEntry;
+  updateKPI: Kpi;
+  updateKPIValue: KpiValue;
   updateMyName: Scalars['Boolean'];
   updateOrganization: Organization;
   updateSite: Site;
@@ -358,6 +375,19 @@ export type MutationCreateEmissionSourceArgs = {
 };
 
 
+export type MutationCreateKpiArgs = {
+  measurementUnit?: Maybe<MeasurementUnitType>;
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateKpiValueArgs = {
+  kpiID: Scalars['String'];
+  value: Scalars['Float'];
+  year: Scalars['Int'];
+};
+
+
 export type MutationCreateOrganizationArgs = {
   data: OrganizationInput;
 };
@@ -397,6 +427,16 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteEntryArgs = {
   dataEntryID: Scalars['String'];
+};
+
+
+export type MutationDeleteKpiArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteKpiValueArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -440,6 +480,20 @@ export type MutationUpdateDataEntryArgs = {
   measurementUnit?: Maybe<MeasurementUnitType>;
   siteUnitID?: Maybe<Scalars['String']>;
   startDate?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type MutationUpdateKpiArgs = {
+  id: Scalars['String'];
+  measurementUnit?: Maybe<MeasurementUnitType>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateKpiValueArgs = {
+  id: Scalars['String'];
+  value?: Maybe<Scalars['Float']>;
+  year?: Maybe<Scalars['Int']>;
 };
 
 
@@ -501,6 +555,8 @@ export type Query = {
   allEmissionFactors: Array<EmissionFactor>;
   allEmissionSources: Array<EmissionSource>;
   allInvitedUsers: Array<InvitedUser>;
+  allKPIValues: Array<KpiValue>;
+  allKPIs: Array<Kpi>;
   allMunicipalities: Array<Municipality>;
   allOrganizations: Array<Organization>;
   allPublicEmissionFactors: Array<EmissionFactor>;
@@ -510,6 +566,7 @@ export type Query = {
   allSitesInMyOrganization: Array<Site>;
   allUsers: Array<User>;
   businessFields: Array<BusinessField>;
+  emissionsByKPI: Array<EmissionsByKpi>;
   me?: Maybe<User>;
   myDataEntries: Array<DataEntry>;
   myEmissionFactors: Array<EmissionFactor>;
@@ -517,8 +574,10 @@ export type Query = {
   myOrganizationEmissionFactors: Array<EmissionFactor>;
   myOrganizationEmissionsByCategoryAndMonth: Array<MonthlyCalculationSummary>;
   myOrganizationEmissionsByCategoryAndYear: Array<YearlyCalculationSummary>;
+  myOrganizationKPIs: Array<Kpi>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
+  publicKPIs: Array<Kpi>;
   siteTypes: Array<SiteType>;
   units: Array<MeasurementUnit>;
   usersInOrganization: Array<User>;

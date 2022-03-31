@@ -7,4 +7,5 @@ export enum PhysicalEntityType {
   Time = 6,
   Transport = 7,
   Volume = 8,
+  Quantity = 9,
 }

@@ -1,0 +1,5 @@
+mutation DeleteKPIValue($id: String!) {
+  deleteKPIValue(id: $id) {
+    value
+  }
+}

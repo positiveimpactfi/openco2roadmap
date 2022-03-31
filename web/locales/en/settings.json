@@ -12,16 +12,17 @@
         "title": "Organization info",
         "description": "Fill in your organization info based on the last fiscal year"
       },
-      "kpis": {
-        "title": "KPIs",
-        "description": "KPI section"
-      },
       "form": {
         "name": "Organization name",
         "id": "VAT-number",
         "location": "Municipality",
         "business_field": "Business field"
       }
+    },
+    "kpis": {
+      "title": "KPIs",
+      "description": "Fill in your organization's KPI data here",
+      "description_long": "KPIs provide a useful comparison basis for carbon footprint calculations. After adding data here, you can view your organization's carbon footprint in relation to these KPIs on the calculator/footprints page."
     },
     "sites": {
       "title": "Sites",

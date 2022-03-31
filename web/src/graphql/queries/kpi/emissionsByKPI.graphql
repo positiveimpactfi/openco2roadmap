@@ -1,0 +1,7 @@
+query EmissionsByKPI {
+  emissionsByKPI {
+    year
+    kpi
+    kpiValue
+  }
+}

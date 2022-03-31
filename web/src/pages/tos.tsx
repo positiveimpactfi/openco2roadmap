@@ -41,15 +41,20 @@ export const PersonalDataSection = () => {
       </h2>
       <div>
         <h4 className="text-base font-bold">Rekisterin nimi</h4>
-        <p>CNT-hankkeen CO2-laskurin pilottikäyttäjien rekisteri</p>
+        <p>Matkailun CO2-laskurin käyttäjärekisteri (pilottikäyttäjät) </p>
       </div>
       <div>
         <h4 className="text-base font-bold">Rekisterinpitäjä</h4>
-        <p>Helsingin kaupunki / Kaupunginkanslia / Elinkeinojohtaja</p>
+        <p>Business Finland Oy (Y-tunnus: 2725690-3)</p>
+        <p>Käyntiosoite: Porkkalankatu 1, 00180 Helsinki</p>
+        <p>Puhelinvaihde: 029 50 55000</p>
       </div>
       <div>
-        <h4 className="text-base font-bold">Rekisterin yhteyshenkilö</h4>
-        <p>Anna Peltosaari, anna.peltosaari@hel.fi</p>
+        <h4 className="text-base font-bold">Rekisterin yhteystaho</h4>
+        <p>
+          Pyydämme lähettämään sähköpostit osoitteeseen:
+          tietosuoja@businessfinland.fi
+        </p>
       </div>
       <div>
         <h4 className="text-base font-bold">
@@ -63,10 +68,6 @@ export const PersonalDataSection = () => {
       </div>
       <div>
         <h4 className="text-base font-bold">Käsittelyn oikeusperuste</h4>
-        <p>Anna Peltosaari, anna.peltosaari@hel.fi</p>
-      </div>
-      <div>
-        <h4 className="text-base font-bold">Rekisterin yhteyshenkilö</h4>
         <p>
           EU:n yleisen tietosuoja-asetuksen (679/2016) 6 artiklan 1 e-kohta:
           käsittely on tarpeen yleistä etua koskevan tehtävän suorittamiseksi ja
@@ -203,7 +204,19 @@ export const TermsAndConditionsSection = () => {
               https://app.co2roadmap.fi
             </a>
           </span>{" "}
-          ja sitä ylläpitää Positive Impact Finland Oy.
+          ja sitä ylläpitää Positive Impact Finland Oy. Laskuri on saatavilla
+          1.3.2022 alkaen myös osoitteessa{" "}
+          <span>
+            <a
+              href="https://co2calc.visitfinland.fi"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-gray-600"
+            >
+              https://co2calc.visitfinland.fi
+            </a>
+          </span>
+          .
         </p>
       </div>
       <div>
@@ -244,21 +257,6 @@ export const TermsAndConditionsSection = () => {
             Rekisterinpitäjä eikä laskurin tekninen ylläpitäjä eivät vastaa
             mahdollisesta vahingosta, mikä aiheutuu järjestelmän käyttöehtojen
             vastaisesta käytöstä.
-          </p>
-        </div>
-      </div>
-      <div>
-        <h4 className="text-base font-bold">
-          Tulevat muutokset käyttöehtoihin ja rekisterinpitäjään
-        </h4>
-        <div className="space-y-4">
-          <p>
-            Laskurin ylläpitovastuu siirtyy Business Finlandille 1.3.2022.
-            Siirron yhteydessä tulevat voimaan uudet käyttöehdot ja rekisterin
-            ylläpitovastuu vaihtuu. Asiasta tiedotetaan käyttäjiä ajoissa ja
-            siten, että käyttäjä voi halutessaan pyytää tietojensa poistamista.
-            Poistamista pyytäneiden käyttäjien ja yritysten tiedot poistetaan
-            28.2.2022 mennessä, ennen ylläpitovastuun muutoksia.
           </p>
         </div>
       </div>

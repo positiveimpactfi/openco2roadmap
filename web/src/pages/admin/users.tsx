@@ -130,7 +130,7 @@ const UsersPage = () => {
           <Button
             variant="success"
             onClick={() => setAddFormOpen(true)}
-            disabled
+            disabled={!isSuperAdmin(data?.me)}
           >
             {t("pages.users.actions.add_user.title")}
           </Button>

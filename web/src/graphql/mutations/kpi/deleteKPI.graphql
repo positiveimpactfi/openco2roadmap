@@ -1,0 +1,5 @@
+mutation DeleteKPI($id: String!) {
+  deleteKPI(id: $id) {
+    name
+  }
+}
