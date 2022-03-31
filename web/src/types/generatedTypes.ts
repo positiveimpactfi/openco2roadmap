@@ -174,6 +174,15 @@ export enum EmissionSourceType {
   Viljatuotteet = 'Viljatuotteet'
 }
 
+export type EmissionsByKpi = {
+  __typename?: 'EmissionsByKPI';
+  co2_emissions: Scalars['Float'];
+  kpi: Scalars['String'];
+  kpiValue: Scalars['Float'];
+  value: Scalars['Float'];
+  year: Scalars['Float'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -557,6 +566,7 @@ export type Query = {
   allSitesInMyOrganization: Array<Site>;
   allUsers: Array<User>;
   businessFields: Array<BusinessField>;
+  emissionsByKPI: Array<EmissionsByKpi>;
   me?: Maybe<User>;
   myDataEntries: Array<DataEntry>;
   myEmissionFactors: Array<EmissionFactor>;

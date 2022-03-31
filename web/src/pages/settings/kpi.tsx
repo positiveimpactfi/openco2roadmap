@@ -9,6 +9,7 @@ import Table, { TableCell } from "components/Tables/SimpleTable";
 import WarningModal from "components/Warning";
 import { useDeleteKpiMutation } from "graphql/mutations/kpi/deleteKPI.generated";
 import { useAllPublicKpiQuery } from "graphql/queries/kpi/allPublicKPI.generated";
+import { EmissionsByKpiDocument } from "graphql/queries/kpi/emissionsByKPI.generated";
 import {
   MyOrganizationKpiValuesDocument,
   useMyOrganizationKpiValuesQuery,
@@ -56,7 +57,10 @@ const KPISettingsPage = () => {
     if (kpi?.id) {
       const res = await deleteKPI({
         variables: { id: kpi.id },
-        refetchQueries: [MyOrganizationKpiValuesDocument],
+        refetchQueries: [
+          MyOrganizationKpiValuesDocument,
+          EmissionsByKpiDocument,
+        ],
       });
       if (res.data?.deleteKPI?.name) {
         console.log("successfully deleted KPI");

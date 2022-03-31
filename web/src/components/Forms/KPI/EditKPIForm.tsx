@@ -4,6 +4,7 @@ import WarningModal from "components/Warning";
 import { Form, Formik, FormikProps } from "formik";
 import { useCreateKpiValueMutation } from "graphql/mutations/kpi/createKPIValue.generated";
 import { useDeleteKpiValueMutation } from "graphql/mutations/kpi/deleteKPIValue.generated";
+import { EmissionsByKpiDocument } from "graphql/queries/kpi/emissionsByKPI.generated";
 import { MyOrganizationKpiValuesDocument } from "graphql/queries/kpi/myOrganizationKPIs.generated";
 import { useEffect, useState } from "react";
 import { Kpi, KpiValue, MeasurementUnit } from "types/generatedTypes";
@@ -34,7 +35,7 @@ const EditKPIForm = ({ kpi, setOpen }: FormProps) => {
   const handleDelete = async () => {
     const res = await deleteValue({
       variables: { id: selectedValue },
-      refetchQueries: [MyOrganizationKpiValuesDocument],
+      refetchQueries: [MyOrganizationKpiValuesDocument, EmissionsByKpiDocument],
     });
     if (res.data?.deleteKPIValue?.value) {
       console.log("value deleted successfully");
@@ -152,7 +153,10 @@ const CreateKPIValueForm = ({ kpi, setOpen }: FormProps) => {
       onSubmit={async (values: FormValues) => {
         const res = await createKPIValue({
           variables: { value: values.value, year: values.year, kpiID: kpi.id },
-          refetchQueries: [MyOrganizationKpiValuesDocument],
+          refetchQueries: [
+            MyOrganizationKpiValuesDocument,
+            EmissionsByKpiDocument,
+          ],
         });
         if (res.data?.createKPIValue?.id) {
           console.log("created KPI value");
