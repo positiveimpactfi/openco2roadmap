@@ -1,0 +1,6 @@
+mutation CreateKPIValue($year: Int!, $value: Float!, $kpiID: String!) {
+  createKPIValue(year: $year, kpiID: $kpiID, value: $value) {
+    id
+    value
+  }
+}

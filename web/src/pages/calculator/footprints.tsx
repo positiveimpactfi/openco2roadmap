@@ -2,12 +2,11 @@ import { emissionCategories } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import CalculatorPanel from "components/CalculatorPanel";
 import ChartGroup from "components/Charts/ChartGroup";
-import PieChart from "components/Charts/Pie";
-import StackedBar from "components/Charts/StackedBar";
 import LoadingBar from "components/LoadingBar";
 import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useMyOrganizationEmissionsByCategoryAndMonthQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndMonth.generated";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
+import { useEmissionsByKpiQuery } from "graphql/queries/kpi/emissionsByKPI.generated";
 import useTranslation from "next-translate/useTranslation";
 import { numberToString } from "utils/numberToString";
 
@@ -117,9 +116,80 @@ const CalculatorFootprintsPage = () => {
               </Table>
             </div>
           </div>
+          <KPITable />
         </div>
       ) : null}
     </CalculatorPanel>
+  );
+};
+
+const KPITable = () => {
+  interface ReducedData {
+    kpi: string;
+    values: {
+      year: number;
+      value: number;
+    }[];
+  }
+
+  const { data, loading } = useEmissionsByKpiQuery({
+    fetchPolicy: "network-only",
+  });
+  const myData = data?.emissionsByKPI;
+  const kpiValuesByYear = myData?.reduce((acc, current) => {
+    const alreadyInArray = acc.find((v) => v.kpi === current.kpi);
+    if (!alreadyInArray) {
+      return acc.concat({
+        kpi: current.kpi,
+        values: [{ year: current.year, value: current.kpiValue }],
+      });
+    } else {
+      const newData = { year: current.year, value: current.kpiValue };
+      const newAcc = acc.map((v) => {
+        if (v.kpi !== current.kpi) return v;
+        else return { ...v, values: v.values.concat(newData) };
+      });
+      return newAcc;
+    }
+  }, [] as ReducedData[]);
+  const allYears = myData?.reduce((acc, current) => {
+    if (!acc.includes(current.year)) {
+      return acc.concat(current.year);
+    } else return acc;
+  }, [] as number[]);
+  const sortedKPIValuesByYear = kpiValuesByYear?.sort((a, b) =>
+    a.kpi.localeCompare(b.kpi)
+  );
+  if (loading) return <div>loading...</div>;
+  return (
+    <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <Table
+          headers={["Hiilijalanjäljen tunnusluvut"].concat(
+            allYears.map((y) => y.toString())
+          )}
+        >
+          {sortedKPIValuesByYear?.map((kpi, i) => (
+            <tr key={kpi.kpi}>
+              <TableCell
+                key={kpi.kpi + i.toString()}
+                value={`Hiilijalanjälki per ${kpi.kpi.toLowerCase()}`}
+              />
+              {allYears.map((y) => (
+                <TableCell
+                  key={kpi.kpi + y.toString()}
+                  value={numberToString(
+                    kpi.values.find((v) => v.year === y)?.value,
+                    2
+                  )}
+                  clamped
+                />
+              ))}
+            </tr>
+          ))}
+        </Table>
+      </div>
+    </div>
   );
 };
 

@@ -12,16 +12,17 @@
         "title": "Yrityksen tiedot",
         "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
       },
-      "kpis": {
-        "title": "Tunnusluvut",
-        "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan."
-      },
       "form": {
         "name": "Yrityksen nimi",
         "id": "Y-tunnus",
         "location": "Kotipaikka",
         "business_field": "Toimiala"
       }
+    },
+    "kpis": {
+      "title": "Tunnusluvut",
+      "description": "Täytä yrityksen tiedot viimeisimmän tilikauden mukaan.",
+      "description_long": "Hiilijalanjälkeä on hyödyllistä tutkia myös erilaisiin tunnuslukuihin verraten. Kun syötät tälle sivulle yrityksesi toimintaa kuvaavat tunnusluvut, pääset Hiilijalanjäljet-sivulla tarkastelemaan yrityksesi vuosittaista hiilijalanjälkeä näihin suhteutettuna."
     },
     "sites": {
       "title": "Toimipaikat",

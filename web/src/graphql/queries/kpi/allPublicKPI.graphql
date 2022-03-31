@@ -1,0 +1,10 @@
+query AllPublicKPI {
+  publicKPIs {
+    id
+    name
+    unit {
+      name
+      shorthand
+    }
+  }
+}

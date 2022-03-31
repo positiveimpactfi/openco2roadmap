@@ -8,6 +8,11 @@ export const settingsLinks: PageLink[] = linksWithDefaultIcons([
     href: "/settings/organization-settings",
   },
   {
+    name: "kpis",
+    description: "kpi page",
+    href: "/settings/kpi",
+  },
+  {
     name: "sites",
     description:
       "Ennen laskennan aloittamista luo yrityksellesi toimipaikkarakenne.",
