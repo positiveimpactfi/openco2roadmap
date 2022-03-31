@@ -154,9 +154,14 @@ const KPISettingsPage = () => {
                   <OptionsMenu
                     onEdit={() => handleEditKPI(kpi)}
                     onDelete={() => handleSelectKPI(kpi)}
+                    onEditText="Muokkaa arvoja"
+                    onDeleteText="Poista arvot"
                   />
                 ) : (
-                  <OptionsMenu onEdit={() => handleEditKPI(kpi)} />
+                  <OptionsMenu
+                    onEdit={() => handleEditKPI(kpi)}
+                    onEditText="Muokkaa arvoja"
+                  />
                 )}
               </div>
             </tr>
@@ -176,6 +181,7 @@ const KPISettingsPage = () => {
                   <td className="flex items-center justify-end px-4 py-1">
                     <OptionsMenu
                       onEdit={() => handleEditKPI(kpi as Kpi)}
+                      onEditText="Muokkaa arvoja"
                       variant={
                         i >= allKPIs?.length - 2 ? "last-element" : "normal"
                       }
