@@ -36,6 +36,13 @@ const scopesSchema = z
   })
   .array();
 
+const sitesSchema = z
+  .object({
+    site: z.string(),
+    values: z.record(z.number()),
+  })
+  .array();
+
 @ObjectType()
 class YearlyCalculationSummary {
   @Field({ nullable: true })
@@ -61,6 +68,15 @@ class MonthlyCalculationSummary {
 class ScopeSummary {
   @Field()
   scope: string;
+
+  @Field()
+  values: string;
+}
+
+@ObjectType()
+class SiteSummary {
+  @Field()
+  site: string;
 
   @Field()
   values: string;
@@ -193,6 +209,58 @@ export class CalculationResultResolver {
     }
     const mappedData = parsed.data.map((d) => {
       return { scope: d.scope, values: JSON.stringify(d.values) };
+    });
+    return mappedData;
+  }
+
+  @Authorized([Role.COMPANY_ADMIN, Role.COMPANY_USER])
+  @Query(() => [SiteSummary])
+  async myOrganizationEmissionsBySite(
+    @Ctx() { req }: MyContext
+  ): Promise<SiteSummary[] | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) return undefined;
+    const conn = getConnection();
+    const res = await conn.manager.query(
+      `
+      WITH sites (
+        site,
+        year,
+        emissions
+      ) AS (
+        SELECT
+          s.name AS site,
+          date_part('year', cr."startDate") AS year,
+          sum(cr."emissionsCalculated") AS emissions
+        FROM
+          calculation_result as cr
+          LEFT JOIN site s ON cr."siteID"::uuid = s.id
+        WHERE
+          "isLatest" IS TRUE
+          AND cr."organizationID" = $1
+        GROUP BY
+          site,
+          year
+        ORDER BY
+          site
+      )
+      SELECT
+        site,
+        json_object_agg(year, emissions) AS
+      VALUES
+        FROM sites
+      GROUP BY
+        site;
+      `,
+      [user.organizations[0].id]
+    );
+    const parsed = sitesSchema.safeParse(res);
+    if (!parsed.success) {
+      console.log("error", parsed.error);
+      return undefined;
+    }
+    const mappedData = parsed.data.map((d) => {
+      return { site: d.site, values: JSON.stringify(d.values) };
     });
     return mappedData;
   }
