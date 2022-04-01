@@ -578,6 +578,7 @@ export type Query = {
   myOrganizationEmissionsByCategoryAndMonth: Array<MonthlyCalculationSummary>;
   myOrganizationEmissionsByCategoryAndYear: Array<YearlyCalculationSummary>;
   myOrganizationEmissionsByScope: Array<ScopeSummary>;
+  myOrganizationEmissionsBySite: Array<SiteSummary>;
   myOrganizationKPIs: Array<Kpi>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
@@ -638,6 +639,12 @@ export type Site = {
   name: Scalars['String'];
   siteType: SiteType;
   siteUnits?: Maybe<Array<SiteUnit>>;
+};
+
+export type SiteSummary = {
+  __typename?: 'SiteSummary';
+  site: Scalars['String'];
+  values: Scalars['String'];
 };
 
 export type SiteType = {

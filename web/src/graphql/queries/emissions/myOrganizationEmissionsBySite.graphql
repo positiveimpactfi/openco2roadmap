@@ -1,0 +1,6 @@
+query MyOrganizationEmissionsBySite {
+  myOrganizationEmissionsBySite {
+    site
+    values
+  }
+}

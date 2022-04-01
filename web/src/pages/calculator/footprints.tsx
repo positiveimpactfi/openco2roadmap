@@ -7,6 +7,7 @@ import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useMyOrganizationEmissionsByScopeQuery } from "graphql/queries/emissions/myOrganizationEmissionByScopes.generated";
 import { useMyOrganizationEmissionsByCategoryAndMonthQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndMonth.generated";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
+import { useMyOrganizationEmissionsBySiteQuery } from "graphql/queries/emissions/myOrganizationEmissionsBySite.generated";
 import { useEmissionsByKpiQuery } from "graphql/queries/kpi/emissionsByKPI.generated";
 import useTranslation from "next-translate/useTranslation";
 import { numberToString } from "utils/numberToString";
@@ -119,6 +120,7 @@ const CalculatorFootprintsPage = () => {
           </div>
           <ScopesTable allYears={allYearsParsed} />
           <KPITable />
+          <SitesTable allYears={allYearsParsed} />
         </div>
       ) : null}
     </CalculatorPanel>
@@ -245,6 +247,40 @@ const ScopesTable = ({ allYears }: { allYears: number[] }) => {
               {allYears.map((y) => (
                 <TableCell
                   key={s.scope + y.toString()}
+                  value={numberToString(s.values[y] / 1000, 1)}
+                  clamped
+                />
+              ))}
+            </tr>
+          ))}
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+const SitesTable = ({ allYears }: { allYears: number[] }) => {
+  type SiteYearlyValue = Record<number, number>;
+
+  const { data, loading } = useMyOrganizationEmissionsBySiteQuery();
+  const sites = data?.myOrganizationEmissionsBySite?.map((s) => {
+    return { site: s.site, values: JSON.parse(s.values) as SiteYearlyValue };
+  });
+  if (loading) return null;
+  return (
+    <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <Table
+          headers={["Hiilijalanjälki toimipaikoittain"].concat(
+            allYears.map((y) => y.toString())
+          )}
+        >
+          {sites?.map((s, i) => (
+            <tr key={s.site}>
+              <TableCell key={s.site + i.toString()} value={s.site} />
+              {allYears.map((y) => (
+                <TableCell
+                  key={s.site + y.toString()}
                   value={numberToString(s.values[y] / 1000, 1)}
                   clamped
                 />
