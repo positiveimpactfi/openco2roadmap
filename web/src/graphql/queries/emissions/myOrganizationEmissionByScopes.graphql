@@ -1,0 +1,6 @@
+query MyOrganizationEmissionsByScope{
+  myOrganizationEmissionsByScope {
+    scope
+    values
+  }
+}

@@ -255,6 +255,7 @@ export enum MeasurementUnitType {
   Kg = 'kg',
   Km = 'km',
   Km2 = 'km2',
+  Kpl = 'kpl',
   L = 'l',
   M = 'm',
   M2 = 'm2',
@@ -265,8 +266,10 @@ export enum MeasurementUnitType {
   Nmi = 'nmi',
   Pkm = 'pkm',
   S = 's',
+  Suorite = 'suorite',
   T = 't',
-  Tkm = 'tkm'
+  Tkm = 'tkm',
+  Tuote = 'tuote'
 }
 
 export type MonthlyCalculationSummary = {
@@ -574,6 +577,7 @@ export type Query = {
   myOrganizationEmissionFactors: Array<EmissionFactor>;
   myOrganizationEmissionsByCategoryAndMonth: Array<MonthlyCalculationSummary>;
   myOrganizationEmissionsByCategoryAndYear: Array<YearlyCalculationSummary>;
+  myOrganizationEmissionsByScope: Array<ScopeSummary>;
   myOrganizationKPIs: Array<Kpi>;
   myOrganizationUsers: Array<User>;
   physicalQuantities: Array<PhysicalQuantity>;
@@ -620,6 +624,12 @@ export enum Role {
   DestinationManager = 'DESTINATION_MANAGER',
   Superadmin = 'SUPERADMIN'
 }
+
+export type ScopeSummary = {
+  __typename?: 'ScopeSummary';
+  scope: Scalars['String'];
+  values: Scalars['String'];
+};
 
 export type Site = {
   __typename?: 'Site';
