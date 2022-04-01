@@ -4,6 +4,7 @@ import CalculatorPanel from "components/CalculatorPanel";
 import ChartGroup from "components/Charts/ChartGroup";
 import LoadingBar from "components/LoadingBar";
 import Table, { TableCell } from "components/Tables/SimpleTable";
+import { useMyOrganizationEmissionsByScopeQuery } from "graphql/queries/emissions/myOrganizationEmissionByScopes.generated";
 import { useMyOrganizationEmissionsByCategoryAndMonthQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndMonth.generated";
 import { useMyOrganizationEmissionsByCategoryAndYearQuery } from "graphql/queries/emissions/myOrganizationEmissionsByCategoryAndYear.generated";
 import { useEmissionsByKpiQuery } from "graphql/queries/kpi/emissionsByKPI.generated";
@@ -116,6 +117,7 @@ const CalculatorFootprintsPage = () => {
               </Table>
             </div>
           </div>
+          <ScopesTable allYears={allYearsParsed} />
           <KPITable />
         </div>
       ) : null}
@@ -183,6 +185,68 @@ const KPITable = () => {
                     kpi.values.find((v) => v.year === y)?.value,
                     2
                   )}
+                  clamped
+                />
+              ))}
+            </tr>
+          ))}
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+const ScopesTable = ({ allYears }: { allYears: number[] }) => {
+  type ScopeYearlyValue = Record<number, number>;
+  const formatScope = (scope: string): string => {
+    switch (scope) {
+      case "Scope 1": {
+        return "SCOPE 1 (suorat energiankulutuksen päästöt)";
+      }
+      case "Scope 2": {
+        return "SCOPE 2 (epäsuorat energiankulutuksen päästöt)";
+      }
+      case "Scope 3": {
+        return "SCOPE 3 (muut epäsuorat päästöt arvoketjusta)";
+      }
+      default: {
+        return "";
+      }
+    }
+  };
+
+  const { data, loading } = useMyOrganizationEmissionsByScopeQuery();
+  const allScopes = ["Scope 1", "Scope 2", "Scope 3"];
+  const unmappedScopes = data?.myOrganizationEmissionsByScope?.map((s) => {
+    return { scope: s.scope, values: JSON.parse(s.values) as ScopeYearlyValue };
+  });
+  const scopes = allScopes.map((s) => {
+    if (unmappedScopes.find((scope) => s === scope.scope)) {
+      return unmappedScopes.find((scope) => s === scope.scope);
+    } else {
+      return { scope: s, values: {} };
+    }
+  });
+  if (loading) return null;
+  console.log("scopes data", scopes);
+  return (
+    <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <Table
+          headers={["GHG-protokollan sovellusalat"].concat(
+            allYears.map((y) => y.toString())
+          )}
+        >
+          {scopes?.map((s, i) => (
+            <tr key={s.scope}>
+              <TableCell
+                key={s.scope + i.toString()}
+                value={formatScope(s.scope)}
+              />
+              {allYears.map((y) => (
+                <TableCell
+                  key={s.scope + y.toString()}
+                  value={numberToString(s.values[y] / 1000, 1)}
                   clamped
                 />
               ))}
