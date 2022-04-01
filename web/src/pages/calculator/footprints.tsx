@@ -217,18 +217,17 @@ const ScopesTable = ({ allYears }: { allYears: number[] }) => {
 
   const { data, loading } = useMyOrganizationEmissionsByScopeQuery();
   const allScopes = ["Scope 1", "Scope 2", "Scope 3"];
-  const unmappedScopes = data?.myOrganizationEmissionsByScope?.map((s) => {
+  const parsedScopeData = data?.myOrganizationEmissionsByScope?.map((s) => {
     return { scope: s.scope, values: JSON.parse(s.values) as ScopeYearlyValue };
   });
   const scopes = allScopes.map((s) => {
-    if (unmappedScopes.find((scope) => s === scope.scope)) {
-      return unmappedScopes.find((scope) => s === scope.scope);
+    if (parsedScopeData?.find((scope) => s === scope.scope)) {
+      return parsedScopeData?.find((scope) => s === scope.scope);
     } else {
       return { scope: s, values: {} };
     }
   });
   if (loading) return null;
-  console.log("scopes data", scopes);
   return (
     <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
