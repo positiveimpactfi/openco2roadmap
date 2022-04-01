@@ -29,6 +29,13 @@ const monthlySchema = z
   })
   .array();
 
+const scopesSchema = z
+  .object({
+    scope: z.string(),
+    values: z.record(z.number()),
+  })
+  .array();
+
 @ObjectType()
 class YearlyCalculationSummary {
   @Field({ nullable: true })
@@ -48,6 +55,15 @@ class MonthlyCalculationSummary {
 
   @Field(() => String, { nullable: true })
   monthlysums: string;
+}
+
+@ObjectType()
+class ScopeSummary {
+  @Field()
+  scope: string;
+
+  @Field()
+  values: string;
 }
 
 @Resolver(CalculationResult)
@@ -125,6 +141,58 @@ export class CalculationResultResolver {
     }
     const mappedData = parsed.data.map((d) => {
       return { ...d, monthlysums: JSON.stringify(d.monthlysums) };
+    });
+    return mappedData;
+  }
+
+  @Authorized([Role.COMPANY_ADMIN, Role.COMPANY_USER])
+  @Query(() => [ScopeSummary])
+  async myOrganizationEmissionsByScope(
+    @Ctx() { req }: MyContext
+  ): Promise<ScopeSummary[] | undefined> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) return undefined;
+    const conn = getConnection();
+    const res = await conn.manager.query(
+      `
+      WITH scopes (
+        scope,
+        year,
+        emissions
+      ) AS (
+        SELECT
+          es.scope AS scope,
+          date_part('year', cr."startDate") AS year,
+          sum(cr."emissionsCalculated") AS emissions
+        FROM
+          calculation_result cr
+          JOIN emission_source es ON es.id::text::calculation_result_emissionsource_enum = cr."emissionSource"
+        WHERE
+          "isLatest" IS TRUE
+          AND cr."organizationID" = $1
+        GROUP BY
+          scope,
+          year
+        ORDER BY
+          scope
+      )
+      SELECT
+        scope,
+        json_object_agg(year, emissions) AS
+      VALUES
+        FROM scopes
+      GROUP BY
+        scope;
+      `,
+      [user.organizations[0].id]
+    );
+    const parsed = scopesSchema.safeParse(res);
+    if (!parsed.success) {
+      console.log("error", parsed.error);
+      return undefined;
+    }
+    const mappedData = parsed.data.map((d) => {
+      return { scope: d.scope, values: JSON.stringify(d.values) };
     });
     return mappedData;
   }
