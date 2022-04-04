@@ -119,7 +119,7 @@ const CalculatorFootprintsPage = () => {
             </div>
           </div>
           <ScopesTable allYears={allYearsParsed} />
-          <KPITable />
+          <KPITable allYears={allYearsParsed} />
           <SitesTable allYears={allYearsParsed} />
         </div>
       ) : null}
@@ -127,7 +127,7 @@ const CalculatorFootprintsPage = () => {
   );
 };
 
-const KPITable = () => {
+const KPITable = ({ allYears }: { allYears: number[] }) => {
   interface ReducedData {
     kpi: string;
     values: {
@@ -156,11 +156,6 @@ const KPITable = () => {
       return newAcc;
     }
   }, [] as ReducedData[]);
-  const allYears = myData?.reduce((acc, current) => {
-    if (!acc.includes(current.year)) {
-      return acc.concat(current.year);
-    } else return acc;
-  }, [] as number[]);
   const sortedKPIValuesByYear = kpiValuesByYear?.sort((a, b) =>
     a.kpi.localeCompare(b.kpi)
   );
@@ -170,7 +165,7 @@ const KPITable = () => {
     <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <Table
-          headers={["Hiilijalanjäljen tunnusluvut"].concat(
+          headers={["Hiilijalanjäljen tunnusluvut (kg CO2e)"].concat(
             allYears.map((y) => y.toString())
           )}
         >
