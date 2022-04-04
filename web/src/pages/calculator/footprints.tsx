@@ -119,8 +119,8 @@ const CalculatorFootprintsPage = () => {
             </div>
           </div>
           <ScopesTable allYears={allYearsParsed} />
-          <KPITable allYears={allYearsParsed} />
           <SitesTable allYears={allYearsParsed} />
+          <KPITable allYears={allYearsParsed} />
         </div>
       ) : null}
     </CalculatorPanel>
