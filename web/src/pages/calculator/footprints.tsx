@@ -249,6 +249,23 @@ const ScopesTable = ({ allYears }: { allYears: number[] }) => {
               ))}
             </tr>
           ))}
+          <tr>
+            <TableCell value="Yhteensä, t CO2e" bolded />
+            {allYears.map((y) => (
+              <TableCell
+                key={y + "_total"}
+                value={numberToString(
+                  scopes?.reduce(
+                    (p, c) => (c.values[y] ? p + c.values[y] : p),
+                    0
+                  ) / 1000,
+                  1
+                )}
+                clamped
+                bolded
+              />
+            ))}
+          </tr>
         </Table>
       </div>
     </div>
@@ -283,6 +300,23 @@ const SitesTable = ({ allYears }: { allYears: number[] }) => {
               ))}
             </tr>
           ))}
+          <tr>
+            <TableCell value="Yhteensä, t CO2e" bolded />
+            {allYears.map((y) => (
+              <TableCell
+                key={y + "_total"}
+                value={numberToString(
+                  sites?.reduce(
+                    (p, c) => (c.values[y] ? p + c.values[y] : p),
+                    0
+                  ) / 1000,
+                  1
+                )}
+                clamped
+                bolded
+              />
+            ))}
+          </tr>
         </Table>
       </div>
     </div>
