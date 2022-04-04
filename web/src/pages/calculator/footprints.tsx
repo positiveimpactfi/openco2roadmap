@@ -238,6 +238,7 @@ const ScopesTable = ({ allYears }: { allYears: number[] }) => {
               <TableCell
                 key={s.scope + i.toString()}
                 value={formatScope(s.scope)}
+                clamped
               />
               {allYears.map((y) => (
                 <TableCell

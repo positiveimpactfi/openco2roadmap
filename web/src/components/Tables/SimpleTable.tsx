@@ -14,7 +14,7 @@ const Table: React.FC<TableProps> = ({
   children,
 }) => {
   return (
-    <table className="min-w-full divide-y divide-gray-200">
+    <table className="min-w-full table-fixed divide-y divide-gray-200">
       <thead className="bg-gray-50">
         <tr>
           {headers.map((header, i) => (
@@ -23,6 +23,7 @@ const Table: React.FC<TableProps> = ({
               scope="col"
               className={classNames(
                 "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500",
+                "md:first:min-w-[500px]",
                 alignLastRight ? "last:text-right" : null
               )}
             >
@@ -45,7 +46,7 @@ export const TableCell: React.FC<{
   return (
     <td
       className={classNames(
-        "px-6 py-1  text-sm",
+        "px-6 py-1 text-sm",
         clamped ? `max-w-[40px] truncate md:max-w-[70px]` : null,
         hideOnSm ? "hidden md:visible" : null,
         bolded ? "font-bold text-gray-600" : "font-medium text-gray-500"
