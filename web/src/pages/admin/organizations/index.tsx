@@ -111,8 +111,8 @@ const OrganizationsTable = ({ data, handleFormOpen }: TableProps) => {
         Header: "Kotipaikka",
         accessor: "municipalityName",
         sortType: (rowA, rowB) =>
-          (rowA.original as Organization).municipality.name.localeCompare(
-            (rowB.original as Organization).municipality.name
+          (rowA.original as Organization).municipality?.name.localeCompare(
+            (rowB.original as Organization).municipality?.name
           ),
       },
       {
