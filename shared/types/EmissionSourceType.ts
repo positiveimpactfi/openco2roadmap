@@ -76,4 +76,9 @@ export enum EmissionSourceType {
   MuutKuljetukset = 73,
   Raidekuljetukset = 74,
   Tiekuljetukset = 75,
+  Maalampo = 76,
+  Pakkausjatteet = 77,
+  MuutJatejakeet = 78,
+  PolttoaineetScope3 = 79,
+  Kylmaaineet = 80,
 }
