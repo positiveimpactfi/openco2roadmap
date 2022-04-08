@@ -113,7 +113,7 @@ export const RegistrationRequestForm: React.FC<{
             "pages.reg_request.user_agreements.user_data.description"
           )}
           required
-          href="/tos"
+          href="/privacy-policy"
         />
         <Checkbox
           name="TOSRights"
@@ -122,6 +122,7 @@ export const RegistrationRequestForm: React.FC<{
             "pages.reg_request.user_agreements.user_rights.description"
           )}
           required
+          href="/tos"
         />
         <Checkbox
           name="TOSStats"
