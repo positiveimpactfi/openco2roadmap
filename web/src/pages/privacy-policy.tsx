@@ -32,14 +32,11 @@ export default PrivacyPolicyPage;
 
 export const Header = () => {
   return (
-    <header className="text-lg font-semibold leading-8">
+    <header className="text-base font-normal leading-8">
       <p>
         Matkailun CO2-laskuri on digitaalinen palvelu, jolla matkailualan yritys
         voi laskea yrityksen hiilijalanjäljen ja kartoittaa suurimmat
-        päästölähteet.
-      </p>
-      <p className="mt-4">
-        Matkailun CO2-laskuri löytyy osoitteesta{" "}
+        päästölähteet. Laskuri löytyy osoitteesta{" "}
         <span>
           <a
             href="https://co2calc.visitfinland.fi/"
