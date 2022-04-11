@@ -144,7 +144,7 @@ export const PrivacyPolicySection = () => {
         <h2 className="text-base font-bold">5. Rekisterin tietosisältö</h2>
         <div>
           <h3 className="font-medium">5.1 Käyttäjän antamat tiedot</h3>
-          <div className="mt-4 space-y-4">
+          <div className="mt-2 space-y-4">
             <div>
               <p>
                 Organisaation edustaja antaa rekisteröitymisensä yhteydessä
@@ -179,11 +179,11 @@ export const PrivacyPolicySection = () => {
             </p>
           </div>
         </div>
-        <div className="space-y-4">
+        <div>
           <h3 className="font-medium">
             5.2 Palvelun käytön yhteydessä syntyvät tiedot{" "}
           </h3>
-          <div>
+          <div className="mt-2 space-y-4">
             <p>
               Palvelun käyttöön liittyen tallennetaan ja kerätään palvelun
               tunnistamis- ja käyttäjätietoja verkkopalvelun mahdollistamiseksi
@@ -206,19 +206,21 @@ export const PrivacyPolicySection = () => {
             </ul>
           </div>
         </div>
-        <div className="space-y-4">
+        <div>
           <h3 className="font-medium">5.3 Anonyymi raportointi</h3>
-          <p>
-            Käyttäjätiedoista voidaan muodostaa ja julkaista tilastoja, jotka
-            kertovat laskurin suosiosta, käytön aktiivisuudesta sekä esim.
-            alueellisesta jakaumasta. Tilastot muodostetaan aina niin, etteivät
-            yksittäiset järjestelmän käyttäjät ja yritykset ole niistä
-            tunnistettavissa.
-          </p>
-          <p>
-            Rekisterissä ei käsitellä erityisiä henkilötietoryhmiä koskevia
-            tietoja.
-          </p>
+          <div className="mt-2 space-y-4">
+            <p>
+              Käyttäjätiedoista voidaan muodostaa ja julkaista tilastoja, jotka
+              kertovat laskurin suosiosta, käytön aktiivisuudesta sekä esim.
+              alueellisesta jakaumasta. Tilastot muodostetaan aina niin,
+              etteivät yksittäiset järjestelmän käyttäjät ja yritykset ole
+              niistä tunnistettavissa.
+            </p>
+            <p>
+              Rekisterissä ei käsitellä erityisiä henkilötietoryhmiä koskevia
+              tietoja.
+            </p>
+          </div>
         </div>
       </div>
 
