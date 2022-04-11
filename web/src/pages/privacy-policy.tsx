@@ -83,7 +83,7 @@ export const PrivacyPolicySection = () => {
         <h2 className="text-base font-bold">
           4. Henkilötietojen käsittelyn tarkoitus ja käsittelyperuste{" "}
         </h2>
-        <table className="mt-2 divide-y divide-gray-300">
+        <table className="my-4 divide-y divide-gray-300">
           <thead>
             <tr className="divide-x divide-gray-200">
               <th
