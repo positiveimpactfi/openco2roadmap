@@ -1,3 +1,4 @@
+import { emissionCategories as ec } from "@/shared/categories";
 import { withAuth } from "components/Auth";
 import LoadingSpinner from "components/LoadingSpinner";
 import SettingsPanel from "components/SettingsPanel";
@@ -5,10 +6,28 @@ import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
 import useTranslation from "next-translate/useTranslation";
 
+const categoriesInOrder = [ec[0], ec[1], ec[3], ec[2]];
+
 const EmissionSourcesSettingsPage = () => {
   const { t } = useTranslation("settings");
   const { data, loading } = useAllEmissionSourcesQuery();
-  const emissionSources = data?.allEmissionSources || [];
+  const emissionSources = data?.allEmissionSources;
+  type EmissionSourceType = typeof emissionSources[0];
+  type ReducedES = EmissionSourceType & { category: string };
+  const reducedEmissionSources = emissionSources?.reduce((prev, current) => {
+    return prev.concat({
+      ...current,
+      category: current.components[0].category.name,
+    });
+  }, [] as ReducedES[]);
+
+  const sortedEmissionSources = reducedEmissionSources?.sort((a, b) => {
+    const ai = categoriesInOrder.findIndex((c) => c.name === a.category);
+    const bi = categoriesInOrder.findIndex((c) => c.name === b.category);
+    if (ai === bi) return a.name.localeCompare(b.name);
+    return ai - bi;
+  });
+
   return (
     <SettingsPanel
       title={t("pages.emission_sources.title")}
@@ -28,7 +47,7 @@ const EmissionSourcesSettingsPage = () => {
                     { returnObjects: true }
                   )}
                 >
-                  {emissionSources.map((es) => {
+                  {sortedEmissionSources.map((es) => {
                     const components = es.components
                       .map((c) => c.name)
                       .sort()
