@@ -141,6 +141,7 @@ export enum EmissionSourceType {
   Kaukojaahdytys = 'Kaukojaahdytys',
   Kaukolampo = 'Kaukolampo',
   Kiinteistohoito = 'Kiinteistohoito',
+  Kylmaaineet = 'Kylmaaineet',
   Laitehankinnat = 'Laitehankinnat',
   Laivakuljetukset = 'Laivakuljetukset',
   Laivamatkat = 'Laivamatkat',
@@ -148,18 +149,22 @@ export enum EmissionSourceType {
   Lentokuljetukset = 'Lentokuljetukset',
   Lentomatkat = 'Lentomatkat',
   Liha = 'Liha',
+  Maalampo = 'Maalampo',
   Maitotuotteet = 'Maitotuotteet',
   Metallijate = 'Metallijate',
   MuutHenkilokuljetukset = 'MuutHenkilokuljetukset',
   MuutHyodykkeet = 'MuutHyodykkeet',
+  MuutJatejakeet = 'MuutJatejakeet',
   MuutKuljetukset = 'MuutKuljetukset',
   MuutProteiinit = 'MuutProteiinit',
   MuutTuotteet = 'MuutTuotteet',
   PahviJaKartonki = 'PahviJaKartonki',
+  Pakkausjatteet = 'Pakkausjatteet',
   PalveluHankinnat = 'PalveluHankinnat',
   Paperijate = 'Paperijate',
   Paristot = 'Paristot',
   Polttoaineet = 'Polttoaineet',
+  PolttoaineetScope3 = 'PolttoaineetScope3',
   Raidekuljetukset = 'Raidekuljetukset',
   Rasvat = 'Rasvat',
   Ser = 'SER',
@@ -311,6 +316,7 @@ export type Mutation = {
   inviteUser: Scalars['Boolean'];
   login: UserResolverResponse;
   logout: Scalars['Boolean'];
+  markRequestProcessed: RegistrationRequest;
   register: UserResolverResponse;
   sendInvitationReminder: Scalars['Boolean'];
   updateDataEntry: DataEntry;
@@ -461,6 +467,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationMarkRequestProcessedArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationRegisterArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -589,6 +600,11 @@ export type Query = {
 };
 
 
+export type QueryAllRegistrationRequestsArgs = {
+  processed?: Maybe<Scalars['Boolean']>;
+};
+
+
 export type QueryUsersInOrganizationArgs = {
   organizationID: Scalars['String'];
 };
@@ -604,6 +620,7 @@ export type RegistrationRequest = {
   lastName: Scalars['String'];
   municipality: Municipality;
   orgName: Scalars['String'];
+  processed: Scalars['Boolean'];
 };
 
 export type RegistrationRequestInput = {

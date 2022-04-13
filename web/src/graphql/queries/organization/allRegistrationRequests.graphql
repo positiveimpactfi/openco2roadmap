@@ -1,5 +1,5 @@
-query AllRegistrationRequests {
-  allRegistrationRequests {
+query AllRegistrationRequests($processed: Boolean) {
+  allRegistrationRequests(processed: $processed) {
     id
     firstName
     lastName

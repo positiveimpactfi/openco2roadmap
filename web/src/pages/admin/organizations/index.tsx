@@ -1,3 +1,4 @@
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import AdminsOnly from "components/Admin/AdminsOnly";
 import { withAuth } from "components/Auth";
 import Button from "components/Button";
@@ -7,11 +8,15 @@ import NewOrganizationForm from "components/Forms/Organization/NewOrganizationFo
 import LoadingSpinner from "components/LoadingSpinner";
 import SlideOver from "components/SlideOver";
 import { Table, TableActionButton } from "components/Tables/Table";
+import { useMarkRegistrationRequestProcessedMutation } from "graphql/mutations/organization/markRegistrationRequestProcessed.generated";
 import {
   AllOrganizationsQuery,
   useAllOrganizationsQuery,
 } from "graphql/queries/organization/allOrganizations.generated";
-import { useAllRegistrationRequestsQuery } from "graphql/queries/organization/allRegistrationRequests.generated";
+import {
+  AllRegistrationRequestsDocument,
+  useAllRegistrationRequestsQuery,
+} from "graphql/queries/organization/allRegistrationRequests.generated";
 import useTranslation from "next-translate/useTranslation";
 import { useMemo, useState } from "react";
 import { Column } from "react-table";
@@ -20,7 +25,10 @@ import { Organization, SubIndustry } from "types/generatedTypes";
 const Organizations = () => {
   const { t } = useTranslation("admin");
   const { data, loading } = useAllOrganizationsQuery();
-  const { data: allRegistrationRequests } = useAllRegistrationRequestsQuery();
+  const { data: allRegistrationRequests } = useAllRegistrationRequestsQuery({
+    variables: { processed: false },
+  });
+  const [markDone] = useMarkRegistrationRequestProcessedMutation();
   const [editOrgFormOpen, setEditOrgFormOpen] = useState(false);
   const [newOrgFormOpen, setNewOrgFormOpen] = useState(false);
   const [orgUnderEdit, setOrgUnderEdit] = useState(null);
@@ -28,6 +36,18 @@ const Organizations = () => {
   const handleEditOrg = (org: MyOrganization) => {
     setOrgUnderEdit(org);
     setEditOrgFormOpen(true);
+  };
+
+  const handleRequestDone = async (id: string) => {
+    const res = await markDone({
+      variables: { id },
+      refetchQueries: [AllRegistrationRequestsDocument],
+    });
+    if (!res.data?.markRequestProcessed?.id) {
+      console.log("could not mark request done");
+    } else {
+      console.log("marked request done, id: ", id);
+    }
   };
 
   const requests = allRegistrationRequests?.allRegistrationRequests;
@@ -73,6 +93,12 @@ const Organizations = () => {
                   <li key={r.id} className="ml-10 list-disc">
                     {r.lastName} {r.firstName} {r.email} | {r.orgName} |{" "}
                     {r.municipality.name} | {r.industry.nameFi} | {r.businessID}
+                    <span className="ml-2">
+                      <CheckCircleIcon
+                        className="inline h-5 w-5 text-teal-500 hover:text-teal-800"
+                        onClick={async () => handleRequestDone(r.id)}
+                      />
+                    </span>
                   </li>
                 ))}
               </ul>

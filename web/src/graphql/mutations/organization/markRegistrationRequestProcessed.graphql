@@ -1,0 +1,6 @@
+mutation MarkRegistrationRequestProcessed($id: String!) {
+  markRequestProcessed(id: $id) {
+    id
+    processed
+  }
+}

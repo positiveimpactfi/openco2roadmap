@@ -3,15 +3,17 @@ import * as Types from '../../../types/generatedTypes';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions =  {}
-export type AllRegistrationRequestsQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type AllRegistrationRequestsQueryVariables = Types.Exact<{
+  processed?: Types.Maybe<Types.Scalars['Boolean']>;
+}>;
 
 
 export type AllRegistrationRequestsQuery = { __typename?: 'Query', allRegistrationRequests: Array<{ __typename?: 'RegistrationRequest', id: string, firstName: string, lastName: string, email: string, orgName: string, businessID: string, municipality: { __typename?: 'Municipality', name: string }, industry: { __typename?: 'SubIndustry', nameEn: string, nameFi: string } }> };
 
 
 export const AllRegistrationRequestsDocument = gql`
-    query AllRegistrationRequests {
-  allRegistrationRequests {
+    query AllRegistrationRequests($processed: Boolean) {
+  allRegistrationRequests(processed: $processed) {
     id
     firstName
     lastName
@@ -41,6 +43,7 @@ export const AllRegistrationRequestsDocument = gql`
  * @example
  * const { data, loading, error } = useAllRegistrationRequestsQuery({
  *   variables: {
+ *      processed: // value for 'processed'
  *   },
  * });
  */
