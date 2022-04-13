@@ -43,7 +43,15 @@ class RegistrationRequestInput implements Partial<RegistrationRequest> {
 export class RegistrationRequestResolver {
   @Authorized([])
   @Query(() => [RegistrationRequest])
-  allRegistrationRequests() {
+  allRegistrationRequests(
+    @Arg("processed", { nullable: true }) processed: boolean
+  ) {
+    if (processed === true || processed === false) {
+      return RegistrationRequest.find({
+        relations: ["municipality", "industry"],
+        where: { processed },
+      });
+    }
     return RegistrationRequest.find({
       relations: ["municipality", "industry"],
     });
