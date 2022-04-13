@@ -83,4 +83,19 @@ export class RegistrationRequestResolver {
 
     return newRequest;
   }
+
+  @Authorized()
+  @Mutation(() => RegistrationRequest)
+  async markRequestProcessed(
+    @Arg("id") id: string
+  ): Promise<RegistrationRequest | undefined> {
+    const regRequest = await RegistrationRequest.findOne(id);
+    if (!regRequest) {
+      console.log("no request found for given id", id);
+      return undefined;
+    }
+    regRequest.processed = true;
+    const updatedRequst = await regRequest.save();
+    return updatedRequst;
+  }
 }
