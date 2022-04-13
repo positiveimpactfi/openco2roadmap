@@ -47,4 +47,8 @@ export class RegistrationRequest extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   comment: string;
+
+  @Field()
+  @Column({ default: false })
+  processed: boolean;
 }
