@@ -1,4 +1,5 @@
 import { useAllCategoriesQuery } from "graphql/queries/emissions/allCategories.generated";
+import { categoriesInOrder } from "pages/settings/emission-sources";
 
 export interface SourceOption {
   children: {
@@ -50,5 +51,10 @@ export const useEmissionSourceOptions = () => {
       }),
     };
   });
-  return { sourceOptions, sources, loading };
+  const sortedSourceOptions = sourceOptions?.sort((a, b) => {
+    const ai = categoriesInOrder.findIndex((c) => c.name === a.name);
+    const bi = categoriesInOrder.findIndex((c) => c.name === b.name);
+    return ai - bi;
+  });
+  return { sourceOptions, sortedSourceOptions, sources, loading };
 };

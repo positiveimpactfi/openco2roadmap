@@ -6,7 +6,7 @@ import Table, { TableCell } from "components/Tables/SimpleTable";
 import { useAllEmissionSourcesQuery } from "graphql/queries/emissions/allEmissionSources.generated";
 import useTranslation from "next-translate/useTranslation";
 
-const categoriesInOrder = [ec[0], ec[1], ec[3], ec[2]];
+export const categoriesInOrder = [ec[0], ec[1], ec[3], ec[2]];
 
 const EmissionSourcesSettingsPage = () => {
   const { t } = useTranslation("settings");

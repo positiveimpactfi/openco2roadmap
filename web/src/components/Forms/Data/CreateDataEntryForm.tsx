@@ -15,6 +15,7 @@ import { useAllPublicEmissionFactorsQuery } from "graphql/queries/emissions/allP
 import { useMyEmissionFactorsQuery } from "graphql/queries/emissions/myEmissionFactors.generated";
 import { useMyOrganizationSitesQuery } from "graphql/queries/site/myOrganizationSites.generated";
 import { useEmissionSourceOptions } from "hooks/useEmissionSourceOptions";
+import { categoriesInOrder } from "pages/settings/emission-sources";
 import {
   MeasurementUnit,
   MeasurementUnitType,
@@ -55,7 +56,7 @@ const CreateDataEntryForm: React.FC<{
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
-  const { sourceOptions } = useEmissionSourceOptions();
+  const { sortedSourceOptions } = useEmissionSourceOptions();
 
   const allEmissionFactors = myEFs?.myEmissionFactors.concat(
     publicEFs?.allPublicEmissionFactors
@@ -136,7 +137,7 @@ const CreateDataEntryForm: React.FC<{
             />
 
             <MultiLevelSelect
-              options={sourceOptions}
+              options={sortedSourceOptions}
               showLabel
               label="Päästölähde"
               setFieldValue={setFieldValue}

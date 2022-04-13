@@ -29,9 +29,9 @@ const EditDataEntryForm: React.FC<{
   const { data: siteUnits } = useMyOrganizationSitesQuery();
   const { data: myEFs } = useMyEmissionFactorsQuery();
   const { data: publicEFs } = useAllPublicEmissionFactorsQuery();
-  const { sources, sourceOptions } = useEmissionSourceOptions();
+  const { sources, sortedSourceOptions } = useEmissionSourceOptions();
 
-  if (!sourceOptions) return null;
+  if (!sortedSourceOptions) return null;
   const allSources = sources?.allCategories.flatMap((cat) =>
     cat.components.flatMap((comp) =>
       comp.emissionSources.map((source) => {
@@ -135,7 +135,7 @@ const EditDataEntryForm: React.FC<{
             />
 
             <MultiLevelSelect
-              options={sourceOptions}
+              options={sortedSourceOptions}
               showLabel
               label="Päästölähde"
               setFieldValue={setFieldValue}
