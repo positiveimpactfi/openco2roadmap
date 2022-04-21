@@ -106,16 +106,20 @@ const CalculatorConsumptionDataPage = () => {
         Header: "Tiedot",
         disableSortBy: true,
         Cell: ({ row }) => (
-          <OptionsMenu
-            onShow={() => handleShowEntry(row.original as DataEntry)}
-            onEdit={() => handleEditEntry(row.original as DataEntry)}
-            onDelete={() => handleDeleteDataEntry(row.original as DataEntry)}
-            variant={
-              row.index === data?.myOrganizationDataEntries?.length - 1
-                ? "last-element"
-                : "normal"
-            }
-          />
+          <div>
+            <OptionsMenu
+              onShow={() => handleShowEntry(row.original as DataEntry)}
+              onEdit={() => handleEditEntry(row.original as DataEntry)}
+              onDelete={() => handleDeleteDataEntry(row.original as DataEntry)}
+              variant={
+                row.index === data?.myOrganizationDataEntries?.length - 1
+                  ? "last-element"
+                  : row.index === data?.myOrganizationDataEntries?.length - 2
+                  ? "second-to-last"
+                  : "normal"
+              }
+            />
+          </div>
         ),
       },
     ],

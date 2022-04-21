@@ -8,7 +8,7 @@ const OptionsMenu: React.FC<{
   onShow?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
-  variant?: "normal" | "last-element";
+  variant?: "normal" | "last-element" | "second-to-last";
   onShowText?: string;
   onEditText?: string;
   onDeleteText?: string;
@@ -42,7 +42,9 @@ const OptionsMenu: React.FC<{
         <Menu.Items
           className={classNames(
             "absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
-            variant === "last-element" ? "bottom-0 mb-7" : null
+            variant === "last-element" || variant === "second-to-last"
+              ? "bottom-0 mb-7"
+              : null
           )}
         >
           <div className="py-1">
