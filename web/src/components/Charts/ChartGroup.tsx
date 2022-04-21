@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PieChart, { YearlyDataEntry } from "./Pie";
 import StackedBar from "./StackedBar";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
@@ -42,6 +42,12 @@ const ChartGroup = ({ yearlyData, years, monthlyData }: ChartGroupProps) => {
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
     null
   );
+
+  useEffect(() => {
+    if (!years.includes(year)) {
+      setYear(years[0]);
+    }
+  }, [years, year, setYear]);
 
   const filteredMonthlyData = monthlyData?.filter((m) => m.year === year);
 
