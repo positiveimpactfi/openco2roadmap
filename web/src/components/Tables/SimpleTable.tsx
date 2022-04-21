@@ -7,6 +7,7 @@ interface TableProps {
   headers: string[];
   alignLastRight?: boolean;
   classNames?: string;
+  noMinWidth?: boolean;
 }
 import { XIcon } from "@heroicons/react/outline";
 
@@ -14,6 +15,7 @@ const Table: React.FC<TableProps> = ({
   headers,
   alignLastRight = false,
   classNames: tableClasses,
+  noMinWidth,
   children,
 }) => {
   return (
@@ -31,7 +33,7 @@ const Table: React.FC<TableProps> = ({
               scope="col"
               className={classNames(
                 "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500",
-                "md:first:min-w-[500px]",
+                noMinWidth ? null : "md:first:min-w-[500px]",
                 alignLastRight ? "last:text-right" : null
               )}
             >
@@ -132,22 +134,24 @@ export const TableCellOpenOptions: React.FC<{
   variant?: "edit" | "delete" | "expand";
 }> = ({ fn, variant = "expand" }) => {
   return (
-    <div className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
-      <button
-        type="button"
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-        onClick={fn}
-      >
-        <span className="sr-only">Avaa sivupalkki</span>
-        {variant === "expand" ? (
-          <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-        ) : variant === "edit" ? (
-          <PencilAltIcon className="h-5 w-5" aria-hidden="true" />
-        ) : (
-          <TrashIcon className="h-5 w-5" aria-hidden="true" />
-        )}
-      </button>
-    </div>
+    <td>
+      <div className="whitespace-nowrap px-6 py-1 text-right text-sm font-medium">
+        <button
+          type="button"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+          onClick={fn}
+        >
+          <span className="sr-only">Avaa sivupalkki</span>
+          {variant === "expand" ? (
+            <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+          ) : variant === "edit" ? (
+            <PencilAltIcon className="h-5 w-5" aria-hidden="true" />
+          ) : (
+            <TrashIcon className="h-5 w-5" aria-hidden="true" />
+          )}
+        </button>
+      </div>
+    </td>
   );
 };
 
