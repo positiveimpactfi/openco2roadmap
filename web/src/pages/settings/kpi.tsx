@@ -150,21 +150,23 @@ const KPISettingsPage = () => {
                   />
                 );
               })}
-              <div className="flex justify-end px-4">
-                {kpi.organization ? (
-                  <OptionsMenu
-                    onEdit={() => handleEditKPI(kpi)}
-                    onDelete={() => handleSelectKPI(kpi)}
-                    onEditText="Muokkaa arvoja"
-                    onDeleteText="Poista arvot"
-                  />
-                ) : (
-                  <OptionsMenu
-                    onEdit={() => handleEditKPI(kpi)}
-                    onEditText="Muokkaa arvoja"
-                  />
-                )}
-              </div>
+              <td className="px-4 py-1">
+                <div className="flex justify-end">
+                  {kpi.organization ? (
+                    <OptionsMenu
+                      onEdit={() => handleEditKPI(kpi)}
+                      onDelete={() => handleSelectKPI(kpi)}
+                      onEditText="Muokkaa arvoja"
+                      onDeleteText="Poista arvot"
+                    />
+                  ) : (
+                    <OptionsMenu
+                      onEdit={() => handleEditKPI(kpi)}
+                      onEditText="Muokkaa arvoja"
+                    />
+                  )}
+                </div>
+              </td>
             </tr>
           ))}
           {kpis?.map((kpi, i) => {
@@ -179,14 +181,16 @@ const KPISettingsPage = () => {
                       clamped
                     />
                   ))}
-                  <td className="flex items-center justify-end px-4 py-1">
-                    <OptionsMenu
-                      onEdit={() => handleEditKPI(kpi as Kpi)}
-                      onEditText="Muokkaa arvoja"
-                      variant={
-                        i >= allKPIs?.length - 2 ? "last-element" : "normal"
-                      }
-                    />
+                  <td className=" px-4 py-1">
+                    <div className="flex items-center justify-end">
+                      <OptionsMenu
+                        onEdit={() => handleEditKPI(kpi as Kpi)}
+                        onEditText="Muokkaa arvoja"
+                        variant={
+                          i >= allKPIs?.length - 2 ? "last-element" : "normal"
+                        }
+                      />
+                    </div>
                   </td>
                 </tr>
               );
