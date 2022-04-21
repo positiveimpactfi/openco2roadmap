@@ -158,7 +158,7 @@ const SiteUnitsTable: React.FC<{
   };
 
   return (
-    <Table headers={["Yksiköt", ""]}>
+    <Table headers={["Yksiköt", ""]} noMinWidth>
       {units.map((unit, id) => {
         return (
           <tr key={unit.id + id} className="">
