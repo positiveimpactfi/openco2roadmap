@@ -2,19 +2,27 @@ import { CheckIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { classNames } from "utils/classNames";
+
 interface TableProps {
   headers: string[];
   alignLastRight?: boolean;
+  classNames?: string;
 }
 import { XIcon } from "@heroicons/react/outline";
 
 const Table: React.FC<TableProps> = ({
   headers,
   alignLastRight = false,
+  classNames: tableClasses,
   children,
 }) => {
   return (
-    <table className="min-w-full table-fixed divide-y divide-gray-200">
+    <table
+      className={classNames(
+        "min-w-full table-fixed divide-y divide-gray-200",
+        tableClasses
+      )}
+    >
       <thead className="bg-gray-50">
         <tr>
           {headers.map((header, i) => (
