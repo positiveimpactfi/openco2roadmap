@@ -69,10 +69,11 @@ export const TableCell: React.FC<{
 
 export const TableCellWithEdit: React.FC<{
   value: string;
+  id: string;
   handleParentValue: (oldVal: string, newVal: string) => void;
   clamped?: boolean;
   hideOnSm?: boolean;
-}> = ({ value, clamped = false, hideOnSm = false, handleParentValue }) => {
+}> = ({ value, id, clamped = false, hideOnSm = false, handleParentValue }) => {
   const [changedValue, setChangedValue] = useState("");
   const [edit, setEdit] = useState(false);
   return (
@@ -104,7 +105,7 @@ export const TableCellWithEdit: React.FC<{
               type="button"
               onClick={() => {
                 setEdit(false);
-                handleParentValue(value, changedValue);
+                handleParentValue(id, changedValue);
               }}
               className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 bg-transparent text-teal-500 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
             >

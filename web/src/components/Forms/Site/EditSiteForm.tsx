@@ -152,7 +152,7 @@ const SiteUnitsTable: React.FC<{
   const handleParentValue = (oldVal: string, newValue: string) => {
     setUnits(
       units.map((u) => {
-        return u.name === oldVal ? { ...u, name: newValue } : u;
+        return u.id === oldVal ? { ...u, name: newValue } : u;
       })
     );
   };
@@ -164,6 +164,7 @@ const SiteUnitsTable: React.FC<{
           <tr key={unit.id + id} className="">
             <TableCellWithEdit
               value={unit.name}
+              id={unit.id}
               handleParentValue={handleParentValue}
             />
             <TableCellOpenOptions
