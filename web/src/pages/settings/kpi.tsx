@@ -119,10 +119,11 @@ const KPISettingsPage = () => {
       >
         <EditKPIForm kpi={selectedKPI} setOpen={setEditFormOpen} />
       </SlideOver>
-      <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+      <div className="overflow-y-visible border-b border-gray-200 shadow sm:rounded-lg">
         <Table
           headers={["Tunnusluku"].concat(allYears).concat("Muokkaa")}
           alignLastRight
+          classNames="min-h-[300px]"
         >
           {allKPIs?.map((kpi, i) => (
             <tr key={kpi.id.toString() + i.toString()}>
