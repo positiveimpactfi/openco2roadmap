@@ -12,14 +12,59 @@ import config from "./config";
 import typeormConfig from "./ormconfig";
 import { resolvers } from "./resolvers";
 import { authChecker } from "./utils/authChecker";
-import { pinoInstance } from "./utils/logger";
 import { announcements, fetchAnnoucements } from "./notifications";
+
+import pinoHttp from "pino-http";
+import childProcess from "child_process";
+import stream from "stream";
+
+const cwd = process.cwd();
+const { env } = process;
+const logThrough = new stream.PassThrough();
+const logsPath = `${cwd}/logs`;
+
+const child = childProcess.spawn(
+  process.execPath,
+  [
+    require.resolve("pino-tee"),
+    "warn",
+    `${logsPath}/warn.log`,
+    "error",
+    `${logsPath}/error.log`,
+    "fatal",
+    `${logsPath}/fatal.log`,
+    "debug",
+    `${logsPath}/debug.log`,
+  ],
+  { cwd, env }
+);
+
+logThrough.pipe(child.stdin);
 
 const main = async () => {
   await createConnection(typeormConfig);
   const app = express();
+  const transport = {
+    name: "openco2roadmap",
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+      messageFormat: "[Request: {req.id}] {msg}",
+      ignore:
+        "pid,hostname,req.method,req.url,req.remoteAddress,req.remotePort,req.headers.host,req.headers.apollo-query-plan-experimental,req.headers.x-apollo-tracing,req.headers.sec-gpc,req.headers.sec-fetch-site,req.headers.sec-fetch-mode,req.headers.sec-fetch-dest,req.headers.connection,req.headers.accept,req.headers.accept-encoding,req.headers.accept-language,res.headers.x-powered-by,res.headers.access-control-allow-origin,res.headers.access-control-allow-credentials,res.headers.vary",
+    },
+  };
 
-  app.use(pinoInstance);
+  const myPino = pinoHttp(
+    {
+      name: "openco2roadmap",
+      transport: config.ENV === "production" ? undefined : transport,
+    },
+    logThrough
+  );
+  app.use(myPino);
+
+  myPino.logger.info({}, "logging started");
   app.use(express.json());
 
   const RedisStore = connectRedis(session);
@@ -84,6 +129,22 @@ const main = async () => {
       ApolloServerPluginLandingPageGraphQLPlayground({
         settings: { "request.credentials": "include" },
       }),
+      // {
+      //   requestDidStart(ctx) {
+      //     ctx.logger = pino.child({ requestId: v4() });
+      //     ctx.logger.info({
+      //       operationName: ctx.request.operationName,
+      //       query: ctx.request.query,
+      //       variables: ctx.request.variables,
+      //     });
+
+      //     return {
+      //       didEncounterErrors({ logger, errors }) {
+      //         errors.forEach((error) => logger.warn(error));
+      //       },
+      //     };
+      //   },
+      // },
     ],
   });
   await apolloServer.start();
