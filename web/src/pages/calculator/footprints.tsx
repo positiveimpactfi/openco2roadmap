@@ -160,7 +160,7 @@ const KPITable = ({ allYears }: { allYears: number[] }) => {
     a.kpi.localeCompare(b.kpi)
   );
   if (loading) return <div>loading...</div>;
-  if (myData.length === 0) return null;
+  if (myData?.length === 0) return null;
   return (
     <div className="mt-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
