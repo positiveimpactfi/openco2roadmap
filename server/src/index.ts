@@ -1,22 +1,22 @@
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
+import childProcess from "child_process";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
 import Redis from "ioredis";
+import type { TransportTargetOptions } from "pino";
+import pinoHttp from "pino-http";
 import "reflect-metadata";
+import stream from "stream";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import config from "./config";
+import { announcements, fetchAnnoucements } from "./notifications";
 import typeormConfig from "./ormconfig";
 import { resolvers } from "./resolvers";
 import { authChecker } from "./utils/authChecker";
-import { announcements, fetchAnnoucements } from "./notifications";
-
-import pinoHttp from "pino-http";
-import childProcess from "child_process";
-import stream from "stream";
 
 const cwd = process.cwd();
 const { env } = process;
@@ -44,10 +44,11 @@ logThrough.pipe(child.stdin);
 const main = async () => {
   await createConnection(typeormConfig);
   const app = express();
-  const transport = {
-    name: "openco2roadmap",
+  const transport: TransportTargetOptions = {
     target: "pino-pretty",
+    level: "info",
     options: {
+      translateTime: "SYS:HH:MM:ss",
       colorize: true,
       messageFormat: "[Request: {req.id}] {msg}",
       ignore:
